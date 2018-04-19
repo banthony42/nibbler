@@ -3,14 +3,14 @@
 
 class Graphics {
 
-    public:
-        Graphics(); // Canonical
-        Graphics(Graphics const &copy); // Canonical
-        ~Graphics(); // Canonical
+public:
+    Graphics(); // Canonical
+    Graphics(Graphics const &copy); // Canonical
+    ~Graphics(); // Canonical
 
-        Graphics &operator=(Graphics const &copy); // Canonical
+    Graphics &operator=(Graphics const &copy); // Canonical
 
-    private:
+private:
 
 };
 
