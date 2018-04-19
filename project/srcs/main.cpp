@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incl/nibbler.h"
+#include "../incl/nibbler.hpp"
 
 int		main(int argc, char *argv)
 {

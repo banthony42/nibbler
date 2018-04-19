@@ -57,41 +57,41 @@ include CMakeFiles/nibbler.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/nibbler.dir/flags.make
 
-CMakeFiles/nibbler.dir/project/srcs/main.c.o: CMakeFiles/nibbler.dir/flags.make
-CMakeFiles/nibbler.dir/project/srcs/main.c.o: ../project/srcs/main.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/cchameyr/github/nibbler/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/nibbler.dir/project/srcs/main.c.o"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/nibbler.dir/project/srcs/main.c.o   -c /Users/cchameyr/github/nibbler/project/srcs/main.c
+CMakeFiles/nibbler.dir/project/srcs/main.cpp.o: CMakeFiles/nibbler.dir/flags.make
+CMakeFiles/nibbler.dir/project/srcs/main.cpp.o: ../project/srcs/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/cchameyr/github/nibbler/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/nibbler.dir/project/srcs/main.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/nibbler.dir/project/srcs/main.cpp.o -c /Users/cchameyr/github/nibbler/project/srcs/main.cpp
 
-CMakeFiles/nibbler.dir/project/srcs/main.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/nibbler.dir/project/srcs/main.c.i"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/cchameyr/github/nibbler/project/srcs/main.c > CMakeFiles/nibbler.dir/project/srcs/main.c.i
+CMakeFiles/nibbler.dir/project/srcs/main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/nibbler.dir/project/srcs/main.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/cchameyr/github/nibbler/project/srcs/main.cpp > CMakeFiles/nibbler.dir/project/srcs/main.cpp.i
 
-CMakeFiles/nibbler.dir/project/srcs/main.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/nibbler.dir/project/srcs/main.c.s"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/cchameyr/github/nibbler/project/srcs/main.c -o CMakeFiles/nibbler.dir/project/srcs/main.c.s
+CMakeFiles/nibbler.dir/project/srcs/main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/nibbler.dir/project/srcs/main.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/cchameyr/github/nibbler/project/srcs/main.cpp -o CMakeFiles/nibbler.dir/project/srcs/main.cpp.s
 
-CMakeFiles/nibbler.dir/project/srcs/main.c.o.requires:
+CMakeFiles/nibbler.dir/project/srcs/main.cpp.o.requires:
 
-.PHONY : CMakeFiles/nibbler.dir/project/srcs/main.c.o.requires
+.PHONY : CMakeFiles/nibbler.dir/project/srcs/main.cpp.o.requires
 
-CMakeFiles/nibbler.dir/project/srcs/main.c.o.provides: CMakeFiles/nibbler.dir/project/srcs/main.c.o.requires
-	$(MAKE) -f CMakeFiles/nibbler.dir/build.make CMakeFiles/nibbler.dir/project/srcs/main.c.o.provides.build
-.PHONY : CMakeFiles/nibbler.dir/project/srcs/main.c.o.provides
+CMakeFiles/nibbler.dir/project/srcs/main.cpp.o.provides: CMakeFiles/nibbler.dir/project/srcs/main.cpp.o.requires
+	$(MAKE) -f CMakeFiles/nibbler.dir/build.make CMakeFiles/nibbler.dir/project/srcs/main.cpp.o.provides.build
+.PHONY : CMakeFiles/nibbler.dir/project/srcs/main.cpp.o.provides
 
-CMakeFiles/nibbler.dir/project/srcs/main.c.o.provides.build: CMakeFiles/nibbler.dir/project/srcs/main.c.o
+CMakeFiles/nibbler.dir/project/srcs/main.cpp.o.provides.build: CMakeFiles/nibbler.dir/project/srcs/main.cpp.o
 
 
 # Object files for target nibbler
 nibbler_OBJECTS = \
-"CMakeFiles/nibbler.dir/project/srcs/main.c.o"
+"CMakeFiles/nibbler.dir/project/srcs/main.cpp.o"
 
 # External object files for target nibbler
 nibbler_EXTERNAL_OBJECTS =
 
-nibbler: CMakeFiles/nibbler.dir/project/srcs/main.c.o
+nibbler: CMakeFiles/nibbler.dir/project/srcs/main.cpp.o
 nibbler: CMakeFiles/nibbler.dir/build.make
 nibbler: CMakeFiles/nibbler.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/cchameyr/github/nibbler/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking C executable nibbler"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/cchameyr/github/nibbler/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable nibbler"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/nibbler.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -99,7 +99,7 @@ CMakeFiles/nibbler.dir/build: nibbler
 
 .PHONY : CMakeFiles/nibbler.dir/build
 
-CMakeFiles/nibbler.dir/requires: CMakeFiles/nibbler.dir/project/srcs/main.c.o.requires
+CMakeFiles/nibbler.dir/requires: CMakeFiles/nibbler.dir/project/srcs/main.cpp.o.requires
 
 .PHONY : CMakeFiles/nibbler.dir/requires
 

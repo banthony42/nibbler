@@ -123,32 +123,32 @@ nibbler/fast:
 	$(MAKE) -f CMakeFiles/nibbler.dir/build.make CMakeFiles/nibbler.dir/build
 .PHONY : nibbler/fast
 
-project/srcs/main.o: project/srcs/main.c.o
+project/srcs/main.o: project/srcs/main.cpp.o
 
 .PHONY : project/srcs/main.o
 
 # target to build an object file
-project/srcs/main.c.o:
-	$(MAKE) -f CMakeFiles/nibbler.dir/build.make CMakeFiles/nibbler.dir/project/srcs/main.c.o
-.PHONY : project/srcs/main.c.o
+project/srcs/main.cpp.o:
+	$(MAKE) -f CMakeFiles/nibbler.dir/build.make CMakeFiles/nibbler.dir/project/srcs/main.cpp.o
+.PHONY : project/srcs/main.cpp.o
 
-project/srcs/main.i: project/srcs/main.c.i
+project/srcs/main.i: project/srcs/main.cpp.i
 
 .PHONY : project/srcs/main.i
 
 # target to preprocess a source file
-project/srcs/main.c.i:
-	$(MAKE) -f CMakeFiles/nibbler.dir/build.make CMakeFiles/nibbler.dir/project/srcs/main.c.i
-.PHONY : project/srcs/main.c.i
+project/srcs/main.cpp.i:
+	$(MAKE) -f CMakeFiles/nibbler.dir/build.make CMakeFiles/nibbler.dir/project/srcs/main.cpp.i
+.PHONY : project/srcs/main.cpp.i
 
-project/srcs/main.s: project/srcs/main.c.s
+project/srcs/main.s: project/srcs/main.cpp.s
 
 .PHONY : project/srcs/main.s
 
 # target to generate assembly for a file
-project/srcs/main.c.s:
-	$(MAKE) -f CMakeFiles/nibbler.dir/build.make CMakeFiles/nibbler.dir/project/srcs/main.c.s
-.PHONY : project/srcs/main.c.s
+project/srcs/main.cpp.s:
+	$(MAKE) -f CMakeFiles/nibbler.dir/build.make CMakeFiles/nibbler.dir/project/srcs/main.cpp.s
+.PHONY : project/srcs/main.cpp.s
 
 # Help Target
 help:
