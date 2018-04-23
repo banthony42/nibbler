@@ -1,6 +1,9 @@
 #ifndef NIBBLER_GRAPHICS_HPP
 #define NIBBLER_GRAPHICS_HPP
 
+#include <iostream>
+
+
 class Graphics {
 
 public:
@@ -9,6 +12,8 @@ public:
     ~Graphics(); // Canonical
 
     Graphics &operator=(Graphics const &copy); // Canonical
+
+	void	helloWorld();
 
 private:
 

@@ -14,7 +14,12 @@ Graphics::~Graphics() {
 
 Graphics &Graphics::operator=(Graphics const &copy) {
     if (this != &copy) {
-        // copy 
+        // copy
     }
     return *this;
+}
+
+void	Graphics::helloWorld(void) {
+// vulkan
+	std::cout << "Hello Vulkan" << std::endl;
 }
