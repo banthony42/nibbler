@@ -6,13 +6,13 @@
 #    By: banthony <banthony@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/08 11:31:12 by banthony          #+#    #+#              #
-#    Updated: 2018/04/23 15:17:24 by banthony         ###   ########.fr        #
+#    Updated: 2018/04/23 16:20:56 by banthony         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
 NAME		= debug.so
 
-DIRSRC		= ./
+DIRSRC		= .
 
 DIROBJ		= ./
 
@@ -25,14 +25,16 @@ CC			=	/usr/bin/clang++
 RM			=	/bin/rm -f
 ECHO		=	/bin/echo
 
-CFLAGS		=	-Wall -Wextra -Werror
+VULKAN_SDK_PATH = ./Vulkan/macOS/
 
-VULKAN_FLAGS = 
+LDFLAGS = -I $(VULKAN_SDK_PATH)/include -L $(VULKAN_SDK_PATH)/lib `pkg-config --static --libs glfw3` -lvulkan
+
+CFLAGS		= -std=c++11 `pkg-config --static --cflags glfw3` `pkg-config --static --cflags glm` #-Wall -Wextra -Werror
 
 all		:		$(NAME)
 
 $(NAME)	:		$(OBJ)
-				$(CC) $(CFLAGS) $(VULKAN_FLAGS) -shared -o $(NAME) $(OBJS)
+				$(CC) $(LDFLAGS) $(CFLAGS) -shared -o $(NAME) $(OBJS)
 				@$(ECHO) '> Compiled'
 
 clean	:
@@ -46,4 +48,4 @@ fclean	:		clean
 re		:		fclean all
 
 %.o		:		$(DIRSRC)/%.cpp
-				$(CC) $(CFLAGS) -o $(DIROBJ)/$@ -c $<
+				$(CC) $(LDFLAGS) $(CFLAGS) -c $<
