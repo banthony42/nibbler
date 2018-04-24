@@ -1,6 +1,9 @@
 #ifndef NIBBLER_GRAPHICS_HPP
 #define NIBBLER_GRAPHICS_HPP
 
+#include <SFML/Audio.hpp>
+#include <SFML/Graphics.hpp>
+
 class Graphics {
 
 public:
@@ -9,6 +12,8 @@ public:
     ~Graphics(); // Canonical
 
     Graphics &operator=(Graphics const &copy); // Canonical
+
+    void helloworld();
 
 private:
 

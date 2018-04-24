@@ -6,7 +6,7 @@
 #    By: banthony <banthony@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/08 11:31:12 by banthony          #+#    #+#              #
-#    Updated: 2018/04/24 14:42:06 by cchameyr         ###   ########.fr        #
+#    Updated: 2018/04/24 14:52:18 by cchameyr         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -25,11 +25,11 @@ CC			=	/usr/bin/clang++
 RM			=	/bin/rm -f
 ECHO		=	/bin/echo
 
-SDK_PATH = ./Vulkan/macOS/
+SDK_PATH = ./SFML
 
-LDFLAGS = -I $(SDK_PATH)/include -L $(SDK_PATH)/lib `pkg-config --static --libs glfw3` -lvulkan
+LDFLAGS= -I $(SDK_PATH)/include -L $(SDK_PATH)/lib -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system
 
-CFLAGS		= -std=c++11 `pkg-config --static --cflags glfw3` `pkg-config --static --cflags glm` #-Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra -Werror
 
 all		:		$(NAME)
 
@@ -38,7 +38,7 @@ $(NAME)	:		$(OBJ)
 				@$(ECHO) '> Compiled'
 
 clean	:
-				@(cd $(DIROBJ) && $(RM) $(OBJ))
+				-@$(RM) $(OBJ)
 				@$(ECHO) '> Directory cleaned'
 
 fclean	:		clean
@@ -48,9 +48,13 @@ fclean	:		clean
 re		:		fclean all
 
 %.o		:		$(DIRSRC)/%.cpp
-				$(CC) $(LDFLAGS) $(CFLAGS) -c $<
+				$(CC) $(LDFLAGS) -c $<
 
 r		:
 				make re
 				g++ main.cpp $(LDFLAGS) $(CFLAGS) $(NAME)
-			   install_name_tool -change @rpath/libvulkan.1.dylib ./Vulkan/macOS/lib/libvulkan.1.dylib a.out
+				install_name_tool -change @rpath/libsfml-graphics.2.4.dylib $(SDK_PATH)/lib/libsfml-graphics.2.4.dylib a.out
+				install_name_tool -change @rpath/libsfml-audio.2.4.dylib $(SDK_PATH)/lib/libsfml-audio.2.4.dylib a.out
+				install_name_tool -change @rpath/libsfml-window.2.4.dylib $(SDK_PATH)/lib/libsfml-window.2.4.dylib a.out
+				install_name_tool -change @rpath/libsfml-system.2.4.dylib $(SDK_PATH)/lib/libsfml-system.2.4.dylib a.out
+
