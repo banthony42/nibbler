@@ -6,7 +6,7 @@
 #    By: banthony <banthony@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/20 18:10:22 by banthony          #+#    #+#              #
-#    Updated: 2018/04/23 17:30:33 by banthony         ###   ########.fr        #
+#    Updated: 2018/04/24 12:12:02 by cchameyr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ vulkan_src="./libVulkan/Vulkan"
 git submodule init
 git submodule update
 
-#Install OpenGL and dep
+#Install OpenGL and Vulkan dependences
 brew install pkg-config && brew install glfw && brew install glew && brew install glm
 
 #Dl Vulkan sources if necessary
