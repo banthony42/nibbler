@@ -6,7 +6,7 @@
 #    By: banthony <banthony@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/20 18:10:22 by banthony          #+#    #+#              #
-#    Updated: 2018/04/24 12:12:02 by cchameyr         ###   ########.fr        #
+#    Updated: 2018/04/24 12:34:50 by cchameyr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ git submodule init
 git submodule update
 
 #Install OpenGL and Vulkan dependences
-brew install pkg-config && brew install glfw && brew install glew && brew install glm
+brew install pkg-config && brew install glfw && brew install glew && brew install glm && brew install glfw3
 
 #Dl Vulkan sources if necessary
 if [ -f "$vulkan_tar" ]
