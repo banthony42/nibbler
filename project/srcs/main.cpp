@@ -20,32 +20,49 @@ void	dlerror_wrapper(void) {
 	exit(0);
 }
 
-int     load_library() {
-    
+AGraphics   *load_library(char *arg, void **dl_handle) {
+    AGraphics *(*createGraphics)();
+
+    *dl_handle = dlopen(arg, RTLD_LAZY | RTLD_LOCAL);
+    if (!*dl_handle)
+        dlerror_wrapper();
+
+    // get createGraphics function
+    createGraphics = (AGraphics *(*)()) dlsym(*dl_handle, "createGraphics");
+    if (!createGraphics)
+        dlerror_wrapper();
+
+    // get Graphics
+    return createGraphics();
 }
 
 int		main(int argc, char **argv) {
-	void	*dl_handle;
-	AGraphics *(*createGraphics)();
 	AGraphics *graphics;
+    void *dl_handle;
 
 	if (argc != 2)
 		return (0);
-	dl_handle = dlopen(argv[1], RTLD_LAZY | RTLD_LOCAL);
-	if (!dl_handle)
-		dlerror_wrapper();
 
-	// get createGraphics function
-	createGraphics = (AGraphics *(*)()) dlsym(dl_handle, "createGraphics");
-	if (!createGraphics)
-		dlerror_wrapper();
-
-	// get Grapgics
-	graphics = createGraphics();
+    graphics = load_library(argv[1], &dl_handle);
+    if (graphics == NULL)
+        dlerror_wrapper();
 
 	graphics->helloWorld();
 
 	dlclose(dl_handle);
 	return (0);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
