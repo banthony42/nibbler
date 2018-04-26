@@ -1,5 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Graphics.hpp                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/04/26 17:52:09 by banthony          #+#    #+#             */
+/*   Updated: 2018/04/26 17:52:09 by banthony         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef NIBBLER_GRAPHICS_HPP
 #define NIBBLER_GRAPHICS_HPP
+
+// TODO Changer la maniere de compiler pour pouvoir inclure directement "AGraphics.hpp"
 
 #include <GLUT/glut.h>
 #include "../incl/AGraphics.hpp"
@@ -13,7 +27,7 @@ public:
 
     Graphics &operator=(Graphics const &copy); // Canonical
 
-    void helloWorld();
+    void helloWorld(void);
 
     int init();
 
@@ -38,8 +52,6 @@ private:
 extern "C" {
 Graphics    *createGraphics();
 void        deleteGraphics(Graphics *graphics);
-
-void        externHelloWorld(Graphics &graphics);
 }
 
 

@@ -16,6 +16,8 @@ int main(int argc, char **argv)
 {
 	Graphics graphics;
 
-	graphics.helloworld(argc, argv);
+	graphics.helloWorld();
+	(void)argc;
+	(void)argv;
 	return (0);
 }

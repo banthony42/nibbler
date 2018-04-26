@@ -12,12 +12,12 @@
 
 #include "../incl/nibbler.hpp"
 
-void	dlerror_wrapper(void) {
+static void	dlerror_wrapper(void) {
 	std::cerr << "Error: " << dlerror() << std::endl;
 	exit(0);
 }
 
-AGraphics   *load_library(char *arg, void **dl_handle) {
+static AGraphics   *load_library(char *arg, void **dl_handle) {
     AGraphics *(*createGraphics)();
 
     *dl_handle = dlopen(arg, RTLD_LAZY | RTLD_LOCAL);

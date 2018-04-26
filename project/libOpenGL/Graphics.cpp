@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Graphics.cpp                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/04/26 17:50:50 by banthony          #+#    #+#             */
+/*   Updated: 2018/04/26 17:50:50 by banthony         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Graphics.hpp"
 
 Graphics::Graphics() {
@@ -18,6 +30,7 @@ Graphics &Graphics::operator=(Graphics const &copy) {
     }
     return *this;
 }
+
 void display(void) {
 
     //clear white, draw with black
@@ -58,7 +71,7 @@ void idle(void) {
     glutPostRedisplay();
 }
 
-void    Graphics::helloWorld() {
+void    Graphics::helloWorld(void) {
     int argc = 1;
     char *argv[1] = {(char*)"Something"};
     //a basic set up...
