@@ -1,4 +1,3 @@
-
 #include "Graphics.hpp"
 
 Graphics::Graphics() {
@@ -84,8 +83,8 @@ int Graphics::init() {
     return 0;
 }
 
-void Graphics::refreshScreen() {
-
+int Graphics::loopUpdate() {
+    return 1;
 }
 
 void Graphics::updateScreen() {
@@ -97,6 +96,10 @@ void Graphics::putStrScreen(std::string str) {
 }
 
 void Graphics::loadTexture(std::string path) {
+
+}
+
+void Graphics::cleanUp() {
 
 }
 

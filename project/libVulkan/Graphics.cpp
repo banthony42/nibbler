@@ -26,7 +26,7 @@ void	Graphics::helloWorld(void) {
 	//Init
 	glfwInit();
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-	GLFWwindow* window = glfwCreateWindow(800, 600, "Vulkan window", nullptr, nullptr);
+	this->_window = glfwCreateWindow(800, 600, "Vulkan window", nullptr, nullptr);
 
 	uint32_t extensionCount = 0;
 	vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
@@ -38,21 +38,28 @@ void	Graphics::helloWorld(void) {
 	auto test = matrix * vec;
 
 	//Mainloop
-	while(!glfwWindowShouldClose(window)) {
+    while(!glfwWindowShouldClose(this->_window)) {
 		glfwPollEvents();
 	}
 
 	//Cleanup
-	glfwDestroyWindow(window);
+	glfwDestroyWindow(this->_window);
 	glfwTerminate();
 }
 
 int Graphics::init() {
-    return 0;
+    glfwInit();
+
+    glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+//    glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+
+    _window = glfwCreateWindow(800, 600, "Vulkan", nullptr, nullptr);
+    return (1);
 }
 
-void Graphics::refreshScreen() {
-
+ int Graphics::loopUpdate() {
+     glfwPollEvents();
+     return glfwWindowShouldClose(_window);
 }
 
 void Graphics::updateScreen() {
@@ -65,6 +72,11 @@ void Graphics::putStrScreen(std::string str) {
 
 void Graphics::loadTexture(std::string path) {
 
+}
+
+void Graphics::cleanUp() {
+    glfwDestroyWindow(_window);
+    glfwTerminate();
 }
 
 /********* EXTERN "C" DEFINITION *********/
@@ -81,6 +93,29 @@ void    externHelloWorld(Graphics &graphics) {
     graphics.helloWorld();
 }
 
+int init(Graphics *graphics) {
+    return graphics->init();
+}
+
+int loopUpdate(Graphics *graphics) {
+    return graphics->loopUpdate();
+}
+
+void updateScreen(Graphics *graphics) {
+    graphics->updateScreen();
+}
+
+void putStrScreen(Graphics *graphics, std::string str) {
+    graphics->putStrScreen(str);
+}
+
+void loadTexture(Graphics *graphics, std::string path) {
+    graphics->loadTexture(path);
+}
+
+void cleanUp(Graphics *graphics) {
+    graphics->cleanUp();
+}
 
 
 

@@ -2,9 +2,12 @@
 #define NIBBLER_GRAPHICS_HPP
 
 #define GLFW_INCLUDE_VULKAN
+
 #include <GLFW/glfw3.h>
+
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
+
 #include <glm/vec4.hpp>
 #include <glm/mat4x4.hpp>
 #include <vulkan/vulkan.h>
@@ -22,11 +25,11 @@ public:
 
     Graphics &operator=(Graphics const &copy); // Canonical
 
-	void helloWorld();
+    void helloWorld();
 
     int init();
 
-    void refreshScreen();
+    int loopUpdate();
 
     void updateScreen();
 
@@ -34,15 +37,25 @@ public:
 
     void loadTexture(std::string path);
 
+    void cleanUp();
+
 private:
+    GLFWwindow *_window;
 
 };
 
 extern "C" {
-    Graphics    *createGraphics();
-    void        deleteGraphics(Graphics *graphics);
+    Graphics *createGraphics();
+    void deleteGraphics(Graphics *graphics);
 
-    void        externHelloWorld(Graphics &graphics);
+    void externHelloWorld(Graphics &graphics);
+
+    int init(Graphics *graphics);
+    int loopUpdate(Graphics *graphics);
+    void updateScreen(Graphics *graphics);
+    void putStrScreen(Graphics *graphics, std::string str);
+    void loadTexture(Graphics *graphics, std::string path);
+    void cleanUp(Graphics *graphics);
 
 }
 

@@ -15,14 +15,16 @@
 #include <dlfcn.h>
 #include <iostream>
 
-void	dlerror_wrapper(void)
-{
+void	dlerror_wrapper(void) {
 	std::cerr << "Error: " << dlerror() << std::endl;
 	exit(0);
 }
 
-int		main(int argc, char **argv)
-{
+int     load_library() {
+    
+}
+
+int		main(int argc, char **argv) {
 	void	*dl_handle;
 	AGraphics *(*createGraphics)();
 	AGraphics *graphics;

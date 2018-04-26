@@ -6,7 +6,7 @@
 #    By: cchameyr <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/02/05 10:57:06 by cchameyr          #+#    #+#              #
-#    Updated: 2018/04/26 13:42:18 by cchameyr         ###   ########.fr        #
+#    Updated: 2018/04/26 13:58:49 by cchameyr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ FLAGS += #$(DEBUGSEGFAULT)
 
 RM =				rm -rf
 
-all: lib $(NAME)
+all: $(NAME) lib
 
 $(NAME): $(OBJS)
 	$(CC) $(FLAGS) $(OBJS) -o $(NAME)

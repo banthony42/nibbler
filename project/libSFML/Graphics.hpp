@@ -19,13 +19,15 @@ public:
 
     int init();
 
-    void refreshScreen();
+    int loopUpdate();
 
     void updateScreen();
 
     void putStrScreen(std::string str);
 
     void loadTexture(std::string path);
+
+    void cleanUp() override;
 
 private:
 

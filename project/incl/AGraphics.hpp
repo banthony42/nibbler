@@ -8,10 +8,11 @@ class AGraphics {
 public:
     virtual void helloWorld() = 0;
     virtual int init() = 0;
-    virtual void refreshScreen() = 0;
+    virtual int loopUpdate() = 0;
     virtual void updateScreen() = 0;
     virtual void putStrScreen(std::string str) = 0;
     virtual void loadTexture(std::string path) = 0;
+    virtual void cleanUp() = 0;
 //    virtual void putPixel() = 0;
 //    virtual void getEvent() = 0;
 
