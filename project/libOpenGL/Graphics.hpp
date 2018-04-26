@@ -4,7 +4,6 @@
 #include <GLUT/glut.h>
 #include "../incl/AGraphics.hpp"
 
-
 class Graphics : public AGraphics {
 
 public:
@@ -26,7 +25,11 @@ public:
 
     void loadTexture(std::string path);
 
-    void cleanUp() override;
+    void cleanUp();
+
+    void getEvent();
+
+    unsigned char getChar();
 
 private:
 

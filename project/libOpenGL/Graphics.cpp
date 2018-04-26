@@ -103,6 +103,14 @@ void Graphics::cleanUp() {
 
 }
 
+void Graphics::getEvent() {
+
+}
+
+unsigned char Graphics::getChar() {
+    return 0;
+}
+
 Graphics *createGraphics() {
     return new Graphics();
 }

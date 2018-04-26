@@ -39,6 +39,10 @@ public:
 
     void cleanUp();
 
+    void getEvent();
+
+    unsigned char getChar();
+
 private:
     GLFWwindow *_window;
 
@@ -47,15 +51,6 @@ private:
 extern "C" {
     Graphics *createGraphics();
     void deleteGraphics(Graphics *graphics);
-
-    void externHelloWorld(Graphics &graphics);
-
-    int init(Graphics *graphics);
-    int loopUpdate(Graphics *graphics);
-    void updateScreen(Graphics *graphics);
-    void putStrScreen(Graphics *graphics, std::string str);
-    void loadTexture(Graphics *graphics, std::string path);
-    void cleanUp(Graphics *graphics);
 
 }
 

@@ -1,7 +1,7 @@
 #include "Graphics.hpp"
 
 Graphics::Graphics() {
-
+    this->_window = nullptr;
 }
 
 Graphics::Graphics(Graphics const &copy) {
@@ -41,11 +41,15 @@ void    Graphics::helloWorld() {
 }
 
 int Graphics::init() {
-    return 0;
+    this->_window = new sf::RenderWindow(sf::VideoMode(200, 200), "SFML works!");
+    return 1;
 }
 
 int Graphics::loopUpdate() {
-    return 1;
+    this->getEvent();
+    this->_window->clear();
+    this->_window->display();
+    return this->_window->isOpen();
 }
 
 void Graphics::updateScreen() {
@@ -61,7 +65,22 @@ void Graphics::loadTexture(std::string path) {
 }
 
 void Graphics::cleanUp() {
+    if (this->_window)
+        delete this->_window;
+}
 
+void Graphics::getEvent() {
+    sf::Event event;
+    while (this->_window->pollEvent(event))
+    {
+        if (event.type == sf::Event::Closed)
+            // TODO add the values in the vector
+            this->_window->close();
+    }
+}
+
+unsigned char Graphics::getChar() {
+    return 0;
 }
 
 Graphics *createGraphics() {

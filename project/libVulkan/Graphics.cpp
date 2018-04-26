@@ -58,12 +58,12 @@ int Graphics::init() {
 }
 
  int Graphics::loopUpdate() {
-     glfwPollEvents();
+     this->getEvent();
      return !glfwWindowShouldClose(_window);
 }
 
 void Graphics::updateScreen() {
-
+    std::cout << "test" << std::endl;
 }
 
 void Graphics::putStrScreen(std::string str) {
@@ -79,42 +79,19 @@ void Graphics::cleanUp() {
     glfwTerminate();
 }
 
+void Graphics::getEvent() {
+    glfwPollEvents();
+    // TODO add the values in the vector
+}
+
+unsigned char Graphics::getChar() {
+    return 0;
+}
+
 /********* EXTERN "C" DEFINITION *********/
 
 Graphics    *createGraphics() {
     return new Graphics();
-}
-
-void        deleteGraphics(Graphics *graphics) {
-    delete graphics;
-}
-
-void    externHelloWorld(Graphics &graphics) {
-    graphics.helloWorld();
-}
-
-int init(Graphics *graphics) {
-    return graphics->init();
-}
-
-int loopUpdate(Graphics *graphics) {
-    return graphics->loopUpdate();
-}
-
-void updateScreen(Graphics *graphics) {
-    graphics->updateScreen();
-}
-
-void putStrScreen(Graphics *graphics, std::string str) {
-    graphics->putStrScreen(str);
-}
-
-void loadTexture(Graphics *graphics, std::string path) {
-    graphics->loadTexture(path);
-}
-
-void cleanUp(Graphics *graphics) {
-    graphics->cleanUp();
 }
 
 

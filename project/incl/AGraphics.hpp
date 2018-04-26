@@ -2,6 +2,17 @@
 #define NIBBLER_IGRAPHICS_HPP
 
 #include <string>
+#include <vector>
+
+enum eEvent {
+    ECHAP,
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT,
+    ENTER,
+    NB_EVENT
+};
 
 class AGraphics {
 
@@ -13,8 +24,10 @@ public:
     virtual void putStrScreen(std::string str) = 0;
     virtual void loadTexture(std::string path) = 0;
     virtual void cleanUp() = 0;
+    virtual void getEvent() = 0;
+    virtual unsigned char getChar() = 0;
+
 //    virtual void putPixel() = 0;
-//    virtual void getEvent() = 0;
 
     /***** Méthodes Abstraite *****/
 //    + init (void) = 0 : return (int)
@@ -25,7 +38,9 @@ public:
 //    + putPixel ( ... ) = 0 : return (void)    // Ou equivalent, fonction de dessin
 //    + getEvent ( ... ) = 0 : return ( ... )    // Ou equivalent, fonction de recuperation des event
 
-private:
+protected:
+    std::vector<eEvent> _eventList;
+
 
 };
 

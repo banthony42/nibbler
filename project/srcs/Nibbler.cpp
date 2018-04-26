@@ -29,10 +29,12 @@ Nibbler *Nibbler::getInstance() {
 }
 
 void Nibbler::run() {
-
     Nibbler::aGraphics->init();
     while (Nibbler::aGraphics->loopUpdate()) {
 
+        // update
+        // event
+        // update nibbler
     }
     Nibbler::aGraphics->cleanUp();
 }
