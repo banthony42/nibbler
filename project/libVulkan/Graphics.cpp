@@ -47,12 +47,16 @@ void	Graphics::helloWorld(void) {
 	glfwTerminate();
 }
 
+/*
+ *  Hint = allusion (litteralement)
+ *  Ce sont des options que l'on peut activer ou pas pour la prochaine fenetre qui sera creer
+ *  Exemple:
+ *  glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);	// Desactive l'option resize de la fenetre
+ */
+
 int Graphics::init() {
     glfwInit();
-
-    glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-//    glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-
+    glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);	// Desactive la creation de context, Vulkan dispose de son propre API
     _window = glfwCreateWindow(800, 600, "Vulkan", nullptr, nullptr);
     return (1);
 }
@@ -75,8 +79,8 @@ void Graphics::loadTexture(std::string path) {
 }
 
 void Graphics::cleanUp() {
-    glfwDestroyWindow(_window);
-    glfwTerminate();
+//    glfwDestroyWindow(_window);
+    glfwTerminate();	//All windows remaining when glfwTerminate is called are destroyed as well.
 }
 
 void Graphics::getEvent() {
