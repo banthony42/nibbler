@@ -59,7 +59,7 @@ int Graphics::init() {
 
  int Graphics::loopUpdate() {
      glfwPollEvents();
-     return glfwWindowShouldClose(_window);
+     return !glfwWindowShouldClose(_window);
 }
 
 void Graphics::updateScreen() {

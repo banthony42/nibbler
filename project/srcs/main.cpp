@@ -10,10 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incl/nibbler.hpp"
-#include "../incl/AGraphics.hpp"
-#include <dlfcn.h>
-#include <iostream>
+#include "../incl/Nibbler.hpp"
 
 void	dlerror_wrapper(void) {
 	std::cerr << "Error: " << dlerror() << std::endl;
@@ -37,17 +34,19 @@ AGraphics   *load_library(char *arg, void **dl_handle) {
 }
 
 int		main(int argc, char **argv) {
-	AGraphics *graphics;
+	Nibbler *nibbler;
     void *dl_handle;
 
 	if (argc != 2)
 		return (0);
-
-    graphics = load_library(argv[1], &dl_handle);
-    if (graphics == NULL)
+    nibbler = Nibbler::getInstance();
+    Nibbler::aGraphics = load_library(argv[1], &dl_handle);
+    if (Nibbler::aGraphics == NULL)
         dlerror_wrapper();
 
-	graphics->helloWorld();
+//	nibbler->_aGraphics->helloWorld();
+    nibbler->run();
+
 
 	dlclose(dl_handle);
 	return (0);

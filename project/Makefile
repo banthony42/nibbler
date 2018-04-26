@@ -6,7 +6,7 @@
 #    By: cchameyr <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/02/05 10:57:06 by cchameyr          #+#    #+#              #
-#    Updated: 2018/04/26 13:58:49 by cchameyr         ###   ########.fr        #
+#    Updated: 2018/04/26 15:11:46 by cchameyr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ OBJECTS_NAME_FOLDER = objs
 SOURCES_NAME_FOLDER = srcs
 
 FILES =				main.cpp \
+					Nibbler.cpp
 
 SRCS =				$(addprefix $(SOURCES_NAME_FOLDER)/, $(FILES))
 

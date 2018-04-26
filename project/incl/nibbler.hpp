@@ -1,20 +1,26 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   nibbler.hpp                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: cchameyr <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/04/19 14:10:00 by cchameyr          #+#    #+#             */
-/*   Updated: 2018/04/19 14:10:16 by cchameyr         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#ifndef PROJECT_NIBBLER_HPP
+#define PROJECT_NIBBLER_HPP
 
-#ifndef NIBBLER_H
+#include <iostream>
+#include <dlfcn.h>
+#include "AGraphics.hpp"
+
+class Nibbler {
+
+public:
+    static AGraphics *aGraphics;
+
+    static Nibbler *getInstance();
+    void run();
+
+private:
+    static Nibbler *_singleton;
+
+    Nibbler(); // Canonical
+    Nibbler(Nibbler const &copy); // Canonical
+    ~Nibbler(); // Canonical
+    Nibbler &operator=(Nibbler const &copy); // Canonical
+};
 
 
-
-
-
-
-#endif
+#endif //PROJECT_NIBBLER_HPP
