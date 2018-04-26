@@ -15,7 +15,9 @@
 
 // TODO Changer la maniere de compiler pour pouvoir inclure directement "AGraphics.hpp"
 
+#include <iostream>
 #include <GLUT/glut.h>
+#include <GLFW/glfw3.h>
 #include "../incl/AGraphics.hpp"
 
 class Graphics : public AGraphics {
@@ -46,7 +48,7 @@ public:
     unsigned char getChar();
 
 private:
-
+	GLFWwindow* _window;
 };
 
 extern "C" {

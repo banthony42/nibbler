@@ -50,7 +50,7 @@ void display(void) {
     //a more useful helper
     glRecti(200, 200, 250, 250);
 
-    glutSwapBuffers();
+//    glutSwapBuffers();
 
 }
 
@@ -93,11 +93,25 @@ void    Graphics::helloWorld(void) {
 }
 
 int Graphics::init() {
+	if (!glfwInit()) {
+		// throw exception ? erreur init glfw!
+		return -1;
+	}
+	/* On s'assure d'etre en context OPENGL pour pouvoir utiliser les fonction openGL (Useless si val par defaut)*/
+	glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
+	if (!(_window = glfwCreateWindow(640, 480, "OpenGL", nullptr, nullptr))) {
+		// throw exception ? erreur creation fenetre
+		glfwTerminate();
+		return -1;
+	}
+	/*Before you can make OpenGL or OpenGL ES calls, you need to have a current context of the correct type*/
+	glfwMakeContextCurrent(_window);
     return 0;
 }
 
 int Graphics::loopUpdate() {
-    return 1;
+	this->getEvent();
+    return !glfwWindowShouldClose(_window);
 }
 
 void Graphics::updateScreen() {
@@ -113,11 +127,22 @@ void Graphics::loadTexture(std::string path) {
 }
 
 void Graphics::cleanUp() {
+	glfwTerminate();
+}
 
+static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+		glfwSetWindowShouldClose(window, GLFW_TRUE);
 }
 
 void Graphics::getEvent() {
-
+	glfwPollEvents();
+	/* Two way to handle event, with a callback function:*/
+	glfwSetKeyCallback(_window, key_callback);
+	/* Or just by check the state of a key: */
+	if ((glfwGetKey(_window, GLFW_KEY_ESCAPE)) == GLFW_PRESS)
+		glfwSetWindowShouldClose(_window, GLFW_TRUE);
 }
 
 unsigned char Graphics::getChar() {
