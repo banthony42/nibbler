@@ -2,9 +2,10 @@
 #define NIBBLER_GRAPHICS_HPP
 
 #include <GLUT/glut.h>
+#include "../incl/IGraphics.hpp"
 
 
-class Graphics {
+class Graphics : public IGraphics {
 
 public:
     Graphics(); // Canonical
@@ -13,11 +14,19 @@ public:
 
     Graphics &operator=(Graphics const &copy); // Canonical
 
-    void helloworld(int argc, char **argv);
+    void helloWorld();
 
 private:
 
 };
+
+extern "C" {
+Graphics    *createGraphics();
+void        deleteGraphics(Graphics *graphics);
+
+void        externHelloWorld(Graphics &graphics);
+}
+
 
 
 #endif //NIBBLER_GRAPHICS_HPP

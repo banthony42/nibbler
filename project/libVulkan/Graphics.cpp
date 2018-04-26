@@ -47,5 +47,16 @@ void	Graphics::helloWorld(void) {
 	//Cleanup
 	glfwDestroyWindow(window);
 	glfwTerminate();
+}
 
+Graphics    *createGraphics() {
+    return new Graphics();
+}
+
+void        deleteGraphics(Graphics *graphics) {
+    delete graphics;
+}
+
+void    externHelloWorld(Graphics &graphics) {
+    graphics.helloWorld();
 }

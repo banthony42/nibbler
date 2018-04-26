@@ -59,7 +59,9 @@ void idle(void) {
     glutPostRedisplay();
 }
 
-void    Graphics::helloworld(int argc, char **argv) {
+void    Graphics::helloWorld() {
+    int argc = 1;
+    char *argv[1] = {(char*)"Something"};
     //a basic set up...
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
@@ -76,4 +78,16 @@ void    Graphics::helloworld(int argc, char **argv) {
     glutMainLoop();
 
     //we never get here because glutMainLoop() is an infinite loop
+}
+
+Graphics *createGraphics() {
+    return new Graphics();
+}
+
+void deleteGraphics(Graphics *graphics) {
+    delete graphics;
+}
+
+void externHelloWorld(Graphics &graphics) {
+    graphics.helloWorld();
 }

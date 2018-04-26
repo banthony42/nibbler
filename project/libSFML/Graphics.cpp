@@ -19,7 +19,7 @@ Graphics &Graphics::operator=(Graphics const &copy) {
     return *this;
 }
 
-void    Graphics::helloworld() {
+void    Graphics::helloWorld() {
 
     sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
     sf::CircleShape shape(100.f);
@@ -38,4 +38,16 @@ void    Graphics::helloworld() {
         window.draw(shape);
         window.display();
     }
+}
+
+Graphics *createGraphics() {
+    return new Graphics();
+}
+
+void deleteGraphics(Graphics *graphics) {
+    delete graphics;
+}
+
+void externHelloWorld(Graphics &graphics) {
+    graphics.helloWorld();
 }

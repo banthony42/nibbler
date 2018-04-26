@@ -6,11 +6,11 @@
 #    By: banthony <banthony@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/08 11:31:12 by banthony          #+#    #+#              #
-#    Updated: 2018/04/24 14:42:06 by cchameyr         ###   ########.fr        #
+#    Updated: 2018/04/26 11:55:43 by cchameyr         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
-NAME		= debug.so
+NAME		= libgraph.so
 
 DIRSRC		= .
 
@@ -29,12 +29,16 @@ SDK_PATH = ./Vulkan/macOS/
 
 LDFLAGS = -I $(SDK_PATH)/include -L $(SDK_PATH)/lib `pkg-config --static --libs glfw3` -lvulkan
 
-CFLAGS		= -std=c++11 `pkg-config --static --cflags glfw3` `pkg-config --static --cflags glm` #-Wall -Wextra -Werror
+CFLAGS		= -std=c++11 -fPIC `pkg-config --static --cflags glfw3` `pkg-config --static --cflags glm`
+		
+CFLAGS += #-Wall -Wextra -Werror
+
 
 all		:		$(NAME)
 
 $(NAME)	:		$(OBJ)
 				$(CC) $(LDFLAGS) $(CFLAGS) -shared -o $(NAME) $(OBJS)
+				install_name_tool -change @rpath/libvulkan.1.dylib `pwd`/$(SDK_PATH)/lib/libvulkan.1.dylib $(NAME)
 				@$(ECHO) '> Compiled'
 
 clean	:
@@ -53,4 +57,4 @@ re		:		fclean all
 r		:
 				make re
 				g++ main.cpp $(LDFLAGS) $(CFLAGS) $(NAME)
-			   install_name_tool -change @rpath/libvulkan.1.dylib ./Vulkan/macOS/lib/libvulkan.1.dylib a.out
+				install_name_tool -change @rpath/libvulkan.1.dylib ./Vulkan/macOS/lib/libvulkan.1.dylib a.out

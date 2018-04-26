@@ -6,11 +6,11 @@
 #    By: banthony <banthony@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/08 11:31:12 by banthony          #+#    #+#              #
-#    Updated: 2018/04/24 13:01:45 by cchameyr         ###   ########.fr        #
+#    Updated: 2018/04/26 11:56:36 by cchameyr         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
-NAME		= debug.so
+NAME		= libgraph.so
 
 DIRSRC		= .
 

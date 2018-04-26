@@ -6,81 +6,44 @@
 /*   By: cchameyr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 14:08:52 by cchameyr          #+#    #+#             */
-//   Updated: 2018/04/23 14:36:29 by banthony         ###   ########.fr       //
+/*   Updated: 2018/04/26 10:39:14 by cchameyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include <GL/gl.h>
-#include <OpenGL/gl.h>
+#include "../incl/nibbler.hpp"
+#include "../incl/IGraphics.hpp"
+#include <dlfcn.h>
+#include <iostream>
 
-#include <GLUT/glut.h>
-//
-//void display(void) {
-//
-//	//clear white, draw with black
-//	glClearColor(255, 255, 255, 0);
-//	glColor3d(0, 0, 0);
-//
-//	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-//
-//	//this draws a square using vertices
-//	glBegin(GL_QUADS);
-//	glVertex2i(0, 0);
-//	glVertex2i(0, 128);
-//	glVertex2i(128, 128);
-//	glVertex2i(128, 0);
-//	glEnd();
-//
-//	//a more useful helper
-//	glRecti(200, 200, 250, 250);
-//
-//	glutSwapBuffers();
-//
-//}
-//
-//void reshape(int width, int height) {
-//
-//	glViewport(0, 0, width, height);
-//	glMatrixMode(GL_PROJECTION);
-//	glLoadIdentity();
-//
-//	//set the coordinate system, with the origin in the top left
-//	gluOrtho2D(0, width, height, 0);
-//	glMatrixMode(GL_MODELVIEW);
-//
-//}
-//
-//void idle(void) {
-//
-//	glutPostRedisplay();
-//}
-//
-//int main(int argc, char **argv) {
-//
-//	//a basic set up...
-//	glutInit(&argc, argv);
-//	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
-//	glutInitWindowSize(640, 480);
-//
-//	//create the window, the argument is the title
-//	glutCreateWindow("GLUT program");
-//
-//	//pass the callbacks
-//	glutDisplayFunc(display);
-//	glutReshapeFunc(reshape);
-//	glutIdleFunc(idle);
-//
-//	glutMainLoop();
-//
-//	//we never get here because glutMainLoop() is an infinite loop
-//	return 0;
-//
-//}
-
-/*#include "../incl/nibbler.hpp"
-
-int		main(int argc, char *argv)
+void	dlerror_wrapper(void)
 {
+	std::cerr << "Error: " << dlerror() << std::endl;
+	exit(0);
+}
+
+int		main(int argc, char **argv)
+{
+	void	*dl_handle;
+	IGraphics *(*createGraphics)();
+	IGraphics *graphics;
+
+	if (argc != 2)
+		return (0);
+	dl_handle = dlopen(argv[1], RTLD_LAZY | RTLD_LOCAL);
+	if (!dl_handle)
+		dlerror_wrapper();
+
+	// get createGraphics function
+	createGraphics = (IGraphics *(*)()) dlsym(dl_handle, "createGraphics");
+	if (!createGraphics)
+		dlerror_wrapper();
+
+	// get Grapgics
+	graphics = createGraphics();
+
+	graphics->helloWorld();
+
+	dlclose(dl_handle);
 	return (0);
 }
-*/
+

@@ -6,18 +6,15 @@
 #    By: cchameyr <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/02/05 10:57:06 by cchameyr          #+#    #+#              #
-#    Updated: 2018/02/27 12:14:44 by cchameyr         ###   ########.fr        #
+#    Updated: 2018/04/26 11:09:18 by cchameyr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-OBJECTS_NAME_FOLDER = objects
+OBJECTS_NAME_FOLDER = objs
 
-SOURCES_NAME_FOLDER = sources
+SOURCES_NAME_FOLDER = srcs
 
 FILES =				main.cpp \
-					AbstractVM.cpp \
-					AbstractVMException.cpp \
-					OperandCreator.cpp	
 
 SRCS =				$(addprefix $(SOURCES_NAME_FOLDER)/, $(FILES))
 
@@ -25,15 +22,17 @@ OBJS =				$(addprefix $(OBJECTS_NAME_FOLDER)/, $(FILES:.cpp=.o))
 
 CC =				g++ -std=c++11
 
-NAME =				avm
+NAME =				nibbler
 
 DEBUGSEGFAULT =		-g3 -fsanitize=address
 
-FLAGS =				-Wall -Wextra -Werror #$(DEBUGSEGFAULT)
+FLAGS =				-Wall -Wextra -Werror
+
+FLAGS += #$(DEBUGSEGFAULT)
 
 RM =				rm -rf
 
-all: $(NAME)
+all: lib $(NAME)
 
 $(NAME): $(OBJS)
 	$(CC) $(FLAGS) $(OBJS) -o $(NAME)
@@ -51,16 +50,47 @@ objs_rm:
 	@$(RM) $(FILES:.cpp=.o)
 
 clean: objs_rm
+	make clean -C libVulkan
+	make clean -C libSFML
+	make clean -C libOpenGL
 
-fclean: clean
+fclean: objs_rm
 	$(RM) $(NAME)
+	make fclean -C libVulkan
+	make fclean -C libSFML
+	make fclean -C libOpenGL
 
 re: fclean all
-
-ree: re
-	./$(NAME)
 
 r: objs_rm
 	$(RM) $(NAME)
 	@make
+
+
+lib: vulkan sfml opengl
+
+libre: vulkanre sfmlre openglre
+
+reset: fclean
+	cd ./libSFML/SFML/ && git clean -d -f
+	rm -rf ./libVulkan/Vulkan
+
+vulkan:
+	make -C libVulkan
+
+vulkanre:
+	make re -C libVulkan
+
+sfml:
+	make -C libSFML
+
+sfmlre:
+	make re -C libSFML
+
+opengl:
+	make -C libOpenGL
+
+openglre:
+	make re -C libOpenGL
+
 

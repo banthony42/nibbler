@@ -10,9 +10,10 @@
 #include <vulkan/vulkan.h>
 
 #include <iostream>
+#include "../incl/IGraphics.hpp"
 
 
-class Graphics {
+class Graphics : public IGraphics {
 
 public:
     Graphics(); // Canonical
@@ -26,6 +27,13 @@ public:
 private:
 
 };
+
+extern "C" {
+    Graphics    *createGraphics();
+    void        deleteGraphics(Graphics *graphics);
+
+    void externHelloWorld(Graphics &graphics);
+}
 
 
 #endif //NIBBLER_GRAPHICS_HPP

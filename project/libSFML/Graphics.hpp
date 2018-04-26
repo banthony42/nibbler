@@ -4,7 +4,9 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 
-class Graphics {
+#include "../incl/IGraphics.hpp"
+
+class Graphics : public IGraphics {
 
 public:
     Graphics(); // Canonical
@@ -13,11 +15,19 @@ public:
 
     Graphics &operator=(Graphics const &copy); // Canonical
 
-    void helloworld();
+    void helloWorld();
 
 private:
 
 };
+
+extern "C" {
+Graphics    *createGraphics();
+void        deleteGraphics(Graphics *graphics);
+
+void        externHelloWorld(Graphics &graphics);
+}
+
 
 
 #endif //NIBBLER_GRAPHICS_HPP
