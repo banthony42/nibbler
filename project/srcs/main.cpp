@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incl/Nibbler.hpp"
+#include "../incl/nibbler.hpp"
 
 void	dlerror_wrapper(void) {
 	std::cerr << "Error: " << dlerror() << std::endl;

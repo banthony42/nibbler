@@ -1,4 +1,4 @@
-#include "../incl/Nibbler.hpp"
+#include "../incl/nibbler.hpp"
 
 Nibbler *Nibbler::_singleton = nullptr;
 AGraphics *Nibbler::aGraphics = nullptr;
