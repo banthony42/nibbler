@@ -24,15 +24,15 @@ public:
 
 	void helloWorld();
 
-    int init() override;
+    int init();
 
-    void refreshScreen() override;
+    void refreshScreen();
 
-    void updateScreen() override;
+    void updateScreen();
 
-    void putStrScreen(std::string str) override;
+    void putStrScreen(std::string str);
 
-    void loadTexture(std::string path) override;
+    void loadTexture(std::string path);
 
 private:
 

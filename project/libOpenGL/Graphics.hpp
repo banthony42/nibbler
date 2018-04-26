@@ -5,7 +5,7 @@
 #include "../incl/AGraphics.hpp"
 
 
-class Graphics : public IGraphics {
+class Graphics : public AGraphics {
 
 public:
     Graphics(); // Canonical
@@ -15,6 +15,16 @@ public:
     Graphics &operator=(Graphics const &copy); // Canonical
 
     void helloWorld();
+
+    int init();
+
+    void refreshScreen();
+
+    void updateScreen();
+
+    void putStrScreen(std::string str);
+
+    void loadTexture(std::string path);
 
 private:
 

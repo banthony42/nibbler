@@ -40,6 +40,26 @@ void    Graphics::helloWorld() {
     }
 }
 
+int Graphics::init() {
+    return 0;
+}
+
+void Graphics::refreshScreen() {
+
+}
+
+void Graphics::updateScreen() {
+
+}
+
+void Graphics::putStrScreen(std::string str) {
+
+}
+
+void Graphics::loadTexture(std::string path) {
+
+}
+
 Graphics *createGraphics() {
     return new Graphics();
 }

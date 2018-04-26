@@ -80,6 +80,26 @@ void    Graphics::helloWorld() {
     //we never get here because glutMainLoop() is an infinite loop
 }
 
+int Graphics::init() {
+    return 0;
+}
+
+void Graphics::refreshScreen() {
+
+}
+
+void Graphics::updateScreen() {
+
+}
+
+void Graphics::putStrScreen(std::string str) {
+
+}
+
+void Graphics::loadTexture(std::string path) {
+
+}
+
 Graphics *createGraphics() {
     return new Graphics();
 }
