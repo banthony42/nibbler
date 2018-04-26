@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "../incl/nibbler.hpp"
-#include "../incl/IGraphics.hpp"
+#include "../incl/AGraphics.hpp"
 #include <dlfcn.h>
 #include <iostream>
 
@@ -24,8 +24,8 @@ void	dlerror_wrapper(void)
 int		main(int argc, char **argv)
 {
 	void	*dl_handle;
-	IGraphics *(*createGraphics)();
-	IGraphics *graphics;
+	AGraphics *(*createGraphics)();
+	AGraphics *graphics;
 
 	if (argc != 2)
 		return (0);
@@ -34,7 +34,7 @@ int		main(int argc, char **argv)
 		dlerror_wrapper();
 
 	// get createGraphics function
-	createGraphics = (IGraphics *(*)()) dlsym(dl_handle, "createGraphics");
+	createGraphics = (AGraphics *(*)()) dlsym(dl_handle, "createGraphics");
 	if (!createGraphics)
 		dlerror_wrapper();
 

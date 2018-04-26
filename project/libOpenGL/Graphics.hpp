@@ -2,7 +2,7 @@
 #define NIBBLER_GRAPHICS_HPP
 
 #include <GLUT/glut.h>
-#include "../incl/IGraphics.hpp"
+#include "../incl/AGraphics.hpp"
 
 
 class Graphics : public IGraphics {

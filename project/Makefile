@@ -6,7 +6,7 @@
 #    By: cchameyr <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/02/05 10:57:06 by cchameyr          #+#    #+#              #
-#    Updated: 2018/04/26 11:09:18 by cchameyr         ###   ########.fr        #
+#    Updated: 2018/04/26 12:05:01 by cchameyr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,7 +65,6 @@ re: fclean all
 r: objs_rm
 	$(RM) $(NAME)
 	@make
-
 
 lib: vulkan sfml opengl
 

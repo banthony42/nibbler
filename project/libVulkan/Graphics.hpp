@@ -10,10 +10,10 @@
 #include <vulkan/vulkan.h>
 
 #include <iostream>
-#include "../incl/IGraphics.hpp"
+#include "../incl/AGraphics.hpp"
 
 
-class Graphics : public IGraphics {
+class Graphics : public AGraphics {
 
 public:
     Graphics(); // Canonical
@@ -22,7 +22,17 @@ public:
 
     Graphics &operator=(Graphics const &copy); // Canonical
 
-	void	helloWorld();
+	void helloWorld();
+
+    int init() override;
+
+    void refreshScreen() override;
+
+    void updateScreen() override;
+
+    void putStrScreen(std::string str) override;
+
+    void loadTexture(std::string path) override;
 
 private:
 
@@ -32,8 +42,28 @@ extern "C" {
     Graphics    *createGraphics();
     void        deleteGraphics(Graphics *graphics);
 
-    void externHelloWorld(Graphics &graphics);
+    void        externHelloWorld(Graphics &graphics);
+
 }
 
 
 #endif //NIBBLER_GRAPHICS_HPP
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

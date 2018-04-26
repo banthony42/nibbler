@@ -28,8 +28,6 @@ void	Graphics::helloWorld(void) {
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 	GLFWwindow* window = glfwCreateWindow(800, 600, "Vulkan window", nullptr, nullptr);
 
-
-
 	uint32_t extensionCount = 0;
 	vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
 
@@ -49,6 +47,28 @@ void	Graphics::helloWorld(void) {
 	glfwTerminate();
 }
 
+int Graphics::init() {
+    return 0;
+}
+
+void Graphics::refreshScreen() {
+
+}
+
+void Graphics::updateScreen() {
+
+}
+
+void Graphics::putStrScreen(std::string str) {
+
+}
+
+void Graphics::loadTexture(std::string path) {
+
+}
+
+/********* EXTERN "C" DEFINITION *********/
+
 Graphics    *createGraphics() {
     return new Graphics();
 }
@@ -60,3 +80,22 @@ void        deleteGraphics(Graphics *graphics) {
 void    externHelloWorld(Graphics &graphics) {
     graphics.helloWorld();
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

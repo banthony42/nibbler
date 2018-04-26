@@ -4,7 +4,7 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 
-#include "../incl/IGraphics.hpp"
+#include "../incl/AGraphics.hpp"
 
 class Graphics : public IGraphics {
 
@@ -15,7 +15,7 @@ public:
 
     Graphics &operator=(Graphics const &copy); // Canonical
 
-    void helloWorld();
+    void helloWorld() override;
 
 private:
 
