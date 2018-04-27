@@ -29,8 +29,6 @@ public:
 
     Graphics &operator=(Graphics const &copy); // Canonical
 
-    void helloWorld();
-
     int init();
 
     int loopUpdate();

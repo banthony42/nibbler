@@ -1,5 +1,11 @@
 #include "Graphics.hpp"
 
+/*
+ * Declaration de la variable static
+ * Permet la modification de l'_eventList dans la fonction
+ * de callback et donc en dehors de l'instance de la Lib
+ */
+std::vector<eEvent> AGraphics::_eventList;
 
 Graphics::Graphics() {
 
@@ -20,47 +26,6 @@ Graphics &Graphics::operator=(Graphics const &copy) {
     return *this;
 }
 
-void	Graphics::helloWorld(void) {
-	std::cout << "Hello Vulkan" << std::endl;
-
-	//Init
-	glfwInit();
-	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-	this->_window = glfwCreateWindow(800, 600, "Vulkan window", nullptr, nullptr);
-
-	uint32_t extensionCount = 0;
-	vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
-
-	std::cout << extensionCount << " extensions supported" << std::endl;
-
-	glm::mat4 matrix;
-	glm::vec4 vec;
-	auto test = matrix * vec;
-
-	//Mainloop
-    while(!glfwWindowShouldClose(this->_window)) {
-		glfwPollEvents();
-	}
-
-	//Cleanup
-	glfwDestroyWindow(this->_window);
-	glfwTerminate();
-}
-
-/*
- *  Hint = allusion (litteralement)
- *  Ce sont des options que l'on peut activer ou pas pour la prochaine fenetre qui sera creer
- *  Exemple:
- *  glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);	// Desactive l'option resize de la fenetre
- */
-
-int Graphics::init() {
-    glfwInit();
-    glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);	// Desactive la creation de context, Vulkan dispose de son propre API
-    _window = glfwCreateWindow(800, 600, "Vulkan", nullptr, nullptr);
-    return (1);
-}
-
  int Graphics::loopUpdate() {
      this->getEvent();
      return !glfwWindowShouldClose(_window);
@@ -79,18 +44,49 @@ void Graphics::loadTexture(std::string path) {
 }
 
 void Graphics::cleanUp() {
-//    glfwDestroyWindow(_window);
     glfwTerminate();	//All windows remaining when glfwTerminate is called are destroyed as well.
 }
 
-std::vector<eEvent>& Graphics::getEvent() {
-    glfwPollEvents();
-    // TODO add the values in the vector
-	return this->_eventList;
+static void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods) {
+	std::cout << "event : " << key << std::endl;
+
+	AGraphics::clearEvent();
+	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) // TODO mettre des else if
+		AGraphics::addEvent(ECHAP);
+	else if (key == GLFW_KEY_UP && action == GLFW_PRESS)
+		AGraphics::addEvent(UP);
+	else if (key == GLFW_KEY_DOWN && action == GLFW_PRESS)
+		AGraphics::addEvent(DOWN);
+	else if (key == GLFW_KEY_LEFT && action == GLFW_PRESS)
+		AGraphics::addEvent(LEFT);
+	else if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS)
+		AGraphics::addEvent(RIGHT);
+	else if (key == GLFW_KEY_ENTER && action == GLFW_PRESS)
+		AGraphics::addEvent(ENTER);
+}
+
+std::vector<eEvent> &Graphics::getEvent() {
+	glfwPollEvents();
+	return Graphics::_eventList;
 }
 
 unsigned char Graphics::getChar() {
-    return 0;
+	return 0;
+}
+
+/*
+ *  Hint = allusion (litteralement)
+ *  Ce sont des options que l'on peut activer ou pas pour la prochaine fenetre qui sera creer
+ *  Exemple:
+ *  glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);	// Desactive l'option resize de la fenetre
+ */
+
+int Graphics::init() {
+	glfwInit();
+	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);	// Desactive la creation de context, Vulkan dispose de son propre API
+	_window = glfwCreateWindow(800, 600, "Vulkan", nullptr, nullptr);
+	glfwSetKeyCallback(_window, key_callback);
+	return (1);
 }
 
 /********* EXTERN "C" DEFINITION *********/

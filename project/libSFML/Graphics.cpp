@@ -1,5 +1,12 @@
 #include "Graphics.hpp"
 
+/*
+ * Declaration de la variable static
+ * Permet la modification de l'_eventList dans la fonction
+ * de callback et donc en dehors de l'instance de la Lib
+ */
+std::vector<eEvent> AGraphics::_eventList;
+
 Graphics::Graphics() {
     this->_window = nullptr;
 }
@@ -17,27 +24,6 @@ Graphics &Graphics::operator=(Graphics const &copy) {
         // copy 
     }
     return *this;
-}
-
-void    Graphics::helloWorld() {
-
-    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
-
-    while (window.isOpen())
-    {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
-
-        window.clear();
-        window.draw(shape);
-        window.display();
-    }
 }
 
 int Graphics::init() {
@@ -90,8 +76,4 @@ Graphics *createGraphics() {
 
 void deleteGraphics(Graphics *graphics) {
     delete graphics;
-}
-
-void externHelloWorld(Graphics &graphics) {
-    graphics.helloWorld();
 }

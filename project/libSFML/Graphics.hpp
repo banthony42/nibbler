@@ -15,8 +15,6 @@ public:
 
     Graphics &operator=(Graphics const &copy); // Canonical
 
-    void helloWorld();
-
     int init();
 
     int loopUpdate();
@@ -41,8 +39,6 @@ private:
 extern "C" {
 Graphics    *createGraphics();
 void        deleteGraphics(Graphics *graphics);
-
-void        externHelloWorld(Graphics &graphics);
 }
 
 

@@ -34,7 +34,6 @@ class AGraphics {
 
 public:
 
-	virtual void helloWorld() = 0;
 	virtual int init() = 0;
 	virtual int loopUpdate() = 0;
 	virtual void updateScreen() = 0;
@@ -55,15 +54,6 @@ public:
 	static void clearEvent() {
 		AGraphics::_eventList.clear();
 	}
-
-//    virtual void putPixel() = 0;
-//    + init (void) = 0 : return (int)
-//    + refreshScreen (void) = 0 : return (void)
-//    + updateScreen (void) = 0 : return (void)
-//    + putstrScreen (std::string) = 0 : return (void)
-//    + loadTexture (std::string) = 0 : return (void)
-//    + putPixel ( ... ) = 0 : return (void)    // Ou equivalent, fonction de dessin
-//    + getEvent ( ... ) = 0 : return ( ... )    // Ou equivalent, fonction de recuperation des event
 
 protected:
 	 static std::vector<eEvent> _eventList;
