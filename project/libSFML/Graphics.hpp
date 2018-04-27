@@ -1,6 +1,8 @@
+
 #ifndef NIBBLER_GRAPHICS_HPP
 #define NIBBLER_GRAPHICS_HPP
 
+#include <iostream>
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 
@@ -24,6 +26,8 @@ public:
     void putStrScreen(std::string str);
 
     void loadTexture(std::string path);
+
+	void closeWindow();
 
     void cleanUp();
 

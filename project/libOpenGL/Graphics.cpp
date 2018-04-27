@@ -102,6 +102,10 @@ void Graphics::loadTexture(std::string path) {
 
 }
 
+void Graphics::closeWindow() {
+	std::cout << "Should close and terminate" << std::endl;
+}
+
 void Graphics::cleanUp() {
 	glfwTerminate();
 }

@@ -1,3 +1,4 @@
+
 #include "Graphics.hpp"
 
 /*
@@ -28,6 +29,7 @@ Graphics &Graphics::operator=(Graphics const &copy) {
 
 int Graphics::init() {
     this->_window = new sf::RenderWindow(sf::VideoMode(200, 200), "SFML works!");
+    this->_window->setKeyRepeatEnabled(false);
     return 1;
 }
 
@@ -50,18 +52,36 @@ void Graphics::loadTexture(std::string path) {
 
 }
 
+void Graphics::closeWindow() {
+    std::cout << "Should close and terminate" << std::endl;
+	this->_window->close();
+}
+
 void Graphics::cleanUp() {
     if (this->_window)
-        delete this->_window;
+        delete this->_window;	//TODO verifier utilite, un simple _window->close() suffit a terminer le prog
 }
 
 std::vector<eEvent>& Graphics::getEvent() {
+    AGraphics::clearEvent();
     sf::Event event;
     while (this->_window->pollEvent(event))
     {
-        if (event.type == sf::Event::Closed)
-            // TODO add the values in the vector
-            this->_window->close();
+        if (event.type != sf::Event::KeyPressed)
+            continue ;
+        std::cout << "event : " << event.key.code << std::endl;
+        if (event.key.code == sf::Keyboard::Escape)
+            AGraphics::addEvent(ECHAP);
+        else if (event.key.code == sf::Keyboard::Up)
+            AGraphics::addEvent(UP);
+        else if (event.key.code == sf::Keyboard::Down)
+            AGraphics::addEvent(DOWN);
+        else if (event.key.code == sf::Keyboard::Left)
+            AGraphics::addEvent(LEFT);
+        else if (event.key.code == sf::Keyboard::Right)
+            AGraphics::addEvent(RIGHT);
+        else if (event.key.code == sf::Keyboard::Return)
+            AGraphics::addEvent(ENTER);
     }
     return this->_eventList;
 }

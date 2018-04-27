@@ -40,6 +40,7 @@ public:
 	virtual void putStrScreen(std::string str) = 0;
 	virtual void loadTexture(std::string path) = 0;
 	virtual void cleanUp() = 0;
+	virtual void closeWindow() = 0;
 	virtual std::vector<eEvent> &getEvent() = 0;
 	virtual unsigned char getChar() = 0;
 

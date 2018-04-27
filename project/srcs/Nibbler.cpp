@@ -52,15 +52,17 @@ void Nibbler::run() {
 //        _displayer[_state]();
 
 
-
-
         for (size_t j = 0; j < vec.size(); ++j) {
 
-				std::cout << vec.size() << std::endl;
-				std::cout << key[vec.at(j)] << std::endl;
+			std::cout << vec.size() << std::endl;
+			std::cout << key[vec.at(j)] << std::endl;
+
+			if (vec.at(j) == ECHAP) {
+				Nibbler::aGraphics->closeWindow();
+				break ;
+			}
+
 		}
-
-
 
         // update
         // event
