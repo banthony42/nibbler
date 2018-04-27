@@ -6,7 +6,7 @@
 #    By: cchameyr <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/02/05 10:57:06 by cchameyr          #+#    #+#              #
-#    Updated: 2018/04/27 14:26:34 by cchameyr         ###   ########.fr        #
+#    Updated: 2018/04/27 16:21:06 by banthony         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,7 @@ RM =				rm -rf
 
 all: $(NAME) lib
 
-$(NAME): $(OBJS)
+$(NAME): $(OBJS) $(SRCS)
 	$(CC) $(FLAGS) $(OBJS) -o $(NAME)
 
 $(OBJS):
