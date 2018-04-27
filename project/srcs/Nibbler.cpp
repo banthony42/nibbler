@@ -42,7 +42,15 @@ Nibbler *Nibbler::getInstance() {
 
 void Nibbler::run() {
     Nibbler::aGraphics->init();
+	std::string key[NB_EVENT] = {"VOID", "ECHAP", "UP", "DOWN", "LEFT", "RIGHT", "ENTER",}; // debug
+
     while (Nibbler::aGraphics->loopUpdate()) {
+
+		auto vec = Nibbler::aGraphics->getEvent();
+		for (size_t j = 0; j < vec.size(); ++j) {
+				std::cout << vec.size() << std::endl;
+				std::cout << key[vec.at(j)] << std::endl;
+		}
 
         // update
         // event

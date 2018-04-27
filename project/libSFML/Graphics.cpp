@@ -69,7 +69,7 @@ void Graphics::cleanUp() {
         delete this->_window;
 }
 
-void Graphics::getEvent() {
+std::vector<eEvent>& Graphics::getEvent() {
     sf::Event event;
     while (this->_window->pollEvent(event))
     {
@@ -77,6 +77,7 @@ void Graphics::getEvent() {
             // TODO add the values in the vector
             this->_window->close();
     }
+    return this->_eventList;
 }
 
 unsigned char Graphics::getChar() {

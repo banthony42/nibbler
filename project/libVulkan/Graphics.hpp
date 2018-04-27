@@ -39,7 +39,7 @@ public:
 
     void cleanUp();
 
-    void getEvent();
+    std::vector<eEvent>& getEvent();
 
     unsigned char getChar();
 

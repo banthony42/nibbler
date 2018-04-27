@@ -29,7 +29,7 @@ public:
 
     Graphics &operator=(Graphics const &copy); // Canonical
 
-    void helloWorld(void);
+    void helloWorld();
 
     int init();
 
@@ -43,7 +43,7 @@ public:
 
     void cleanUp();
 
-    void getEvent();
+    std::vector<eEvent>& getEvent();
 
     unsigned char getChar();
 

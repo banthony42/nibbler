@@ -83,9 +83,10 @@ void Graphics::cleanUp() {
     glfwTerminate();	//All windows remaining when glfwTerminate is called are destroyed as well.
 }
 
-void Graphics::getEvent() {
+std::vector<eEvent>& Graphics::getEvent() {
     glfwPollEvents();
     // TODO add the values in the vector
+	return this->_eventList;
 }
 
 unsigned char Graphics::getChar() {

@@ -6,7 +6,7 @@
 #    By: cchameyr <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/02/05 10:57:06 by cchameyr          #+#    #+#              #
-#    Updated: 2018/04/26 15:11:46 by cchameyr         ###   ########.fr        #
+#    Updated: 2018/04/27 12:39:50 by banthony         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,19 +76,19 @@ reset: fclean
 	rm -rf ./libVulkan/Vulkan
 
 vulkan:
-	make -C libVulkan
+	-make -C libVulkan
 
 vulkanre:
 	make re -C libVulkan
 
 sfml:
-	make -C libSFML
+	-make -C libSFML
 
 sfmlre:
 	make re -C libSFML
 
 opengl:
-	make -C libOpenGL
+	-make -C libOpenGL
 
 openglre:
 	make re -C libOpenGL
