@@ -20,7 +20,7 @@
 // TODO du fait de la var _eventList en static => singleton ? sinon -> _eventList[NB_STATE]
 
 enum eEvent {
-	VOID,
+	EVENT_VOID,
 	ECHAP,
 	UP,
 	DOWN,

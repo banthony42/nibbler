@@ -47,10 +47,20 @@ void Nibbler::run() {
     while (Nibbler::aGraphics->loopUpdate()) {
 
 		auto vec = Nibbler::aGraphics->getEvent();
-		for (size_t j = 0; j < vec.size(); ++j) {
+
+//        _eventHandler[_state]();
+//        _displayer[_state]();
+
+
+
+
+        for (size_t j = 0; j < vec.size(); ++j) {
+
 				std::cout << vec.size() << std::endl;
 				std::cout << key[vec.at(j)] << std::endl;
 		}
+
+
 
         // update
         // event
