@@ -29,7 +29,7 @@ Graphics &Graphics::operator=(Graphics const &copy) {
  int Graphics::loopUpdate() {
 //     std::cout << "test" << std::endl;
 //     this->getEvent(); // useless
-     return !glfwWindowShouldClose(_window) && !this->_windowTerminated;
+     return !glfwWindowShouldClose(this->_window) && !this->_windowTerminated;
 }
 
 void Graphics::updateScreen() {

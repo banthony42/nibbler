@@ -42,10 +42,10 @@ Nibbler *Nibbler::getInstance() {
 
 void Nibbler::initRun() {
     Nibbler::_aGraphics->init(Nibbler::WINDOW_WIDTH, Nibbler::WINDOW_HEIGHT);
-    this->_selectScene[MENU] = new SceneMenu(this->_aGraphics);
-    this->_selectScene[SKIN] = new SceneSkin(this->_aGraphics);
-    this->_selectScene[GAME] = new SceneGame(this->_aGraphics);
-    this->_selectScene[GAME_END] = new SceneGameEnd(this->_aGraphics);
+    this->_callScene[MENU] = new SceneMenu(this->_aGraphics);
+    this->_callScene[SKIN] = new SceneSkin(this->_aGraphics);
+    this->_callScene[GAME] = new SceneGame(this->_aGraphics);
+    this->_callScene[GAME_END] = new SceneGameEnd(this->_aGraphics);
     this->_currentScene = MENU;
 }
 
@@ -56,8 +56,8 @@ void Nibbler::run() {
     while (Nibbler::_aGraphics->loopUpdate()) {
 		auto vec = Nibbler::_aGraphics->getEvent();
 
-        this->_selectScene[this->_currentScene]->eventHandler(vec);
-        this->_selectScene[this->_currentScene]->drawScene();
+        this->_callScene[this->_currentScene]->eventHandler(vec);
+        this->_callScene[this->_currentScene]->drawScene();
 
 //        Nibbler::_aGraphics->closeWindow();
 
@@ -69,8 +69,6 @@ void Nibbler::run() {
 
 			if (vec.at(j) == ECHAP) {
 				Nibbler::_aGraphics->closeWindow();
-
-
 			}
 		}
         // *************************************** DEBUG

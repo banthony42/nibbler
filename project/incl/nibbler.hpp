@@ -55,7 +55,7 @@ public:
 
 private:
     static Nibbler *_singleton;
-    MapScene _selectScene;
+    MapScene _callScene;
     eScene _currentScene;
 
     void initRun();

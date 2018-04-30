@@ -50,6 +50,7 @@ public:
 private:
 	GLFWwindow* _window;
     bool _windowTerminated;
+
 };
 
 extern "C" {
