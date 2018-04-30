@@ -6,7 +6,7 @@
 #    By: cchameyr <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/02/05 10:57:06 by cchameyr          #+#    #+#              #
-#    Updated: 2018/04/27 16:21:06 by banthony         ###   ########.fr        #
+#    Updated: 2018/04/30 09:53:08 by cchameyr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,11 @@ OBJECTS_NAME_FOLDER = objs
 SOURCES_NAME_FOLDER = srcs
 
 FILES =				main.cpp \
-					Nibbler.cpp
+					Nibbler.cpp \
+					SceneMenu.cpp \
+					SceneGameEnd.cpp \
+					SceneGame.cpp \
+					SceneSkin.cpp
 
 SRCS =				$(addprefix $(SOURCES_NAME_FOLDER)/, $(FILES))
 

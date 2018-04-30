@@ -57,8 +57,8 @@ static void key_callback(GLFWwindow *window, int key, int scancode, int action, 
 }
 
 std::vector<eEvent> &Graphics::getEvent() {
-//	glfwPollEvents();	// best choice when rendering continually
-	glfwWaitEvents();	// update the contents of the window when you receive new input
+	glfwPollEvents();	// best choice when rendering continually
+//	glfwWaitEvents();	// update the contents of the window when you receive new input
 	return Graphics::_eventList;
 }
 
