@@ -15,6 +15,8 @@ private:
     SceneGame(SceneGame const &copy); // Canonical
     SceneGame &operator=(SceneGame const &copy); // Canonical
 
+    void moveSnake();
+
 public:
     void eventHandler(std::vector<eEvent> eventList) override;
     void drawScene() override;

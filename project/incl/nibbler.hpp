@@ -17,6 +17,11 @@
 #include <map>
 #include <dlfcn.h>
 #include "AGraphics.hpp"
+#include "AScene.hpp"
+#include "SceneMenu.hpp"
+#include "SceneSkin.hpp"
+#include "SceneGame.hpp"
+#include "SceneGameEnd.hpp"
 
 enum eTexture {
     TEXTURE_VOID,
@@ -28,7 +33,7 @@ enum eTexture {
     NB_TEXTURE
 };
 
-enum eStateGame {
+enum eScene {
     STATE_VOID,
     MENU,
     GAME,
@@ -40,21 +45,18 @@ enum eStateGame {
 
 class Nibbler {
 
-typedef void (*t_displayer)(void);
-typedef void (*t_event)(void);
-
 public:
-    static AGraphics *aGraphics;
+    typedef std::map<eScene, AScene *> MapScene;
+    static AGraphics *_aGraphics;
 
     static Nibbler *getInstance();
     void run();
 
 private:
     static Nibbler *_singleton;
-    std::map<eStateGame, t_displayer> _dislpayer;
-    std::map<eStateGame, t_event> _eventHandler;
+    MapScene _selectScene;
 
-//    t_displayer _displayer[NB_STATE];
+    void initRun();
 
     Nibbler(); // Canonical
     Nibbler(Nibbler const &copy); // Canonical

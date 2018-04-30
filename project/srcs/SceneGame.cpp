@@ -30,3 +30,7 @@ void SceneGame::drawScene() {
 SceneGame::SceneGame(AGraphics *aGraphics) {
     this->aGraphics = aGraphics;
 }
+
+void SceneGame::moveSnake() {
+
+}

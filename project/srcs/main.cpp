@@ -40,13 +40,11 @@ int		main(int argc, char **argv) {
 	if (argc != 2)
 		return (0);
     nibbler = Nibbler::getInstance();
-    Nibbler::aGraphics = load_library(argv[1], &dl_handle);
-    if (Nibbler::aGraphics == NULL)
+    Nibbler::_aGraphics = load_library(argv[1], &dl_handle);
+    if (Nibbler::_aGraphics == NULL)
         dlerror_wrapper();
 
-//	nibbler->_aGraphics->helloWorld();
     nibbler->run();
-
 
 	dlclose(dl_handle);
 	return (0);

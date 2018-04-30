@@ -13,7 +13,7 @@
 #include "../incl/nibbler.hpp"
 
 Nibbler *Nibbler::_singleton = nullptr;
-AGraphics *Nibbler::aGraphics = nullptr;
+AGraphics *Nibbler::_aGraphics = nullptr;
 
 Nibbler::Nibbler() {
 
@@ -40,16 +40,21 @@ Nibbler *Nibbler::getInstance() {
     return Nibbler::_singleton;
 }
 
+void Nibbler::initRun() {
+    Nibbler::_aGraphics->init();
+    this->_selectScene[MENU] = new SceneMenu(this->_aGraphics);
+    this->_selectScene[SKIN] = new SceneSkin(this->_aGraphics);
+    this->_selectScene[GAME] = new SceneGame(this->_aGraphics);
+    this->_selectScene[GAME_END] = new SceneGameEnd(this->_aGraphics);
+}
+
 void Nibbler::run() {
-    Nibbler::aGraphics->init();
+    this->initRun();
 	std::string key[NB_EVENT] = {"VOID", "ECHAP", "UP", "DOWN", "LEFT", "RIGHT", "ENTER",}; // debug
 
-    while (Nibbler::aGraphics->loopUpdate()) {
+    while (Nibbler::_aGraphics->loopUpdate()) {
+		auto vec = Nibbler::_aGraphics->getEvent();
 
-		auto vec = Nibbler::aGraphics->getEvent();
-
-//        _eventHandler[_state]();
-//        _displayer[_state]();
 
 
         for (size_t j = 0; j < vec.size(); ++j) {
@@ -58,15 +63,14 @@ void Nibbler::run() {
 			std::cout << key[vec.at(j)] << std::endl;
 
 			if (vec.at(j) == ECHAP) {
-				Nibbler::aGraphics->closeWindow();
+				Nibbler::_aGraphics->closeWindow();
 				break ;
 			}
-
 		}
-
         // update
         // event
         // update nibbler
     }
-    Nibbler::aGraphics->cleanUp();
+    Nibbler::_aGraphics->cleanUp();
 }
+
