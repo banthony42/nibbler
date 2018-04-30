@@ -83,12 +83,13 @@ int Graphics::init(int windowWidth, int windowHeight) {
 
 	// Set callback
 	glfwSetKeyCallback(_window, key_callback);
+    this->_windowTerminated = false;
 	return 0;
 }
 
 int Graphics::loopUpdate() {
-	this->getEvent();
-	return !glfwWindowShouldClose(_window);
+//	this->getEvent();
+	return !glfwWindowShouldClose(_window) && !this->_windowTerminated;
 }
 
 void Graphics::updateScreen() {
@@ -104,11 +105,16 @@ void Graphics::loadTexture(std::string path) {
 }
 
 void Graphics::closeWindow() {
-	std::cout << "Should close and terminate" << std::endl;
+//	std::cout << "Should close and terminate" << std::endl;
+    this->cleanUp();
 }
 
 void Graphics::cleanUp() {
-	glfwTerminate();
+    if (!this->_windowTerminated) {
+        std::cout << "terminate" << std::endl;
+        glfwTerminate();
+        this->_windowTerminated = true;
+    }
 }
 
 Graphics *createGraphics() {

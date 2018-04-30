@@ -33,7 +33,7 @@ int Graphics::init(int windowWidth, int windowHeight) {
 }
 
 int Graphics::loopUpdate() {
-    this->getEvent();
+//    this->getEvent();
     this->_window->clear();
     this->_window->display();
     return this->_window->isOpen();
@@ -52,13 +52,14 @@ void Graphics::loadTexture(std::string path) {
 }
 
 void Graphics::closeWindow() {
-    std::cout << "Should close and terminate" << std::endl;
+//    std::cout << "Should close and terminate" << std::endl;
 	this->_window->close();
+    this->cleanUp();
 }
 
 void Graphics::cleanUp() {
-    if (this->_window)
-        delete this->_window;	//TODO verifier utilite, un simple _window->close() suffit a terminer le prog
+//    if (this->_window) // TODO THE DELETE MAKE A SEGFAULT
+//        delete this->_window;	//TODO verifier utilite, un simple _window->close() suffit a terminer le prog
 }
 
 std::vector<eEvent>& Graphics::getEvent() {

@@ -45,13 +45,13 @@ public:
 
 private:
     GLFWwindow *_window;
+    bool _windowTerminated;
 
 };
 
 extern "C" {
     Graphics *createGraphics();
     void deleteGraphics(Graphics *graphics);
-
 }
 
 

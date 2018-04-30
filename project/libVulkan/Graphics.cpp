@@ -27,12 +27,13 @@ Graphics &Graphics::operator=(Graphics const &copy) {
 }
 
  int Graphics::loopUpdate() {
-     this->getEvent();
-     return !glfwWindowShouldClose(_window);
+//     std::cout << "test" << std::endl;
+//     this->getEvent(); // useless
+     return !glfwWindowShouldClose(_window) && !this->_windowTerminated;
 }
 
 void Graphics::updateScreen() {
-    std::cout << "test" << std::endl;
+//    std::cout << "test" << std::endl;
 }
 
 void Graphics::putStrScreen(std::string str) {
@@ -43,19 +44,24 @@ void Graphics::loadTexture(std::string path) {
 
 }
 
-void Graphics::closeWindow() {
-	std::cout << "Should close and terminate" << std::endl;
+void Graphics::closeWindow() { // TODO soit on garde closeWindow ET cleanUp soit on garde que cleanUp (->UML)
+//	std::cout << "Should close and terminate" << std::endl;
+    this->cleanUp();
 }
 
 void Graphics::cleanUp() {
-    glfwTerminate();	//All windows remaining when glfwTerminate is called are destroyed as well.
+    if (!this->_windowTerminated) {
+        std::cout << "terminate" << std::endl;
+        glfwTerminate();    //All windows remaining when glfwTerminate is called are destroyed as well.
+        this->_windowTerminated = true;
+    }
 }
 
 static void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods) {
-	std::cout << "event : " << key << std::endl;
+	std::cout << "key callback : " << key << std::endl;
 
 	AGraphics::clearEvent();
-	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) // TODO mettre des else if
+	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		AGraphics::addEvent(ECHAP);
 	else if (key == GLFW_KEY_UP && action == GLFW_PRESS)
 		AGraphics::addEvent(UP);
@@ -90,6 +96,7 @@ int Graphics::init(int windowWidth, int windowHeight) {
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);	// Desactive la creation de context, Vulkan dispose de son propre API
 	_window = glfwCreateWindow(windowWidth, windowHeight, "Vulkan", nullptr, nullptr);
 	glfwSetKeyCallback(_window, key_callback);
+    this->_windowTerminated = false;
 	return (1);
 }
 

@@ -59,15 +59,18 @@ void Nibbler::run() {
         this->_selectScene[this->_currentScene]->eventHandler(vec);
         this->_selectScene[this->_currentScene]->drawScene();
 
+//        Nibbler::_aGraphics->closeWindow();
+
         // ************************************** DEBUG
         for (size_t j = 0; j < vec.size(); ++j) {
 
-			std::cout << vec.size() << std::endl;
+			std::cout << "size:" << vec.size() << std::endl;
 			std::cout << key[vec.at(j)] << std::endl;
 
 			if (vec.at(j) == ECHAP) {
 				Nibbler::_aGraphics->closeWindow();
-				break ;
+
+
 			}
 		}
         // *************************************** DEBUG
