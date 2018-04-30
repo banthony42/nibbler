@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incl/nibbler.hpp"
+#include "../incl/Nibbler.hpp"
 
 Nibbler *Nibbler::_singleton = nullptr;
 AGraphics *Nibbler::_aGraphics = nullptr;
@@ -41,11 +41,12 @@ Nibbler *Nibbler::getInstance() {
 }
 
 void Nibbler::initRun() {
-    Nibbler::_aGraphics->init();
+    Nibbler::_aGraphics->init(Nibbler::WINDOW_WIDTH, Nibbler::WINDOW_HEIGHT);
     this->_selectScene[MENU] = new SceneMenu(this->_aGraphics);
     this->_selectScene[SKIN] = new SceneSkin(this->_aGraphics);
     this->_selectScene[GAME] = new SceneGame(this->_aGraphics);
     this->_selectScene[GAME_END] = new SceneGameEnd(this->_aGraphics);
+    this->_currentScene = MENU;
 }
 
 void Nibbler::run() {
@@ -55,8 +56,10 @@ void Nibbler::run() {
     while (Nibbler::_aGraphics->loopUpdate()) {
 		auto vec = Nibbler::_aGraphics->getEvent();
 
+        this->_selectScene[this->_currentScene]->eventHandler(vec);
+        this->_selectScene[this->_currentScene]->drawScene();
 
-
+        // ************************************** DEBUG
         for (size_t j = 0; j < vec.size(); ++j) {
 
 			std::cout << vec.size() << std::endl;
@@ -67,6 +70,9 @@ void Nibbler::run() {
 				break ;
 			}
 		}
+        // *************************************** DEBUG
+
+
         // update
         // event
         // update nibbler

@@ -1,4 +1,3 @@
-
 #include "Graphics.hpp"
 
 /*
@@ -27,8 +26,8 @@ Graphics &Graphics::operator=(Graphics const &copy) {
     return *this;
 }
 
-int Graphics::init() {
-    this->_window = new sf::RenderWindow(sf::VideoMode(200, 200), "SFML works!");
+int Graphics::init(int windowWidth, int windowHeight) {
+    this->_window = new sf::RenderWindow(sf::VideoMode(windowWidth, windowHeight), "SFML works!");
     this->_window->setKeyRepeatEnabled(false);
     return 1;
 }

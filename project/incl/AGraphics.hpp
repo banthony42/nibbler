@@ -16,7 +16,6 @@
 #include <string>
 #include <vector>
 
-// TODO add the define for the window size en PUBLIC STATIC
 // TODO du fait de la var _eventList en static => singleton ? sinon -> _eventList[NB_STATE]
 
 enum eEvent {
@@ -30,11 +29,12 @@ enum eEvent {
 	NB_EVENT
 };
 
+
 class AGraphics {
 
 public:
 
-	virtual int init() = 0;
+	virtual int init(int windowWidth, int windowHeight) = 0;
 	virtual int loopUpdate() = 0;
 	virtual void updateScreen() = 0;
 	virtual void putStrScreen(std::string str) = 0;
@@ -58,6 +58,8 @@ public:
 
 protected:
 	 static std::vector<eEvent> _eventList;
+    int windowHeigth;
+    int windowLenght;
 
 };
 

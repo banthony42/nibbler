@@ -25,7 +25,7 @@ public:
 
     Graphics &operator=(Graphics const &copy); // Canonical
 
-    int init();
+    int init(int windowWidth, int windowHeight);
 
     int loopUpdate();
 

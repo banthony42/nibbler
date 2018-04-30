@@ -42,12 +42,13 @@ enum eScene {
     NB_STATE
 };
 
-
 class Nibbler {
 
 public:
     typedef std::map<eScene, AScene *> MapScene;
     static AGraphics *_aGraphics;
+    static const int WINDOW_WIDTH = 800;
+    static const int WINDOW_HEIGHT = 600;
 
     static Nibbler *getInstance();
     void run();
@@ -55,6 +56,7 @@ public:
 private:
     static Nibbler *_singleton;
     MapScene _selectScene;
+    eScene _currentScene;
 
     void initRun();
 

@@ -85,10 +85,10 @@ unsigned char Graphics::getChar() {
  *  glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);	// Desactive l'option resize de la fenetre
  */
 
-int Graphics::init() {
+int Graphics::init(int windowWidth, int windowHeight) {
 	glfwInit();
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);	// Desactive la creation de context, Vulkan dispose de son propre API
-	_window = glfwCreateWindow(800, 600, "Vulkan", nullptr, nullptr);
+	_window = glfwCreateWindow(windowWidth, windowHeight, "Vulkan", nullptr, nullptr);
 	glfwSetKeyCallback(_window, key_callback);
 	return (1);
 }
