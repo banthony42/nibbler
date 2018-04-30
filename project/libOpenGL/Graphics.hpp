@@ -18,6 +18,10 @@
 #include <iostream>
 #include <GLUT/glut.h>
 #include <GLFW/glfw3.h>
+
+#define STB_IMAGE_IMPLEMENTATION
+#include "../incl/stb_image.h"
+
 #include "../incl/AGraphics.hpp"
 
 class Graphics : public AGraphics {

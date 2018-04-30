@@ -4,3 +4,5 @@ CMakeLists.txt
 .DS_Store
 project/libVulkan/vulkanLib.tar.gz
 project/libVulkan/Vulkan
+project/incl/stb_image.h
+project/textures

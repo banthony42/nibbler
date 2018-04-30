@@ -47,6 +47,7 @@ void Nibbler::initRun() {
     this->_callScene[GAME] = new SceneGame(this->_aGraphics);
     this->_callScene[GAME_END] = new SceneGameEnd(this->_aGraphics);
     this->_currentScene = MENU;
+	this->_aGraphics->loadTexture("./textures/snake_bckg_menu.jpg");
 }
 
 void Nibbler::run() {
