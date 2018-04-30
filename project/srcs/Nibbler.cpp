@@ -73,7 +73,6 @@ void Nibbler::run() {
 		}
         // *************************************** DEBUG
 
-
         // update
         // event
         // update nibbler
