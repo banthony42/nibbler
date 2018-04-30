@@ -36,7 +36,8 @@ void SceneGame::eventHandler(std::vector<eEvent> eventList) {
 }
 
 void SceneGame::drawScene() {
-
+    (void)this->_food;
+    (void)this->_snake;
 }
 
 SceneGame::SceneGame(AGraphics *aGraphics) {

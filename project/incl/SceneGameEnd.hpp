@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PROJECT_SCENEGAMEEND_HPP
-#define PROJECT_SCENEGAMEEND_HPP
+#ifndef SCENEGAMEEND_HPP
+#define SCENEGAMEEND_HPP
 
 #include "AScene.hpp"
 
@@ -21,16 +21,13 @@ public:
     SceneGameEnd(AGraphics *aGraphics);
     ~SceneGameEnd(); // Canonical
 
+	void eventHandler(std::vector<eEvent> eventList) override;
+	void drawScene() override;
+
 private:
     SceneGameEnd(); // Canonical
     SceneGameEnd(SceneGameEnd const &copy); // Canonical
-    SceneGameEnd &operator=(SceneGameEnd const &copy);
-
-public:
-    void eventHandler(std::vector<eEvent> eventList) override;
-    void drawScene() override;
-    // Canonical
-
+    SceneGameEnd &operator=(SceneGameEnd const &copy);// Canonical
 };
 
 

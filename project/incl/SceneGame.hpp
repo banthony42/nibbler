@@ -10,10 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PROJECT_SCENEGAME_HPP
-#define PROJECT_SCENEGAME_HPP
+#ifndef SCENEGAME_HPP
+#define SCENEGAME_HPP
 
 #include "AScene.hpp"
+#include "Entity.hpp"
 
 class SceneGame : public AScene {
 
@@ -21,6 +22,9 @@ public:
     SceneGame(AGraphics *aGraphics);
     ~SceneGame(); // Canonical
 
+	void eventHandler(std::vector<eEvent> eventList) override;
+
+	void drawScene() override;
 
 private:
     SceneGame(); // Canonical
@@ -29,11 +33,10 @@ private:
 
     void moveSnake();
 
-public:
-    void eventHandler(std::vector<eEvent> eventList) override;
-    void drawScene() override;
-
-
+	static const int	_N_SECTX = 16;	//TODO Voir si on calcul ces valeurs en fonctions de la taille de la fenetre
+	static const int	_N_SECTY = 16;
+	Snake				_snake;
+	Food				_food;			//TODO: Definir le nb de food max sur scene, dans ce cas: _food[MAX_FOOD]
 };
 
 

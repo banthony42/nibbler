@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PROJECT_SCENEMENU_HPP
-#define PROJECT_SCENEMENU_HPP
+#ifndef SCENEMENU_HPP
+#define SCENEMENU_HPP
 
 #include "AScene.hpp"
 
@@ -21,17 +21,14 @@ public:
     SceneMenu(AGraphics *aGraphics);
     ~SceneMenu(); // Canonical
 
+	void eventHandler(std::vector<eEvent> eventList) override;
+
+	void drawScene() override;
+
 private:
     SceneMenu(); // Canonical
     SceneMenu(SceneMenu const &copy); // Canonical
-
     SceneMenu &operator=(SceneMenu const &copy); // Canonical
-
-public:
-    void eventHandler(std::vector<eEvent> eventList) override;
-
-    void drawScene() override;
-
 };
 
 

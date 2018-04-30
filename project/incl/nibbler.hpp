@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PROJECT_NIBBLER_HPP
-#define PROJECT_NIBBLER_HPP
+#ifndef NIBBLER_HPP
+#define NIBBLER_HPP
 
 #include <iostream>
 #include <map>
@@ -22,16 +22,6 @@
 #include "SceneSkin.hpp"
 #include "SceneGame.hpp"
 #include "SceneGameEnd.hpp"
-
-enum eTexture {
-    TEXTURE_VOID,
-    MENU_BCKG,
-    GAME_BCKG,
-    SCORE_BCKG,
-    ITEM1,
-    ITEM2,
-    NB_TEXTURE
-};
 
 enum eScene {
     STATE_VOID,

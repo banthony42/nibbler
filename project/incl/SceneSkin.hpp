@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PROJECT_SCENESKIN_HPP
-#define PROJECT_SCENESKIN_HPP
+#ifndef SCENESKIN_HPP
+#define SCENESKIN_HPP
 
 #include "AScene.hpp"
 
@@ -21,18 +21,14 @@ public:
     SceneSkin(AGraphics *aGraphics);
     ~SceneSkin(); // Canonical
 
+	void eventHandler(std::vector<eEvent> eventList) override;
+	void drawScene() override;
+
 private:
     SceneSkin(); // Canonical
     SceneSkin(SceneSkin const &copy); // Canonical
-    SceneSkin &operator=(SceneSkin const &copy);
-
+    SceneSkin &operator=(SceneSkin const &copy);    // Canonical
 //    void selectSkinScreen(snakeData *snakeData); // TODO implement this
-
-public:
-    void eventHandler(std::vector<eEvent> eventList) override;
-    void drawScene() override;
-    // Canonical
-
 };
 
 

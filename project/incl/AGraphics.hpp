@@ -10,13 +10,23 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef NIBBLER_IGRAPHICS_HPP
-#define NIBBLER_IGRAPHICS_HPP
+#ifndef AGRAPHICS_HPP
+#define AGRAPHICS_HPP
 
 #include <string>
 #include <vector>
 
 // TODO du fait de la var _eventList en static => singleton ? sinon -> _eventList[NB_STATE]
+
+enum eTexture {
+	TEXTURE_VOID,
+	MENU_BCKG,
+	GAME_BCKG,
+	SCORE_BCKG,
+	ITEM1,
+	ITEM2,
+	NB_TEXTURE
+};
 
 enum eEvent {
 	EVENT_VOID,
