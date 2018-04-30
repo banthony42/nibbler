@@ -6,7 +6,7 @@
 #    By: banthony <banthony@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/20 18:10:22 by banthony          #+#    #+#              #
-#    Updated: 2018/04/30 18:50:57 by banthony         ###   ########.fr        #
+#    Updated: 2018/04/30 18:56:49 by banthony         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ then
 	echo "$image_loader found."
 else
 	echo "$image_loader, downloading ..."
-	curl https://raw.githubusercontent.com/nothings/stb/master/stb_image.h > ./incl/stb_image.h
+	curl https://raw.githubusercontent.com/nothings/stb/master/stb_image.h > $image_loader
 fi
 
 #Dl Vulkan sources if necessary
