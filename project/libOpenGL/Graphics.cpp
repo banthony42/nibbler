@@ -68,14 +68,14 @@ unsigned char Graphics::getChar() {
 
 int Graphics::init(int windowWidth, int windowHeight) {
 	if (!glfwInit()) {
-		std::cout << "erreur init glfw!" << std::endl;
+		std::cout << "error: init glfw!" << std::endl;
 		// TODO throw exception
 		return -1;
 	}
 	// On s'assure d'etre en context OPENGL pour pouvoir utiliser les fonction openGL (Useless si val par defaut)
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
 	if (!(_window = glfwCreateWindow(windowWidth, windowHeight, "OpenGL", nullptr, nullptr))) {
-		std::cout << "erreur create window glfw!" << std::endl;
+		std::cout << "error: create window glfw!" << std::endl;
 		// TODO throw exception
 		glfwTerminate();
 		return -1;
@@ -123,7 +123,8 @@ void Graphics::loadTexture(std::string path, int key) {
 	}
 	else
 	{
-		std::cout << "Failed to load texture" << std::endl;
+		std::cout << "error: Failed to load texture" << std::endl;
+		//TODO throw exception
 	}
 	stbi_image_free(data);
 	glBindTexture(GL_TEXTURE_2D, 0);
@@ -140,6 +141,10 @@ void Graphics::cleanUp() {
         glfwTerminate();
         this->_windowTerminated = true;
     }
+}
+
+void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
+
 }
 
 Graphics *createGraphics() {

@@ -51,6 +51,8 @@ public:
 
     unsigned char getChar();
 
+	void putTexture(int key, int posX, int posY, int sizeX, int sizeY);
+
 private:
 	GLFWwindow* _window;
     bool _windowTerminated;
