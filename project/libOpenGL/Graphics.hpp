@@ -53,6 +53,10 @@ public:
 
 	void putTexture(int key, int posX, int posY, int sizeX, int sizeY);
 
+	void display();
+
+	void clear();
+
 private:
 	GLFWwindow* _window;
     bool _windowTerminated;
