@@ -44,6 +44,10 @@ void Graphics::loadTexture(std::string path, int key) {
 
 }
 
+void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
+
+}
+
 void Graphics::closeWindow() { // TODO soit on garde closeWindow ET cleanUp soit on garde que cleanUp (->UML)
 //	std::cout << "Should close and terminate" << std::endl;
     this->cleanUp();

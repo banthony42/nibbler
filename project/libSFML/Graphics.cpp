@@ -57,6 +57,10 @@ void Graphics::loadTexture(std::string path, int key) {
     this->_textureList[key] = texture;
 }
 
+void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
+
+}
+
 void Graphics::closeWindow() {
 //    std::cout << "Should close and terminate" << std::endl;
 	this->_window->close();
