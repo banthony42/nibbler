@@ -47,7 +47,7 @@ void Graphics::putStrScreen(std::string str) {
 
 }
 
-void Graphics::loadTexture(std::string path) {
+void Graphics::loadTexture(std::string path, int key) {
 
 }
 
