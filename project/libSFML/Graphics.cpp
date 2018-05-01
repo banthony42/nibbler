@@ -27,7 +27,7 @@ Graphics &Graphics::operator=(Graphics const &copy) {
 }
 
 int Graphics::init(int windowWidth, int windowHeight) {
-    this->_window = new sf::RenderWindow(sf::VideoMode(windowWidth, windowHeight), "SFML works!");
+    this->_window = new sf::RenderWindow(sf::VideoMode(windowWidth, windowHeight), "SFML");
     this->_window->setKeyRepeatEnabled(false);
     return 1;
 }
@@ -48,7 +48,13 @@ void Graphics::putStrScreen(std::string str) {
 }
 
 void Graphics::loadTexture(std::string path, int key) {
+    sf::Texture texture;
 
+    if (!texture.loadFromFile(path)) {
+        std::cout << "error loading" << std::endl; // TODO exception here
+        return ;
+    }
+    this->_textureList[key] = texture;
 }
 
 void Graphics::closeWindow() {
