@@ -68,13 +68,15 @@ unsigned char Graphics::getChar() {
 
 int Graphics::init(int windowWidth, int windowHeight) {
 	if (!glfwInit()) {
-		// TODO throw exception ? erreur init glfw!
+		std::cout << "erreur init glfw!" << std::endl;
+		// TODO throw exception
 		return -1;
 	}
 	// On s'assure d'etre en context OPENGL pour pouvoir utiliser les fonction openGL (Useless si val par defaut)
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
 	if (!(_window = glfwCreateWindow(windowWidth, windowHeight, "OpenGL", nullptr, nullptr))) {
-		// TODO throw exception ? erreur creation fenetre
+		std::cout << "erreur create window glfw!" << std::endl;
+		// TODO throw exception
 		glfwTerminate();
 		return -1;
 	}
