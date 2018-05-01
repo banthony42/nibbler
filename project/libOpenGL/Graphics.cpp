@@ -100,10 +100,10 @@ void Graphics::putStrScreen(std::string str) {
 
 }
 
-void Graphics::loadTexture(std::string path) {
+void Graphics::loadTexture(std::string path, int key) {
 	GLuint texture;
 
-	glGenTextures(NB_TEXTURE, &texture);
+	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
 
 // set the texture wrapping/filtering options (on the currently bound texture object)

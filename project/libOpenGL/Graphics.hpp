@@ -41,7 +41,7 @@ public:
 
     void putStrScreen(std::string str);
 
-    void loadTexture(std::string path);
+    void loadTexture(std::string path, int key);
 
 	void closeWindow();
 

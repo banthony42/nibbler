@@ -38,7 +38,7 @@ public:
 	virtual int loopUpdate() = 0;
 	virtual void updateScreen() = 0;
 	virtual void putStrScreen(std::string str) = 0;
-	virtual void loadTexture(std::string path) = 0;
+	virtual void loadTexture(std::string path, int key) = 0;
 	virtual void cleanUp() = 0;
 	virtual void closeWindow() = 0;
 	virtual std::vector<eEvent> &getEvent() = 0;
