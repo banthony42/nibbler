@@ -37,6 +37,11 @@ int Graphics::loopUpdate() {
 }
 
 void Graphics::display() {
+    for (int i = 0; i < this->_spriteList.size(); ++i) {
+        this->_window->draw(this->_spriteList.at(i));
+        std::cout << i << std::endl;
+    }
+    this->_spriteList.clear();
     this->_window->display();
 }
 
@@ -53,7 +58,7 @@ void Graphics::loadTexture(std::string path, int key) {
 
     if (!texture.loadFromFile(path)) {
         std::cout << "error loading" << std::endl; // TODO exception here
-        return ;
+        return;
     }
     texture.setSmooth(true);
     this->_textureList[key] = texture;
@@ -61,15 +66,18 @@ void Graphics::loadTexture(std::string path, int key) {
 
 void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
     sf::Sprite sprite;
+    sf::Vector2u vec;
+
+    vec = this->_textureList[key].getSize();
     sprite.setTexture(this->_textureList[key]);
     sprite.setPosition(sf::Vector2f(posX, posY));
-    this->_window->draw(sprite);
-    this->_window->display();
+    sprite.setScale((double)sizeX / (double)vec.x, (double)sizeY / (double)vec.y);
+    this->_spriteList.push_back(sprite);
 }
 
 void Graphics::closeWindow() {
 //    std::cout << "Should close and terminate" << std::endl;
-	this->_window->close();
+    this->_window->close();
     this->cleanUp();
 }
 
@@ -78,13 +86,12 @@ void Graphics::cleanUp() {
 //        delete this->_window;	//TODO verifier utilite, un simple _window->close() suffit a terminer le prog
 }
 
-std::vector<eEvent>& Graphics::getEvent() {
+std::vector<eEvent> &Graphics::getEvent() {
     AGraphics::clearEvent();
     sf::Event event;
-    while (this->_window->pollEvent(event))
-    {
+    while (this->_window->pollEvent(event)) {
         if (event.type != sf::Event::KeyPressed)
-            continue ;
+            continue;
         std::cout << "event : " << event.key.code << std::endl;
         if (event.key.code == sf::Keyboard::Escape)
             AGraphics::addEvent(ECHAP);

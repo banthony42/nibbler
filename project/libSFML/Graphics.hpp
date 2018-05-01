@@ -43,6 +43,7 @@ public:
 private:
     sf::RenderWindow *_window;
     std::map<int, sf::Texture> _textureList;
+    std::vector<sf::Sprite> _spriteList;
 
 };
 

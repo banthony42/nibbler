@@ -60,9 +60,9 @@ void Nibbler::run() {
         this->_callScene[this->_currentScene]->eventHandler(vec);
         this->_callScene[this->_currentScene]->drawScene();
 
-        this->_aGraphics->putTexture(MENU_BCKG, 10, 10, 30, 30);
-
-//        Nibbler::_aGraphics->closeWindow();
+        this->_aGraphics->clear();
+        this->_aGraphics->putTexture(MENU_BCKG, 5, 5, 75, 75);
+        this->_aGraphics->display();
 
         // ************************************** DEBUG
         for (size_t j = 0; j < vec.size(); ++j) {
@@ -76,7 +76,7 @@ void Nibbler::run() {
 		}
         // *************************************** DEBUG
 
-        // update
+        // draw
         // event
         // update nibbler
     }
