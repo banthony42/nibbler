@@ -16,8 +16,17 @@
 
 #include "AGraphics.hpp"
 
-class AScene {
+enum eTexture {
+    TEXTURE_VOID,
+    MENU_BCKG,
+    GAME_BCKG,
+    SCORE_BCKG,
+    ITEM1,
+    ITEM2,
+    NB_TEXTURE
+};
 
+class AScene {
 
 public:
     virtual void eventHandler(std::vector<eEvent> eventList) = 0;
