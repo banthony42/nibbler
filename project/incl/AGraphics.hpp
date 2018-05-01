@@ -29,14 +29,14 @@ enum eEvent {
 	NB_EVENT
 };
 
-
 class AGraphics {
 
 public:
 
 	virtual int init(int windowWidth, int windowHeight) = 0;
 	virtual int loopUpdate() = 0;
-	virtual void updateScreen() = 0;
+	virtual void display() = 0;
+	virtual void clear () = 0;
 	virtual void putStrScreen(std::string str) = 0;
 	virtual void loadTexture(std::string path, int key) = 0;
     virtual void putTexture(int key, int posX, int posY, int sizeX, int sizeY) = 0;

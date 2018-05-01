@@ -33,14 +33,15 @@ int Graphics::init(int windowWidth, int windowHeight) {
 }
 
 int Graphics::loopUpdate() {
-//    this->getEvent();
-    this->_window->clear();
-    this->_window->display();
     return this->_window->isOpen();
 }
 
-void Graphics::updateScreen() {
+void Graphics::display() {
+    this->_window->display();
+}
 
+void Graphics::clear() {
+    this->_window->clear();
 }
 
 void Graphics::putStrScreen(std::string str) {
@@ -54,11 +55,16 @@ void Graphics::loadTexture(std::string path, int key) {
         std::cout << "error loading" << std::endl; // TODO exception here
         return ;
     }
+    texture.setSmooth(true);
     this->_textureList[key] = texture;
 }
 
 void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
-
+    sf::Sprite sprite;
+    sprite.setTexture(this->_textureList[key]);
+    sprite.setPosition(sf::Vector2f(posX, posY));
+    this->_window->draw(sprite);
+    this->_window->display();
 }
 
 void Graphics::closeWindow() {
@@ -99,6 +105,7 @@ std::vector<eEvent>& Graphics::getEvent() {
 unsigned char Graphics::getChar() {
     return 0;
 }
+
 
 Graphics *createGraphics() {
     return new Graphics();

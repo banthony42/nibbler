@@ -60,6 +60,8 @@ void Nibbler::run() {
         this->_callScene[this->_currentScene]->eventHandler(vec);
         this->_callScene[this->_currentScene]->drawScene();
 
+        this->_aGraphics->putTexture(MENU_BCKG, 10, 10, 30, 30);
+
 //        Nibbler::_aGraphics->closeWindow();
 
         // ************************************** DEBUG

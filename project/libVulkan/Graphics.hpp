@@ -29,8 +29,6 @@ public:
 
     int loopUpdate();
 
-    void updateScreen();
-
     void putStrScreen(std::string str);
 
     void loadTexture(std::string path, int key);
@@ -44,6 +42,10 @@ public:
     unsigned char getChar();
 
     void putTexture(int key, int posX, int posY, int sizeX, int sizeY);
+
+    void display();
+
+    void clear();
 
 private:
     GLFWwindow *_window;

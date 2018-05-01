@@ -32,8 +32,12 @@ Graphics &Graphics::operator=(Graphics const &copy) {
      return !glfwWindowShouldClose(this->_window) && !this->_windowTerminated;
 }
 
-void Graphics::updateScreen() {
-//    std::cout << "test" << std::endl;
+void Graphics::display() {
+
+}
+
+void Graphics::clear() {
+
 }
 
 void Graphics::putStrScreen(std::string str) {
