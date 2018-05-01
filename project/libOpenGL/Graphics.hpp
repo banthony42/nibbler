@@ -10,19 +10,23 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef NIBBLER_GRAPHICS_HPP
-#define NIBBLER_GRAPHICS_HPP
+#ifndef GRAPHICS_HPP
+#define GRAPHICS_HPP
 
 // TODO Changer la maniere de compiler pour pouvoir inclure directement "AGraphics.hpp"
 
 #include <iostream>
+#include <map>
 #include <GLUT/glut.h>
 #include <GLFW/glfw3.h>
+#include "shader_OpenClassRoom/Shader.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "../incl/stb_image.h"
 
 #include "../incl/AGraphics.hpp"
+
+class vector;
 
 class Graphics : public AGraphics {
 
@@ -58,8 +62,10 @@ public:
 	void clear();
 
 private:
-	GLFWwindow* _window;
-    bool _windowTerminated;
+	GLFWwindow*				_window;
+	std::map<int, GLuint>	_textureList;
+	Shader					_shader;
+    bool					_windowTerminated;
 
 };
 
