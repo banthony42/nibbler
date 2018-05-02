@@ -17,9 +17,11 @@
 
 #include <iostream>
 #include <map>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <GLUT/glut.h>
 #include <GLFW/glfw3.h>
-#include "shader_OpenClassRoom/Shader.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "../incl/stb_image.h"
@@ -62,11 +64,10 @@ public:
 	void clear();
 
 private:
-	GLFWwindow*				_window;
 	std::map<int, GLuint>	_textureList;
-	Shader					_shader;
-    bool					_windowTerminated;
+	bool					_windowTerminated;
 
+	GLFWwindow*				_window;
 };
 
 extern "C" {

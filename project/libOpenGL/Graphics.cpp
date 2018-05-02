@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "Graphics.hpp"
+#include "../incl/Nibbler.hpp"
 
 /*
  * Declaration de la variable static
@@ -20,7 +21,6 @@
 std::vector<eEvent> AGraphics::_eventList;
 
 Graphics::Graphics() {
-
 }
 
 Graphics::Graphics(Graphics const &copy) {
@@ -86,15 +86,11 @@ int Graphics::init(int windowWidth, int windowHeight) {
 	glfwSetKeyCallback(_window, key_callback);
     this->_windowTerminated = false;
 
-	// Shader gérant les texture
-	Shader shaderTexture("libOpenGL/shader_OpenClassRoom/Shaders/texture.vert",
-						 "libOpenGL/shader_OpenClassRoom/Shaders/texture.frag");
-	shaderTexture.charger();
+	glEnable(GL_TEXTURE_2D);
 	return 0;
 }
 
 int Graphics::loopUpdate() {
-//	this->getEvent();
 	return !glfwWindowShouldClose(_window) && !this->_windowTerminated;
 }
 
@@ -116,8 +112,8 @@ void Graphics::loadTexture(std::string path, int key) {
 	glBindTexture(GL_TEXTURE_2D, texture);
 
 	//Gestion des filtres sur la texture
-//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
@@ -136,55 +132,35 @@ void Graphics::loadTexture(std::string path, int key) {
 	}
 	// The format order is always RGB or RGBA - stbi always convert BGR to RGB
 	format = internFormat;
-	//Generate the texture
 	glTexImage2D(GL_TEXTURE_2D, 0, internFormat, width, height, 0, format, GL_UNSIGNED_BYTE, data);
 
-//	glGenerateMipmap(GL_TEXTURE_2D);
+	glGenerateMipmap(GL_TEXTURE_2D);
 
 	stbi_image_free(data);
+
 	//Deverouillage
 	glBindTexture(GL_TEXTURE_2D, 0);
 	this->_textureList[key] = texture;
 }
 
-/*	^ y
-	|
-	| -1 1     		1 1
-	|
-	|		0 0
-	|
-	| -1 -1			1 -1
- 	----------------------> x
-
-	^ y
-	|
-	| 0 1     		1 1
-	|
-	|
-	|
-	| 0 0			1 0
-	 ----------------------> x
-*/
 void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
-	float vertex [] = {
-			-1, -1,		1, -1,		1, 1,	// Triangle 1
-			-1, -1,		-1, 1,		1, 1,	// Triangle 2
-	};
 
-	float coordTexture [] = {
-			0, 0,		1, 0,		1, 1,	// Triangle 1
-			0, 0,		0, 1,		1, 1,	// Triangle 2
-	};
+	glMatrixMode( GL_MODELVIEW );
+	glLoadIdentity( );
 
-	// Envoi des coordonnées de texture
-	// P1: 2 car texture
-	// P2: 2 car on utilise que les coordonnees ont 2 valeurs, x et y
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, coordTexture);
-	glEnableVertexAttribArray(2);
+	glBindTexture(GL_TEXTURE_2D, this->_textureList[key]);
+	glBegin(GL_QUADS);
+	glTexCoord2d(0,0);  glVertex2d(-1,-1);
+	glTexCoord2d(0,1);  glVertex2d(-1,1);
+	glTexCoord2d(1,1);  glVertex2d(1,1);
+	glTexCoord2d(1,0);  glVertex2d(1,-1);
+	glEnd();
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void Graphics::display() {
-
+	glFlush();
+	glfwSwapBuffers(this->_window);
 }
 
 void Graphics::clear() {
@@ -192,7 +168,8 @@ void Graphics::clear() {
 }
 
 void Graphics::closeWindow() {
-    this->cleanUp();
+	glfwDestroyWindow(this->_window);
+	this->cleanUp();
 }
 
 void Graphics::cleanUp() {
