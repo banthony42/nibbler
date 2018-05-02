@@ -40,6 +40,7 @@ Nibbler *Nibbler::getInstance() {
     return Nibbler::_singleton;
 }
 
+// TODO handle the return ERROR of init !!!!!
 void Nibbler::initRun() {
     Nibbler::_aGraphics->init(Nibbler::WINDOW_WIDTH, Nibbler::WINDOW_HEIGHT);
     this->_callScene[MENU] = new SceneMenu(this->_aGraphics);

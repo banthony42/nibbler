@@ -60,7 +60,8 @@ void Graphics::closeWindow() { // TODO soit on garde closeWindow ET cleanUp soit
 void Graphics::cleanUp() {
     if (!this->_windowTerminated) {
         std::cout << "terminate" << std::endl;
-        glfwTerminate();    //All windows remaining when glfwTerminate is called are destroyed as well.
+        glfwTerminate();
+        vkDestroyInstance(this->_instance, nullptr);
         this->_windowTerminated = true;
     }
 }
@@ -92,20 +93,54 @@ unsigned char Graphics::getChar() {
 	return 0;
 }
 
-/*
- *  Hint = allusion (litteralement)
- *  Ce sont des options que l'on peut activer ou pas pour la prochaine fenetre qui sera creer
- *  Exemple:
- *  glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);	// Desactive l'option resize de la fenetre
- */
-
 int Graphics::init(int windowWidth, int windowHeight) {
-	glfwInit();
-	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);	// Desactive la creation de context, Vulkan dispose de son propre API
-	_window = glfwCreateWindow(windowWidth, windowHeight, "Vulkan", nullptr, nullptr);
-	glfwSetKeyCallback(_window, key_callback);
+    initWindow(windowWidth, windowHeight);
+    glfwSetKeyCallback(_window, key_callback);
     this->_windowTerminated = false;
+    try {
+        createInstance();
+    } catch (std::runtime_error &e) {
+        std::cout << e.what() << std::endl;
+        return (0);
+    }
 	return (1);
+}
+
+void Graphics::initWindow(int windowWidth, int windowHeight) {
+    glfwInit();
+    glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);	// Desactive la creation de context, Vulkan dispose de son propre API
+    this->_window = glfwCreateWindow(windowWidth, windowHeight, "Vulkan", nullptr, nullptr);
+}
+
+void Graphics::createInstance() {
+    VkApplicationInfo appInfo = {};
+    appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
+    appInfo.pApplicationName = "Application Name text";
+    appInfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
+    appInfo.pEngineName = "No Engine";
+    appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
+    appInfo.apiVersion = VK_API_VERSION_1_0;
+
+    VkInstanceCreateInfo createInfo = {};
+    createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+    createInfo.pApplicationInfo = &appInfo;
+
+    uint32_t glfwExtensionCount = 0;
+    const char **glfwExtensions;
+    glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
+    createInfo.enabledExtensionCount = glfwExtensionCount;
+    createInfo.ppEnabledExtensionNames = glfwExtensions;
+
+    createInfo.enabledLayerCount = 0;
+
+    VkResult result = vkCreateInstance(&createInfo, nullptr, &this->_instance);
+    if (vkCreateInstance(&createInfo, nullptr, &this->_instance) != VK_SUCCESS) {
+        throw std::runtime_error("failed to create instance!");
+    }
+}
+
+void Graphics::createCommandPool() {
+
 }
 
 /********* EXTERN "C" DEFINITION *********/
@@ -113,16 +148,6 @@ int Graphics::init(int windowWidth, int windowHeight) {
 Graphics    *createGraphics() {
     return new Graphics();
 }
-
-
-
-
-
-
-
-
-
-
 
 
 

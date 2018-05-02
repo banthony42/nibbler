@@ -7,13 +7,16 @@
 
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
+#define STB_IMAGE_IMPLEMENTATION
 
+#include "../incl/stb_image.h"
 #include <glm/vec4.hpp>
 #include <glm/mat4x4.hpp>
 #include <vulkan/vulkan.h>
 
 #include <iostream>
 #include "../incl/AGraphics.hpp"
+
 
 
 class Graphics : public AGraphics {
@@ -49,7 +52,13 @@ public:
 
 private:
     GLFWwindow *_window;
+    VkInstance _instance;
     bool _windowTerminated;
+    VkCommandPool _commandPool;
+
+    void createCommandPool();
+    void createInstance();
+    void initWindow(int windowWidth, int windowHeight);
 
 };
 

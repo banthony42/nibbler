@@ -39,7 +39,6 @@ int Graphics::loopUpdate() {
 void Graphics::display() {
     for (int i = 0; i < this->_spriteList.size(); ++i) {
         this->_window->draw(this->_spriteList.at(i));
-        std::cout << i << std::endl;
     }
     this->_spriteList.clear();
     this->_window->display();
