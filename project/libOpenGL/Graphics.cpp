@@ -132,46 +132,15 @@ void Graphics::loadTexture(std::string path, int key) {
 }
 
 void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
-	GLint textSize[2] = { 0 };
-	int x = 0;
-	int y = 1;
-
 	glBindTexture(GL_TEXTURE_2D, this->_textureList[key]);	// Verrouillage
 
-	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &textSize[x]);	// Recuperation taille texture widht
-	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT,&textSize[y]);	// Recuperation taille texture height
-
 	t_coord start;
-
-//	if (posX < (double)(Nibbler::WINDOW_WIDTH / 2)) {
-//		start.x = 1.0 - ((double)posX / (double)Nibbler::WINDOW_WIDTH);
-//		start.x *= -1;
-//	}
-//	else if (posX == (double)(Nibbler::WINDOW_WIDTH / 2))
-//		start.x = 0;
-//	else
-//		start.x = ((double)posX / (double)Nibbler::WINDOW_WIDTH);
-//
-//	if (posY < (double)(Nibbler::WINDOW_HEIGHT / 2)) {
-//		start.y = 1.0 - ((double)posY / (double)Nibbler::WINDOW_HEIGHT);
-//		start.y *= -1;
-//	}
-//	else if (posY == (double)(Nibbler::WINDOW_HEIGHT / 2))
-//		start.y = 0;
-//	else
-//		start.y = ((double)posY / (double)Nibbler::WINDOW_HEIGHT);
-
-
-	start.x = (((double)posX * (double)2) / (double)Nibbler::WINDOW_WIDTH) - (double)1;
-	start.y = (((double)posY * (double)2) / (double)Nibbler::WINDOW_HEIGHT) - (double)1;
-
-
-	std::cout << "start:" << start.x << " - " << start.y << std::endl;
-
+	start.x = (((double)posX * (double)2) / (double)Nibbler::WINDOW_WIDTH) - 1.0;
+	start.y = (((double)posY * (double)2) / (double)Nibbler::WINDOW_HEIGHT) - 1.0;
 
 	t_coord end;
-	end.x =  1 ;//- (((double)posX + (double)sizeX) / (double)Nibbler::WINDOW_WIDTH);
-	end.y =  1 ;//- (((double)posY + (double)sizeY) / (double)Nibbler::WINDOW_HEIGHT);
+	end.x =  ((((double)posX + (double)sizeX) * (double)2) / (double)Nibbler::WINDOW_WIDTH) - 1.0;
+	end.y =  ((((double)posY + (double)sizeY) * (double)2) / (double)Nibbler::WINDOW_HEIGHT) - 1.0;
 
 	glBegin(GL_QUADS);
 	glTexCoord2d(0,0);  glVertex2d(start.x, -end.y);	// bottom Left Corner
