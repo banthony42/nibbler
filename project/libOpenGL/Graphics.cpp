@@ -162,11 +162,12 @@ void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
 //		start.y = ((double)posY / (double)Nibbler::WINDOW_HEIGHT);
 
 
+	start.x = (((double)posX * (double)2) / (double)Nibbler::WINDOW_WIDTH) - (double)1;
+	start.y = (((double)posY * (double)2) / (double)Nibbler::WINDOW_HEIGHT) - (double)1;
+
 
 	std::cout << "start:" << start.x << " - " << start.y << std::endl;
 
-	start.x = 1;
-	start.y = 1;
 
 	t_coord end;
 	end.x =  1 ;//- (((double)posX + (double)sizeX) / (double)Nibbler::WINDOW_WIDTH);
@@ -174,8 +175,8 @@ void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
 
 	glBegin(GL_QUADS);
 	glTexCoord2d(0,0);  glVertex2d(start.x, -end.y);	// bottom Left Corner
-	glTexCoord2d(0,1);  glVertex2d(start.x, start.y);		// upper Left Corner
-	glTexCoord2d(1,1);  glVertex2d(end.x, start.y);		// upper Right Corner
+	glTexCoord2d(0,1);  glVertex2d(start.x, -start.y);		// upper Left Corner
+	glTexCoord2d(1,1);  glVertex2d(end.x, -start.y);		// upper Right Corner
 	glTexCoord2d(1,0);  glVertex2d(end.x, -end.y);		// bottom Right Corner
 	glEnd();
 	glBindTexture(GL_TEXTURE_2D, 0);	// Deverrouillage
