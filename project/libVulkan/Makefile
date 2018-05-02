@@ -6,7 +6,7 @@
 #    By: banthony <banthony@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/08 11:31:12 by banthony          #+#    #+#              #
-#    Updated: 2018/04/26 11:55:43 by cchameyr         ###   ########.fr        #
+#    Updated: 2018/05/02 18:44:02 by cchameyr         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -38,7 +38,7 @@ all		:		$(NAME)
 
 $(NAME)	:		$(OBJ)
 				$(CC) $(LDFLAGS) $(CFLAGS) -shared -o $(NAME) $(OBJS)
-				install_name_tool -change @rpath/libvulkan.1.dylib `pwd`/$(SDK_PATH)/lib/libvulkan.1.dylib $(NAME)
+				install_name_tool -change @rpath/libvulkan.1.dylib `pwd`/Vulkan/MoltenVK/macOS/libMoltenVK.dylib $(NAME)
 				@$(ECHO) '> Compiled'
 
 clean	:

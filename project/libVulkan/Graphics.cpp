@@ -186,6 +186,7 @@ void Graphics::createInstance() {
     if ((result = vkCreateInstance(&createInfo, nullptr, &this->_instance)) != VK_SUCCESS) {
         throw std::runtime_error(std::string("failed to create instance! error :") + std::to_string(result));
     }
+	std::cout << result << std::endl;
 }
 
 void Graphics::pickGraphicDevice() {
