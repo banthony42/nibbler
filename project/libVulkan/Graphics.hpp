@@ -17,8 +17,6 @@
 #include <iostream>
 #include "../incl/AGraphics.hpp"
 
-
-
 class Graphics : public AGraphics {
 
 public:
@@ -29,31 +27,25 @@ public:
     Graphics &operator=(Graphics const &copy); // Canonical
 
     int init(int windowWidth, int windowHeight);
-
     int loopUpdate();
-
     void putStrScreen(std::string str);
-
     void loadTexture(std::string path, int key);
-
     void closeWindow();
-
     void cleanUp();
-
     std::vector<eEvent>& getEvent();
-
     unsigned char getChar();
-
     void putTexture(int key, int posX, int posY, int sizeX, int sizeY);
-
     void display();
-
     void clear();
 
 private:
+    typedef int QueueFamilyIndices;
+    bool isQueueFamilyIndicesComplete(QueueFamilyIndices queueFamilyIndices);
+
     GLFWwindow *_window;
     VkInstance _instance;
     bool _windowTerminated;
+    VkPhysicalDevice _physicalDevice;
     VkCommandPool _commandPool;
 
     void createCommandPool();
@@ -61,6 +53,7 @@ private:
     void initWindow(int windowWidth, int windowHeight);
     void pickGraphicDevice();
     bool isDeviceSuitable(VkPhysicalDevice const &device);
+    QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
 };
 
 extern "C" {
