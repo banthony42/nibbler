@@ -12,6 +12,7 @@
 
 #include "Graphics.hpp"
 #include "../incl/Nibbler.hpp"
+#include "../incl/SceneGame.hpp"
 
 /*
  * Declaration de la variable static
@@ -105,19 +106,11 @@ void Graphics::loadTexture(std::string path, int key) {
 	unsigned char *data = nullptr;
 	int width, height, bpp;
 
-	//Generation de l'iD
-	glGenTextures(1, &texture);
-
-	//Verouillage, obligatoire pour modification du GLuint
-	glBindTexture(GL_TEXTURE_2D, texture);
-
-	//Gestion des filtres sur la texture
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-	// load the texture with the image loader stbi
+	glGenTextures(1, &texture); //Generation de l'iD
+	glBindTexture(GL_TEXTURE_2D, texture);	// Verouillage, obligatoire pour modification du GLuint
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);	// Les textures proche sont lissées
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);	// Les textures éloignées sont lissées
+	stbi_set_flip_vertically_on_load(true);	// load the texture with the image loader stbi
 	 if (!(data = stbi_load(path.c_str(), &width, &height, &bpp, 0))) {
 		 std::cout << "error: Failed to load texture" << std::endl; //TODO throw exception
 		 return ;
@@ -130,32 +123,62 @@ void Graphics::loadTexture(std::string path, int key) {
 		std::cout << "error: internal format image is unknown" << std::endl; 	//TODO throw exception
 		return ;
 	}
-	// The format order is always RGB or RGBA - stbi always convert BGR to RGB
-	format = internFormat;
+	format = internFormat;	// The format order is always RGB or RGBA - stbi always convert BGR to RGB
 	glTexImage2D(GL_TEXTURE_2D, 0, internFormat, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-
 	glGenerateMipmap(GL_TEXTURE_2D);
-
-	stbi_image_free(data);
-
-	//Deverouillage
-	glBindTexture(GL_TEXTURE_2D, 0);
-	this->_textureList[key] = texture;
+	stbi_image_free(data);	// Liberation memoire
+	glBindTexture(GL_TEXTURE_2D, 0);	// Deverouillage
+	this->_textureList[key] = texture;	// Association de la texture a la key
 }
 
 void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
+	GLint textSize[2] = { 0 };
+	int x = 0;
+	int y = 1;
 
-	glMatrixMode( GL_MODELVIEW );
-	glLoadIdentity( );
+	glBindTexture(GL_TEXTURE_2D, this->_textureList[key]);	// Verrouillage
 
-	glBindTexture(GL_TEXTURE_2D, this->_textureList[key]);
+	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &textSize[x]);	// Recuperation taille texture widht
+	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT,&textSize[y]);	// Recuperation taille texture height
+
+	t_coord start;
+
+//	if (posX < (double)(Nibbler::WINDOW_WIDTH / 2)) {
+//		start.x = 1.0 - ((double)posX / (double)Nibbler::WINDOW_WIDTH);
+//		start.x *= -1;
+//	}
+//	else if (posX == (double)(Nibbler::WINDOW_WIDTH / 2))
+//		start.x = 0;
+//	else
+//		start.x = ((double)posX / (double)Nibbler::WINDOW_WIDTH);
+//
+//	if (posY < (double)(Nibbler::WINDOW_HEIGHT / 2)) {
+//		start.y = 1.0 - ((double)posY / (double)Nibbler::WINDOW_HEIGHT);
+//		start.y *= -1;
+//	}
+//	else if (posY == (double)(Nibbler::WINDOW_HEIGHT / 2))
+//		start.y = 0;
+//	else
+//		start.y = ((double)posY / (double)Nibbler::WINDOW_HEIGHT);
+
+
+
+	std::cout << "start:" << start.x << " - " << start.y << std::endl;
+
+	start.x = 1;
+	start.y = 1;
+
+	t_coord end;
+	end.x =  1 ;//- (((double)posX + (double)sizeX) / (double)Nibbler::WINDOW_WIDTH);
+	end.y =  1 ;//- (((double)posY + (double)sizeY) / (double)Nibbler::WINDOW_HEIGHT);
+
 	glBegin(GL_QUADS);
-	glTexCoord2d(0,0);  glVertex2d(-1,-1);
-	glTexCoord2d(0,1);  glVertex2d(-1,1);
-	glTexCoord2d(1,1);  glVertex2d(1,1);
-	glTexCoord2d(1,0);  glVertex2d(1,-1);
+	glTexCoord2d(0,0);  glVertex2d(start.x, -end.y);	// bottom Left Corner
+	glTexCoord2d(0,1);  glVertex2d(start.x, start.y);		// upper Left Corner
+	glTexCoord2d(1,1);  glVertex2d(end.x, start.y);		// upper Right Corner
+	glTexCoord2d(1,0);  glVertex2d(end.x, -end.y);		// bottom Right Corner
 	glEnd();
-	glBindTexture(GL_TEXTURE_2D, 0);
+	glBindTexture(GL_TEXTURE_2D, 0);	// Deverrouillage
 }
 
 void Graphics::display() {

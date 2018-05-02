@@ -62,7 +62,8 @@ void Nibbler::run() {
         this->_callScene[this->_currentScene]->drawScene();
 
         this->_aGraphics->clear();
-        this->_aGraphics->putTexture(MENU_BCKG, 0, 0, this->WINDOW_WIDTH, this->WINDOW_HEIGHT);
+        this->_aGraphics->putTexture(MENU_BCKG, Nibbler::WINDOW_WIDTH / 4, Nibbler::WINDOW_HEIGHT / 4, 10, 10);
+//        this->_aGraphics->putTexture(MENU_BCKG, 0, 0, this->WINDOW_WIDTH, this->WINDOW_HEIGHT);
         this->_aGraphics->display();
 
         // ************************************** DEBUG
