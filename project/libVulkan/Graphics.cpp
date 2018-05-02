@@ -99,6 +99,7 @@ int Graphics::init(int windowWidth, int windowHeight) {
     this->_windowTerminated = false;
     try {
         createInstance();
+        pickGraphicDevice();
     } catch (std::runtime_error &e) {
         std::cout << e.what() << std::endl;
         return (0);
@@ -139,15 +140,54 @@ void Graphics::createInstance() {
     }
 }
 
+void Graphics::pickGraphicDevice() {
+    VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
+    uint32_t deviceCount = 0;
+    vkEnumeratePhysicalDevices(this->_instance, &deviceCount, nullptr);
+    if (deviceCount == 0) {
+        throw std::runtime_error("failed to find GPUs with Vulkan support!");
+    }
+    std::vector<VkPhysicalDevice> devices(deviceCount);
+    vkEnumeratePhysicalDevices(this->_instance, &deviceCount, devices.data());
+
+    for (const auto& device : devices) {
+        if (isDeviceSuitable(device)) {
+            physicalDevice = device;
+            break;
+        }
+    }
+
+    if (physicalDevice == VK_NULL_HANDLE) {7
+        throw std::runtime_error("failed to find a suitable GPU!");
+    }
+}
+
+bool Graphics::isDeviceSuitable(VkPhysicalDevice const &device) {
+    VkPhysicalDeviceProperties deviceProperties;
+    vkGetPhysicalDeviceProperties(device, &deviceProperties);
+    return deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU;
+}
+
 void Graphics::createCommandPool() {
 
 }
+
+
 
 /********* EXTERN "C" DEFINITION *********/
 
 Graphics    *createGraphics() {
     return new Graphics();
 }
+
+
+
+
+
+
+
+
+
 
 
 

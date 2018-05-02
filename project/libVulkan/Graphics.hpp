@@ -59,7 +59,8 @@ private:
     void createCommandPool();
     void createInstance();
     void initWindow(int windowWidth, int windowHeight);
-
+    void pickGraphicDevice();
+    bool isDeviceSuitable(VkPhysicalDevice const &device);
 };
 
 extern "C" {
