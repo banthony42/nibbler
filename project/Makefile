@@ -6,7 +6,7 @@
 #    By: cchameyr <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/02/05 10:57:06 by cchameyr          #+#    #+#              #
-#    Updated: 2018/05/04 15:09:20 by cchameyr         ###   ########.fr        #
+#    Updated: 2018/05/04 16:17:26 by cchameyr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ DEBUGSEGFAULT =		-g3 -fsanitize=address
 
 FLAGS =				-Wall -Wextra -Werror
 
-FLAGS += #$(DEBUGSEGFAULT)
+FLAGS += $(DEBUGSEGFAULT)
 
 RM =				rm -rf
 

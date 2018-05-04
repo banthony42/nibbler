@@ -1,43 +1,20 @@
 #ifndef GRAPHICS_HPP
 #define GRAPHICS_HPP
 
-#define GLFW_INCLUDE_VULKAN
-#include <GLFW/glfw3.h>
-#include <vulkan/vulkan.h>
-#include <vulkan/vk_platform.h>
-#include <iostream>
-#include <stdexcept>
-#include <vector>
-#include <cstring>
-#include <string>
-#include <map>
-#include <set>
-#include <algorithm>
-#include <fstream>
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <chrono>
-#include <array>
 
-
-//#define GLM_FORCE_RADIANS
-//#define GLM_FORCE_DEPTH_ZERO_TO_ONE
-////#define VK_USE_PLATFORM_MACOS_MVK
-//
 #define STB_IMAGE_IMPLEMENTATION
 #include "../incl/stb_image.h"
-//#include <glm/vec4.hpp>
-//#include <glm/mat4x4.hpp>
-//#include <vulkan/vulkan.h>
-//
-////#define GLFW_INCLUDE_VULKAN
-////#define GLFW_EXPOSE_NATIVE_COCOA
-//
-//#include <GLFW/glfw3.h>
-//#include <GLFW/glfw3native.h>
-//#include <glm/glm.hpp>
+#include <glm/vec4.hpp>
+#include <glm/mat4x4.hpp>
+#include <vulkan/vulkan.h>
+
+#define GLFW_INCLUDE_VULKAN
+#define GLFW_EXPOSE_NATIVE_COCOA
+
+#include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
 
 
 #include <iostream>
@@ -54,7 +31,7 @@ public:
 
 	int init(int windowWidth, int windowHeight);
 	int loopUpdate();
-	void putStrScreen(std::string str);
+	void putStrScreen(std::string str, int posX, int posY);
 	void loadTexture(std::string path, int key);
 	void closeWindow();
 	void cleanUp();

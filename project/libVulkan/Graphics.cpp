@@ -2,8 +2,22 @@
 
 std::vector<eEvent> AGraphics::_eventList;
 
-Graphics::Graphics() {
+//#define NDEBUG
+#ifdef NDEBUG
+const bool enableValidationLayers = false;
+#else
+const bool enableValidationLayers = true;
+#endif
 
+const std::vector<const char*> validationLayers = {
+		"VK_LAYER_LUNARG_standard_validation"
+};
+const std::vector<const char*> deviceExtensions = {
+		VK_KHR_SWAPCHAIN_EXTENSION_NAME
+};
+
+
+Graphics::Graphics() {
 }
 
 Graphics::Graphics(Graphics const &copy) {
@@ -35,7 +49,7 @@ void Graphics::clear() {
 
 }
 
-void Graphics::putStrScreen(std::string str) {
+void Graphics::putStrScreen(std::string str, int posX, int posY) {
 
 }
 
@@ -56,8 +70,12 @@ void Graphics::cleanUp() {
 	if (!this->_windowTerminated) {
 		std::cout << "terminate" << std::endl;
 		glfwTerminate();
-		vkDestroyInstance(this->_instance, nullptr);
-		vkDestroyDevice(this->_device, nullptr);
+		if (this->_instance) {
+			vkDestroyInstance(this->_instance, nullptr);
+		}
+		if (this->_device) {
+			vkDestroyDevice(this->_device, nullptr);
+		}
 		this->_windowTerminated = true;
 	}
 }
@@ -89,18 +107,6 @@ unsigned char Graphics::getChar() {
 	return 0;
 }
 
-#ifdef NDEBUG
-const bool enableValidationLayers = false;
-#else
-const bool enableValidationLayers = false;
-#endif
-
-const std::vector<const char*> validationLayers = {
-		"VK_LAYER_LUNARG_standard_validation"
-};
-const std::vector<const char*> deviceExtensions = {
-		VK_KHR_SWAPCHAIN_EXTENSION_NAME
-};
 
 int Graphics::init(int windowWidth, int windowHeight) {
 	initWindow(windowWidth, windowHeight);
@@ -170,15 +176,18 @@ void checkExtensions(std::vector<const char*> GLFWextensions){
 
 bool checkValidationLayerSupport() {
 	uint32_t layerCount;
-	vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
+	VkResult result;
+	result = vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
+	std::cout << "result vkEnumerateInstanceLayerProperties : " << result << std::endl;
 
 	std::vector<VkLayerProperties> availableLayers(layerCount);
-	vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
-
+	result = vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
+	std::cout << "result vkEnumerateInstanceLayerProperties : " << result << std::endl;
 	for (const char* layerName : validationLayers) {
 		bool layerFound = false;
 
 		for (const auto& layerProperties : availableLayers) {
+			std::cout << "pass here1" << std::endl;
 			if (strcmp(layerName, layerProperties.layerName) == 0) {
 				layerFound = true;
 				break;
@@ -186,6 +195,7 @@ bool checkValidationLayerSupport() {
 		}
 
 		if (!layerFound) {
+			std::cout << "pass here" << std::endl;
 			return false;
 		}
 	}
@@ -268,9 +278,9 @@ void Graphics::createInstance() {
 }
 
 void Graphics::createSurface() {
-	std::cout << "vulkan version : " << VK_VERSION_1_0 << std::endl;
-	if (glfwCreateWindowSurface(this->_instance, this->_window, nullptr, &this->_surface) != VK_SUCCESS) {
-		throw std::runtime_error("ERROR: failed to create window surface!");
+	VkResult result;
+	if ((result = glfwCreateWindowSurface(this->_instance, this->_window, nullptr, &this->_surface)) != VK_SUCCESS) {
+		throw std::runtime_error(std::string("ERROR: failed to create window surface!") + std::to_string(result));
 	}
 
 
