@@ -2,12 +2,14 @@
 #define NIBBLER_GRAPHICS_HPP
 
 #define GLFW_INCLUDE_VULKAN
-
+#define GLFW_EXPOSE_NATIVE_COCOA
 #include <GLFW/glfw3.h>
+#include <GLFW/glfw3native.h>
 
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
 #define STB_IMAGE_IMPLEMENTATION
+#define VK_USE_PLATFORM_MACOS_MVK
 
 #include "../incl/stb_image.h"
 #include <glm/vec4.hpp>
@@ -58,6 +60,7 @@ private:
 	QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
 	void createLogicalDevice();
 
+	void createSurface();
 };
 
 extern "C" {

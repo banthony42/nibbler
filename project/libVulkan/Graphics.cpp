@@ -95,6 +95,7 @@ int Graphics::init(int windowWidth, int windowHeight) {
 	this->_windowTerminated = false;
 	try {
 		createInstance();
+		createSurface();
 		pickGraphicDevice();
 		createLogicalDevice();
 	} catch (std::runtime_error &e) {
@@ -138,6 +139,25 @@ void Graphics::createInstance() {
 	}
 	std::cout << "MESSAGE : success create instance" << std::endl;
 }
+
+void Graphics::createSurface() {
+	VkSurfaceKHR surface;
+//	VkWin32SurfaceCreateInfoKHR createInfo = {};
+	VkMacOSSurfaceCreateInfoMVK createInfo {};
+//	createInfo.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
+	createInfo.sType = VK_STRUCTURE_TYPE_MACOS_SURFACE_CREATE_INFO_MVK;
+//	createInfo.hwnd = glfwGetCocoaWindow(this->_window);
+//	createInfo.hinstance = GetModuleHandle(nullptr);
+//	auto CreateWin32SurfaceKHR = (PFN_vkCreateWin32SurfaceKHR) vkGetInstanceProcAddr(this->_instance, "vkCreateWin32SurfaceKHR");
+	auto CreateMacOSSurfaceMVK = (PFN_vkCreateMacOSSurfaceMVK) vkGetInstanceProcAddr(this->_instance, "vkCreateMacOSSurfaceMVK");
+
+	VkResult result;
+	if (!CreateMacOSSurfaceMVK || (result = CreateMacOSSurfaceMVK(this->_instance, &createInfo, nullptr, &surface)) != VK_SUCCESS) {
+		throw std::runtime_error(std::string("failed to create window surface! error :" + std::to_string(result)));
+	}
+	std::cout << "MESSAGE : success to create macOS surface" << std::endl;
+}
+
 
 void Graphics::pickGraphicDevice() {
 	this->_physicalDevice = VK_NULL_HANDLE;
@@ -218,6 +238,7 @@ void Graphics::createCommandPool() {
 bool Graphics::isQueueFamilyIndicesComplete(Graphics::QueueFamilyIndices queueFamilyIndices) {
 	return queueFamilyIndices >= 0;
 }
+
 
 
 /********* EXTERN "C" DEFINITION *********/
