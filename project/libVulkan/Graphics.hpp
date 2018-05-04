@@ -46,6 +46,8 @@ private:
     VkInstance _instance;
     bool _windowTerminated;
     VkPhysicalDevice _physicalDevice;
+	VkDevice _device;
+	VkQueue _graphicsQueue;
     VkCommandPool _commandPool;
 
     void createCommandPool();
@@ -54,6 +56,8 @@ private:
     void pickGraphicDevice();
     bool isDeviceSuitable(VkPhysicalDevice const &device);
     QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
+	void createLogicalDevice();
+
 };
 
 extern "C" {
