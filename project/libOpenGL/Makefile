@@ -6,7 +6,7 @@
 #    By: banthony <banthony@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/08 11:31:12 by banthony          #+#    #+#              #
-#    Updated: 2018/05/02 14:13:55 by banthony         ###   ########.fr        #
+#    Updated: 2018/05/04 10:13:33 by cchameyr         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -49,8 +49,3 @@ re		:		fclean all
 
 %.o		:		$(DIRSRC)/%.cpp
 				$(CC) $(LDFLAGS) -c $<
-
-r		:
-				make re
-				g++ main.cpp $(LDFLAGS) $(CFLAGS) $(NAME)
-#				install_name_tool -change @rpath/libvulkan.1.dylib ./Vulkan/macOS/lib/libvulkan.1.dylib a.out
