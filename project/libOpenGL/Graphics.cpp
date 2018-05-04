@@ -86,7 +86,6 @@ int Graphics::init(int windowWidth, int windowHeight) {
 	// Set callback
 	glfwSetKeyCallback(_window, key_callback);
     this->_windowTerminated = false;
-
 	glEnable(GL_TEXTURE_2D);
 	return 0;
 }
@@ -95,8 +94,7 @@ int Graphics::loopUpdate() {
 	return !glfwWindowShouldClose(_window) && !this->_windowTerminated;
 }
 
-void Graphics::putStrScreen(std::string str) {
-
+void Graphics::putStrScreen(std::string str, int posX, int posY) {
 }
 
 void Graphics::loadTexture(std::string path, int key) {

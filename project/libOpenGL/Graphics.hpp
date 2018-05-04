@@ -45,7 +45,7 @@ public:
 
     void updateScreen();
 
-    void putStrScreen(std::string str);
+    void putStrScreen(std::string str, int posX, int poxY);
 
     void loadTexture(std::string path, int key);
 
