@@ -6,7 +6,7 @@
 #    By: banthony <banthony@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/20 18:10:22 by banthony          #+#    #+#              #
-#    Updated: 2018/05/04 15:05:41 by cchameyr         ###   ########.fr        #
+#    Updated: 2018/05/04 15:11:38 by cchameyr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ then
 	echo "$glfw3 found."
 else
 	echo "$glfw3, downloading ..."
-	mkdir glfw_folder
+	mkdir $glfw_folder
 	curl https://raw.githubusercontent.com/glfw/glfw/master/include/GLFW/glfw3.h > $glfw3
 fi
 

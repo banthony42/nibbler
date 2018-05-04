@@ -5,3 +5,4 @@ CMakeLists.txt
 project/libVulkan/vulkanLib.tar.gz
 project/libVulkan/Vulkan
 project/incl/stb_image.h
+project/incl/GLFW
