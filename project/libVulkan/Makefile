@@ -6,7 +6,7 @@
 #    By: banthony <banthony@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/08 11:31:12 by banthony          #+#    #+#              #
-#    Updated: 2018/05/04 10:13:49 by cchameyr         ###   ########.fr        #
+#    Updated: 2018/05/04 15:02:07 by cchameyr         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -21,16 +21,16 @@ SRC			+=	Graphics.cpp
 OBJ			=	$(SRC:.cpp=.o)
 OBJS		=	$(OBJ:%=$(DIROBJ)%)
 
-CC			=	/usr/bin/clang++
+CC			=	/usr/bin/clang++ -std=c++11 
 RM			=	/bin/rm -f
 ECHO		=	/bin/echo
 
 SDK_PATH = ./Vulkan/macOS/
 
-LDFLAGS = -I $(SDK_PATH)/include -L $(SDK_PATH)/lib `pkg-config --static --libs glfw3` -lvulkan
+LDFLAGS =  -L $(SDK_PATH)lib `pkg-config --static --libs glfw3` `pkg-config --static --libs glm` -lvulkan
 
-CFLAGS		= -std=c++11 -fPIC `pkg-config --static --cflags glfw3` `pkg-config --static --cflags glm`
-		
+CFLAGS		= -I ../incl/ -I $(SDK_PATH)include `pkg-config --static --cflags glm` -fPIC
+
 CFLAGS += #-Wall -Wextra -Werror
 
 

@@ -1,20 +1,44 @@
-#ifndef NIBBLER_GRAPHICS_HPP
-#define NIBBLER_GRAPHICS_HPP
+#ifndef GRAPHICS_HPP
+#define GRAPHICS_HPP
 
 #define GLFW_INCLUDE_VULKAN
-#define GLFW_EXPOSE_NATIVE_COCOA
 #include <GLFW/glfw3.h>
-#include <GLFW/glfw3native.h>
-
+#include <vulkan/vulkan.h>
+#include <vulkan/vk_platform.h>
+#include <iostream>
+#include <stdexcept>
+#include <vector>
+#include <cstring>
+#include <string>
+#include <map>
+#include <set>
+#include <algorithm>
+#include <fstream>
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
-#define STB_IMAGE_IMPLEMENTATION
-#define VK_USE_PLATFORM_MACOS_MVK
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <chrono>
+#include <array>
 
+
+//#define GLM_FORCE_RADIANS
+//#define GLM_FORCE_DEPTH_ZERO_TO_ONE
+////#define VK_USE_PLATFORM_MACOS_MVK
+//
+#define STB_IMAGE_IMPLEMENTATION
 #include "../incl/stb_image.h"
-#include <glm/vec4.hpp>
-#include <glm/mat4x4.hpp>
-#include <vulkan/vulkan.h>
+//#include <glm/vec4.hpp>
+//#include <glm/mat4x4.hpp>
+//#include <vulkan/vulkan.h>
+//
+////#define GLFW_INCLUDE_VULKAN
+////#define GLFW_EXPOSE_NATIVE_COCOA
+//
+//#include <GLFW/glfw3.h>
+//#include <GLFW/glfw3native.h>
+//#include <glm/glm.hpp>
+
 
 #include <iostream>
 #include "../incl/AGraphics.hpp"
@@ -51,6 +75,8 @@ private:
 	VkDevice _device;
 	VkQueue _graphicsQueue;
 	VkCommandPool _commandPool;
+	VkSurfaceKHR _surface; // todo add in UML if it works
+
 
 	void createCommandPool();
 	void createInstance();

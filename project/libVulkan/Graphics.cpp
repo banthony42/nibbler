@@ -89,6 +89,19 @@ unsigned char Graphics::getChar() {
 	return 0;
 }
 
+#ifdef NDEBUG
+const bool enableValidationLayers = false;
+#else
+const bool enableValidationLayers = false;
+#endif
+
+const std::vector<const char*> validationLayers = {
+		"VK_LAYER_LUNARG_standard_validation"
+};
+const std::vector<const char*> deviceExtensions = {
+		VK_KHR_SWAPCHAIN_EXTENSION_NAME
+};
+
 int Graphics::init(int windowWidth, int windowHeight) {
 	initWindow(windowWidth, windowHeight);
 	glfwSetKeyCallback(_window, key_callback);
@@ -112,10 +125,95 @@ void Graphics::initWindow(int windowWidth, int windowHeight) {
 	this->_window = glfwCreateWindow(windowWidth, windowHeight, "Vulkan", nullptr, nullptr);
 }
 
+void checkExtensions(std::vector<const char*> GLFWextensions){
+	//check the extensions available
+	uint32_t extensionCount = 0;
+	vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
+	std::vector<VkExtensionProperties> extensions(extensionCount);
+	vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, extensions.data());
+
+	std::cout<<"\tNeeded Extensions: "<<std::endl;
+	for (int i = 0; i<GLFWextensions.size(); i++) {
+		std::cout << "\t\t-" << GLFWextensions[i] << std::endl;
+	}
+	std::cout << "\tAvailable extensions:" << std::endl;
+	for (const auto& extension : extensions) {
+		std::cout << "\t\t-" << extension.extensionName << std::endl;
+	}
+	std::cout<<"\tChecking if all extensions are supported:\n";
+	int allPass = 1;
+	for (int i = 0; i<GLFWextensions.size(); i++) {
+		int present = 0;
+		for (const auto& extension : extensions) {
+			std::string extensionName = extension.extensionName;
+			std::string GLFWextensionName = GLFWextensions[i];
+			if (extensionName == GLFWextensionName) {
+				present = 1;
+				break;
+			}
+		}
+		if (present) {
+			std::cout << "\t\t-" << GLFWextensions[i] << " is supported"<<std::endl;
+		}
+		else{
+			std::cout << "\t\t-" << GLFWextensions[i] << " is not supported"<<std::endl;
+			allPass = 0;
+		}
+	}
+	if (allPass) {
+		std::cout<<"\t-All required extensions are supported\n";
+	}
+	else{
+		throw std::runtime_error("EXTENSION FAILURE: all the extensions needed are not supported\n");
+	}
+}
+
+bool checkValidationLayerSupport() {
+	uint32_t layerCount;
+	vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
+
+	std::vector<VkLayerProperties> availableLayers(layerCount);
+	vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
+
+	for (const char* layerName : validationLayers) {
+		bool layerFound = false;
+
+		for (const auto& layerProperties : availableLayers) {
+			if (strcmp(layerName, layerProperties.layerName) == 0) {
+				layerFound = true;
+				break;
+			}
+		}
+
+		if (!layerFound) {
+			return false;
+		}
+	}
+	return true;
+}
+
+std::vector<const char*> getRequiredExtensions() {
+	uint32_t glfwExtensionCount = 0;
+	const char** glfwExtensions;
+	glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
+
+	std::vector<const char*> extensions(glfwExtensions, glfwExtensions + glfwExtensionCount);
+
+	if (enableValidationLayers) {
+		extensions.push_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
+	}
+
+	return extensions;
+}
+
 void Graphics::createInstance() {
+	std::cout<<"\n********STEP 1:Creating an Instance!*********\n";
+	if (enableValidationLayers && !checkValidationLayerSupport()) {
+		throw std::runtime_error("validation layers requested, but not available!");
+	}
 	VkApplicationInfo appInfo = {};
 	appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
-	appInfo.pApplicationName = "Application Name";
+	appInfo.pApplicationName = "Hello Triangle";
 	appInfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
 	appInfo.pEngineName = "No Engine";
 	appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
@@ -125,37 +223,73 @@ void Graphics::createInstance() {
 	createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
 	createInfo.pApplicationInfo = &appInfo;
 
-	uint32_t glfwExtensionCount = 0;
-	const char **glfwExtensions;
-	glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
-	createInfo.enabledExtensionCount = glfwExtensionCount;
-	createInfo.ppEnabledExtensionNames = glfwExtensions;
+	auto extensions = getRequiredExtensions();
+	checkExtensions(extensions);
+	createInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
+	createInfo.ppEnabledExtensionNames = extensions.data();
 
-	createInfo.enabledLayerCount = 0;
-
+	if (enableValidationLayers) {
+		createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
+		createInfo.ppEnabledLayerNames = validationLayers.data();
+	} else {
+		createInfo.enabledLayerCount = 0;
+	}
 	VkResult result;
 	if ((result = vkCreateInstance(&createInfo, nullptr, &this->_instance)) != VK_SUCCESS) {
-		throw std::runtime_error(std::string("failed to create instance! error :") + std::to_string(result));
+		throw std::runtime_error(std::string("ERROR: failed to create instance!") + std::to_string(result));
 	}
-	std::cout << "MESSAGE : success create instance" << std::endl;
+
+
+//	VkApplicationInfo appInfo = {};
+//	appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
+//	appInfo.pApplicationName = "Application Name";
+//	appInfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
+//	appInfo.pEngineName = "No Engine";
+//	appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
+//	appInfo.apiVersion = VK_API_VERSION_1_0;
+//
+//	VkInstanceCreateInfo createInfo = {};
+//	createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+//	createInfo.pApplicationInfo = &appInfo;
+//
+//	uint32_t glfwExtensionCount = 0;
+//	const char **glfwExtensions;
+//	glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
+//	createInfo.enabledExtensionCount = glfwExtensionCount;
+//	createInfo.ppEnabledExtensionNames = glfwExtensions;
+//
+//	createInfo.enabledLayerCount = 0;
+//
+//	VkResult result;
+//	if ((result = vkCreateInstance(&createInfo, nullptr, &this->_instance)) != VK_SUCCESS) {
+//		throw std::runtime_error(std::string("failed to create instance! error :") + std::to_string(result));
+//	}
+//	std::cout << "MESSAGE : success create instance" << std::endl;
 }
 
 void Graphics::createSurface() {
-	VkSurfaceKHR surface;
-//	VkWin32SurfaceCreateInfoKHR createInfo = {};
-	VkMacOSSurfaceCreateInfoMVK createInfo {};
-//	createInfo.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
-	createInfo.sType = VK_STRUCTURE_TYPE_MACOS_SURFACE_CREATE_INFO_MVK;
-//	createInfo.hwnd = glfwGetCocoaWindow(this->_window);
-//	createInfo.hinstance = GetModuleHandle(nullptr);
-//	auto CreateWin32SurfaceKHR = (PFN_vkCreateWin32SurfaceKHR) vkGetInstanceProcAddr(this->_instance, "vkCreateWin32SurfaceKHR");
-	auto CreateMacOSSurfaceMVK = (PFN_vkCreateMacOSSurfaceMVK) vkGetInstanceProcAddr(this->_instance, "vkCreateMacOSSurfaceMVK");
-
-	VkResult result;
-	if (!CreateMacOSSurfaceMVK || (result = CreateMacOSSurfaceMVK(this->_instance, &createInfo, nullptr, &surface)) != VK_SUCCESS) {
-		throw std::runtime_error(std::string("failed to create window surface! error :" + std::to_string(result)));
+	std::cout << "vulkan version : " << VK_VERSION_1_0 << std::endl;
+	if (glfwCreateWindowSurface(this->_instance, this->_window, nullptr, &this->_surface) != VK_SUCCESS) {
+		throw std::runtime_error("ERROR: failed to create window surface!");
 	}
-	std::cout << "MESSAGE : success to create macOS surface" << std::endl;
+
+
+	/******************* MY CODE */
+//	VkSurfaceKHR surface;
+////	VkWin32SurfaceCreateInfoKHR createInfo = {};
+//	VkMacOSSurfaceCreateInfoMVK createInfo {};
+////	createInfo.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
+//	createInfo.sType = VK_STRUCTURE_TYPE_MACOS_SURFACE_CREATE_INFO_MVK;
+////	createInfo.hwnd = glfwGetCocoaWindow(this->_window);
+////	createInfo.hinstance = GetModuleHandle(nullptr);
+////	auto CreateWin32SurfaceKHR = (PFN_vkCreateWin32SurfaceKHR) vkGetInstanceProcAddr(this->_instance, "vkCreateWin32SurfaceKHR");
+//	auto CreateMacOSSurfaceMVK = (PFN_vkCreateMacOSSurfaceMVK) vkGetInstanceProcAddr(this->_instance, "vkCreateMacOSSurfaceMVK");
+//
+//	VkResult result;
+//	if (!CreateMacOSSurfaceMVK || (result = CreateMacOSSurfaceMVK(this->_instance, &createInfo, nullptr, &surface)) != VK_SUCCESS) {
+//		throw std::runtime_error(std::string("failed to create window surface! error :" + std::to_string(result)));
+//	}
+//	std::cout << "MESSAGE : success to create macOS surface" << std::endl;
 }
 
 
@@ -241,7 +375,7 @@ bool Graphics::isQueueFamilyIndicesComplete(Graphics::QueueFamilyIndices queueFa
 
 
 
-/********* EXTERN "C" DEFINITION *********/
+/* ******** EXTERN "C" DEFINITION *********/
 
 Graphics *createGraphics() {
 	return new Graphics();
