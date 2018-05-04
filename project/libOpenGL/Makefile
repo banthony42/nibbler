@@ -6,7 +6,7 @@
 #    By: banthony <banthony@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/08 11:31:12 by banthony          #+#    #+#              #
-#    Updated: 2018/05/04 10:13:33 by cchameyr         ###   ########.fr        #
+#    Updated: 2018/05/04 15:09:45 by banthony         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -27,7 +27,7 @@ ECHO		=	/bin/echo
 
 SDK_PATH = ~/.brew
 
-LDFLAGS= -std=c++11 -I $(SDK_PATH)/include -I ./shader_OpenClassRoom -framework GLUT -framework OpenGL `pkg-config --static --libs glfw3`
+LDFLAGS= -std=c++11 -I $(SDK_PATH)/include -framework GLUT -framework OpenGL `pkg-config --static --libs glfw3`
 
 CFLAGS		= -Wall -Wextra -Werror
 
