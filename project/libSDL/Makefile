@@ -6,7 +6,7 @@
 #    By: banthony <banthony@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/08 11:31:12 by banthony          #+#    #+#              #
-#    Updated: 2018/05/07 12:56:21 by cchameyr         ###   ########.fr        #
+#    Updated: 2018/05/07 13:58:47 by cchameyr         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -28,7 +28,7 @@ SDK_PATH = ~/.brew
 
 LDFLAGS	= -I $(SDK_PATH)/include -lSDL2 -L $(SDK_PATH)/lib
 
-CFLAGS	= -std=c++11 -fPIC
+CFLAGS	= -std=c++11
 
 #CFLAGS		+= -Wall -Wextra -Werror
 

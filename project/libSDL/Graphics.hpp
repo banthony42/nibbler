@@ -17,14 +17,13 @@ public:
 	int loopUpdate();
 	void display();
 	void clear();
-	void putStrScreen(std::string str, int posX, int posY);
+	void putStrScreen(std::string str, int posX, int posY, float size);
 	void loadTexture(std::string path, int key);
 	void putTexture(int key, int posX, int posY, int sizeX, int sizeY);
 	void cleanUp();
 	void closeWindow();
 	std::vector<eEvent> &getEvent();
 	unsigned char getChar();
-	// Canonical
 
 private:
 	std::vector<eEvent> _eventList;

@@ -32,6 +32,8 @@ int Graphics::init(int windowWidth, int windowHeight) {
 }
 
 int Graphics::loopUpdate() {
+
+
 	return 0;
 }
 
@@ -43,7 +45,7 @@ void Graphics::clear() {
 
 }
 
-void Graphics::putStrScreen(std::string str, int posX, int posY) {
+void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
 
 }
 
