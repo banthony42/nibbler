@@ -6,7 +6,7 @@
 #    By: cchameyr <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/02/05 10:57:06 by cchameyr          #+#    #+#              #
-#    Updated: 2018/05/04 16:17:26 by cchameyr         ###   ########.fr        #
+#    Updated: 2018/05/07 11:46:10 by cchameyr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,13 +55,13 @@ objs_rm:
 	@$(RM) $(FILES:.cpp=.o)
 
 clean: objs_rm
-	make clean -C libVulkan
+	make clean -C libSDL
 	make clean -C libSFML
 	make clean -C libOpenGL
 
 fclean: objs_rm
 	$(RM) $(NAME)
-	make fclean -C libVulkan
+	make fclean -C libSDL
 	make fclean -C libSFML
 	make fclean -C libOpenGL
 
@@ -71,21 +71,20 @@ r: objs_rm
 	$(RM) $(NAME)
 	@make
 
-lib: vulkan sfml opengl
+lib: sdl sfml opengl
 
-libre: vulkanre sfmlre openglre
+libre: sdlre sfmlre openglre
 
 reset: fclean
 	cd ./libSFML/SFML/ && git clean -d -f
-	$(RM) ./libVulkan/Vulkan
 	$(RM) ./incl/GLFW
 	$(RM) ./incl/stb_image.h
 
-vulkan:
-	-make -C libVulkan
+sdl:
+	-make -C libSDL
 
-vulkanre:
-	make re -C libVulkan
+sdlre:
+	make re -C libSDL
 
 sfml:
 	-make -C libSFML
