@@ -6,12 +6,9 @@
 #    By: banthony <banthony@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/20 18:10:22 by banthony          #+#    #+#              #
-#    Updated: 2018/05/07 16:23:38 by cchameyr         ###   ########.fr        #
+#    Updated: 2018/05/07 16:40:06 by cchameyr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
-vulkan_tar="./libVulkan/vulkanLib.tar.gz"
-vulkan_src="./libVulkan/Vulkan"
 
 image_loader="./incl/stb_image.h"
 glfw_folder="./incl/GLFW"
@@ -43,10 +40,6 @@ else
 	mkdir $glfw_folder
 	curl https://raw.githubusercontent.com/glfw/glfw/master/include/GLFW/glfw3.h > $glfw3
 fi
-
-
-mkdir $vulkan_src
-tar -xzf $vulkan_tar -C $vulkan_src --strip-components=1
 
 # Compilation de la Lib
 (cd ./LibSFML/SFML && cmake . && make -j4);
