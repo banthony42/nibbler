@@ -26,10 +26,8 @@ public:
 	unsigned char getChar();
 
 private:
-	std::vector<eEvent> _eventList;
 	SDL_Window *_win;
 	SDL_Surface *_img;
-	SDL_Event _events;
 
 };
 

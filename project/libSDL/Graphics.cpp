@@ -1,5 +1,12 @@
 #include "Graphics.hpp"
 
+/*
+ * Declaration de la variable static
+ * Permet la modification de l'_eventList dans la fonction
+ * de callback et donc en dehors de l'instance de la Lib
+ */
+std::vector<eEvent> AGraphics::_eventList;
+
 Graphics::Graphics() {
 
 }
@@ -22,9 +29,8 @@ Graphics &Graphics::operator=(Graphics const &copy) {
 int Graphics::init(int windowWidth, int windowHeight) {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) ||
 		!(this->_win = SDL_CreateWindow("SDL NIBBLER", SDL_WINDOWPOS_UNDEFINED,
-									  SDL_WINDOWPOS_UNDEFINED, windowWidth, windowHeight, SDL_WINDOW_SHOWN)) ||
-		!(this->_img = SDL_CreateRGBSurface(0, windowWidth, windowHeight, 32, 0, 0, 0, 0)))
-	{
+										SDL_WINDOWPOS_UNDEFINED, windowWidth, windowHeight, SDL_WINDOW_SHOWN)) ||
+		!(this->_img = SDL_CreateRGBSurface(0, windowWidth, windowHeight, 32, 0, 0, 0, 0))) {
 		std::cout << "ERROR : " << SDL_GetError() << std::endl;
 		return (-1);
 	}
@@ -32,9 +38,7 @@ int Graphics::init(int windowWidth, int windowHeight) {
 }
 
 int Graphics::loopUpdate() {
-
-
-	return 0;
+	return !SDL_UpdateWindowSurface(this->_win);
 }
 
 void Graphics::display() {
@@ -66,7 +70,25 @@ void Graphics::closeWindow() {
 }
 
 std::vector<eEvent> &Graphics::getEvent() {
-	return this->_eventList;
+	SDL_Event e {};
+
+	AGraphics::clearEvent();
+	while (SDL_PollEvent(&e) != 0) {
+		if (e.type == SDL_QUIT) {
+			AGraphics::addEvent(ECHAP);
+		} else if (e.type == SDLK_UP) {
+			AGraphics::addEvent(UP);
+		} else if (e.type == SDLK_DOWN) {
+			AGraphics::addEvent(DOWN);
+		} else if (e.type == SDLK_LEFT) {
+			AGraphics::addEvent(LEFT);
+		} else if (e.type == SDLK_RIGHT) {
+			AGraphics::addEvent(RIGHT);
+		} else if (e.type == SDLK_RETURN || e.type == SDLK_KP_ENTER) {
+			AGraphics::addEvent(ENTER);
+		}
+	}
+	return Graphics::_eventList;
 }
 
 unsigned char Graphics::getChar() {
@@ -80,3 +102,22 @@ Graphics *createGraphics() {
 void deleteGraphics(Graphics *graphics) {
 	delete graphics;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

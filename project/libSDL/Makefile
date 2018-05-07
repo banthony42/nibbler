@@ -6,7 +6,7 @@
 #    By: banthony <banthony@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/08 11:31:12 by banthony          #+#    #+#              #
-#    Updated: 2018/05/07 14:05:56 by cchameyr         ###   ########.fr        #
+#    Updated: 2018/05/07 14:37:42 by cchameyr         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -35,7 +35,7 @@ CFLAGS	= -std=c++11
 all		:		$(NAME)
 
 $(NAME)	:		$(OBJ)
-				$(CC) $(LDFLAGS) $(CFLAGS) $(OBJ) -shared -o $(NAME)
+				$(CC) $(LDFLAGS) $(CFLAGS) -shared -o $(NAME) $(OBJ)
 				@$(ECHO) '> Compiled'
 
 clean	:
