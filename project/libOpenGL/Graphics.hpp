@@ -29,8 +29,10 @@
 #include "../incl/SceneGame.hpp"
 #include "../incl/AGraphics.hpp"
 
-#define FONT_START_X (512 - (32 * 16))
-#define FONT_START_Y (512 - (47 * 1))
+#define NB_CHAR 16
+
+#define FONT_START_X(c) (512 - (CHAR_SIZE_X * (NB_CHAR - ((c - '!') % NB_CHAR))))
+#define FONT_START_Y(c) (512 - (CHAR_SIZE_Y * (1 + ((c - '!') / NB_CHAR))))
 
 class Graphics : public AGraphics {
 
@@ -47,7 +49,7 @@ public:
 
     void updateScreen();
 
-    void putStrScreen(std::string str, int posX, int poxY);
+    void putStrScreen(std::string str, int posX, int poxY, float size);
 
     void loadTexture(std::string path, int key);
 

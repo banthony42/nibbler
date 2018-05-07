@@ -25,7 +25,7 @@ public:
 
     void clear();
 
-    void putStrScreen(std::string str, int posX, int posY);
+    void putStrScreen(std::string str, int posX, int posY, float size);
 
     void loadTexture(std::string path, int key);
 

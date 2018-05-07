@@ -163,13 +163,10 @@ void Graphics::glputChar(char const c, t_coord pos, t_coord sizeText, t_coord si
 	end.y =  (((pos.y + sizeFont.y) * (double)2) / (double)Nibbler::WINDOW_HEIGHT) - 1.0;
 
 	// Calcul points d'affichage de la texture
-	c_start.x = (double)FONT_START_X / sizeText.x;
-	c_start.y =  1 - ((double)FONT_START_Y / sizeText.y);
-	c_end.x = c_start.x + ((double)32 / sizeText.x);
-	c_end.y = c_start.y - ((double)47 / sizeText.y);
-
-	std::cout << "debug start:" << c_start.x << " - " << c_start.y << std::endl;
-	std::cout << "debug end  :" << c_end.x << " - " << c_end.y << std::endl;
+	c_start.x = ((double)FONT_START_X(c)) / sizeText.x;
+	c_start.y =  1 - (((double)FONT_START_Y(c) / sizeText.y));
+	c_end.x = c_start.x + ((double)CHAR_SIZE_X / sizeText.x);
+	c_end.y = c_start.y - ((double)CHAR_SIZE_Y / sizeText.y);
 
 	//Association des points de la texture avec ceux de l'écran
 	glBindTexture(GL_TEXTURE_2D, this->_textureList[FONT]);
@@ -182,16 +179,17 @@ void Graphics::glputChar(char const c, t_coord pos, t_coord sizeText, t_coord si
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void Graphics::putStrScreen(std::string str, int posX, int posY) {
+void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
 	GLint textSize[2]= {0};
 	char const *tmp = str.c_str();
 	t_coord pos;
 	t_coord sizeText;
 
-	// Another parameter ?
+	if (size <= 0)
+		size = 1;
 	t_coord sizeFont;
-	sizeFont.x = 32 * 3;
-	sizeFont.y = 47 * 3;
+	sizeFont.x = (CHAR_SIZE_X / 2.5) * size;
+	sizeFont.y = (CHAR_SIZE_Y / 2.5) * size;
 
 	pos.x = (double)posX;
 	pos.y = (double)posY;
@@ -202,8 +200,17 @@ void Graphics::putStrScreen(std::string str, int posX, int posY) {
 	sizeText.x = (double)textSize[0];
 	sizeText.y = (double)textSize[1];
 
-
-	glputChar(tmp[0], pos, sizeText, sizeFont);
+	while(*tmp) {
+		if (*tmp != ' ')
+			glputChar(*tmp, pos, sizeText, sizeFont);
+		pos.x += sizeFont.x;
+		if (*tmp == '\n' || pos.x >= Nibbler::WINDOW_WIDTH) {
+			pos.x = 0;
+			if (pos.y < Nibbler::WINDOW_HEIGHT)
+			pos.y += sizeFont.y;
+		}
+		tmp++;
+	}
 }
 
 void Graphics::display() {

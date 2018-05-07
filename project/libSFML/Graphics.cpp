@@ -48,7 +48,7 @@ void Graphics::clear() {
     this->_window->clear();
 }
 
-void Graphics::putStrScreen(std::string str, int posX, int posY) {
+void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
 
 }
 

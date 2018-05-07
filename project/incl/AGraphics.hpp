@@ -18,6 +18,8 @@
 
 // TODO du fait de la var _eventList en static => singleton ? sinon -> _eventList[NB_STATE]
 
+#define CHAR_SIZE_X 32
+#define CHAR_SIZE_Y 46
 
 enum eEvent {
 	EVENT_VOID,
@@ -38,7 +40,7 @@ public:
 	virtual int loopUpdate() = 0;
 	virtual void display() = 0;
 	virtual void clear () = 0;
-	virtual void putStrScreen(std::string str, int posX, int posY) = 0;
+	virtual void putStrScreen(std::string str, int posX, int posY, float size) = 0;
 	virtual void loadTexture(std::string path, int key) = 0;
     virtual void putTexture(int key, int posX, int posY, int sizeX, int sizeY) = 0;
 	virtual void cleanUp() = 0;
