@@ -25,6 +25,11 @@
 #define CHAR_SIZE_X 32
 #define CHAR_SIZE_Y 46
 
+typedef struct {
+	double		x;
+	double		y;
+}	t_coord;
+
 enum eEvent {
 	EVENT_VOID,
 	ECHAP,

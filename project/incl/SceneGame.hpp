@@ -13,12 +13,8 @@
 #ifndef SCENEGAME_HPP
 #define SCENEGAME_HPP
 
+#include "AGraphics.hpp"
 #include "AScene.hpp"
-
-typedef struct {
-	double		x;
-	double		y;
-}	t_coord;
 
 typedef struct {
 	t_coord		headPos;

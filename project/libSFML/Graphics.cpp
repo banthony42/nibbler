@@ -49,7 +49,7 @@ void Graphics::clear() {
 }
 
 void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
-
+    t_coord test;
 }
 
 void Graphics::loadTexture(std::string path, int key) {

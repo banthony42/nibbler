@@ -10,9 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PROJECT_ASCENE_HPP
-#define PROJECT_ASCENE_HPP
-
+#ifndef ASCENE_HPP
+#define ASCENE_HPP
 
 #include "AGraphics.hpp"
 
