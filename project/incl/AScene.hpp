@@ -21,8 +21,9 @@ enum eTexture {
     MENU_BCKG,
     GAME_BCKG,
     SCORE_BCKG,
-    ITEM1,
-    ITEM2,
+	SNAKE,
+	FOOD,
+	FONT,
     NB_TEXTURE
 };
 

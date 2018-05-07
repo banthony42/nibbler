@@ -25,10 +25,12 @@
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "../incl/stb_image.h"
-
+#include "../incl/Nibbler.hpp"
+#include "../incl/SceneGame.hpp"
 #include "../incl/AGraphics.hpp"
 
-class vector;
+#define FONT_START_X (512 - (32 * 16))
+#define FONT_START_Y (512 - (47 * 1))
 
 class Graphics : public AGraphics {
 
@@ -66,8 +68,9 @@ public:
 private:
 	std::map<int, GLuint>	_textureList;
 	bool					_windowTerminated;
-
 	GLFWwindow*				_window;
+
+	void glputChar(char const c, t_coord pos, t_coord sizeText, t_coord sizeFont);
 };
 
 extern "C" {
