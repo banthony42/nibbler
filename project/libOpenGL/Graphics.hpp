@@ -71,7 +71,7 @@ private:
 	bool					_windowTerminated;
 	GLFWwindow*				_window;
 
-	void glputChar(char const c, t_coord pos, t_coord sizeText, t_coord sizeFont);
+	void glPutChar(char const c, t_coord pos, t_coord sizeText, t_coord sizeFont);
 };
 
 extern "C" {
