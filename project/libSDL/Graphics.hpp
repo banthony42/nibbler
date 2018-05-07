@@ -2,7 +2,7 @@
 #define LIBSDL_GRAPHICS_HPP
 
 #include "../incl/AGraphics.hpp"
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 class Graphics : public AGraphics {
 
