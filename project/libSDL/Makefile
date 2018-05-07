@@ -6,7 +6,7 @@
 #    By: banthony <banthony@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/08 11:31:12 by banthony          #+#    #+#              #
-#    Updated: 2018/05/07 12:46:28 by cchameyr         ###   ########.fr        #
+#    Updated: 2018/05/07 12:56:21 by cchameyr         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -24,7 +24,9 @@ CC			=	/usr/bin/clang++
 RM			=	/bin/rm -f
 ECHO		=	/bin/echo
 
-LDFLAGS	= `pkg-config --static --libs-only-L sdl2` -lSDL2
+SDK_PATH = ~/.brew
+
+LDFLAGS	= -I $(SDK_PATH)/include -lSDL2 -L $(SDK_PATH)/lib
 
 CFLAGS	= -std=c++11 -fPIC
 
@@ -47,4 +49,4 @@ fclean	:		clean
 re		:		fclean all
 
 %.o		:		$(DIRSRC)/%.cpp
-				$(CC) $(LDFLAGS) -c $<
+				$(CC) $(LDFLAGS) $(CFLAGS) -c $<
