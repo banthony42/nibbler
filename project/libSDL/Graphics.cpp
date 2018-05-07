@@ -29,11 +29,12 @@ Graphics &Graphics::operator=(Graphics const &copy) {
 int Graphics::init(int windowWidth, int windowHeight) {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) ||
 		!(this->_win = SDL_CreateWindow("SDL NIBBLER", SDL_WINDOWPOS_UNDEFINED,
-										SDL_WINDOWPOS_UNDEFINED, windowWidth, windowHeight, SDL_WINDOW_SHOWN)) ||
-		!(this->_img = SDL_CreateRGBSurface(0, windowWidth, windowHeight, 32, 0, 0, 0, 0))) {
+										SDL_WINDOWPOS_UNDEFINED, windowWidth, windowHeight, SDL_WINDOW_SHOWN))/* ||
+		!(this->_img = SDL_CreateRGBSurface(0, windowWidth, windowHeight, 32, 0, 0, 0, 0))*/) {
 		std::cout << "ERROR : " << SDL_GetError() << std::endl;
 		return (-1);
 	}
+	this->_img = SDL_GetWindowSurface(this->_win);
 	this->_windowTerminated = false;
 	return (1);
 }
@@ -72,10 +73,14 @@ void Graphics::loadTexture(std::string path, int key) {
 }
 
 void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
+	SDL_Surface *surface;
 
+	std::cout << "test" << std::endl;
+	surface = this->_textureList[key];
+	SDL_Rect srcRect = {0, 0, surface->w, surface->h};
+	SDL_Rect destRect = {posX, posY, sizeX, sizeY};
+	SDL_BlitSurface(surface, &srcRect, this->_img, &destRect);
 }
-
-
 
 void Graphics::closeWindow() {
 	this->cleanUp();
