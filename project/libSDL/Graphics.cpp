@@ -38,6 +38,14 @@ int Graphics::init(int windowWidth, int windowHeight) {
 	return (1);
 }
 
+void Graphics::cleanUp() {
+	if (this->_win) {
+		SDL_DestroyWindow(this->_win);
+	}
+	SDL_Quit();
+	this->_windowTerminated = true;
+}
+
 int Graphics::loopUpdate() {
 	return !this->_windowTerminated;
 }
@@ -55,23 +63,19 @@ void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
 }
 
 void Graphics::loadTexture(std::string path, int key) {
-
+	SDL_Surface* image = IMG_Load(path.c_str());
+	if (image == nullptr) {
+		std::cout << "IMG_Load: " << IMG_GetError() << "\n";
+		return ;
+	}
+	this->_textureList[key] = image;
 }
 
 void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
 
 }
 
-void Graphics::cleanUp() {
-	if (this->_img) {
-		SDL_FreeSurface(this->_img);
-	}
-	if (this->_win) {
-		SDL_DestroyWindow(this->_win);
-	}
-	SDL_Quit();
-	this->_windowTerminated = true;
-}
+
 
 void Graphics::closeWindow() {
 	this->cleanUp();

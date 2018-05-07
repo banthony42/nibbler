@@ -6,7 +6,7 @@
 #    By: banthony <banthony@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/20 18:10:22 by banthony          #+#    #+#              #
-#    Updated: 2018/05/07 11:43:25 by cchameyr         ###   ########.fr        #
+#    Updated: 2018/05/07 16:23:38 by cchameyr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ git submodule init
 git submodule update
 
 #Install OpenGL and Vulkan dependences
-brew install pkg-config && brew install glfw && brew install glew && brew install glm && brew install glfw3 && brew install sdl2
+brew install pkg-config && brew install glfw && brew install glew && brew install glm && brew install glfw3 && brew install sdl2 && brew install sdl2_image
 
 #Install stb_image.h, image loader
 if [ -f "$image_loader" ]

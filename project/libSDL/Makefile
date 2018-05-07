@@ -6,7 +6,7 @@
 #    By: banthony <banthony@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/08 11:31:12 by banthony          #+#    #+#              #
-#    Updated: 2018/05/07 14:37:42 by cchameyr         ###   ########.fr        #
+#    Updated: 2018/05/07 16:24:12 by cchameyr         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -26,7 +26,7 @@ ECHO		=	/bin/echo
 
 SDK_PATH = ~/.brew
 
-LDFLAGS	= -I $(SDK_PATH)/include -lSDL2 -L $(SDK_PATH)/lib
+LDFLAGS	= -I $(SDK_PATH)/include -lSDL2 -lSDL2_image -L $(SDK_PATH)/lib
 
 CFLAGS	= -std=c++11
 

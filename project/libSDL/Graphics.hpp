@@ -4,6 +4,8 @@
 #include "../incl/AGraphics.hpp"
 #include <iostream>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include <map>
 
 class Graphics : public AGraphics {
 
@@ -29,6 +31,7 @@ private:
 	bool _windowTerminated;
 	SDL_Window *_win;
 	SDL_Surface *_img;
+	std::map<int, SDL_Surface *> _textureList;
 
 };
 
