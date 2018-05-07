@@ -29,8 +29,7 @@ Graphics &Graphics::operator=(Graphics const &copy) {
 int Graphics::init(int windowWidth, int windowHeight) {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) ||
 		!(this->_win = SDL_CreateWindow("SDL NIBBLER", SDL_WINDOWPOS_UNDEFINED,
-										SDL_WINDOWPOS_UNDEFINED, windowWidth, windowHeight, SDL_WINDOW_SHOWN))/* ||
-		!(this->_img = SDL_CreateRGBSurface(0, windowWidth, windowHeight, 32, 0, 0, 0, 0))*/) {
+										SDL_WINDOWPOS_UNDEFINED, windowWidth, windowHeight, SDL_WINDOW_SHOWN))) {
 		std::cout << "ERROR : " << SDL_GetError() << std::endl;
 		return (-1);
 	}
@@ -64,10 +63,10 @@ void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
 }
 
 void Graphics::loadTexture(std::string path, int key) {
-	SDL_Surface* image = IMG_Load(path.c_str());
+	SDL_Surface *image = IMG_Load(path.c_str());
 	if (image == nullptr) {
 		std::cout << "IMG_Load: " << IMG_GetError() << "\n";
-		return ;
+		return;
 	}
 	this->_textureList[key] = image;
 }
