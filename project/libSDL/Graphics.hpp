@@ -26,6 +26,7 @@ public:
 	unsigned char getChar();
 
 private:
+	bool _windowTerminated;
 	SDL_Window *_win;
 	SDL_Surface *_img;
 

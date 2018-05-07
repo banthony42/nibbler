@@ -34,15 +34,16 @@ int Graphics::init(int windowWidth, int windowHeight) {
 		std::cout << "ERROR : " << SDL_GetError() << std::endl;
 		return (-1);
 	}
+	this->_windowTerminated = false;
 	return (1);
 }
 
 int Graphics::loopUpdate() {
-	return !SDL_UpdateWindowSurface(this->_win);
+	return !this->_windowTerminated;
 }
 
 void Graphics::display() {
-
+	SDL_UpdateWindowSurface(this->_win);
 }
 
 void Graphics::clear() {
@@ -62,33 +63,40 @@ void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
 }
 
 void Graphics::cleanUp() {
-
+	if (this->_img) {
+		SDL_FreeSurface(this->_img);
+	}
+	if (this->_win) {
+		SDL_DestroyWindow(this->_win);
+	}
+	SDL_Quit();
+	this->_windowTerminated = true;
 }
 
 void Graphics::closeWindow() {
-
+	this->cleanUp();
 }
 
 std::vector<eEvent> &Graphics::getEvent() {
-	SDL_Event e {};
-
+	SDL_Event e{};
 	AGraphics::clearEvent();
 	while (SDL_PollEvent(&e) != 0) {
-		if (e.type == SDL_QUIT) {
+		int keysym = e.key.keysym.sym;
+		if (e.type == SDL_QUIT || keysym == SDLK_ESCAPE) {
 			AGraphics::addEvent(ECHAP);
-		} else if (e.type == SDLK_UP) {
+		} else if (keysym == SDLK_UP) {
 			AGraphics::addEvent(UP);
-		} else if (e.type == SDLK_DOWN) {
+		} else if (keysym == SDLK_DOWN) {
 			AGraphics::addEvent(DOWN);
-		} else if (e.type == SDLK_LEFT) {
+		} else if (keysym == SDLK_LEFT) {
 			AGraphics::addEvent(LEFT);
-		} else if (e.type == SDLK_RIGHT) {
+		} else if (keysym == SDLK_RIGHT) {
 			AGraphics::addEvent(RIGHT);
-		} else if (e.type == SDLK_RETURN || e.type == SDLK_KP_ENTER) {
+		} else if (keysym == SDLK_RETURN || keysym == SDLK_KP_ENTER) {
 			AGraphics::addEvent(ENTER);
 		}
 	}
-	return Graphics::_eventList;
+	return AGraphics::_eventList;
 }
 
 unsigned char Graphics::getChar() {

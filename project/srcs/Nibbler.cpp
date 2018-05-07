@@ -68,13 +68,16 @@ void Nibbler::run() {
         this->_aGraphics->display();
 
         // ************************************** DEBUG
-        for (size_t j = 0; j < vec.size(); ++j) {
+        for (size_t j = 0; j < vec.size(); j++) {
 
 			std::cout << "size:" << vec.size() << std::endl;
 			std::cout << key[vec.at(j)] << std::endl;
 
 			if (vec.at(j) == ECHAP) {
 				Nibbler::_aGraphics->closeWindow();
+			}
+			if (vec.at(j) == UP) {
+				std::cout << "UP catch" << std::endl;
 			}
 		}
         // *************************************** DEBUG
