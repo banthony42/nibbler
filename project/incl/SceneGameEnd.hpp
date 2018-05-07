@@ -21,8 +21,8 @@ public:
     SceneGameEnd(AGraphics *aGraphics);
     ~SceneGameEnd(); // Canonical
 
-	void eventHandler(std::vector<eEvent> eventList) override;
-	void drawScene() override;
+	void eventHandler(std::vector<eEvent> eventList);
+	void drawScene();
 
 private:
     SceneGameEnd(); // Canonical

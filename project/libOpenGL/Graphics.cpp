@@ -149,7 +149,7 @@ void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
 	glBindTexture(GL_TEXTURE_2D, 0);					// Deverrouillage
 }
 
-void Graphics::glPutChar(char const c, t_coord pos, t_coord sizeText, t_coord sizeFont) {
+void Graphics::putCharScreen(char const c, t_coord pos, t_coord sizeText, t_coord sizeFont) {
 	t_coord c_start;
 	t_coord c_end;
 
@@ -208,7 +208,7 @@ void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
 
 	while(*tmp) {
 		if (*tmp != ' ')
-			glPutChar(*tmp, pos, sizeText, sizeFont);
+			putCharScreen(*tmp, pos, sizeText, sizeFont);
 		pos.x += sizeFont.x;
 		if (*tmp == '\n' || (pos.x + sizeFont.x) >= Nibbler::WINDOW_WIDTH) {
 			pos.x = 0;

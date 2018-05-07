@@ -23,7 +23,7 @@
 
 // Taille de la case pouvant contenir tout les caracteres
 #define CHAR_SIZE_X 32
-#define CHAR_SIZE_Y 46
+#define CHAR_SIZE_Y 47
 
 typedef struct {
 	double		x;

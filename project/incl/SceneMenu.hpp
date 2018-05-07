@@ -21,9 +21,9 @@ public:
     SceneMenu(AGraphics *aGraphics);
     ~SceneMenu(); // Canonical
 
-	void eventHandler(std::vector<eEvent> eventList) override;
+	void eventHandler(std::vector<eEvent> eventList);
 
-	void drawScene() override;
+	void drawScene();
 
 private:
     SceneMenu(); // Canonical

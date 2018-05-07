@@ -1,4 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Graphics.cpp                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/05/07 16:51:09 by banthony          #+#    #+#             */
+/*   Updated: 2018/05/07 16:51:09 by banthony         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Graphics.hpp"
+#include "SFML/include/SFML/Graphics/Rect.hpp"
 
 /*
  * Declaration de la variable static
@@ -48,8 +61,58 @@ void Graphics::clear() {
     this->_window->clear();
 }
 
+void Graphics::putCharScreen(char const c, t_coord pos, t_coord sizeText, t_coord sizeFont) {
+	sf::Sprite sprite;
+	sf::Vector2i position;
+	sf::Vector2i size;
+
+	// Il faut definir la zone de la texture que l'on souhaite afficher (rectangle)
+
+	position.x = FONT_START_X(c);			// Position x du rectangle
+	position.y = FONT_START_Y(c);			// Position y du rectangle
+	size.x = CHAR_SIZE_X;					// Taille x du rectangle
+	size.y = CHAR_SIZE_Y;					// Taille y du rectangle
+	sf::IntRect textArea(position, size);	// Definition du rectangle
+
+	sprite.setTexture(this->_textureList[FONT]);							// Selection de la texture a utiliser
+	sprite.setPosition(sf::Vector2f(pos.x, pos.y));							// Position d'affichage sur l'ecran
+	sprite.setTextureRect(textArea);										// Definition de la zone de la texture a utiliser
+	sprite.setScale(sizeFont.x / CHAR_SIZE_X, sizeFont.y / CHAR_SIZE_Y);	// Gestion de la taille de l'affichage
+	this->_spriteList.push_back(sprite);									// Ajout du sprite a la liste pour affichage
+}
+
 void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
-    t_coord test;
+	char const *tmp = str.c_str();
+	t_coord pos;
+	t_coord sizeText;
+
+	if (!tmp || !str.size() || posX > Nibbler::WINDOW_WIDTH || posY > Nibbler::WINDOW_HEIGHT || posX < 0 || posY < 0)
+		return ;
+	if (size <= 0)
+		size = 1;
+
+	t_coord sizeFont;
+	sizeFont.x = (CHAR_SIZE_X / 2.5) * size;
+	sizeFont.y = (CHAR_SIZE_Y / 2.5) * size;
+
+	pos.x = (double)posX;
+	pos.y = (double)posY;
+
+	sf::Vector2u vec = this->_textureList[FONT].getSize();
+	sizeText.x = vec.x;
+	sizeText.y = vec.y;
+
+	while(*tmp) {
+		if (*tmp != ' ')
+			putCharScreen(*tmp, pos, sizeText, sizeFont);
+		pos.x += sizeFont.x;
+		if (*tmp == '\n' || (pos.x + sizeFont.x) >= Nibbler::WINDOW_WIDTH) {
+			pos.x = 0;
+			if ((pos.y + sizeFont.y) < Nibbler::WINDOW_HEIGHT)
+				pos.y += sizeFont.y;
+		}
+		tmp++;
+	}
 }
 
 void Graphics::loadTexture(std::string path, int key) {
