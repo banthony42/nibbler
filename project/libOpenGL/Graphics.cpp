@@ -57,7 +57,7 @@ static void key_callback(GLFWwindow *window, int key, int scancode, int action, 
 
 std::vector<eEvent> &Graphics::getEvent() {
 	glfwPollEvents();	// best choice when rendering continually
-	return Graphics::_eventList;
+	return AGraphics::_eventList;
 }
 
 unsigned char Graphics::getChar() {
@@ -102,18 +102,18 @@ void Graphics::loadTexture(std::string path, int key) {
 	unsigned char *data = nullptr;
 	int width, height, bpp;
 
-	glGenTextures(1, &texture); //Generation de l'iD
-	glBindTexture(GL_TEXTURE_2D, texture);	// Verouillage, obligatoire pour modification du GLuint
+	glGenTextures(1, &texture); 										// Generation de l'iD
+	glBindTexture(GL_TEXTURE_2D, texture);								// Verouillage, obligatoire pour modification du GLuint
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);	// Les textures proche sont lissées
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);	// Les textures éloignées sont lissées
-	stbi_set_flip_vertically_on_load(true);
-	if (key == FONT)	// Exception for flipping the image
-		stbi_set_flip_vertically_on_load(false);	// Loading the image using stbi function
+	stbi_set_flip_vertically_on_load(true);								// Flipping the image, because openGL need it for .png
+	if (key == FONT)													// Exception for flipping the image (because font = .tga)
+		stbi_set_flip_vertically_on_load(false);						// Loading the image using stbi function
 	 if (!(data = stbi_load(path.c_str(), &width, &height, &bpp, 0))) {
-		 std::cout << "error: Failed to load texture" << std::endl; //TODO throw exception
+		 std::cout << "error: Failed to load texture" << std::endl; 	//TODO throw exception
 		 return ;
 	 }
-	if (bpp == 3)
+	if (bpp == 3)														// Setting the nb of channel
 		internFormat = GL_RGB;
 	else if (bpp == 4)
 		internFormat = GL_RGBA;
@@ -121,12 +121,12 @@ void Graphics::loadTexture(std::string path, int key) {
 		std::cout << "error: internal format image is unknown" << std::endl; 	//TODO throw exception
 		return ;
 	}
-	format = internFormat;	// The format order is always RGB or RGBA - stbi always convert BGR to RGB
+	format = internFormat;												// The format order is always RGB or RGBA - stbi always convert BGR to RGB
 	glTexImage2D(GL_TEXTURE_2D, 0, internFormat, width, height, 0, format, GL_UNSIGNED_BYTE, data);
 	glGenerateMipmap(GL_TEXTURE_2D);
-	stbi_image_free(data);	// Liberation memoire
-	glBindTexture(GL_TEXTURE_2D, 0);	// Deverouillage
-	this->_textureList[key] = texture;	// Association de la texture a la key
+	stbi_image_free(data);												// Liberation memoire
+	glBindTexture(GL_TEXTURE_2D, 0);									// Deverouillage
+	this->_textureList[key] = texture;									// Association de la texture a la key
 }
 
 void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
@@ -146,7 +146,7 @@ void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
 	glTexCoord2d(1,1);  glVertex2d(end.x, -start.y);	// upper Right Corner
 	glTexCoord2d(1,0);  glVertex2d(end.x, -end.y);		// bottom Right Corner
 	glEnd();
-	glBindTexture(GL_TEXTURE_2D, 0);	// Deverrouillage
+	glBindTexture(GL_TEXTURE_2D, 0);					// Deverrouillage
 }
 
 void Graphics::glputChar(char const c, t_coord pos, t_coord sizeText, t_coord sizeFont) {
@@ -155,6 +155,9 @@ void Graphics::glputChar(char const c, t_coord pos, t_coord sizeText, t_coord si
 
 	t_coord start;
 	t_coord end;
+
+	if (c < '!' || c > '~')
+		return ;
 
 	// Calcul points d'affichage sur l'écran
 	start.x = ((pos.x * (double)2) / (double)Nibbler::WINDOW_WIDTH) - 1.0;
@@ -185,8 +188,11 @@ void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
 	t_coord pos;
 	t_coord sizeText;
 
+	if (!tmp || !str.size() || posX > Nibbler::WINDOW_WIDTH || posY > Nibbler::WINDOW_HEIGHT || posX < 0 || posY < 0)
+		return ;
 	if (size <= 0)
 		size = 1;
+
 	t_coord sizeFont;
 	sizeFont.x = (CHAR_SIZE_X / 2.5) * size;
 	sizeFont.y = (CHAR_SIZE_Y / 2.5) * size;
@@ -204,9 +210,9 @@ void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
 		if (*tmp != ' ')
 			glputChar(*tmp, pos, sizeText, sizeFont);
 		pos.x += sizeFont.x;
-		if (*tmp == '\n' || pos.x >= Nibbler::WINDOW_WIDTH) {
+		if (*tmp == '\n' || (pos.x + sizeFont.x) >= Nibbler::WINDOW_WIDTH) {
 			pos.x = 0;
-			if (pos.y < Nibbler::WINDOW_HEIGHT)
+			if ((pos.y + sizeFont.y) < Nibbler::WINDOW_HEIGHT)
 			pos.y += sizeFont.y;
 		}
 		tmp++;

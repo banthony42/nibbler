@@ -18,6 +18,10 @@
 
 // TODO du fait de la var _eventList en static => singleton ? sinon -> _eventList[NB_STATE]
 
+// Nombre de caracteres par ligne sur la texture
+#define NB_CHAR 16
+
+// Taille de la case pouvant contenir tout les caracteres
 #define CHAR_SIZE_X 32
 #define CHAR_SIZE_Y 46
 
@@ -61,7 +65,7 @@ public:
 	}
 
 protected:
-	 static std::vector<eEvent> _eventList;
+	static std::vector<eEvent> _eventList;
     int windowHeigth;
     int windowLenght;
 

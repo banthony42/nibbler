@@ -29,8 +29,7 @@
 #include "../incl/SceneGame.hpp"
 #include "../incl/AGraphics.hpp"
 
-#define NB_CHAR 16
-
+// Calcul de la position en pixel dans la texture pour le caracatere c
 #define FONT_START_X(c) (512 - (CHAR_SIZE_X * (NB_CHAR - ((c - '!') % NB_CHAR))))
 #define FONT_START_Y(c) (512 - (CHAR_SIZE_Y * (1 + ((c - '!') / NB_CHAR))))
 

@@ -64,7 +64,7 @@ void Nibbler::run() {
 
         this->_aGraphics->clear();
 		this->_aGraphics->putTexture(MENU_BCKG, 0, 0, this->WINDOW_WIDTH, this->WINDOW_HEIGHT);
-		this->_aGraphics->putStrScreen("Hello World !", 100, 100, 2);
+		this->_aGraphics->putStrScreen("Hello World ! comment ca va ? comme si ? comme ca ?", 500, 500, 2);
         this->_aGraphics->display();
 
         // ************************************** DEBUG

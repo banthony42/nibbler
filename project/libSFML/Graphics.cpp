@@ -105,7 +105,7 @@ std::vector<eEvent> &Graphics::getEvent() {
         else if (event.key.code == sf::Keyboard::Return)
             AGraphics::addEvent(ENTER);
     }
-    return this->_eventList;
+    return AGraphics::_eventList;
 }
 
 unsigned char Graphics::getChar() {
