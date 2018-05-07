@@ -6,7 +6,7 @@
 #    By: banthony <banthony@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/08 11:31:12 by banthony          #+#    #+#              #
-#    Updated: 2018/05/07 12:01:05 by cchameyr         ###   ########.fr        #
+#    Updated: 2018/05/07 12:06:46 by cchameyr         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -25,7 +25,7 @@ CC			=	/usr/bin/clang++
 RM			=	/bin/rm -f
 ECHO		=	/bin/echo
 
-LDFLAGS= -L/Users/cchameyr/.brew/lib -lSDL2
+LDFLAGS= `pkg-config --static --cflags sdl2`
 
 CLFAGS = -std=c++11 -fPIC
 
