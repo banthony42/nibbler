@@ -20,7 +20,15 @@ Graphics &Graphics::operator=(Graphics const &copy) {
 }
 
 int Graphics::init(int windowWidth, int windowHeight) {
-	return 0;
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) ||
+		!(this->_win = SDL_CreateWindow("SDL NIBBLER", SDL_WINDOWPOS_UNDEFINED,
+									  SDL_WINDOWPOS_UNDEFINED, windowWidth, windowHeight, SDL_WINDOW_SHOWN)) ||
+		!(this->_img = SDL_CreateRGBSurface(0, windowWidth, windowHeight, 32, 0, 0, 0, 0)))
+	{
+		std::cout << "ERROR : " << SDL_GetError() << std::endl;
+		return (-1);
+	}
+	return (1);
 }
 
 int Graphics::loopUpdate() {

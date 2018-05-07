@@ -2,7 +2,8 @@
 #define LIBSDL_GRAPHICS_HPP
 
 #include "../incl/AGraphics.hpp"
-#include <SDL.h>
+#include <iostream>
+#include <SDL2/SDL.h>
 
 class Graphics : public AGraphics {
 
@@ -27,6 +28,9 @@ public:
 
 private:
 	std::vector<eEvent> _eventList;
+	SDL_Window *_win;
+	SDL_Surface *_img;
+	SDL_Event _events;
 
 };
 

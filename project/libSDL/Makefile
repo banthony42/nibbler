@@ -6,7 +6,7 @@
 #    By: banthony <banthony@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/08 11:31:12 by banthony          #+#    #+#              #
-#    Updated: 2018/05/07 12:06:46 by cchameyr         ###   ########.fr        #
+#    Updated: 2018/05/07 12:46:28 by cchameyr         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -19,17 +19,16 @@ DIROBJ		= ./
 SRC			+=	Graphics.cpp
 
 OBJ			=	$(SRC:.cpp=.o)
-OBJS		=	$(OBJ:%=$(DIROBJ)%)
 
 CC			=	/usr/bin/clang++
 RM			=	/bin/rm -f
 ECHO		=	/bin/echo
 
-LDFLAGS= `pkg-config --static --cflags sdl2`
+LDFLAGS	= `pkg-config --static --libs-only-L sdl2` -lSDL2
 
-CLFAGS = -std=c++11 -fPIC
+CFLAGS	= -std=c++11 -fPIC
 
-CFLAGS		+= -Wall -Wextra -Werror
+#CFLAGS		+= -Wall -Wextra -Werror
 
 all		:		$(NAME)
 
@@ -42,7 +41,7 @@ clean	:
 				@$(ECHO) '> Directory cleaned'
 
 fclean	:		clean
-				-@$(RM) $(NAME) #'-' en cas d'erreur ne pas stop le makefile ; '@' silence la premiere ligne d'output (instruction rm ...)
+				-@$(RM) $(NAME)
 				@$(ECHO) '> Remove executable'
 
 re		:		fclean all
