@@ -16,6 +16,7 @@
 #include <iostream>
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
+#include <cmath>
 
 #include "../incl/AGraphics.hpp"
 #include "SFML/include/SFML/System/Vector2.hpp"

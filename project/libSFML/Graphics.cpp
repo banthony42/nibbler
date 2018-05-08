@@ -95,8 +95,8 @@ void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
 		size = 1;
 
 	t_coord sizeFont = {};
-	sizeFont.x = (CHAR_SIZE_X / 2.5) * size;
-	sizeFont.y = (CHAR_SIZE_Y / 2.5) * size;
+	sizeFont.x = round((CHAR_SIZE_X / 2.5) * size);
+	sizeFont.y = round((CHAR_SIZE_Y / 2.5) * size);
 
 	pos.x = (double) posX;
 	pos.y = (double) posY;

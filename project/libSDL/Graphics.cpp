@@ -72,14 +72,13 @@ void Graphics::clear() {
 	SDL_FillRect(this->_img, nullptr, 0x000000);
 }
 
-void
-Graphics::putCharScreen(char const c, t_coord pos, t_coord sizeText, t_coord sizeFont) { // TODO pass this method pure
+void Graphics::putCharScreen(char const c, t_coord pos, t_coord sizeText, t_coord sizeFont) { // TODO pass this method pure
 	SDL_Surface *surface;
 
 	surface = this->_fontTexture;
 	SDL_Rect srcRect = {FONT_START_X(c), FONT_START_Y(c), CHAR_SIZE_X, CHAR_SIZE_Y};
-	SDL_Rect dstRect = {(int) pos.x, (int) pos.y, (int) (sizeFont.x), (int) (sizeFont.y)};
-	SDL_BlitSurface(surface, &srcRect, this->_img, &dstRect);
+	SDL_Rect dstRect = {static_cast<int>(pos.x), static_cast<int>(pos.y), static_cast<int>(sizeFont.x), static_cast<int>(sizeFont.y)};
+	SDL_BlitScaled(surface, &srcRect, this->_img, &dstRect);
 }
 
 void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
@@ -93,8 +92,8 @@ void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
 		size = 1;
 
 	t_coord sizeFont{};
-	sizeFont.x = (CHAR_SIZE_X / 2.5) * size;
-	sizeFont.y = (CHAR_SIZE_Y / 2.5) * size;
+	sizeFont.x = round((CHAR_SIZE_X / 2.5) * size);
+	sizeFont.y = round((CHAR_SIZE_Y / 2.5) * size);
 
 	pos.x = posX;
 	pos.y = posY;

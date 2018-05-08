@@ -167,11 +167,11 @@ void Graphics::loadFontTexture(std::string path) {
 void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
 	glBindTexture(GL_TEXTURE_2D, this->_textureList[key]);    // Verrouillage
 
-	t_coord start{};
-	start.x = (((double) posX * (double) 2) / (double) this->windowWidth) - 1.0;
-	start.y = (((double) posY * (double) 2) / (double) this->windowHeight) - 1.0;
+	t_coord start = {};
+	start.x = (( posX *  2.0) / static_cast<double>(this->windowWidth)) - 1.0;
+	start.y = (( posY *  2.0) / static_cast<double>(this->windowHeight)) - 1.0;
 
-	t_coord end{};
+	t_coord end = {};
 	end.x = ((((double) posX + (double) sizeX) * (double) 2) / (double) this->windowWidth) - 1.0;
 	end.y = ((((double) posY + (double) sizeY) * (double) 2) / (double) this->windowHeight) - 1.0;
 
@@ -237,8 +237,8 @@ void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
 		size = 1;
 
 	t_coord sizeFont{};
-	sizeFont.x = (CHAR_SIZE_X / 2.5) * size;
-	sizeFont.y = (CHAR_SIZE_Y / 2.5) * size;
+	sizeFont.x = round((CHAR_SIZE_X / 2.5) * size);
+	sizeFont.y = round((CHAR_SIZE_Y / 2.5) * size);
 
 	pos.x = (double) posX;
 	pos.y = (double) posY;
