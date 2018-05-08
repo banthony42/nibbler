@@ -55,7 +55,7 @@ void Graphics::display() {
 }
 
 void Graphics::clear() {
-
+	SDL_FillRect(this->_img, nullptr, 0x000000);
 }
 
 void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
@@ -118,19 +118,6 @@ Graphics *createGraphics() {
 void deleteGraphics(Graphics *graphics) {
 	delete graphics;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
