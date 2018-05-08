@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../incl/SceneSkin.hpp"
+#include "../incl/Nibbler.hpp"
 
 SceneSkin::SceneSkin() {
 
@@ -32,14 +33,46 @@ SceneSkin &SceneSkin::operator=(SceneSkin const &copy) {
 }
 
 SceneSkin::SceneSkin(AGraphics *aGraphics) {
-    this->aGraphics = aGraphics;
+    this->_aGraphics = aGraphics;
 }
 
 void SceneSkin::eventHandler(std::vector<eEvent> eventList) {
-    (void)eventList;
+	for (size_t j = 0; j < eventList.size(); j++) {
+		if (eventList.at(j) == ECHAP) {
+			Nibbler::setCurrentScene(MENU);
+		}
+	}
 }
 
 void SceneSkin::drawScene() {
+	this->_aGraphics->clear();
+	std::cout << "test" << std::endl;
+	this->_aGraphics->putTexture(0, 0, 0, Nibbler::WINDOW_WIDTH, Nibbler::WINDOW_HEIGHT);
 
+	this->_aGraphics->display();
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

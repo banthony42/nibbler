@@ -14,6 +14,8 @@
 
 Nibbler *Nibbler::_singleton = nullptr;
 AGraphics *Nibbler::_aGraphics = nullptr;
+eScene Nibbler::_currentScene = SKIN;
+
 
 Nibbler::Nibbler() {
 
@@ -47,7 +49,6 @@ void Nibbler::initRun() {
 	this->_callScene[SKIN] = new SceneSkin(this->_aGraphics);
 	this->_callScene[GAME] = new SceneGame(this->_aGraphics);
 	this->_callScene[GAME_END] = new SceneGameEnd(this->_aGraphics);
-	this->_currentScene = MENU;
 	this->_aGraphics->loadTexture("./textures/snake_bckg_menu.png", MENU_BCKG);
 	this->_aGraphics->loadFontTexture("./textures/snake_font.tga");
 }
@@ -61,13 +62,6 @@ void Nibbler::run() {
 
 		this->_callScene[this->_currentScene]->eventHandler(vec);
 		this->_callScene[this->_currentScene]->drawScene();
-
-		this->_aGraphics->clear();
-		this->_aGraphics->putTexture(MENU_BCKG, 0, 0, this->WINDOW_WIDTH, this->WINDOW_HEIGHT);
-		this->_aGraphics->putStrScreen("< Game >", 300, 150, 2);
-		this->_aGraphics->putStrScreen("Options", 300, 200, 2);
-		this->_aGraphics->putStrScreen("Exit", 300, 250, 2);
-		this->_aGraphics->display();
 
 		// ************************************** DEBUG
 		for (size_t j = 0; j < vec.size(); j++) {
@@ -89,5 +83,14 @@ void Nibbler::run() {
 		// update nibbler
 	}
 	Nibbler::_aGraphics->cleanUp();
+}
+
+eScene Nibbler::getCurrentScene() {
+	return Nibbler::_currentScene;
+}
+
+void Nibbler::setCurrentScene(eScene currentScene) {
+	if (currentScene > STATE_VOID && currentScene < NB_STATE)
+		Nibbler::_currentScene = currentScene;
 }
 

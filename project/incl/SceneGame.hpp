@@ -13,8 +13,8 @@
 #ifndef SCENEGAME_HPP
 #define SCENEGAME_HPP
 
-#include "AGraphics.hpp"
 #include "AScene.hpp"
+#include "Nibbler.hpp"
 
 typedef struct {
 	t_coord		headPos;

@@ -25,7 +25,7 @@ SceneMenu::~SceneMenu() {
 }
 
 SceneMenu::SceneMenu(AGraphics *aGraphics) {
-	this->aGraphics = aGraphics;
+	this->_aGraphics = aGraphics;
 }
 
 SceneMenu &SceneMenu::operator=(SceneMenu const &copy) {
@@ -36,9 +36,38 @@ SceneMenu &SceneMenu::operator=(SceneMenu const &copy) {
 }
 
 void SceneMenu::eventHandler(std::vector<eEvent> eventList) {
-	(void) eventList;
+	for (size_t j = 0; j < eventList.size(); j++) {
+		if (eventList.at(j) == ECHAP) {
+			Nibbler::_aGraphics->closeWindow();
+		}
+	}
 }
 
 void SceneMenu::drawScene() {
-
+	this->_aGraphics->clear();
+	this->_aGraphics->putTexture(MENU_BCKG, 0, 0, Nibbler::WINDOW_WIDTH, Nibbler::WINDOW_HEIGHT);
+	this->_aGraphics->putStrScreen("< Game >", 300, 150, 2);
+	this->_aGraphics->putStrScreen("Options", 300, 200, 2);
+	this->_aGraphics->putStrScreen("Exit", 300, 250, 2);
+	this->_aGraphics->display();
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

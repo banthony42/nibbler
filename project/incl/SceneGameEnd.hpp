@@ -14,6 +14,7 @@
 #define SCENEGAMEEND_HPP
 
 #include "AScene.hpp"
+#include "Nibbler.hpp"
 
 class SceneGameEnd : public AScene {
 

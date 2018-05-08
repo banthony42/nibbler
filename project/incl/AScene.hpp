@@ -32,7 +32,7 @@ public:
 	virtual void drawScene() = 0;
 
 protected:
-	AGraphics *aGraphics;
+	AGraphics *_aGraphics;
 
 };
 

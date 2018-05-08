@@ -39,14 +39,16 @@ public:
     static AGraphics *_aGraphics;
     static const int WINDOW_WIDTH = 800;
     static const int WINDOW_HEIGHT = 600;
+	static eScene getCurrentScene();
+	static void setCurrentScene(eScene _currentScene);
 
     static Nibbler *getInstance();
     void run();
 
 private:
     static Nibbler *_singleton;
-    MapScene _callScene;
-    eScene _currentScene;
+	static eScene _currentScene;
+	MapScene _callScene;
 
     void initRun();
 

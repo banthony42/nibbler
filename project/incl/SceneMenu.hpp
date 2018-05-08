@@ -14,6 +14,7 @@
 #define SCENEMENU_HPP
 
 #include "AScene.hpp"
+#include "Nibbler.hpp"
 
 class SceneMenu : public AScene {
 
