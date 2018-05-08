@@ -42,6 +42,8 @@ public:
 
 	void clear();
 
+	void putCharScreen(char const c, t_coord pos, t_coord sizeFont);
+
 	void putStrScreen(std::string str, int posX, int posY, float size);
 
 	void loadFontTexture(std::string path);
@@ -64,8 +66,6 @@ private:
 	std::map<int, sf::Texture> _textureList;
 	std::vector<sf::Sprite> _spriteList;
 	sf::Texture _fontTexture;
-
-	void putCharScreen(char const c, t_coord pos, t_coord sizeText, t_coord sizeFont);
 };
 
 extern "C" {

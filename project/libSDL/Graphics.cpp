@@ -72,7 +72,7 @@ void Graphics::clear() {
 	SDL_FillRect(this->_img, nullptr, 0x000000);
 }
 
-void Graphics::putCharScreen(char const c, t_coord pos, t_coord sizeText, t_coord sizeFont) { // TODO pass this method pure
+void Graphics::putCharScreen(char const c, t_coord pos, t_coord sizeFont) { // TODO pass this method pure
 	SDL_Surface *surface;
 
 	if (c < '!' || c > '~')
@@ -87,7 +87,6 @@ void Graphics::putCharScreen(char const c, t_coord pos, t_coord sizeText, t_coor
 void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
 	char const *c_str = str.c_str();
 	t_coord pos{};
-	t_coord sizeText{};
 
 	if (!c_str || !str.size() || posX > this->windowWidth || posY > windowHeight || posX < 0 || posY < 0)
 		return;
@@ -101,12 +100,9 @@ void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
 	pos.x = posX;
 	pos.y = posY;
 
-	sizeText.x = this->_fontTexture->w;
-	sizeText.y = this->_fontTexture->h;
-
 	while (*c_str) {
 		if (*c_str != ' ') {
-			putCharScreen(*c_str, pos, sizeText, sizeFont);
+			putCharScreen(*c_str, pos, sizeFont);
 		}
 		pos.x += sizeFont.x;
 		if (*c_str == '\n' || (pos.x + sizeFont.x) >= this->windowWidth) {

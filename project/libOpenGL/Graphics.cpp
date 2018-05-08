@@ -188,7 +188,9 @@ void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
 	glBindTexture(GL_TEXTURE_2D, 0);                    // Deverrouillage
 }
 
-void Graphics::putCharScreen(char const c, t_coord pos, t_coord sizeText, t_coord sizeFont) {
+void Graphics::putCharScreen(char const c, t_coord pos, t_coord sizeFont) {
+	GLint textSize[2] = {0};
+	t_coord sizeText{};
 	t_coord c_start;
 	t_coord c_end;
 
@@ -197,6 +199,15 @@ void Graphics::putCharScreen(char const c, t_coord pos, t_coord sizeText, t_coor
 
 	if (c < '!' || c > '~')
 		return;
+
+	glBindTexture(GL_TEXTURE_2D, this->_fontTexture);
+	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &textSize[0]);    // Recuperation taille texture widht
+	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT,
+							 &textSize[1]);    // Recuperation taille texture height
+	glBindTexture(GL_TEXTURE_2D, 0);
+	sizeText.x = static_cast<double>(textSize[0]);
+	sizeText.y = static_cast<double>(textSize[1]);
+	glBindTexture(GL_TEXTURE_2D, 0);
 
 	// Calcul points d'affichage sur l'écran
 	start.x = ((pos.x * 2.0) / static_cast<double>(this->windowWidth)) - 1.0;
@@ -226,10 +237,8 @@ void Graphics::putCharScreen(char const c, t_coord pos, t_coord sizeText, t_coor
 }
 
 void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
-	GLint textSize[2] = {0};
 	char const *tmp = str.c_str();
 	t_coord pos{};
-	t_coord sizeText{};
 
 	if (!tmp || !str.size() || posX > this->windowWidth || posY > this->windowHeight || posX < 0 || posY < 0)
 		return;
@@ -242,17 +251,10 @@ void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
 
 	pos.x = static_cast<double>(posX);
 	pos.y = static_cast<double>(posY);
-	glBindTexture(GL_TEXTURE_2D, this->_fontTexture);
-	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &textSize[0]);    // Recuperation taille texture widht
-	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT,
-							 &textSize[1]);    // Recuperation taille texture height
-	glBindTexture(GL_TEXTURE_2D, 0);
-	sizeText.x = static_cast<double>(textSize[0]);
-	sizeText.y = static_cast<double>(textSize[1]);
 
 	while (*tmp) {
 		if (*tmp != ' ')
-			putCharScreen(*tmp, pos, sizeText, sizeFont);
+			putCharScreen(*tmp, pos, sizeFont);
 		pos.x += sizeFont.x;
 		if (*tmp == '\n' || (pos.x + sizeFont.x) >= this->windowWidth) {
 			pos.x = 0;

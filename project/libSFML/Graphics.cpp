@@ -63,7 +63,7 @@ void Graphics::clear() {
 	this->_window->clear();
 }
 
-void Graphics::putCharScreen(char const c, t_coord pos, t_coord sizeText, t_coord sizeFont) {
+void Graphics::putCharScreen(char const c, t_coord pos, t_coord sizeFont) {
 	sf::Sprite sprite;
 	sf::Vector2i position;
 	sf::Vector2i size;
@@ -90,7 +90,6 @@ void Graphics::putCharScreen(char const c, t_coord pos, t_coord sizeText, t_coor
 void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
 	char const *tmp = str.c_str();
 	t_coord pos = {};
-	t_coord sizeText = {};
 
 	if (!tmp || !str.size() || posX > this->windowWidth || posY > this->windowHeight || posX < 0 || posY < 0)
 		return;
@@ -104,13 +103,9 @@ void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
 	pos.x = static_cast<double>(posX);
 	pos.y = static_cast<double>(posY);
 
-	sf::Vector2u vec = this->_fontTexture.getSize();
-	sizeText.x = static_cast<double>(vec.x);
-	sizeText.y = static_cast<double>(vec.y);
-
 	while (*tmp) {
 		if (*tmp != ' ')
-			putCharScreen(*tmp, pos, sizeText, sizeFont);
+			putCharScreen(*tmp, pos, sizeFont);
 		pos.x += sizeFont.x;
 		if (*tmp == '\n' || (pos.x + sizeFont.x) >= this->windowWidth) {
 			pos.x = 0;

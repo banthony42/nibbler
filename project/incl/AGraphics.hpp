@@ -49,6 +49,7 @@ public:
 	virtual int loopUpdate() = 0;
 	virtual void display() = 0;
 	virtual void clear() = 0;
+	virtual void putCharScreen(char const c, t_coord pos, t_coord sizeFont) = 0;
 	virtual void putStrScreen(std::string str, int posX, int posY, float size) = 0;
 	virtual void loadFontTexture(std::string path) = 0;
 	virtual void loadTexture(std::string path, int key) = 0;

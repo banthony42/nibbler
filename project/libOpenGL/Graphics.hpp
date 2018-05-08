@@ -47,6 +47,8 @@ public:
 
 	void updateScreen();
 
+	void putCharScreen(char const c, t_coord pos, t_coord sizeFont);
+
 	void putStrScreen(std::string str, int posX, int poxY, float size);
 
 	void loadFontTexture(std::string path);
@@ -72,8 +74,6 @@ private:
 	bool _windowTerminated;
 	GLFWwindow *_window;
 	GLuint _fontTexture;
-
-	void putCharScreen(char const c, t_coord pos, t_coord sizeText, t_coord sizeFont);
 };
 
 extern "C" {

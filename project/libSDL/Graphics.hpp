@@ -36,6 +36,7 @@ public:
 	int loopUpdate();
 	void display();
 	void clear();
+	void putCharScreen(char const c, t_coord pos, t_coord sizeFont);
 	void putStrScreen(std::string str, int posX, int posY, float size);
 	void loadFontTexture(std::string path);
 	void loadTexture(std::string path, int key);
@@ -51,9 +52,6 @@ private:
 	SDL_Surface *_img;
 	std::map<int, SDL_Surface *> _textureList;
 	SDL_Surface *_fontTexture;
-
-	void putCharScreen(char const c, t_coord pos, t_coord sizeText, t_coord sizeFont);
-
 };
 
 extern "C" {
