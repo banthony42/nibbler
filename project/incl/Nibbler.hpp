@@ -37,8 +37,8 @@ class Nibbler {
 public:
     typedef std::map<eScene, AScene *> MapScene;
     static AGraphics *_aGraphics;
-    static const int WINDOW_WIDTH = 800;
-    static const int WINDOW_HEIGHT = 600;
+    static const int WINDOW_WIDTH = 1200;
+    static const int WINDOW_HEIGHT = 900;
 	static eScene getCurrentScene();
 	static void setCurrentScene(eScene _currentScene);
 

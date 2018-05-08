@@ -6,7 +6,7 @@
 #    By: cchameyr <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/02/05 10:57:06 by cchameyr          #+#    #+#              #
-#    Updated: 2018/05/08 10:59:04 by cchameyr         ###   ########.fr        #
+#    Updated: 2018/05/08 17:59:19 by banthony         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,7 +69,7 @@ re: fclean all
 
 r: objs_rm
 	$(RM) $(NAME)
-	@make
+	@make nibbler
 
 lib: sdl sfml opengl
 

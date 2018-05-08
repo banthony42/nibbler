@@ -60,7 +60,7 @@ void Graphics::display() {
 }
 
 void Graphics::clear() {
-	this->_window->clear();
+	this->_window->clear();	//TODO dont work properly
 }
 
 void Graphics::putCharScreen(char const c, t_coord pos, t_coord sizeFont) {

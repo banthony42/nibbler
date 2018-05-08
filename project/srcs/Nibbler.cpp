@@ -14,7 +14,7 @@
 
 Nibbler *Nibbler::_singleton = nullptr;
 AGraphics *Nibbler::_aGraphics = nullptr;
-eScene Nibbler::_currentScene = SKIN;
+eScene Nibbler::_currentScene = MENU;
 
 
 Nibbler::Nibbler() {
@@ -49,7 +49,14 @@ void Nibbler::initRun() {
 	this->_callScene[SKIN] = new SceneSkin(this->_aGraphics);
 	this->_callScene[GAME] = new SceneGame(this->_aGraphics);
 	this->_callScene[GAME_END] = new SceneGameEnd(this->_aGraphics);
-	this->_aGraphics->loadTexture("./textures/snake_bckg_menu.png", MENU_BCKG);
+	this->_aGraphics->loadTexture("./textures/menu_bckg.png", MENU_BCKG);
+	this->_aGraphics->loadTexture("./textures/game_bckg.png", GAME_BCKG);
+	this->_aGraphics->loadTexture("./textures/border_game.png", GAME_BORDER);
+	this->_aGraphics->loadTexture("./textures/score_bckg.png", SCORE_BCKG);
+	this->_aGraphics->loadTexture("./textures/skin_border.png", SKIN_FRAME);
+	this->_aGraphics->loadTexture("./textures/snake_head_smb.png", SNAKE_H_SMB);
+	this->_aGraphics->loadTexture("./textures/snake_body_smb.png", SNAKE_B_SMB);
+	this->_aGraphics->loadTexture("./textures/melon.png", FOOD);
 	this->_aGraphics->loadFontTexture("./textures/snake_font.tga");
 }
 
