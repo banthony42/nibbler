@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Graphics.cpp                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/05/07 18:11:59 by banthony          #+#    #+#             */
+/*   Updated: 2018/05/07 18:11:59 by banthony         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Graphics.hpp"
 
 /*
@@ -58,8 +70,46 @@ void Graphics::clear() {
 	SDL_FillRect(this->_img, nullptr, 0x000000);
 }
 
-void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
+void Graphics::putCharScreen(char const c, t_coord pos, t_coord sizeText, t_coord sizeFont) {
+	SDL_Surface *surface;
 
+	surface = this->_textureList[FONT];
+	SDL_Rect srcRect = {FONT_START_X(c), FONT_START_Y(c), CHAR_SIZE_X, CHAR_SIZE_Y};
+	SDL_Rect destRect = {(int)pos.x, (int)pos.y, (int)(sizeFont.x ), (int)(sizeFont.y )};
+	SDL_BlitSurface(surface, &srcRect, this->_img, &destRect);
+}
+
+void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
+	char const *tmp = str.c_str();
+	t_coord pos;
+	t_coord sizeText;
+
+	if (!tmp || !str.size() || posX > Nibbler::WINDOW_WIDTH || posY > Nibbler::WINDOW_HEIGHT || posX < 0 || posY < 0)
+		return ;
+	if (size <= 0)
+		size = 1;
+
+	t_coord sizeFont;
+	sizeFont.x = (CHAR_SIZE_X / 2.5) * size;
+	sizeFont.y = (CHAR_SIZE_Y / 2.5) * size;
+
+	pos.x = (double)posX;
+	pos.y = (double)posY;
+
+	sizeText.x = this->_textureList[FONT]->w;
+	sizeText.y = this->_textureList[FONT]->h;
+
+	while(*tmp) {
+		if (*tmp != ' ')
+			putCharScreen(*tmp, pos, sizeText, sizeFont);
+		pos.x += sizeFont.x;
+		if (*tmp == '\n' || (pos.x + sizeFont.x) >= Nibbler::WINDOW_WIDTH) {
+			pos.x = 0;
+			if ((pos.y + sizeFont.y) < Nibbler::WINDOW_HEIGHT)
+				pos.y += sizeFont.y;
+		}
+		tmp++;
+	}
 }
 
 void Graphics::loadTexture(std::string path, int key) {

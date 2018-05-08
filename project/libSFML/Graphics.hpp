@@ -1,12 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Graphics.hpp                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/05/07 16:51:20 by banthony          #+#    #+#             */
+/*   Updated: 2018/05/07 16:51:20 by banthony         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#ifndef NIBBLER_GRAPHICS_HPP
-#define NIBBLER_GRAPHICS_HPP
+#ifndef GRAPHICS_HPP
+#define GRAPHICS_HPP
 
 #include <iostream>
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 
 #include "../incl/AGraphics.hpp"
+#include "../incl/Nibbler.hpp"
+#include "SFML/include/SFML/System/Vector2.hpp"
+
+// Calcul de la position en pixel dans la texture pour le caracatere c
+#define FONT_START_X(c) (CHAR_SIZE_X * ((c - '!') % NB_CHAR))
+#define FONT_START_Y(c) (CHAR_SIZE_Y * ((c - '!') / NB_CHAR))
 
 class Graphics : public AGraphics {
 
@@ -45,6 +62,7 @@ private:
     std::map<int, sf::Texture> _textureList;
     std::vector<sf::Sprite> _spriteList;
 
+	void putCharScreen(char const c, t_coord pos, t_coord sizeText, t_coord sizeFont);
 };
 
 extern "C" {

@@ -6,7 +6,7 @@
 #    By: banthony <banthony@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/08 11:31:12 by banthony          #+#    #+#              #
-#    Updated: 2018/04/26 11:53:05 by cchameyr         ###   ########.fr        #
+#    Updated: 2018/05/07 16:54:02 by banthony         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -36,7 +36,7 @@ CFLAGS		+= -Wall -Wextra -Werror
 all		:		$(NAME)
 
 $(NAME)	:		$(OBJ)
-				$(CC) $(LDFLAGS) $(CFLAGS) -shared -o $(NAME) $(OBJS)
+				$(CC) $(LDFLAGS) $(CFLAGS) -shared -o $(NAME) $(OBJS) -headerpad_max_install_names
 				install_name_tool -change @rpath/libsfml-graphics.2.4.dylib `pwd`/$(SDK_PATH)/lib/libsfml-graphics.2.4.dylib $(NAME)
 				install_name_tool -change @rpath/libsfml-audio.2.4.dylib `pwd`/$(SDK_PATH)/lib/libsfml-audio.2.4.dylib $(NAME)
 				install_name_tool -change @rpath/libsfml-window.2.4.dylib `pwd`/$(SDK_PATH)/lib/libsfml-window.2.4.dylib $(NAME)

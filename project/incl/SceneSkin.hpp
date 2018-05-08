@@ -21,8 +21,8 @@ public:
     SceneSkin(AGraphics *aGraphics);
     ~SceneSkin(); // Canonical
 
-	void eventHandler(std::vector<eEvent> eventList) override;
-	void drawScene() override;
+	void eventHandler(std::vector<eEvent> eventList);
+	void drawScene();
 
 private:
     SceneSkin(); // Canonical
