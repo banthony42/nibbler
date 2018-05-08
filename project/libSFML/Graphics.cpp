@@ -68,6 +68,9 @@ void Graphics::putCharScreen(char const c, t_coord pos, t_coord sizeText, t_coor
 	sf::Vector2i position;
 	sf::Vector2i size;
 
+	if (c < '!' || c > '~')
+		return;
+
 	// Il faut definir la zone de la texture que l'on souhaite afficher (rectangle)
 
 	position.x = FONT_START_X(c);            // Position x du rectangle
@@ -80,7 +83,7 @@ void Graphics::putCharScreen(char const c, t_coord pos, t_coord sizeText, t_coor
 	sprite.setPosition(sf::Vector2f(pos.x, pos.y));                            // Position d'affichage sur l'ecran
 	sprite.setTextureRect(
 			textArea);                                        // Definition de la zone de la texture a utiliser
-	sprite.setScale(sizeFont.x / CHAR_SIZE_X, sizeFont.y / CHAR_SIZE_Y);    // Gestion de la taille de l'affichage
+	sprite.setScale(static_cast<float>(sizeFont.x / CHAR_SIZE_X), static_cast<double>(sizeFont.y / CHAR_SIZE_Y));    // Gestion de la taille de l'affichage
 	this->_spriteList.push_back(sprite);                                    // Ajout du sprite a la liste pour affichage
 }
 
@@ -98,12 +101,12 @@ void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
 	sizeFont.x = round((CHAR_SIZE_X / 2.5) * size);
 	sizeFont.y = round((CHAR_SIZE_Y / 2.5) * size);
 
-	pos.x = (double) posX;
-	pos.y = (double) posY;
+	pos.x = static_cast<double>(posX);
+	pos.y = static_cast<double>(posY);
 
 	sf::Vector2u vec = this->_fontTexture.getSize();
-	sizeText.x = vec.x;
-	sizeText.y = vec.y;
+	sizeText.x = static_cast<double>(vec.x);
+	sizeText.y = static_cast<double>(vec.y);
 
 	while (*tmp) {
 		if (*tmp != ' ')
@@ -148,7 +151,7 @@ void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
 	vec = this->_textureList[key].getSize();
 	sprite.setTexture(this->_textureList[key]);
 	sprite.setPosition(sf::Vector2f(posX, posY));
-	sprite.setScale((double) sizeX / (double) vec.x, (double) sizeY / (double) vec.y);
+	sprite.setScale( static_cast<double>(sizeX) / static_cast<double>(vec.x), static_cast<double>(sizeY) / static_cast<double>(vec.y));
 	this->_spriteList.push_back(sprite);
 }
 

@@ -168,12 +168,12 @@ void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
 	glBindTexture(GL_TEXTURE_2D, this->_textureList[key]);    // Verrouillage
 
 	t_coord start = {};
-	start.x = (( posX *  2.0) / static_cast<double>(this->windowWidth)) - 1.0;
-	start.y = (( posY *  2.0) / static_cast<double>(this->windowHeight)) - 1.0;
+	start.x = static_cast<double>(((posX *  2.0) / this->windowWidth)) - 1.0;
+	start.y = static_cast<double>(((posY *  2.0) / this->windowHeight)) - 1.0;
 
 	t_coord end = {};
-	end.x = ((((double) posX + (double) sizeX) * (double) 2) / (double) this->windowWidth) - 1.0;
-	end.y = ((((double) posY + (double) sizeY) * (double) 2) / (double) this->windowHeight) - 1.0;
+	end.x = static_cast<double>((((posX + sizeX) * 2.0) / this->windowWidth)) - 1.0;
+	end.y = static_cast<double>((((posY + sizeY) * 2.0) / this->windowHeight)) - 1.0;
 
 	glBegin(GL_QUADS);
 	glTexCoord2d(0, 0);
@@ -199,16 +199,16 @@ void Graphics::putCharScreen(char const c, t_coord pos, t_coord sizeText, t_coor
 		return;
 
 	// Calcul points d'affichage sur l'écran
-	start.x = ((pos.x * (double) 2) / (double) this->windowWidth) - 1.0;
-	start.y = ((pos.y * (double) 2) / (double) this->windowHeight) - 1.0;
-	end.x = (((pos.x + sizeFont.x) * (double) 2) / (double) this->windowWidth) - 1.0;
-	end.y = (((pos.y + sizeFont.y) * (double) 2) / (double) this->windowHeight) - 1.0;
+	start.x = ((pos.x * 2.0) / static_cast<double>(this->windowWidth)) - 1.0;
+	start.y = ((pos.y * 2.0) / static_cast<double>(this->windowHeight)) - 1.0;
+	end.x = (((pos.x + sizeFont.x) * 2.0) / static_cast<double>(this->windowWidth)) - 1.0;
+	end.y = (((pos.y + sizeFont.y) * 2.0) / static_cast<double>(this->windowHeight)) - 1.0;
 
 	// Calcul points d'affichage de la texture
-	c_start.x = ((double) FONT_START_X(c)) / sizeText.x;
-	c_start.y = 1 - (((double) FONT_START_Y(c) / sizeText.y));
-	c_end.x = c_start.x + ((double) CHAR_SIZE_X / sizeText.x);
-	c_end.y = c_start.y - ((double) CHAR_SIZE_Y / sizeText.y);
+	c_start.x = static_cast<double>(FONT_START_X(c)) / sizeText.x;
+	c_start.y = 1 - (static_cast<double>(FONT_START_Y(c)) / sizeText.y);
+	c_end.x = c_start.x + (static_cast<double>(CHAR_SIZE_X) / sizeText.x);
+	c_end.y = c_start.y - (static_cast<double>(CHAR_SIZE_Y) / sizeText.y);
 
 	//Association des points de la texture avec ceux de l'écran
 	glBindTexture(GL_TEXTURE_2D, this->_fontTexture);
@@ -240,15 +240,15 @@ void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
 	sizeFont.x = round((CHAR_SIZE_X / 2.5) * size);
 	sizeFont.y = round((CHAR_SIZE_Y / 2.5) * size);
 
-	pos.x = (double) posX;
-	pos.y = (double) posY;
+	pos.x = static_cast<double>(posX);
+	pos.y = static_cast<double>(posY);
 	glBindTexture(GL_TEXTURE_2D, this->_fontTexture);
 	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &textSize[0]);    // Recuperation taille texture widht
 	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT,
 							 &textSize[1]);    // Recuperation taille texture height
 	glBindTexture(GL_TEXTURE_2D, 0);
-	sizeText.x = (double) textSize[0];
-	sizeText.y = (double) textSize[1];
+	sizeText.x = static_cast<double>(textSize[0]);
+	sizeText.y = static_cast<double>(textSize[1]);
 
 	while (*tmp) {
 		if (*tmp != ' ')

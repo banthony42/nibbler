@@ -31,7 +31,7 @@ Graphics::~Graphics() {
 
 }
 
-Graphics &Graphics::operator=(Graphics const &copy) {
+Graphics &Graphics::operator=(Graphics const &copy) {	//TODO les formes canonique en private ? sinon implementation
 	if (this != &copy) {
 		// copy
 	}
@@ -74,6 +74,9 @@ void Graphics::clear() {
 
 void Graphics::putCharScreen(char const c, t_coord pos, t_coord sizeText, t_coord sizeFont) { // TODO pass this method pure
 	SDL_Surface *surface;
+
+	if (c < '!' || c > '~')
+		return;
 
 	surface = this->_fontTexture;
 	SDL_Rect srcRect = {FONT_START_X(c), FONT_START_Y(c), CHAR_SIZE_X, CHAR_SIZE_Y};
@@ -137,11 +140,10 @@ void Graphics::loadFontTexture(std::string path) {
 void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
 	SDL_Surface *surface;
 
-	std::cout << "test" << std::endl;
 	surface = this->_textureList[key];
 	SDL_Rect srcRect = {0, 0, surface->w, surface->h};
 	SDL_Rect destRect = {posX, posY, sizeX, sizeY};
-	SDL_BlitSurface(surface, &srcRect, this->_img, &destRect);
+	SDL_BlitScaled(surface, &srcRect, this->_img, &destRect);
 }
 
 void Graphics::closeWindow() {
