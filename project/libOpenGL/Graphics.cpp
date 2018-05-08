@@ -56,7 +56,7 @@ static void key_callback(GLFWwindow *window, int key, int scancode, int action, 
 }
 
 std::vector<eEvent> &Graphics::getEvent() {
-	glfwPollEvents();	// best choice when rendering continually
+	glfwPollEvents();    // best choice when rendering continually
 	return AGraphics::_eventList;
 }
 
@@ -83,11 +83,13 @@ int Graphics::init(int windowWidth, int windowHeight) {
 
 	// Set callback
 	glfwSetKeyCallback(_window, key_callback);
-    this->_windowTerminated = false;
+	this->_windowTerminated = false;
 	glEnable(GL_TEXTURE_2D);
 	// Enable blending
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	this->windowWidth = windowWidth;
+	this->windowHeight = windowHeight;
 	return 0;
 }
 
@@ -102,51 +104,88 @@ void Graphics::loadTexture(std::string path, int key) {
 	unsigned char *data = nullptr;
 	int width, height, bpp;
 
-	glGenTextures(1, &texture); 										// Generation de l'iD
-	glBindTexture(GL_TEXTURE_2D, texture);								// Verouillage, obligatoire pour modification du GLuint
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);	// Les textures proche sont lissées
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);	// Les textures éloignées sont lissées
-	stbi_set_flip_vertically_on_load(true);								// Flipping the image, because openGL need it for .png
-	if (key == FONT)													// Exception for flipping the image (because font = .tga)
-		stbi_set_flip_vertically_on_load(false);						// Loading the image using stbi function
-	 if (!(data = stbi_load(path.c_str(), &width, &height, &bpp, 0))) {
-		 std::cout << "error: Failed to load texture" << std::endl; 	//TODO throw exception
-		 return ;
-	 }
-	if (bpp == 3)														// Setting the nb of channel
+	glGenTextures(1, &texture);                                        // Generation de l'iD
+	glBindTexture(GL_TEXTURE_2D,
+				  texture);                                // Verouillage, obligatoire pour modification du GLuint
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);    // Les textures proche sont lissées
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);    // Les textures éloignées sont lissées
+	stbi_set_flip_vertically_on_load(
+			true);                                // Flipping the image, because openGL need it for .png
+	if (!(data = stbi_load(path.c_str(), &width, &height, &bpp, 0))) {
+		std::cout << "error: Failed to load texture" << std::endl;    //TODO throw exception
+		return;
+	}
+	if (bpp == 3)                                                        // Setting the nb of channel
 		internFormat = GL_RGB;
 	else if (bpp == 4)
 		internFormat = GL_RGBA;
 	else {
-		std::cout << "error: internal format image is unknown" << std::endl; 	//TODO throw exception
-		return ;
+		std::cout << "error: internal format image is unknown" << std::endl;    //TODO throw exception
+		return;
 	}
-	format = internFormat;												// The format order is always RGB or RGBA - stbi always convert BGR to RGB
+	format = internFormat;                                                // The format order is always RGB or RGBA - stbi always convert BGR to RGB
 	glTexImage2D(GL_TEXTURE_2D, 0, internFormat, width, height, 0, format, GL_UNSIGNED_BYTE, data);
 	glGenerateMipmap(GL_TEXTURE_2D);
-	stbi_image_free(data);												// Liberation memoire
-	glBindTexture(GL_TEXTURE_2D, 0);									// Deverouillage
-	this->_textureList[key] = texture;									// Association de la texture a la key
+	stbi_image_free(data);                                                // Liberation memoire
+	glBindTexture(GL_TEXTURE_2D, 0);                                    // Deverouillage
+	this->_textureList[key] = texture;                                    // Association de la texture a la key
+}
+
+void Graphics::loadFontTexture(std::string path) {
+	GLuint texture;
+	GLenum internFormat(0);
+	GLenum format(0);
+	unsigned char *data = nullptr;
+	int width, height, bpp;
+
+	glGenTextures(1, &texture);                                        // Generation de l'iD
+	glBindTexture(GL_TEXTURE_2D,
+				  texture);                                // Verouillage, obligatoire pour modification du GLuint
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);    // Les textures proche sont lissées
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);    // Les textures éloignées sont lissées
+	stbi_set_flip_vertically_on_load(false);                                // No need to flip for .tga
+	if (!(data = stbi_load(path.c_str(), &width, &height, &bpp, 0))) {
+		std::cout << "error: Failed to load texture" << std::endl;    //TODO throw exception
+		return;
+	}
+	if (bpp == 3)                                                        // Setting the nb of channel
+		internFormat = GL_RGB;
+	else if (bpp == 4)
+		internFormat = GL_RGBA;
+	else {
+		std::cout << "error: internal format image is unknown" << std::endl;    //TODO throw exception
+		return;
+	}
+	format = internFormat;                                                // The format order is always RGB or RGBA - stbi always convert BGR to RGB
+	glTexImage2D(GL_TEXTURE_2D, 0, internFormat, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+	glGenerateMipmap(GL_TEXTURE_2D);
+	stbi_image_free(data);                                                // Liberation memoire
+	glBindTexture(GL_TEXTURE_2D, 0);                                    // Deverouillage
+	this->_fontTexture = texture;                                    // Association de la texture font
 }
 
 void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
-	glBindTexture(GL_TEXTURE_2D, this->_textureList[key]);	// Verrouillage
+	glBindTexture(GL_TEXTURE_2D, this->_textureList[key]);    // Verrouillage
 
-	t_coord start;
-	start.x = (((double)posX * (double)2) / (double)Nibbler::WINDOW_WIDTH) - 1.0;
-	start.y = (((double)posY * (double)2) / (double)Nibbler::WINDOW_HEIGHT) - 1.0;
+	t_coord start{};
+	start.x = (((double) posX * (double) 2) / (double) this->windowWidth) - 1.0;
+	start.y = (((double) posY * (double) 2) / (double) this->windowHeight) - 1.0;
 
-	t_coord end;
-	end.x =  ((((double)posX + (double)sizeX) * (double)2) / (double)Nibbler::WINDOW_WIDTH) - 1.0;
-	end.y =  ((((double)posY + (double)sizeY) * (double)2) / (double)Nibbler::WINDOW_HEIGHT) - 1.0;
+	t_coord end{};
+	end.x = ((((double) posX + (double) sizeX) * (double) 2) / (double) this->windowWidth) - 1.0;
+	end.y = ((((double) posY + (double) sizeY) * (double) 2) / (double) this->windowHeight) - 1.0;
 
 	glBegin(GL_QUADS);
-	glTexCoord2d(0,0);  glVertex2d(start.x, -end.y);	// bottom Left Corner
-	glTexCoord2d(0,1);  glVertex2d(start.x, -start.y);	// upper Left Corner
-	glTexCoord2d(1,1);  glVertex2d(end.x, -start.y);	// upper Right Corner
-	glTexCoord2d(1,0);  glVertex2d(end.x, -end.y);		// bottom Right Corner
+	glTexCoord2d(0, 0);
+	glVertex2d(start.x, -end.y);    // bottom Left Corner
+	glTexCoord2d(0, 1);
+	glVertex2d(start.x, -start.y);    // upper Left Corner
+	glTexCoord2d(1, 1);
+	glVertex2d(end.x, -start.y);    // upper Right Corner
+	glTexCoord2d(1, 0);
+	glVertex2d(end.x, -end.y);        // bottom Right Corner
 	glEnd();
-	glBindTexture(GL_TEXTURE_2D, 0);					// Deverrouillage
+	glBindTexture(GL_TEXTURE_2D, 0);                    // Deverrouillage
 }
 
 void Graphics::putCharScreen(char const c, t_coord pos, t_coord sizeText, t_coord sizeFont) {
@@ -157,63 +196,68 @@ void Graphics::putCharScreen(char const c, t_coord pos, t_coord sizeText, t_coor
 	t_coord end;
 
 	if (c < '!' || c > '~')
-		return ;
+		return;
 
 	// Calcul points d'affichage sur l'écran
-	start.x = ((pos.x * (double)2) / (double)Nibbler::WINDOW_WIDTH) - 1.0;
-	start.y = ((pos.y * (double)2) / (double)Nibbler::WINDOW_HEIGHT) - 1.0;
-	end.x =  (((pos.x + sizeFont.x) * (double)2) / (double)Nibbler::WINDOW_WIDTH) - 1.0;
-	end.y =  (((pos.y + sizeFont.y) * (double)2) / (double)Nibbler::WINDOW_HEIGHT) - 1.0;
+	start.x = ((pos.x * (double) 2) / (double) this->windowWidth) - 1.0;
+	start.y = ((pos.y * (double) 2) / (double) this->windowHeight) - 1.0;
+	end.x = (((pos.x + sizeFont.x) * (double) 2) / (double) this->windowWidth) - 1.0;
+	end.y = (((pos.y + sizeFont.y) * (double) 2) / (double) this->windowHeight) - 1.0;
 
 	// Calcul points d'affichage de la texture
-	c_start.x = ((double)FONT_START_X(c)) / sizeText.x;
-	c_start.y =  1 - (((double)FONT_START_Y(c) / sizeText.y));
-	c_end.x = c_start.x + ((double)CHAR_SIZE_X / sizeText.x);
-	c_end.y = c_start.y - ((double)CHAR_SIZE_Y / sizeText.y);
+	c_start.x = ((double) FONT_START_X(c)) / sizeText.x;
+	c_start.y = 1 - (((double) FONT_START_Y(c) / sizeText.y));
+	c_end.x = c_start.x + ((double) CHAR_SIZE_X / sizeText.x);
+	c_end.y = c_start.y - ((double) CHAR_SIZE_Y / sizeText.y);
 
 	//Association des points de la texture avec ceux de l'écran
-	glBindTexture(GL_TEXTURE_2D, this->_textureList[FONT]);
+	glBindTexture(GL_TEXTURE_2D, this->_fontTexture);
 	glBegin(GL_QUADS);
-	glTexCoord2d(c_start.x, c_start.y);	glVertex2d(start.x, -end.y);	// bottom Left Corner
-	glTexCoord2d(c_start.x, c_end.y);	glVertex2d(start.x, -start.y);	// upper Left Corner
-	glTexCoord2d(c_end.x, c_end.y);		glVertex2d(end.x, -start.y);	// upper Right Corner
-	glTexCoord2d(c_end.x,c_start.y);	glVertex2d(end.x, -end.y);		// bottom Right Corner
+	glTexCoord2d(c_start.x, c_start.y);
+	glVertex2d(start.x, -end.y);    // bottom Left Corner
+	glTexCoord2d(c_start.x, c_end.y);
+	glVertex2d(start.x, -start.y);    // upper Left Corner
+	glTexCoord2d(c_end.x, c_end.y);
+	glVertex2d(end.x, -start.y);    // upper Right Corner
+	glTexCoord2d(c_end.x, c_start.y);
+	glVertex2d(end.x, -end.y);        // bottom Right Corner
 	glEnd();
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
-	GLint textSize[2]= {0};
+	GLint textSize[2] = {0};
 	char const *tmp = str.c_str();
-	t_coord pos;
-	t_coord sizeText;
+	t_coord pos{};
+	t_coord sizeText{};
 
-	if (!tmp || !str.size() || posX > Nibbler::WINDOW_WIDTH || posY > Nibbler::WINDOW_HEIGHT || posX < 0 || posY < 0)
-		return ;
+	if (!tmp || !str.size() || posX > this->windowWidth || posY > this->windowHeight || posX < 0 || posY < 0)
+		return;
 	if (size <= 0)
 		size = 1;
 
-	t_coord sizeFont;
+	t_coord sizeFont{};
 	sizeFont.x = (CHAR_SIZE_X / 2.5) * size;
 	sizeFont.y = (CHAR_SIZE_Y / 2.5) * size;
 
-	pos.x = (double)posX;
-	pos.y = (double)posY;
-	glBindTexture(GL_TEXTURE_2D, this->_textureList[FONT]);
-	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &textSize[0]);	// Recuperation taille texture widht
-	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT,&textSize[1]);	// Recuperation taille texture height
+	pos.x = (double) posX;
+	pos.y = (double) posY;
+	glBindTexture(GL_TEXTURE_2D, this->_fontTexture);
+	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &textSize[0]);    // Recuperation taille texture widht
+	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT,
+							 &textSize[1]);    // Recuperation taille texture height
 	glBindTexture(GL_TEXTURE_2D, 0);
-	sizeText.x = (double)textSize[0];
-	sizeText.y = (double)textSize[1];
+	sizeText.x = (double) textSize[0];
+	sizeText.y = (double) textSize[1];
 
-	while(*tmp) {
+	while (*tmp) {
 		if (*tmp != ' ')
 			putCharScreen(*tmp, pos, sizeText, sizeFont);
 		pos.x += sizeFont.x;
-		if (*tmp == '\n' || (pos.x + sizeFont.x) >= Nibbler::WINDOW_WIDTH) {
+		if (*tmp == '\n' || (pos.x + sizeFont.x) >= this->windowWidth) {
 			pos.x = 0;
-			if ((pos.y + sizeFont.y) < Nibbler::WINDOW_HEIGHT)
-			pos.y += sizeFont.y;
+			if ((pos.y + sizeFont.y) < this->windowHeight)
+				pos.y += sizeFont.y;
 		}
 		tmp++;
 	}
@@ -234,12 +278,13 @@ void Graphics::closeWindow() {
 }
 
 void Graphics::cleanUp() {
-    if (!this->_windowTerminated) {
-        std::cout << "terminate" << std::endl;
-        glfwTerminate();
-        this->_windowTerminated = true;
-    }
+	if (!this->_windowTerminated) {
+		std::cout << "terminate" << std::endl;
+		glfwTerminate();
+		this->_windowTerminated = true;
+	}
 }
+
 
 Graphics *createGraphics() {
 	return new Graphics();

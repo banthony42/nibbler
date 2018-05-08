@@ -19,7 +19,6 @@
 #include <map>
 
 #include "../incl/AGraphics.hpp"
-#include "../incl/Nibbler.hpp"
 
 // Calcul de la position en pixel dans la texture pour le caracatere c
 #define FONT_START_X(c) (CHAR_SIZE_X * ((c - '!') % NB_CHAR))
@@ -38,6 +37,7 @@ public:
 	void display();
 	void clear();
 	void putStrScreen(std::string str, int posX, int posY, float size);
+	void loadFontTexture(std::string path);
 	void loadTexture(std::string path, int key);
 	void putTexture(int key, int posX, int posY, int sizeX, int sizeY);
 	void cleanUp();
@@ -50,6 +50,7 @@ private:
 	SDL_Window *_win;
 	SDL_Surface *_img;
 	std::map<int, SDL_Surface *> _textureList;
+	SDL_Surface *_fontTexture;
 
 	void putCharScreen(char const c, t_coord pos, t_coord sizeText, t_coord sizeFont);
 

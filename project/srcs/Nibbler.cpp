@@ -20,7 +20,7 @@ Nibbler::Nibbler() {
 }
 
 Nibbler::Nibbler(Nibbler const &copy) {
-    *this = copy;
+	*this = copy;
 }
 
 Nibbler::~Nibbler() {
@@ -28,49 +28,49 @@ Nibbler::~Nibbler() {
 }
 
 Nibbler &Nibbler::operator=(Nibbler const &copy) {
-    if (this != &copy) {
-        // copy 
-    }
-    return *this;
+	if (this != &copy) {
+		// copy
+	}
+	return *this;
 }
 
 Nibbler *Nibbler::getInstance() {
-    if (!Nibbler::_singleton)
-        Nibbler::_singleton = new Nibbler();
-    return Nibbler::_singleton;
+	if (!Nibbler::_singleton)
+		Nibbler::_singleton = new Nibbler();
+	return Nibbler::_singleton;
 }
 
 // TODO handle the return ERROR of init !!!!!
 void Nibbler::initRun() {
-    Nibbler::_aGraphics->init(Nibbler::WINDOW_WIDTH, Nibbler::WINDOW_HEIGHT);
-    this->_callScene[MENU] = new SceneMenu(this->_aGraphics);
-    this->_callScene[SKIN] = new SceneSkin(this->_aGraphics);
-    this->_callScene[GAME] = new SceneGame(this->_aGraphics);
-    this->_callScene[GAME_END] = new SceneGameEnd(this->_aGraphics);
-    this->_currentScene = MENU;
+	Nibbler::_aGraphics->init(Nibbler::WINDOW_WIDTH, Nibbler::WINDOW_HEIGHT);
+	this->_callScene[MENU] = new SceneMenu(this->_aGraphics);
+	this->_callScene[SKIN] = new SceneSkin(this->_aGraphics);
+	this->_callScene[GAME] = new SceneGame(this->_aGraphics);
+	this->_callScene[GAME_END] = new SceneGameEnd(this->_aGraphics);
+	this->_currentScene = MENU;
 	this->_aGraphics->loadTexture("./textures/snake_bckg_menu.png", MENU_BCKG);
-	this->_aGraphics->loadTexture("./textures/snake_font.tga", FONT);
+	this->_aGraphics->loadFontTexture("./textures/snake_font.tga");
 }
 
 void Nibbler::run() {
-    this->initRun();
+	this->initRun();
 	std::string key[NB_EVENT] = {"VOID", "ECHAP", "UP", "DOWN", "LEFT", "RIGHT", "ENTER",}; // debug
 
-    while (Nibbler::_aGraphics->loopUpdate()) {
+	while (Nibbler::_aGraphics->loopUpdate()) {
 		auto vec = Nibbler::_aGraphics->getEvent();
 
-        this->_callScene[this->_currentScene]->eventHandler(vec);
-        this->_callScene[this->_currentScene]->drawScene();
+		this->_callScene[this->_currentScene]->eventHandler(vec);
+		this->_callScene[this->_currentScene]->drawScene();
 
-        this->_aGraphics->clear();
+		this->_aGraphics->clear();
 		this->_aGraphics->putTexture(MENU_BCKG, 0, 0, this->WINDOW_WIDTH, this->WINDOW_HEIGHT);
 		this->_aGraphics->putStrScreen("< Game >", 300, 150, 2);
 		this->_aGraphics->putStrScreen("Options", 300, 200, 2);
 		this->_aGraphics->putStrScreen("Exit", 300, 250, 2);
-        this->_aGraphics->display();
+		this->_aGraphics->display();
 
-        // ************************************** DEBUG
-        for (size_t j = 0; j < vec.size(); j++) {
+		// ************************************** DEBUG
+		for (size_t j = 0; j < vec.size(); j++) {
 
 			std::cout << "size:" << vec.size() << std::endl;
 			std::cout << key[vec.at(j)] << std::endl;
@@ -82,12 +82,12 @@ void Nibbler::run() {
 				std::cout << "UP catch" << std::endl;
 			}
 		}
-        // *************************************** DEBUG
+		// *************************************** DEBUG
 
-        // draw
-        // event
-        // update nibbler
-    }
-    Nibbler::_aGraphics->cleanUp();
+		// draw
+		// event
+		// update nibbler
+	}
+	Nibbler::_aGraphics->cleanUp();
 }
 

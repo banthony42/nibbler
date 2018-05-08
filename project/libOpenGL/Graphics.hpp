@@ -24,9 +24,8 @@
 #include <GLFW/glfw3.h>
 
 #define STB_IMAGE_IMPLEMENTATION
+
 #include "../incl/stb_image.h"
-#include "../incl/Nibbler.hpp"
-#include "../incl/SceneGame.hpp"
 #include "../incl/AGraphics.hpp"
 
 // Calcul de la position en pixel dans la texture pour le caracatere c
@@ -36,29 +35,31 @@
 class Graphics : public AGraphics {
 
 public:
-    Graphics(); // Canonical
-    Graphics(Graphics const &copy); // Canonical
-    ~Graphics(); // Canonical
+	Graphics(); // Canonical
+	Graphics(Graphics const &copy); // Canonical
+	~Graphics(); // Canonical
 
-    Graphics &operator=(Graphics const &copy); // Canonical
+	Graphics &operator=(Graphics const &copy); // Canonical
 
-    int init(int windowWidth, int windowHeight);
+	int init(int windowWidth, int windowHeight);
 
-    int loopUpdate();
+	int loopUpdate();
 
-    void updateScreen();
+	void updateScreen();
 
-    void putStrScreen(std::string str, int posX, int poxY, float size);
+	void putStrScreen(std::string str, int posX, int poxY, float size);
 
-    void loadTexture(std::string path, int key);
+	void loadFontTexture(std::string path);
+
+	void loadTexture(std::string path, int key);
 
 	void closeWindow();
 
-    void cleanUp();
+	void cleanUp();
 
-    std::vector<eEvent>& getEvent();
+	std::vector<eEvent> &getEvent();
 
-    unsigned char getChar();
+	unsigned char getChar();
 
 	void putTexture(int key, int posX, int posY, int sizeX, int sizeY);
 
@@ -67,18 +68,18 @@ public:
 	void clear();
 
 private:
-	std::map<int, GLuint>	_textureList;
-	bool					_windowTerminated;
-	GLFWwindow*				_window;
+	std::map<int, GLuint> _textureList;
+	bool _windowTerminated;
+	GLFWwindow *_window;
+	GLuint _fontTexture;
 
 	void putCharScreen(char const c, t_coord pos, t_coord sizeText, t_coord sizeFont);
 };
 
 extern "C" {
-    Graphics    *createGraphics();
-    void        deleteGraphics(Graphics *graphics);
+Graphics *createGraphics();
+void deleteGraphics(Graphics *graphics);
 }
-
 
 
 #endif //NIBBLER_GRAPHICS_HPP

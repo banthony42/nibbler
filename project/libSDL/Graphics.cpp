@@ -45,6 +45,8 @@ int Graphics::init(int windowWidth, int windowHeight) {
 		std::cout << "ERROR : " << SDL_GetError() << std::endl;
 		return (-1);
 	}
+	this->windowWidth = windowWidth;
+	this->windowHeight = windowHeight;
 	this->_img = SDL_GetWindowSurface(this->_win);
 	this->_windowTerminated = false;
 	return (1);
@@ -70,45 +72,47 @@ void Graphics::clear() {
 	SDL_FillRect(this->_img, nullptr, 0x000000);
 }
 
-void Graphics::putCharScreen(char const c, t_coord pos, t_coord sizeText, t_coord sizeFont) {
+void
+Graphics::putCharScreen(char const c, t_coord pos, t_coord sizeText, t_coord sizeFont) { // TODO pass this method pure
 	SDL_Surface *surface;
 
-	surface = this->_textureList[FONT];
+	surface = this->_fontTexture;
 	SDL_Rect srcRect = {FONT_START_X(c), FONT_START_Y(c), CHAR_SIZE_X, CHAR_SIZE_Y};
-	SDL_Rect destRect = {(int)pos.x, (int)pos.y, (int)(sizeFont.x ), (int)(sizeFont.y )};
-	SDL_BlitSurface(surface, &srcRect, this->_img, &destRect);
+	SDL_Rect dstRect = {(int) pos.x, (int) pos.y, (int) (sizeFont.x), (int) (sizeFont.y)};
+	SDL_BlitSurface(surface, &srcRect, this->_img, &dstRect);
 }
 
 void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
-	char const *tmp = str.c_str();
-	t_coord pos;
-	t_coord sizeText;
+	char const *c_str = str.c_str();
+	t_coord pos{};
+	t_coord sizeText{};
 
-	if (!tmp || !str.size() || posX > Nibbler::WINDOW_WIDTH || posY > Nibbler::WINDOW_HEIGHT || posX < 0 || posY < 0)
-		return ;
+	if (!c_str || !str.size() || posX > this->windowWidth || posY > windowHeight || posX < 0 || posY < 0)
+		return;
 	if (size <= 0)
 		size = 1;
 
-	t_coord sizeFont;
+	t_coord sizeFont{};
 	sizeFont.x = (CHAR_SIZE_X / 2.5) * size;
 	sizeFont.y = (CHAR_SIZE_Y / 2.5) * size;
 
-	pos.x = (double)posX;
-	pos.y = (double)posY;
+	pos.x = posX;
+	pos.y = posY;
 
-	sizeText.x = this->_textureList[FONT]->w;
-	sizeText.y = this->_textureList[FONT]->h;
+	sizeText.x = this->_fontTexture->w;
+	sizeText.y = this->_fontTexture->h;
 
-	while(*tmp) {
-		if (*tmp != ' ')
-			putCharScreen(*tmp, pos, sizeText, sizeFont);
+	while (*c_str) {
+		if (*c_str != ' ') {
+			putCharScreen(*c_str, pos, sizeText, sizeFont);
+		}
 		pos.x += sizeFont.x;
-		if (*tmp == '\n' || (pos.x + sizeFont.x) >= Nibbler::WINDOW_WIDTH) {
+		if (*c_str == '\n' || (pos.x + sizeFont.x) >= this->windowWidth) {
 			pos.x = 0;
-			if ((pos.y + sizeFont.y) < Nibbler::WINDOW_HEIGHT)
+			if ((pos.y + sizeFont.y) < this->windowHeight)
 				pos.y += sizeFont.y;
 		}
-		tmp++;
+		c_str++;
 	}
 }
 
@@ -120,6 +124,16 @@ void Graphics::loadTexture(std::string path, int key) {
 	}
 	this->_textureList[key] = image;
 }
+
+void Graphics::loadFontTexture(std::string path) {
+	SDL_Surface *image = IMG_Load(path.c_str());
+	if (image == nullptr) {
+		std::cout << "IMG_Load: " << IMG_GetError() << "\n";
+		return;
+	}
+	this->_fontTexture = image;
+}
+
 
 void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
 	SDL_Surface *surface;
@@ -160,6 +174,7 @@ std::vector<eEvent> &Graphics::getEvent() {
 unsigned char Graphics::getChar() {
 	return 0;
 }
+
 
 Graphics *createGraphics() {
 	return new Graphics();

@@ -26,9 +26,9 @@
 #define CHAR_SIZE_Y 47
 
 typedef struct {
-	double		x;
-	double		y;
-}	t_coord;
+	double x;
+	double y;
+} t_coord;
 
 enum eEvent {
 	EVENT_VOID,
@@ -48,10 +48,11 @@ public:
 	virtual int init(int windowWidth, int windowHeight) = 0;
 	virtual int loopUpdate() = 0;
 	virtual void display() = 0;
-	virtual void clear () = 0;
+	virtual void clear() = 0;
 	virtual void putStrScreen(std::string str, int posX, int posY, float size) = 0;
+	virtual void loadFontTexture(std::string path) = 0;
 	virtual void loadTexture(std::string path, int key) = 0;
-    virtual void putTexture(int key, int posX, int posY, int sizeX, int sizeY) = 0;
+	virtual void putTexture(int key, int posX, int posY, int sizeX, int sizeY) = 0;
 	virtual void cleanUp() = 0;
 	virtual void closeWindow() = 0;
 	virtual std::vector<eEvent> &getEvent() = 0;
@@ -71,8 +72,8 @@ public:
 
 protected:
 	static std::vector<eEvent> _eventList;
-    int windowHeigth;
-    int windowLenght;
+	int windowWidth;
+	int windowHeight;
 
 };
 

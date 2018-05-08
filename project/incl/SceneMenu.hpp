@@ -18,17 +18,17 @@
 class SceneMenu : public AScene {
 
 public:
-    SceneMenu(AGraphics *aGraphics);
-    ~SceneMenu(); // Canonical
+	SceneMenu(AGraphics *aGraphics);
+	~SceneMenu(); // Canonical
 
 	void eventHandler(std::vector<eEvent> eventList);
 
 	void drawScene();
 
 private:
-    SceneMenu(); // Canonical
-    SceneMenu(SceneMenu const &copy); // Canonical
-    SceneMenu &operator=(SceneMenu const &copy); // Canonical
+	SceneMenu(); // Canonical
+	SceneMenu(SceneMenu const &copy); // Canonical
+	SceneMenu &operator=(SceneMenu const &copy); // Canonical
 };
 
 

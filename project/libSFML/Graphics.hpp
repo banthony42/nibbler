@@ -18,7 +18,6 @@
 #include <SFML/Graphics.hpp>
 
 #include "../incl/AGraphics.hpp"
-#include "../incl/Nibbler.hpp"
 #include "SFML/include/SFML/System/Vector2.hpp"
 
 // Calcul de la position en pixel dans la texture pour le caracatere c
@@ -28,48 +27,50 @@
 class Graphics : public AGraphics {
 
 public:
-    Graphics(); // Canonical
-    Graphics(Graphics const &copy); // Canonical
-    ~Graphics(); // Canonical
+	Graphics(); // Canonical
+	Graphics(Graphics const &copy); // Canonical
+	~Graphics(); // Canonical
 
-    Graphics &operator=(Graphics const &copy); // Canonical
+	Graphics &operator=(Graphics const &copy); // Canonical
 
-    int init(int windowWidth, int windowHeight);
+	int init(int windowWidth, int windowHeight);
 
-    int loopUpdate();
+	int loopUpdate();
 
-    void display();
+	void display();
 
-    void clear();
+	void clear();
 
-    void putStrScreen(std::string str, int posX, int posY, float size);
+	void putStrScreen(std::string str, int posX, int posY, float size);
 
-    void loadTexture(std::string path, int key);
+	void loadFontTexture(std::string path);
+
+	void loadTexture(std::string path, int key);
 
 	void closeWindow();
 
-    void cleanUp();
+	void cleanUp();
 
-	std::vector<eEvent>& getEvent();
+	std::vector<eEvent> &getEvent();
 
-    unsigned char getChar();
+	unsigned char getChar();
 
-    void putTexture(int key, int posX, int posY, int sizeX, int sizeY);
+	void putTexture(int key, int posX, int posY, int sizeX, int sizeY);
 
 
 private:
-    sf::RenderWindow *_window;
-    std::map<int, sf::Texture> _textureList;
-    std::vector<sf::Sprite> _spriteList;
+	sf::RenderWindow *_window;
+	std::map<int, sf::Texture> _textureList;
+	std::vector<sf::Sprite> _spriteList;
+	sf::Texture _fontTexture;
 
 	void putCharScreen(char const c, t_coord pos, t_coord sizeText, t_coord sizeFont);
 };
 
 extern "C" {
-Graphics    *createGraphics();
-void        deleteGraphics(Graphics *graphics);
+Graphics *createGraphics();
+void deleteGraphics(Graphics *graphics);
 }
-
 
 
 #endif //NIBBLER_GRAPHICS_HPP
