@@ -136,10 +136,10 @@ void Graphics::loadFontTexture(std::string path) {
 void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
 	SDL_Surface *surface;
 
-	surface = this->_textureList[key];
+	surface = this->_textureList[key]; // TODO check the key value
 	SDL_Rect srcRect = {0, 0, surface->w, surface->h};
-	SDL_Rect destRect = {posX, posY, sizeX, sizeY};
-	SDL_BlitScaled(surface, &srcRect, this->_img, &destRect);
+	SDL_Rect dstRect = {posX, posY, sizeX, sizeY};
+	SDL_BlitScaled(surface, &srcRect, this->_img, &dstRect);
 }
 
 void Graphics::closeWindow() {
