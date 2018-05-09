@@ -16,50 +16,50 @@ static bool is_digits(const std::string &str) {
 	return str.find_first_not_of("0123456789") == std::string::npos;
 }
 
-static void dlerror_wrapper(void) {
-	std::cerr << "Error: " << dlerror() << std::endl;
-	exit(0);
+void showHelp() {
+	std::cout << "help : ./nibbler [-size Width Height] [-lib pathLib]" << std::endl;
 }
 
-static AGraphics *load_library(char *arg, void **dl_handle) {
-	AGraphics *(*createGraphics)();
+void manageArguments(int ac, char **av) {
+	int i = 0;
+	bool libraryLoaded = false;
 
-	*dl_handle = dlopen(arg, RTLD_LAZY | RTLD_LOCAL);
-	if (!*dl_handle)
-		dlerror_wrapper();
-
-	// get createGraphics function
-	createGraphics = (AGraphics *(*)()) dlsym(*dl_handle, "createGraphics");
-	if (!createGraphics)
-		dlerror_wrapper();
-
-	// get Graphics
-	return createGraphics();
+	while (++i < ac) {
+		if (strcmp(av[i], "-help") == 0) {
+			showHelp();
+			exit(0);
+		}
+		if (strcmp(av[i], "-lib") == 0 && i + 1 < ac) {
+			if (!Nibbler::loadLibrary(std::string(av[++i]))) {
+				showHelp();
+				exit(0);
+			}
+			libraryLoaded = true;
+		} else if (strcmp(av[i], "-size") == 0 && i + 2 < ac) {
+			if (is_digits(av[i + 1]) && is_digits(av[i + 2])) {
+				Nibbler::setWindowWidth(std::stoi(av[++i]));
+				Nibbler::setWindowHeight(std::stoi(av[++i]));
+			}
+		} else {
+			showHelp();
+			exit(0);
+		}
+	}
+	if (!libraryLoaded) {
+		if (!Nibbler::loadLibrary(Nibbler::pathLibOpenGL)) {
+			exit(0);
+		}
+	}
 }
 
 int main(int argc, char **argv) {
 	Nibbler *nibbler;
-	void *dl_handle;
 
 	nibbler = Nibbler::getInstance();
-	dl_handle = nullptr;
-	if (argc == 3) {
-		if (is_digits(argv[1]) && is_digits(argv[2])) {
-			Nibbler::setWindowWidth(std::stoi(argv[1]));
-			Nibbler::setWindowHeight(std::stoi(argv[2]));
-			Nibbler::_aGraphics = load_library(Nibbler::pathLibOpenGL, &dl_handle);
-		}
-	} else if (argc == 2) {
-		Nibbler::_aGraphics = load_library(argv[1], &dl_handle);
-	} else {
-		Nibbler::_aGraphics = load_library(Nibbler::pathLibOpenGL, &dl_handle);
-	}
-	if (Nibbler::_aGraphics == NULL)
-		dlerror_wrapper();
-	if (dl_handle) {
-		nibbler->
-				run();
-		dlclose(dl_handle);
+	manageArguments(argc, argv);
+	if (Nibbler::_aGraphics != nullptr) {
+		nibbler->run();
+//		dlclose(dl_handle);
 	}
 	return (0);
 }

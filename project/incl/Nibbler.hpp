@@ -25,48 +25,50 @@
 #include "SceneGameEnd.hpp"
 
 enum eScene {
-    STATE_VOID,
-    MENU,
-    GAME,
-    SKIN,
-    GAME_END,
-    NB_STATE
+	STATE_VOID,
+	MENU,
+	GAME,
+	SKIN,
+	GAME_END,
+	NB_STATE
 };
 
 class Nibbler {
 
 public:
-    typedef std::map<eScene, AScene *> MapScene;
+	typedef std::map<eScene, AScene *> MapScene;
 	static char *pathLibSDL;
 	static char *pathLibOpenGL;
 	static char *pathLibSFML;
 
-    static AGraphics *_aGraphics;
-
-	static eScene getCurrentScene();
-	static void setCurrentScene(eScene _currentScene);
-
-    static Nibbler *getInstance();
-    void run();
+	static void *dl_handle;
+	static AGraphics *_aGraphics;
 
 	static int getWindowWidth();
 	static void setWindowWidth(int w);
 	static int getWindowHeight();
 	static void setWindowHeight(int h);
+	static eScene getCurrentScene();
+	static void setCurrentScene(eScene _currentScene);
+
+	static Nibbler *getInstance();
+	static bool loadLibrary(std::string const string);
+
+	void run();
 
 private:
-    static Nibbler *_singleton;
+	static Nibbler *_singleton;
 	static eScene _currentScene;
 	static int WINDOW_WIDTH;
 	static int WINDOW_HEIGHT;
 	MapScene _callScene;
 
-    void initRun();
+	void initRun();
 
-    Nibbler(); // Canonical
-    Nibbler(Nibbler const &copy); // Canonical
-    ~Nibbler(); // Canonical
-    Nibbler &operator=(Nibbler const &copy); // Canonical
+	Nibbler(); // Canonical
+	Nibbler(Nibbler const &copy); // Canonical
+	~Nibbler(); // Canonical
+	Nibbler &operator=(Nibbler const &copy); // Canonical
 };
 
 /*

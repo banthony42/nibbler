@@ -12,8 +12,11 @@
 
 #include "../incl/Nibbler.hpp"
 
+int DEBUG_MODE = false;
+
 Nibbler *Nibbler::_singleton = nullptr;
 AGraphics *Nibbler::_aGraphics = nullptr;
+void *Nibbler::dl_handle = nullptr;
 eScene Nibbler::_currentScene = MENU;
 int Nibbler::WINDOW_WIDTH = 1200;
 int Nibbler::WINDOW_HEIGHT = 900;
@@ -23,7 +26,7 @@ char *Nibbler::pathLibOpenGL = const_cast<char *>("./libOpenGL/libgraph.so");
 char *Nibbler::pathLibSFML = const_cast<char *>("./libSFML/libgraph.so");
 
 Nibbler::Nibbler() {
-
+	this->dl_handle = nullptr;
 }
 
 Nibbler::Nibbler(Nibbler const &copy) {
@@ -131,4 +134,38 @@ void Nibbler::setWindowHeight(int h) {
 	}
 	Nibbler::WINDOW_HEIGHT = h;
 }
+
+bool Nibbler::loadLibrary(std::string const string) {
+	AGraphics *(*createGraphics)();
+
+	Nibbler::dl_handle = dlopen(string.c_str(), RTLD_LAZY | RTLD_LOCAL);
+	if (!Nibbler::dl_handle) {
+		if (DEBUG_MODE) {
+			std::cerr << "Failed to load library [" << dlerror() << "]" << std::endl;
+		} else {
+			std::cerr << "Failed to load library [" << string << "]" << std::endl;
+		}
+		return false;
+	}
+
+	// get createGraphics function
+	createGraphics = (AGraphics *(*)()) dlsym(Nibbler::dl_handle, "createGraphics");
+	if (!createGraphics) {
+		if (DEBUG_MODE) {
+			std::cerr << "Failed to load library [" << dlerror() << "]" << std::endl;
+		} else {
+			std::cerr << "Failed to load library [" << string << "]" << std::endl;
+		}
+		return false;
+	}
+	Nibbler::_aGraphics = createGraphics();
+	return true;
+}
+
+
+
+
+
+
+
 
