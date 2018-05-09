@@ -154,13 +154,8 @@ void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
 	this->_spriteList.push_back(sprite);
 }
 
-void Graphics::closeWindow() {
-//    std::cout << "Should close and terminate" << std::endl;
-	this->_window->close();
-	this->cleanUp();
-}
-
 void Graphics::cleanUp() {
+	this->_window->close();
 //    if (this->_window) // TODO THE DELETE MAKE A SEGFAULT
 //        delete this->_window;	//TODO verifier utilite, un simple _window->close() suffit a terminer le prog
 }

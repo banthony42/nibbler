@@ -146,10 +146,6 @@ void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
 	SDL_BlitScaled(surface, &srcRect, this->_img, &dstRect);
 }
 
-void Graphics::closeWindow() {
-	this->cleanUp();
-}
-
 std::vector<eEvent> &Graphics::getEvent() {
 	SDL_Event e{};
 	AGraphics::clearEvent();

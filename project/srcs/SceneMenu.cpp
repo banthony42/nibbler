@@ -38,7 +38,7 @@ SceneMenu &SceneMenu::operator=(SceneMenu const &copy) {
 void SceneMenu::eventHandler(std::vector<eEvent> eventList) { // TODO solve the problem of repeating
 	for (size_t j = 0; j < eventList.size(); j++) {
 		if (eventList.at(j) == ECHAP) {
-			Nibbler::_aGraphics->closeWindow();
+			Nibbler::_aGraphics->cleanUp();
 		}
 		if (eventList.at(j) == RIGHT) {
 //			Nibbler::
