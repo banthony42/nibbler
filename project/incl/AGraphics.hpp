@@ -47,6 +47,9 @@ enum eEvent {
 	NB_EVENT
 };
 
+// TODO add the name of the lib on the screen
+
+
 class AGraphics {
 
 public:
@@ -61,7 +64,6 @@ public:
 	virtual void loadTexture(std::string path, int key) = 0;
 	virtual void putTexture(int key, int posX, int posY, int sizeX, int sizeY) = 0;
 	virtual void cleanUp() = 0;
-	virtual void closeWindow() = 0;
 	virtual std::vector<eEvent> &getEvent() = 0;
 	virtual unsigned char getChar() = 0;
 

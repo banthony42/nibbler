@@ -45,7 +45,7 @@ public:
 	void putStrScreen(std::string str, int posX, int poxY, float size);
 	void loadFontTexture(std::string path);
 	void loadTexture(std::string path, int key);
-	void closeWindow();
+
 	void cleanUp();
 	std::vector<eEvent> &getEvent();
 	unsigned char getChar();

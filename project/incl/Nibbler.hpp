@@ -36,17 +36,18 @@ enum eScene {
 	NB_STATE
 };
 
+#define LIB_SDL_PATH "./libSDL/libgraph.so"
+#define LIB_OPENGL_PATH "./libOpenGL/libgraph.so"
+#define LIB_SFML_PATH "./libSFML/libgraph.so"
+
 class Nibbler {
 
 public:
 	typedef std::map<eScene, AScene *> MapScene;
-	static char *pathLibSDL;
-	static char *pathLibOpenGL;
-	static char *pathLibSFML;
 
 	static void *_dlHandle;
 	static AGraphics *_aGraphics;
-	// TODO add a current lib, add the name of the lib on the screen
+	static int _currentLib;
 
 	static int getWindowWidth();
 	static void setWindowWidth(int w);
@@ -69,6 +70,7 @@ private:
 	static int WINDOW_HEIGHT;
 	MapScene _callScene;
 
+	static void initAGraphics();
 	void initRun();
 
 	Nibbler(); // Canonical

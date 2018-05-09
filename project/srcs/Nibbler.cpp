@@ -23,10 +23,6 @@ eScene Nibbler::_currentScene = MENU;
 int Nibbler::WINDOW_WIDTH = 1200;
 int Nibbler::WINDOW_HEIGHT = 900;
 
-char *Nibbler::pathLibSDL = const_cast<char *>("./libSDL/libgraph.so");
-char *Nibbler::pathLibOpenGL = const_cast<char *>("./libOpenGL/libgraph.so");
-char *Nibbler::pathLibSFML = const_cast<char *>("./libSFML/libgraph.so");
-
 Nibbler::Nibbler() {
 	this->_dlHandle = nullptr;
 }
@@ -52,27 +48,31 @@ Nibbler *Nibbler::getInstance() {
 	return Nibbler::_singleton;
 }
 
+void Nibbler::initAGraphics() {
+	Nibbler::_aGraphics->init(Nibbler::WINDOW_WIDTH, Nibbler::WINDOW_HEIGHT);
+	Nibbler::_aGraphics->loadTexture("./textures/menu_bckg.png", MENU_BCKG);
+	Nibbler::_aGraphics->loadTexture("./textures/game_bckg.png", GAME_BCKG);
+	Nibbler::_aGraphics->loadTexture("./textures/border_game.png", GAME_BORDER);
+	Nibbler::_aGraphics->loadTexture("./textures/score_bckg.png", SCORE_BCKG);
+	Nibbler::_aGraphics->loadTexture("./textures/skin_border.png", SKIN_FRAME);
+	Nibbler::_aGraphics->loadTexture("./textures/snake_head_smb.png", SNAKE_H_SMB);
+	Nibbler::_aGraphics->loadTexture("./textures/snake_body_smb.png", SNAKE_B_SMB);
+	Nibbler::_aGraphics->loadTexture("./textures/snake_head_pcm.png", SNAKE_H_PCM);
+	Nibbler::_aGraphics->loadTexture("./textures/snake_body_pcm.png", SNAKE_B_PCM);
+	Nibbler::_aGraphics->loadTexture("./textures/snake_head_hk.png", SNAKE_H_HK);
+	Nibbler::_aGraphics->loadTexture("./textures/snake_body_hk.png", SNAKE_B_HK);
+	Nibbler::_aGraphics->loadTexture("./textures/melon.png", FOOD);
+	Nibbler::_aGraphics->loadFontTexture("./textures/snake_font.tga");
+}
+
+
 // TODO handle the return ERROR of init !!!!!
 void Nibbler::initRun() {
-	Nibbler::_aGraphics->init(Nibbler::WINDOW_WIDTH, Nibbler::WINDOW_HEIGHT);
 	this->_callScene[MENU] = new SceneMenu(this->_aGraphics);
 	this->_callScene[SKIN] = new SceneSkin(this->_aGraphics);
 	this->_callScene[GAME] = new SceneGame(this->_aGraphics);
 	this->_callScene[GAME_END] = new SceneGameEnd(this->_aGraphics);
-	// TODO separate initialisation of nibbler and agraph
-	this->_aGraphics->loadTexture("./textures/menu_bckg.png", MENU_BCKG);
-	this->_aGraphics->loadTexture("./textures/game_bckg.png", GAME_BCKG);
-	this->_aGraphics->loadTexture("./textures/border_game.png", GAME_BORDER);
-	this->_aGraphics->loadTexture("./textures/score_bckg.png", SCORE_BCKG);
-	this->_aGraphics->loadTexture("./textures/skin_border.png", SKIN_FRAME);
-	this->_aGraphics->loadTexture("./textures/snake_head_smb.png", SNAKE_H_SMB);
-	this->_aGraphics->loadTexture("./textures/snake_body_smb.png", SNAKE_B_SMB);
-	this->_aGraphics->loadTexture("./textures/snake_head_pcm.png", SNAKE_H_PCM);
-	this->_aGraphics->loadTexture("./textures/snake_body_pcm.png", SNAKE_B_PCM);
-	this->_aGraphics->loadTexture("./textures/snake_head_hk.png", SNAKE_H_HK);
-	this->_aGraphics->loadTexture("./textures/snake_body_hk.png", SNAKE_B_HK);
-	this->_aGraphics->loadTexture("./textures/melon.png", FOOD);
-	this->_aGraphics->loadFontTexture("./textures/snake_font.tga");
+	Nibbler::initAGraphics();
 }
 
 void Nibbler::run() {
@@ -92,7 +92,7 @@ void Nibbler::run() {
 			std::cout << key[vec.at(j)] << std::endl;
 
 			if (vec.at(j) == ECHAP) {
-				Nibbler::_aGraphics->closeWindow();
+				Nibbler::_aGraphics->cleanUp();
 			}
 			if (vec.at(j) == UP) {
 				std::cout << "UP catch" << std::endl;
@@ -144,26 +144,33 @@ void Nibbler::setWindowHeight(int h) {
 
 bool Nibbler::loadLibrary(std::string const string) {
 	bool toReload = false;
+	void *dlHandle = nullptr;
 	AGraphics *(*createGraphics)();
 	AGraphics *(*deleteGraphics)(AGraphics *);
 
-	// TODO move this function after being sure we must reload the lib
-	if (Nibbler::_aGraphics != nullptr) {
+	// free the current lib
+	if (Nibbler::_dlHandle != dlHandle) {
 		toReload = true;
+		Nibbler::_aGraphics->cleanUp();
 		Nibbler::_deleteAGraphics(Nibbler::_aGraphics);
 		dlclose(Nibbler::_dlHandle);
 	}
 
-	Nibbler::_dlHandle = dlopen(string.c_str(), RTLD_LAZY | RTLD_LOCAL);
+	dlHandle = dlopen(string.c_str(), RTLD_LAZY | RTLD_LOCAL);
 
-	std::cout << Nibbler::_dlHandle << std::endl;
-	if (!Nibbler::_dlHandle) {
+	if (!dlHandle) {
 		if (DEBUG_MODE) {
 			std::cerr << "Failed to load library [" << dlerror() << "]" << std::endl;
 		} else {
 			std::cerr << "Failed to load library [" << string << "]" << std::endl;
 		}
 		return false;
+	}
+
+	if (Nibbler::_dlHandle != dlHandle) {
+		toReload = true;
+		Nibbler::_deleteAGraphics(Nibbler::_aGraphics);
+		dlclose(Nibbler::_dlHandle);
 	}
 
 	// get createGraphics function
@@ -188,12 +195,17 @@ bool Nibbler::loadLibrary(std::string const string) {
 	}
 	Nibbler::_deleteAGraphics = deleteGraphics;
 	Nibbler::_aGraphics = createGraphics();
+	Nibbler::_dlHandle = dlHandle;
+	if (toReload) {
+		Nibbler::initAGraphics();
+	}
 	return true;
 }
 
 void Nibbler::closeDlHandle() {
 	dlclose(Nibbler::_dlHandle);
 }
+
 
 
 

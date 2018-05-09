@@ -46,7 +46,7 @@ void manageArguments(int ac, char **av) {
 		}
 	}
 	if (!libraryLoaded) {
-		if (!Nibbler::loadLibrary(Nibbler::pathLibOpenGL)) {
+		if (!Nibbler::loadLibrary(std::string(LIB_OPENGL_PATH))) {
 			exit(0);
 		}
 	}

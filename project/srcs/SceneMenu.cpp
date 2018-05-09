@@ -60,7 +60,7 @@ void SceneMenu::eventHandler(std::vector<eEvent> eventList) { // TODO solve the 
 	if (this->_page == PAGE_MENU) {
 		for (size_t j = 0; j < eventList.size(); j++) {
 			if (eventList.at(j) == ECHAP) {
-				Nibbler::_aGraphics->closeWindow();
+				Nibbler::_aGraphics->cleanUp();
 			}
 			if (eventList.at(j) == UP) {
 				if (this->_cursor > 0)

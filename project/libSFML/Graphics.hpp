@@ -50,8 +50,6 @@ public:
 
 	void loadTexture(std::string path, int key);
 
-	void closeWindow();
-
 	void cleanUp();
 
 	std::vector<eEvent> &getEvent();

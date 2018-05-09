@@ -276,13 +276,9 @@ void Graphics::clear() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Graphics::closeWindow() {
-	glfwDestroyWindow(this->_window);
-	this->cleanUp();
-}
-
 void Graphics::cleanUp() {
 	if (!this->_windowTerminated) {
+		glfwDestroyWindow(this->_window);
 		std::cout << "terminate" << std::endl;
 		glfwTerminate();
 		this->_windowTerminated = true;

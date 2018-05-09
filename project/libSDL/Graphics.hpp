@@ -42,7 +42,6 @@ public:
 	void loadTexture(std::string path, int key);
 	void putTexture(int key, int posX, int posY, int sizeX, int sizeY);
 	void cleanUp();
-	void closeWindow();
 	std::vector<eEvent> &getEvent();
 	unsigned char getChar();
 
