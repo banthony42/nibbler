@@ -32,7 +32,7 @@ public:
 	~Graphics(); // Canonical
 
 	Graphics &operator=(Graphics const &copy);
-	int init(int windowWidth, int windowHeight);
+	int init(int windowWidth, int windowHeight, std::string windowName);
 	int loopUpdate();
 	void display();
 	void clear();

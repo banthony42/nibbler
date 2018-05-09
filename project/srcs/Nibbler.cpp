@@ -49,7 +49,7 @@ Nibbler *Nibbler::getInstance() {
 }
 
 void Nibbler::initAGraphics() {
-	Nibbler::_aGraphics->init(Nibbler::WINDOW_WIDTH, Nibbler::WINDOW_HEIGHT);
+	Nibbler::_aGraphics->init(Nibbler::WINDOW_WIDTH, Nibbler::WINDOW_HEIGHT, "Nibbler");
 	Nibbler::_aGraphics->loadTexture("./textures/menu_bckg.png", MENU_BCKG);
 	Nibbler::_aGraphics->loadTexture("./textures/game_bckg.png", GAME_BCKG);
 	Nibbler::_aGraphics->loadTexture("./textures/border_game.png", GAME_BORDER);

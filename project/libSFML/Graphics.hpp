@@ -34,7 +34,7 @@ public:
 
 	Graphics &operator=(Graphics const &copy); // Canonical
 
-	int init(int windowWidth, int windowHeight);
+	int init(int windowWidth, int windowHeight, std::string windowName);
 
 	int loopUpdate();
 	void display();
@@ -57,6 +57,7 @@ private:
 	std::map<int, sf::Texture> _textureList;
 	std::vector<sf::Sprite> _spriteList;
 	sf::Texture _fontTexture;
+	bool _windowTerminated;
 };
 
 extern "C" {

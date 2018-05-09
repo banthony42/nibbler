@@ -39,14 +39,14 @@ public:
 	Graphics(Graphics const &copy); // Canonical
 	~Graphics(); // Canonical
 	Graphics &operator=(Graphics const &copy); // Canonical
-	int init(int windowWidth, int windowHeight);
+	int init(int windowWidth, int windowHeight, std::string windowName);
 	int loopUpdate();
 	void putCharScreen(char const c, t_coordd pos, t_coordd sizeFont);
 	void putStrScreen(std::string str, int posX, int poxY, float size);
 	void loadFontTexture(std::string path);
 	void loadTexture(std::string path, int key);
-	void cleanUp();
 
+	void cleanUp();
 	std::vector<eEvent> &getEvent();
 	unsigned char getChar();
 	void putTexture(int key, int posX, int posY, int sizeX, int sizeY);

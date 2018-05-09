@@ -20,7 +20,7 @@
 std::vector<eEvent> AGraphics::_eventList;
 
 Graphics::Graphics() {
-
+	this->_windowTerminated = true;
 }
 
 Graphics::Graphics(Graphics const &copy) {
@@ -38,9 +38,9 @@ Graphics &Graphics::operator=(Graphics const &copy) {    //TODO les formes canon
 	return *this;
 }
 
-int Graphics::init(int windowWidth, int windowHeight) { // TODO ajouter le nom de la fenetre en param
+int Graphics::init(int windowWidth, int windowHeight, std::string windowName) {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) ||
-		!(this->_win = SDL_CreateWindow("SDL", SDL_WINDOWPOS_UNDEFINED,
+		!(this->_win = SDL_CreateWindow(std::string(windowName + ": SDL").c_str(), SDL_WINDOWPOS_UNDEFINED,
 										SDL_WINDOWPOS_UNDEFINED, windowWidth, windowHeight, SDL_WINDOW_SHOWN))) {
 		std::cout << "ERROR : " << SDL_GetError() << std::endl;
 		return (-1);

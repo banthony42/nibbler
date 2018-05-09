@@ -22,6 +22,7 @@ std::vector<eEvent> AGraphics::_eventList;
 
 Graphics::Graphics() {
 	this->_window = nullptr;
+	this->_windowTerminated = true;
 }
 
 Graphics::Graphics(Graphics const &copy) {
@@ -39,18 +40,22 @@ Graphics &Graphics::operator=(Graphics const &copy) {
 	return *this;
 }
 
-int Graphics::init(int windowWidth, int windowHeight) {// TODO ajouter le nom de la fenetre en param
-	this->_window = new sf::RenderWindow(sf::VideoMode(windowWidth, windowHeight), "SFML");
+int Graphics::init(int windowWidth, int windowHeight, std::string windowName) {
+	this->_window = new sf::RenderWindow(sf::VideoMode(windowWidth, windowHeight), windowName + ": SFML");
 	this->_window->setKeyRepeatEnabled(false);
 	this->windowWidth = windowWidth;
 	this->windowHeight = windowHeight;
+	this->_windowTerminated = false;
 	return 1;
 }
 
 void Graphics::cleanUp() {
-	if (this->_window) {// TODO THE DELETE MAKE A SEGFAULT
-		this->_window->close();
-		delete this->_window;
+	if (!this->_windowTerminated) {
+		if (this->_window) {
+			this->_window->close();
+			delete this->_window;
+		}
+		this->_windowTerminated = true;
 	}
 }
 
@@ -78,7 +83,7 @@ void Graphics::loadFontTexture(std::string path) {
 
 
 int Graphics::loopUpdate() {
-	return this->_window->isOpen();
+	return  !this->_windowTerminated && this->_window->isOpen();
 }
 
 void Graphics::display() {

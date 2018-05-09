@@ -20,6 +20,7 @@
 std::vector<eEvent> AGraphics::_eventList;
 
 Graphics::Graphics() {
+	this->_windowTerminated = true;
 }
 
 Graphics::Graphics(Graphics const &copy) {
@@ -41,7 +42,7 @@ static void key_callback(GLFWwindow *window, int key, int scancode, int action, 
 	std::cout << "event : " << key << std::endl;
 
 	AGraphics::clearEvent();
-	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) // TODO mettre des else if
+	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		AGraphics::addEvent(ECHAP);
 	else if (key == GLFW_KEY_UP && action == GLFW_PRESS)
 		AGraphics::addEvent(UP);
@@ -64,7 +65,7 @@ unsigned char Graphics::getChar() {
 	return 0;
 }
 
-int Graphics::init(int windowWidth, int windowHeight) {// TODO ajouter le nom de la fenetre en param
+int Graphics::init(int windowWidth, int windowHeight, std::string windowName) {
 	if (!glfwInit()) {
 		std::cout << "error: init glfw!" << std::endl;
 		// TODO throw exception
@@ -72,7 +73,7 @@ int Graphics::init(int windowWidth, int windowHeight) {// TODO ajouter le nom de
 	}
 	// On s'assure d'etre en context OPENGL pour pouvoir utiliser les fonction openGL (Useless si val par defaut)
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
-	if (!(_window = glfwCreateWindow(windowWidth, windowHeight, "OpenGL", nullptr, nullptr))) {
+	if (!(_window = glfwCreateWindow(windowWidth, windowHeight, std::string(windowName + ": OpenGL").c_str(), nullptr, nullptr))) {
 		std::cout << "error: create window glfw!" << std::endl;
 		// TODO throw exception
 		glfwTerminate();
@@ -91,10 +92,6 @@ int Graphics::init(int windowWidth, int windowHeight) {// TODO ajouter le nom de
 	this->windowWidth = windowWidth;
 	this->windowHeight = windowHeight;
 	return 0;
-}
-
-int Graphics::loopUpdate() {
-	return !glfwWindowShouldClose(_window) && !this->_windowTerminated;
 }
 
 void Graphics::loadTexture(std::string path, int key) {
@@ -162,6 +159,10 @@ void Graphics::loadFontTexture(std::string path) {
 	stbi_image_free(data);                                                // Liberation memoire
 	glBindTexture(GL_TEXTURE_2D, 0);                                    // Deverouillage
 	this->_fontTexture = texture;                                    // Association de la texture font
+}
+
+int Graphics::loopUpdate() {
+	return !this->_windowTerminated && !glfwWindowShouldClose(_window);
 }
 
 void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
