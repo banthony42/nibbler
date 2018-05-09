@@ -136,8 +136,10 @@ void Graphics::loadFontTexture(std::string path) {
 void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
 	SDL_Surface *surface;
 
-	if (!key)
+	if (!key) {
+		SDL_FillRect(this->_img, NULL, 0x000000);
 		return ;
+	}
 	surface = this->_textureList[key]; // TODO check the key value
 	SDL_Rect srcRect = {0, 0, surface->w, surface->h};
 	SDL_Rect dstRect = {posX, posY, sizeX, sizeY};

@@ -45,8 +45,6 @@ public:
 
 	int loopUpdate();
 
-	void updateScreen();
-
 	void putCharScreen(char const c, t_coord pos, t_coord sizeFont);
 
 	void putStrScreen(std::string str, int posX, int poxY, float size);

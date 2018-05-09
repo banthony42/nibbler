@@ -168,7 +168,7 @@ void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
 	glBindTexture(GL_TEXTURE_2D, this->_textureList[key]);    // Verrouillage
 
 	if (!key)
-		return ;
+		return;
 	t_coord start = {};
 	start.x = static_cast<double>(((posX *  2.0) / this->windowWidth)) - 1.0;
 	start.y = static_cast<double>(((posY *  2.0) / this->windowHeight)) - 1.0;
