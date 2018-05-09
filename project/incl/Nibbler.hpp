@@ -24,6 +24,9 @@
 #include "SceneGame.hpp"
 #include "SceneGameEnd.hpp"
 
+// Calcul x % de val
+#define PERCENTAGE(x, val) ((x * val) / 100)
+
 enum eScene {
 	STATE_VOID,
 	MENU,

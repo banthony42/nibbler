@@ -15,6 +15,7 @@
 
 #include <string>
 #include <vector>
+#include <cmath>
 
 // TODO du fait de la var _eventList en static => singleton ? sinon -> _eventList[NB_STATE]
 
@@ -71,8 +72,15 @@ public:
 		AGraphics::_eventList.clear();
 	}
 
+	int centerTextX(std::string str, float size) {
+		float s = size;
+		if (s <= 0)
+			s = 1;
+		return ((this->windowWidth / 2) - static_cast<int>((str.length() / 2) * round((CHAR_SIZE_X / 2.5) * s)));
+	}
+
 protected:
-	static std::vector<eEvent> _eventList;
+	static std::vector<eEvent> _eventList; //TODO t_coord sizeFont
 	int windowWidth;
 	int windowHeight;
 
