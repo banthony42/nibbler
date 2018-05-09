@@ -32,8 +32,8 @@ SceneSkin &SceneSkin::operator=(SceneSkin const &copy) {
     return *this;
 }
 
-SceneSkin::SceneSkin(AGraphics *aGraphics) {
-    this->_aGraphics = aGraphics;
+SceneSkin::SceneSkin(AGraphics **aGraphics) {
+	this->_aGraphics = aGraphics;
 }
 
 void SceneSkin::eventHandler(std::vector<eEvent> eventList) {
@@ -45,9 +45,9 @@ void SceneSkin::eventHandler(std::vector<eEvent> eventList) {
 }
 
 void SceneSkin::drawScene() {
-	this->_aGraphics->clear();
-	this->_aGraphics->putTexture(0, 0, 0, Nibbler::getWindowWidth(), Nibbler::getWindowHeight());
-	this->_aGraphics->display();
+	(*this->_aGraphics)->clear();
+	(*this->_aGraphics)->putTexture(0, 0, 0, Nibbler::getWindowWidth(), Nibbler::getWindowHeight());
+	(*this->_aGraphics)->display();
 }
 
 

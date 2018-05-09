@@ -34,7 +34,7 @@ typedef struct {
 class SceneGame : public AScene {
 
 public:
-    SceneGame(AGraphics *aGraphics);
+    SceneGame(AGraphics **aGraphics);
     ~SceneGame(); // Canonical
 
 	void eventHandler(std::vector<eEvent> eventList);

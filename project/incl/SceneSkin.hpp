@@ -18,7 +18,7 @@
 class SceneSkin : public AScene {
 
 public:
-    SceneSkin(AGraphics *aGraphics);
+    SceneSkin(AGraphics **aGraphics);
     ~SceneSkin(); // Canonical
 
 	void eventHandler(std::vector<eEvent> eventList);

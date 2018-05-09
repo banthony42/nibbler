@@ -19,7 +19,7 @@
 class SceneGameEnd : public AScene {
 
 public:
-    SceneGameEnd(AGraphics *aGraphics);
+    SceneGameEnd(AGraphics **aGraphics);
     ~SceneGameEnd(); // Canonical
 
 	void eventHandler(std::vector<eEvent> eventList);

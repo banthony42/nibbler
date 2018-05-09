@@ -60,7 +60,7 @@ void Graphics::display() {
 }
 
 void Graphics::clear() {
-	this->_window->clear();	//TODO dont work properly
+	this->_window->clear();    //TODO dont work properly
 }
 
 void Graphics::putCharScreen(char const c, t_coordd pos, t_coordd sizeFont) {
@@ -83,7 +83,8 @@ void Graphics::putCharScreen(char const c, t_coordd pos, t_coordd sizeFont) {
 	sprite.setPosition(sf::Vector2f(pos.x, pos.y));                            // Position d'affichage sur l'ecran
 	sprite.setTextureRect(
 			textArea);                                        // Definition de la zone de la texture a utiliser
-	sprite.setScale(static_cast<float>(sizeFont.x / CHAR_SIZE_X), static_cast<double>(sizeFont.y / CHAR_SIZE_Y));    // Gestion de la taille de l'affichage
+	sprite.setScale(static_cast<float>(sizeFont.x / CHAR_SIZE_X),
+					static_cast<double>(sizeFont.y / CHAR_SIZE_Y));    // Gestion de la taille de l'affichage
 	this->_spriteList.push_back(sprite);                                    // Ajout du sprite a la liste pour affichage
 }
 
@@ -144,19 +145,21 @@ void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
 	sf::Vector2u vec;
 
 	if (!key) {
-		this->_window->clear(sf::Color(0,0,0));
+		this->_window->clear(sf::Color(0, 0, 0));
 		return;
 	}
 	vec = this->_textureList[key].getSize();
 	sprite.setTexture(this->_textureList[key]);
 	sprite.setPosition(sf::Vector2f(posX, posY));
-	sprite.setScale( static_cast<double>(sizeX) / static_cast<double>(vec.x), static_cast<double>(sizeY) / static_cast<double>(vec.y));
+	sprite.setScale(static_cast<double>(sizeX) / static_cast<double>(vec.x),
+					static_cast<double>(sizeY) / static_cast<double>(vec.y));
 	this->_spriteList.push_back(sprite);
 }
 
 void Graphics::cleanUp() {
-	this->_window->close();
-//    if (this->_window) // TODO THE DELETE MAKE A SEGFAULT
+	if (this->_window) {// TODO THE DELETE MAKE A SEGFAULT
+		this->_window->close();
+	}
 //        delete this->_window;	//TODO verifier utilite, un simple _window->close() suffit a terminer le prog
 }
 

@@ -45,7 +45,7 @@ enum eOption {
 class SceneMenu : public AScene {
 
 public:
-	SceneMenu(AGraphics *aGraphics);
+	SceneMenu(AGraphics **aGraphics);
 	~SceneMenu(); // Canonical
 
 	void eventHandler(std::vector<eEvent> eventList);

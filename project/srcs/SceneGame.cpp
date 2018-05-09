@@ -40,8 +40,8 @@ void SceneGame::drawScene() {
     (void)this->_snake;
 }
 
-SceneGame::SceneGame(AGraphics *aGraphics) {
-    this->_aGraphics = aGraphics;
+SceneGame::SceneGame(AGraphics **aGraphics) {
+	this->_aGraphics = aGraphics;
 }
 
 void SceneGame::moveSnake() {

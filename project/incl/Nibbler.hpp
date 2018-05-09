@@ -47,7 +47,6 @@ public:
 
 	static void *_dlHandle;
 	static AGraphics *_aGraphics;
-	static int _currentLib;
 
 	static int getWindowWidth();
 	static void setWindowWidth(int w);

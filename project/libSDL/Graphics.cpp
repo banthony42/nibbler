@@ -31,7 +31,7 @@ Graphics::~Graphics() {
 
 }
 
-Graphics &Graphics::operator=(Graphics const &copy) {	//TODO les formes canonique en private ? sinon implementation
+Graphics &Graphics::operator=(Graphics const &copy) {    //TODO les formes canonique en private ? sinon implementation
 	if (this != &copy) {
 		// copy
 	}
@@ -40,7 +40,7 @@ Graphics &Graphics::operator=(Graphics const &copy) {	//TODO les formes canoniqu
 
 int Graphics::init(int windowWidth, int windowHeight) { // TODO ajouter le nom de la fenetre en param
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) ||
-		!(this->_win = SDL_CreateWindow("SDL NIBBLER", SDL_WINDOWPOS_UNDEFINED,
+		!(this->_win = SDL_CreateWindow("SDL", SDL_WINDOWPOS_UNDEFINED,
 										SDL_WINDOWPOS_UNDEFINED, windowWidth, windowHeight, SDL_WINDOW_SHOWN))) {
 		std::cout << "ERROR : " << SDL_GetError() << std::endl;
 		return (-1);
@@ -53,11 +53,18 @@ int Graphics::init(int windowWidth, int windowHeight) { // TODO ajouter le nom d
 }
 
 void Graphics::cleanUp() {
-	if (this->_win) {
-		SDL_DestroyWindow(this->_win);
+	if (!_windowTerminated) {
+		if (this->_win) {
+			SDL_DestroyWindow(this->_win);
+		}
+		SDL_FreeSurface(this->_img);
+//		SDL_FreeSurface(this->_fontTexture); // TODO Fix this segfault
+		for (auto it = this->_textureList.begin(); it != this->_textureList.end(); ++it) {
+			SDL_FreeSurface(it->second);
+		}
+		SDL_Quit();
+		this->_windowTerminated = true;
 	}
-	SDL_Quit();
-	this->_windowTerminated = true;
 }
 
 int Graphics::loopUpdate() {
@@ -73,15 +80,13 @@ void Graphics::clear() {
 }
 
 void Graphics::putCharScreen(char const c, t_coordd pos, t_coordd sizeFont) { // TODO pass this method pure
-	SDL_Surface *surface;
-
 	if (c < '!' || c > '~')
 		return;
 
-	surface = this->_fontTexture;
 	SDL_Rect srcRect = {FONT_START_X(c), FONT_START_Y(c), CHAR_SIZE_X, CHAR_SIZE_Y};
-	SDL_Rect dstRect = {static_cast<int>(pos.x), static_cast<int>(pos.y), static_cast<int>(sizeFont.x), static_cast<int>(sizeFont.y)};
-	SDL_BlitScaled(surface, &srcRect, this->_img, &dstRect);
+	SDL_Rect dstRect = {static_cast<int>(pos.x), static_cast<int>(pos.y), static_cast<int>(sizeFont.x),
+						static_cast<int>(sizeFont.y)};
+	SDL_BlitScaled(this->_fontTexture, &srcRect, this->_img, &dstRect);
 }
 
 void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
@@ -138,7 +143,7 @@ void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
 
 	if (!key) {
 		SDL_FillRect(this->_img, NULL, 0x000000);
-		return ;
+		return;
 	}
 	surface = this->_textureList[key]; // TODO check the key value
 	SDL_Rect srcRect = {0, 0, surface->w, surface->h};

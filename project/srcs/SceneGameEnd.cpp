@@ -24,8 +24,8 @@ SceneGameEnd::~SceneGameEnd() {
 
 }
 
-SceneGameEnd::SceneGameEnd(AGraphics *aGraphics) {
-    this->_aGraphics = aGraphics;
+SceneGameEnd::SceneGameEnd(AGraphics **aGraphics) {
+	this->_aGraphics = aGraphics;
 }
 
 SceneGameEnd &SceneGameEnd::operator=(SceneGameEnd const &copy) {
