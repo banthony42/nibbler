@@ -28,7 +28,7 @@ SceneMenu::SceneMenu(AGraphics **aGraphics) {
 	this->_aGraphics = aGraphics;
 
 	// Permet d'afficher soit le menu principal (page 1), soit les options(page 2) dans la meme scene
-	this->_page = PAGE_MENU;
+	this->_page = PAGE_OPTION;
 
 	// Index du tableau d'input, permet d'afficher le curseur de selection
 	this->_cursor = MENU_GAME;

@@ -47,6 +47,36 @@ int Graphics::init(int windowWidth, int windowHeight) {// TODO ajouter le nom de
 	return 1;
 }
 
+void Graphics::cleanUp() {
+	if (this->_window) {// TODO THE DELETE MAKE A SEGFAULT
+		this->_window->close();
+		delete this->_window;
+	}
+}
+
+void Graphics::loadTexture(std::string path, int key) {
+	sf::Texture texture;
+
+	if (!texture.loadFromFile(path)) {
+		std::cout << "error loading" << std::endl; // TODO exception here
+		return;
+	}
+	texture.setSmooth(true);
+	this->_textureList[key] = texture;
+}
+
+void Graphics::loadFontTexture(std::string path) {
+	sf::Texture texture;
+
+	if (!texture.loadFromFile(path)) {
+		std::cout << "error loading" << std::endl; // TODO exception here
+		return;
+	}
+	texture.setSmooth(true);
+	this->_fontTexture = texture;
+}
+
+
 int Graphics::loopUpdate() {
 	return this->_window->isOpen();
 }
@@ -117,29 +147,6 @@ void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
 	}
 }
 
-void Graphics::loadTexture(std::string path, int key) {
-	sf::Texture texture;
-
-	if (!texture.loadFromFile(path)) {
-		std::cout << "error loading" << std::endl; // TODO exception here
-		return;
-	}
-	texture.setSmooth(true);
-	this->_textureList[key] = texture;
-}
-
-void Graphics::loadFontTexture(std::string path) {
-	sf::Texture texture;
-
-	if (!texture.loadFromFile(path)) {
-		std::cout << "error loading" << std::endl; // TODO exception here
-		return;
-	}
-	texture.setSmooth(true);
-	this->_fontTexture = texture;
-}
-
-
 void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
 	sf::Sprite sprite;
 	sf::Vector2u vec;
@@ -154,13 +161,6 @@ void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
 	sprite.setScale(static_cast<double>(sizeX) / static_cast<double>(vec.x),
 					static_cast<double>(sizeY) / static_cast<double>(vec.y));
 	this->_spriteList.push_back(sprite);
-}
-
-void Graphics::cleanUp() {
-	if (this->_window) {// TODO THE DELETE MAKE A SEGFAULT
-		this->_window->close();
-	}
-//        delete this->_window;	//TODO verifier utilite, un simple _window->close() suffit a terminer le prog
 }
 
 std::vector<eEvent> &Graphics::getEvent() {

@@ -54,17 +54,38 @@ int Graphics::init(int windowWidth, int windowHeight) { // TODO ajouter le nom d
 
 void Graphics::cleanUp() {
 	if (!_windowTerminated) {
+		std::cout << "debug" << std::endl;
 		if (this->_win) {
+			std::cout << "destroy window" << std::endl;
 			SDL_DestroyWindow(this->_win);
 		}
-		SDL_FreeSurface(this->_img);
-//		SDL_FreeSurface(this->_fontTexture); // TODO Fix this segfault
+		// info : do not free the _img surface, it is destroyed with the _win
+		SDL_FreeSurface(this->_fontTexture);
 		for (auto it = this->_textureList.begin(); it != this->_textureList.end(); ++it) {
 			SDL_FreeSurface(it->second);
 		}
+		std::cout << "debug" << std::endl;
 		SDL_Quit();
 		this->_windowTerminated = true;
 	}
+}
+
+void Graphics::loadTexture(std::string path, int key) {
+	SDL_Surface *image = IMG_Load(path.c_str());
+	if (image == nullptr) {
+		std::cout << "IMG_Load: " << IMG_GetError() << "\n";
+		return;
+	}
+	this->_textureList[key] = image;
+}
+
+void Graphics::loadFontTexture(std::string path) {
+	SDL_Surface *image = IMG_Load(path.c_str());
+	if (image == nullptr) {
+		std::cout << "IMG_Load: " << IMG_GetError() << "\n";
+		return;
+	}
+	this->_fontTexture = image;
 }
 
 int Graphics::loopUpdate() {
@@ -118,25 +139,6 @@ void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
 		c_str++;
 	}
 }
-
-void Graphics::loadTexture(std::string path, int key) {
-	SDL_Surface *image = IMG_Load(path.c_str());
-	if (image == nullptr) {
-		std::cout << "IMG_Load: " << IMG_GetError() << "\n";
-		return;
-	}
-	this->_textureList[key] = image;
-}
-
-void Graphics::loadFontTexture(std::string path) {
-	SDL_Surface *image = IMG_Load(path.c_str());
-	if (image == nullptr) {
-		std::cout << "IMG_Load: " << IMG_GetError() << "\n";
-		return;
-	}
-	this->_fontTexture = image;
-}
-
 
 void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
 	SDL_Surface *surface;

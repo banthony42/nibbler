@@ -16,10 +16,10 @@
 #include <iostream>
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
+#include <SFML/System/Vector2.hpp>
 #include <cmath>
 
 #include "../incl/AGraphics.hpp"
-#include "SFML/include/SFML/System/Vector2.hpp"
 
 // Calcul de la position en pixel dans la texture pour le caracatere c
 #define FONT_START_X(c) (CHAR_SIZE_X * ((c - '!') % NB_CHAR))
