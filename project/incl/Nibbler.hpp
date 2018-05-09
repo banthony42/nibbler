@@ -14,6 +14,7 @@
 #define NIBBLER_HPP
 
 #include <iostream>
+#include <string>
 #include <map>
 #include <dlfcn.h>
 #include "AGraphics.hpp"
@@ -36,18 +37,28 @@ class Nibbler {
 
 public:
     typedef std::map<eScene, AScene *> MapScene;
+	static char *pathLibSDL;
+	static char *pathLibOpenGL;
+	static char *pathLibSFML;
+
     static AGraphics *_aGraphics;
-    static const int WINDOW_WIDTH = 1200;
-    static const int WINDOW_HEIGHT = 900;
+
 	static eScene getCurrentScene();
 	static void setCurrentScene(eScene _currentScene);
 
     static Nibbler *getInstance();
     void run();
 
+	static int getWindowWidth();
+	static void setWindowWidth(int w);
+	static int getWindowHeight();
+	static void setWindowHeight(int h);
+
 private:
     static Nibbler *_singleton;
 	static eScene _currentScene;
+	static int WINDOW_WIDTH;
+	static int WINDOW_HEIGHT;
 	MapScene _callScene;
 
     void initRun();

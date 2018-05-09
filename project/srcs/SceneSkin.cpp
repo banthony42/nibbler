@@ -46,9 +46,7 @@ void SceneSkin::eventHandler(std::vector<eEvent> eventList) {
 
 void SceneSkin::drawScene() {
 	this->_aGraphics->clear();
-	std::cout << "test" << std::endl;
-	this->_aGraphics->putTexture(0, 0, 0, Nibbler::WINDOW_WIDTH, Nibbler::WINDOW_HEIGHT);
-
+	this->_aGraphics->putTexture(0, 0, 0, Nibbler::getWindowWidth(), Nibbler::getWindowHeight());
 	this->_aGraphics->display();
 }
 

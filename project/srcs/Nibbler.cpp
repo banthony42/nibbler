@@ -15,7 +15,12 @@
 Nibbler *Nibbler::_singleton = nullptr;
 AGraphics *Nibbler::_aGraphics = nullptr;
 eScene Nibbler::_currentScene = MENU;
+int Nibbler::WINDOW_WIDTH = 1200;
+int Nibbler::WINDOW_HEIGHT = 900;
 
+char *Nibbler::pathLibSDL = const_cast<char *>("./libSDL/libgraph.so");
+char *Nibbler::pathLibOpenGL = const_cast<char *>("./libOpenGL/libgraph.so");
+char *Nibbler::pathLibSFML = const_cast<char *>("./libSFML/libgraph.so");
 
 Nibbler::Nibbler() {
 
@@ -99,5 +104,31 @@ eScene Nibbler::getCurrentScene() {
 void Nibbler::setCurrentScene(eScene currentScene) {
 	if (currentScene > STATE_VOID && currentScene < NB_STATE)
 		Nibbler::_currentScene = currentScene;
+}
+
+int Nibbler::getWindowWidth() {
+	return Nibbler::WINDOW_WIDTH;
+}
+
+void Nibbler::setWindowWidth(int w) {
+	if (w < 70) {
+		w = 70;
+	} else if (w > 2550) {
+		w = 2550;
+	}
+	Nibbler::WINDOW_WIDTH = w;
+}
+
+int Nibbler::getWindowHeight() {
+	return Nibbler::WINDOW_HEIGHT;
+}
+
+void Nibbler::setWindowHeight(int h) {
+	if (h < 60) {
+		h = 60;
+	} else if (h > 1420) {
+		h = 1420;
+	}
+	Nibbler::WINDOW_HEIGHT = h;
 }
 
