@@ -19,7 +19,7 @@
 #define SIZE_FONT_MENU 3.5
 #define FONT_NEWLINE SIZE_FONT_MENU * 20
 
-enum ePage	{
+enum ePage {
 	PAGE_VOID,
 	PAGE_MENU,
 	PAGE_OPTION,
@@ -31,7 +31,7 @@ enum eMenu {
 	MENU_GAME,
 	MENU_OPTION,
 	MENU_EXIT,
-	NB_ENTRY
+	NB_MENU_INPUT
 };
 
 enum eOption {
@@ -46,6 +46,7 @@ class SceneMenu : public AScene {
 
 public:
 	SceneMenu(AGraphics **aGraphics);
+
 	~SceneMenu(); // Canonical
 
 	void eventHandler(std::vector<eEvent> eventList);
@@ -57,9 +58,10 @@ private:
 	SceneMenu(SceneMenu const &copy); // Canonical
 	SceneMenu &operator=(SceneMenu const &copy); // Canonical
 
-	int 							_page;
-	size_t							_cursor;
-	std::map<std::string, t_coordi>	_input;
+	int _page;
+	size_t _cursor;
+	std::map<eMenu, t_coordi> _input;
+	std::map<eMenu, std::string> _inputName;
 };
 
 

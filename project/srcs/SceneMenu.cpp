@@ -28,24 +28,28 @@ SceneMenu::SceneMenu(AGraphics **aGraphics) {
 	this->_aGraphics = aGraphics;
 
 	// Permet d'afficher soit le menu principal (page 1), soit les options(page 2) dans la meme scene
-	this->_page = PAGE_OPTION;
+	this->_page = PAGE_MENU;
 
 	// Index du tableau d'input, permet d'afficher le curseur de selection
 	this->_cursor = MENU_GAME;
 
 	// Tableau d'input
 	t_coordi pos = {};
-	pos.x = (*this->_aGraphics)->centerTextX("Game", SIZE_FONT_MENU);
-	pos.y = PERCENTAGE(25, Nibbler::getWindowHeight());
-	this->_input["Game"] = pos;
+	pos.x = (*this->_aGraphics)->centerTextX("Game", SIZE_FONT_MENU, Nibbler::getWindowWidth());
+	pos.y = PERCENTAGE(38, Nibbler::getWindowHeight());
+	this->_input[MENU_GAME] = pos;
 
-	pos.x = (*this->_aGraphics)->centerTextX("Options", SIZE_FONT_MENU);
+	pos.x = (*this->_aGraphics)->centerTextX("Options", SIZE_FONT_MENU, Nibbler::getWindowWidth());
 	pos.y += FONT_NEWLINE;
-	this->_input["Options"] = pos;
+	this->_input[MENU_OPTION] = pos;
 
-	pos.x = (*this->_aGraphics)->centerTextX("Exit", SIZE_FONT_MENU);
+	pos.x = (*this->_aGraphics)->centerTextX("Exit", SIZE_FONT_MENU, Nibbler::getWindowWidth());
 	pos.y += FONT_NEWLINE;
-	this->_input["Exit"] = pos;
+	this->_input[MENU_EXIT] = pos;
+
+	this->_inputName[MENU_GAME] = "Game";
+	this->_inputName[MENU_OPTION] = "Options";
+	this->_inputName[MENU_EXIT] = "Exit";
 }
 
 SceneMenu &SceneMenu::operator=(SceneMenu const &copy) {
@@ -63,16 +67,20 @@ void SceneMenu::eventHandler(std::vector<eEvent> eventList) { // TODO solve the 
 				Nibbler::_aGraphics->cleanUp();
 			}
 			if (eventList.at(j) == UP) {
-				if (this->_cursor > 0)
+				if (this->_cursor > MENU_GAME)
 					this->_cursor--;
 			}
 			if (eventList.at(j) == DOWN) {
-				if (this->_cursor < this->_input.size())
+				if (this->_cursor < MENU_EXIT)
 					this->_cursor++;
 			}
 			if (eventList.at(j) == ENTER) {
-				Nibbler::setCurrentScene(GAME);
-				this->_page = 2;
+				if (this->_cursor == MENU_GAME)
+					Nibbler::setCurrentScene(GAME);
+				else if (this->_cursor == MENU_OPTION)
+					this->_page = 2;
+				else if (this->_cursor == MENU_EXIT)
+					Nibbler::_aGraphics->cleanUp();
 			}
 		}
 	}
@@ -100,13 +108,25 @@ void SceneMenu::drawScene() {
 
 	// Page du Menu
 	if (this->_page == PAGE_MENU) {
-		(*this->_aGraphics)->putTexture(MENU_BCKG, 0, 0, Nibbler::getWindowWidth(), Nibbler::getWindowHeight());
-		(*this->_aGraphics)->putStrScreen("Game", this->_input["Game"].x, this->_input["Game"].y, SIZE_FONT_MENU);
-		(*this->_aGraphics)->putStrScreen("Options", this->_input["Options"].x, this->_input["Options"].y, SIZE_FONT_MENU);
-		(*this->_aGraphics)->putStrScreen("Exit", this->_input["Exit"].x, this->_input["Exit"].y, SIZE_FONT_MENU);
+
+			(*this->_aGraphics)->putTexture(MENU_BCKG, 0, 0, Nibbler::getWindowWidth(), Nibbler::getWindowHeight());
+		(*this->_aGraphics)->putStrScreen("Game", this->_input[MENU_GAME].x, this->_input[MENU_GAME].y, SIZE_FONT_MENU);
+		(*this->_aGraphics)->putStrScreen("Options", this->_input[MENU_OPTION].x, this->_input[MENU_OPTION].y, SIZE_FONT_MENU);
+		(*this->_aGraphics)->putStrScreen("Exit", this->_input[MENU_EXIT].x, this->_input[MENU_EXIT].y, SIZE_FONT_MENU);
+
 		// Draw Cursor
-//		(*this->_aGraphics)->putStrScreen("<", this->_input["Game"].x, this->_input["Game"].y, SIZE_FONT_MENU);
+		eMenu curs = static_cast<eMenu>(this->_cursor);
+		t_coordi posCurs = {};
+
+		posCurs.x = static_cast<int>(this->_input[curs].x - GET_SIZEFONT_X(SIZE_FONT_MENU));
+		posCurs.y = this->_input[curs].y;
+		(*this->_aGraphics)->putStrScreen("<", posCurs.x, posCurs.y, SIZE_FONT_MENU);
+
+		posCurs.x = static_cast<int>(this->_input[curs].x + ((this->_inputName[curs].length()) * GET_SIZEFONT_X(SIZE_FONT_MENU)));
+		posCurs.y = this->_input[curs].y;
+		(*this->_aGraphics)->putStrScreen(">", posCurs.x, posCurs.y, SIZE_FONT_MENU);
 	}
+
 
 	// Page d'options
 	if (this->_page == PAGE_OPTION) {

@@ -26,6 +26,9 @@
 #define CHAR_SIZE_X 32
 #define CHAR_SIZE_Y 47
 
+#define GET_SIZEFONT_X(s) ((CHAR_SIZE_X / 2.5) * s)
+#define GET_SIZEFONT_Y(s) ((CHAR_SIZE_Y / 2.5) * s)
+
 typedef struct {
 	double x;
 	double y;
@@ -49,6 +52,7 @@ enum eEvent {
 
 // TODO add the name of the lib on the screen
 
+#include <iostream>
 
 class AGraphics {
 
@@ -79,11 +83,11 @@ public:
 		AGraphics::_eventList.clear();
 	}
 
-	int centerTextX(std::string str, float size) {
-		float s = size;
-		if (s <= 0)
-			s = 1;
-		return ((this->windowWidth / 2) - static_cast<int>((str.length() / 2) * round((CHAR_SIZE_X / 2.5) * s)));
+	static int centerTextX(std::string str, float size, int w) {
+		if (size <= 0) {
+			size = 1;
+		}
+		return ((w / 2) - static_cast<int>((str.length() / 2) * GET_SIZEFONT_X(size)));
 	}
 
 protected:

@@ -54,9 +54,7 @@ int Graphics::init(int windowWidth, int windowHeight, std::string windowName) {
 
 void Graphics::cleanUp() {
 	if (!_windowTerminated) {
-		std::cout << "debug" << std::endl;
 		if (this->_win) {
-			std::cout << "destroy window" << std::endl;
 			SDL_DestroyWindow(this->_win);
 		}
 		// info : do not free the _img surface, it is destroyed with the _win
@@ -64,7 +62,6 @@ void Graphics::cleanUp() {
 		for (auto it = this->_textureList.begin(); it != this->_textureList.end(); ++it) {
 			SDL_FreeSurface(it->second);
 		}
-		std::cout << "debug" << std::endl;
 		SDL_Quit();
 		this->_windowTerminated = true;
 	}
@@ -120,8 +117,8 @@ void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
 		size = 1;
 
 	t_coordd sizeFont{};
-	sizeFont.x = round((CHAR_SIZE_X / 2.5) * size);
-	sizeFont.y = round((CHAR_SIZE_Y / 2.5) * size);
+	sizeFont.x = round(GET_SIZEFONT_X(size));
+	sizeFont.y = round(GET_SIZEFONT_Y(size));
 
 	pos.x = posX;
 	pos.y = posY;
