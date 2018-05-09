@@ -63,7 +63,7 @@ void Graphics::clear() {
 	this->_window->clear();	//TODO dont work properly
 }
 
-void Graphics::putCharScreen(char const c, t_coord pos, t_coord sizeFont) {
+void Graphics::putCharScreen(char const c, t_coordd pos, t_coordd sizeFont) {
 	sf::Sprite sprite;
 	sf::Vector2i position;
 	sf::Vector2i size;
@@ -89,14 +89,14 @@ void Graphics::putCharScreen(char const c, t_coord pos, t_coord sizeFont) {
 
 void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
 	char const *tmp = str.c_str();
-	t_coord pos = {};
+	t_coordd pos = {};
 
 	if (!tmp || !str.size() || posX > this->windowWidth || posY > this->windowHeight || posX < 0 || posY < 0)
 		return;
 	if (size <= 0)
 		size = 1;
 
-	t_coord sizeFont = {};
+	t_coordd sizeFont = {};
 	sizeFont.x = round((CHAR_SIZE_X / 2.5) * size);
 	sizeFont.y = round((CHAR_SIZE_Y / 2.5) * size);
 

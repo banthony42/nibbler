@@ -26,6 +26,26 @@ SceneMenu::~SceneMenu() {
 
 SceneMenu::SceneMenu(AGraphics *aGraphics) {
 	this->_aGraphics = aGraphics;
+
+	// Permet d'afficher soit le menu principal (page 1), soit les options(page 2) dans la meme scene
+	this->_page = PAGE_MENU;
+
+	// Index du tableau d'input, permet d'afficher le curseur de selection
+	this->_cursor = MENU_GAME;
+
+	// Tableau d'input
+	t_coordi pos = {};
+	pos.x = this->_aGraphics->centerTextX("Game", SIZE_FONT_MENU);
+	pos.y = PERCENTAGE(25, Nibbler::getWindowHeight());
+	this->_input["Game"] = pos;
+
+	pos.x = this->_aGraphics->centerTextX("Options", SIZE_FONT_MENU);
+	pos.y += FONT_NEWLINE;
+	this->_input["Options"] = pos;
+
+	pos.x = this->_aGraphics->centerTextX("Exit", SIZE_FONT_MENU);
+	pos.y += FONT_NEWLINE;
+	this->_input["Exit"] = pos;
 }
 
 SceneMenu &SceneMenu::operator=(SceneMenu const &copy) {
@@ -36,33 +56,62 @@ SceneMenu &SceneMenu::operator=(SceneMenu const &copy) {
 }
 
 void SceneMenu::eventHandler(std::vector<eEvent> eventList) { // TODO solve the problem of repeating
-	for (size_t j = 0; j < eventList.size(); j++) {
-		if (eventList.at(j) == ECHAP) {
-			Nibbler::_aGraphics->closeWindow();
+
+	if (this->_page == PAGE_MENU) {
+		for (size_t j = 0; j < eventList.size(); j++) {
+			if (eventList.at(j) == ECHAP) {
+				Nibbler::_aGraphics->closeWindow();
+			}
+			if (eventList.at(j) == UP) {
+				if (this->_cursor > 0)
+					this->_cursor--;
+			}
+			if (eventList.at(j) == DOWN) {
+				if (this->_cursor < this->_input.size())
+					this->_cursor++;
+			}
+			if (eventList.at(j) == ENTER) {
+				Nibbler::setCurrentScene(GAME);
+				this->_page = 2;
+			}
 		}
-		if (eventList.at(j) == RIGHT) {
-//			Nibbler::
+	}
+	if (this->_page == PAGE_OPTION) {
+		for (size_t j = 0; j < eventList.size(); j++) {
+			if (eventList.at(j) == ECHAP) {
+				this->_page = 1;
+			}
+			if (eventList.at(j) == UP) {
+			}
+			if (eventList.at(j) == DOWN) {
+			}
+			if (eventList.at(j) == ENTER) {
+				// Changement de la lib
+			}
 		}
 	}
 }
 
 // TODO griser la lib utilisé dans la selection des libs
 void SceneMenu::drawScene() {
-	int textHeight;
-	float sFont = 2.0;
-
 	this->_aGraphics->clear();
 
-	this->_aGraphics->putTexture(MENU_BCKG, 0, 0, Nibbler::getWindowWidth(), Nibbler::getWindowHeight());
-	textHeight = PERCENTAGE(25, Nibbler::getWindowHeight());
-	this->_aGraphics->putStrScreen("Game", this->_aGraphics->centerTextX("Game", sFont), textHeight, sFont);
-	textHeight += 50;
-	this->_aGraphics->putStrScreen("Options", this->_aGraphics->centerTextX("Options", sFont), textHeight, sFont);
-	textHeight += 50;
-	this->_aGraphics->putStrScreen("Exit", this->_aGraphics->centerTextX("Exit", sFont), textHeight, sFont);
+	// Page du Menu
+	if (this->_page == PAGE_MENU) {
+		this->_aGraphics->putTexture(MENU_BCKG, 0, 0, Nibbler::getWindowWidth(), Nibbler::getWindowHeight());
+		this->_aGraphics->putStrScreen("Game", this->_input["Game"].x, this->_input["Game"].y, SIZE_FONT_MENU);
+		this->_aGraphics->putStrScreen("Options", this->_input["Options"].x, this->_input["Options"].y, SIZE_FONT_MENU);
+		this->_aGraphics->putStrScreen("Exit", this->_input["Exit"].x, this->_input["Exit"].y, SIZE_FONT_MENU);
+		// Draw Cursor
+//		this->_aGraphics->putStrScreen("<", this->_input["Game"].x, this->_input["Game"].y, SIZE_FONT_MENU);
+	}
+
+	// Page d'options
+	if (this->_page == PAGE_OPTION) {
+
+	}
 
 	this->_aGraphics->display();
-
 //	// Preview des Scenes
 //	// Déso j'avais plus trop le temps les positions sont hard codé parfois, pour un ecran de 1200 x 900
 //

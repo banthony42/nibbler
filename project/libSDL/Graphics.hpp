@@ -36,7 +36,7 @@ public:
 	int loopUpdate();
 	void display();
 	void clear();
-	void putCharScreen(char const c, t_coord pos, t_coord sizeFont);
+	void putCharScreen(char const c, t_coordd pos, t_coordd sizeFont);
 	void putStrScreen(std::string str, int posX, int posY, float size);
 	void loadFontTexture(std::string path);
 	void loadTexture(std::string path, int key);

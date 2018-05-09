@@ -17,15 +17,15 @@
 #include "Nibbler.hpp"
 
 typedef struct {
-	t_coord		headPos;
-	t_coord		tailPos;
-	t_coord		vec;
+	t_coordd		headPos;
+	t_coordd		tailPos;
+	t_coordd		vec;
 	int 		size;
 	eTexture	headSkin;
 }	t_snake;
 
 typedef struct {
-	t_coord		pos;
+	t_coordd		pos;
 	int 		energy;	// TODO définir l'utilité
 	eTexture	skin;
 }	t_food;

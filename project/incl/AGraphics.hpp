@@ -29,7 +29,12 @@
 typedef struct {
 	double x;
 	double y;
-} t_coord;
+} t_coordd;
+
+typedef struct {
+	int x;
+	int y;
+} t_coordi;	// TODO verifier dans les Graphics si on peut remplacer
 
 enum eEvent {
 	EVENT_VOID,
@@ -50,7 +55,7 @@ public:
 	virtual int loopUpdate() = 0;
 	virtual void display() = 0;
 	virtual void clear() = 0;
-	virtual void putCharScreen(char const c, t_coord pos, t_coord sizeFont) = 0;
+	virtual void putCharScreen(char const c, t_coordd pos, t_coordd sizeFont) = 0;
 	virtual void putStrScreen(std::string str, int posX, int posY, float size) = 0;
 	virtual void loadFontTexture(std::string path) = 0;
 	virtual void loadTexture(std::string path, int key) = 0;

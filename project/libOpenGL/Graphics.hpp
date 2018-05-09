@@ -41,7 +41,7 @@ public:
 	Graphics &operator=(Graphics const &copy); // Canonical
 	int init(int windowWidth, int windowHeight);
 	int loopUpdate();
-	void putCharScreen(char const c, t_coord pos, t_coord sizeFont);
+	void putCharScreen(char const c, t_coordd pos, t_coordd sizeFont);
 	void putStrScreen(std::string str, int posX, int poxY, float size);
 	void loadFontTexture(std::string path);
 	void loadTexture(std::string path, int key);

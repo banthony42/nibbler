@@ -169,11 +169,11 @@ void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
 
 	if (!key)
 		return;
-	t_coord start = {};
+	t_coordd start = {};
 	start.x = static_cast<double>(((posX *  2.0) / this->windowWidth)) - 1.0;
 	start.y = static_cast<double>(((posY *  2.0) / this->windowHeight)) - 1.0;
 
-	t_coord end = {};
+	t_coordd end = {};
 	end.x = static_cast<double>((((posX + sizeX) * 2.0) / this->windowWidth)) - 1.0;
 	end.y = static_cast<double>((((posY + sizeY) * 2.0) / this->windowHeight)) - 1.0;
 
@@ -190,14 +190,14 @@ void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
 	glBindTexture(GL_TEXTURE_2D, 0);                    // Deverrouillage
 }
 
-void Graphics::putCharScreen(char const c, t_coord pos, t_coord sizeFont) {
+void Graphics::putCharScreen(char const c, t_coordd pos, t_coordd sizeFont) {
 	GLint textSize[2] = {0};
-	t_coord sizeText{};
-	t_coord c_start;
-	t_coord c_end;
+	t_coordd sizeText{};
+	t_coordd c_start;
+	t_coordd c_end;
 
-	t_coord start;
-	t_coord end;
+	t_coordd start;
+	t_coordd end;
 
 	if (c < '!' || c > '~')
 		return;
@@ -240,14 +240,14 @@ void Graphics::putCharScreen(char const c, t_coord pos, t_coord sizeFont) {
 
 void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
 	char const *tmp = str.c_str();
-	t_coord pos{};
+	t_coordd pos{};
 
 	if (!tmp || !str.size() || posX > this->windowWidth || posY > this->windowHeight || posX < 0 || posY < 0)
 		return;
 	if (size <= 0)
 		size = 1;
 
-	t_coord sizeFont{};
+	t_coordd sizeFont{};
 	sizeFont.x = round((CHAR_SIZE_X / 2.5) * size);
 	sizeFont.y = round((CHAR_SIZE_Y / 2.5) * size);
 
