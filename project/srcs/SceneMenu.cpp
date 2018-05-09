@@ -35,15 +35,18 @@ SceneMenu &SceneMenu::operator=(SceneMenu const &copy) {
 	return *this;
 }
 
-void SceneMenu::eventHandler(std::vector<eEvent> eventList) {
+void SceneMenu::eventHandler(std::vector<eEvent> eventList) { // TODO solve the problem of repeating
 	for (size_t j = 0; j < eventList.size(); j++) {
 		if (eventList.at(j) == ECHAP) {
 			Nibbler::_aGraphics->closeWindow();
 		}
+		if (eventList.at(j) == RIGHT) {
+//			Nibbler::
+		}
 	}
 }
 
-
+// TODO griser la lib utilisé dans la selection des libs
 void SceneMenu::drawScene() {
 	this->_aGraphics->clear();
 

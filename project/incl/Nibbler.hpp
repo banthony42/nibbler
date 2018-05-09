@@ -41,8 +41,9 @@ public:
 	static char *pathLibOpenGL;
 	static char *pathLibSFML;
 
-	static void *dl_handle;
+	static void *_dlHandle;
 	static AGraphics *_aGraphics;
+	// TODO add a current lib, add the name of the lib on the screen
 
 	static int getWindowWidth();
 	static void setWindowWidth(int w);
@@ -53,10 +54,12 @@ public:
 
 	static Nibbler *getInstance();
 	static bool loadLibrary(std::string const string);
+	static void closeDlHandle();
 
 	void run();
 
 private:
+	static AGraphics *(*_deleteAGraphics)(AGraphics *);
 	static Nibbler *_singleton;
 	static eScene _currentScene;
 	static int WINDOW_WIDTH;

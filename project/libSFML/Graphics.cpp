@@ -39,7 +39,7 @@ Graphics &Graphics::operator=(Graphics const &copy) {
 	return *this;
 }
 
-int Graphics::init(int windowWidth, int windowHeight) {
+int Graphics::init(int windowWidth, int windowHeight) {// TODO ajouter le nom de la fenetre en param
 	this->_window = new sf::RenderWindow(sf::VideoMode(windowWidth, windowHeight), "SFML");
 	this->_window->setKeyRepeatEnabled(false);
 	this->windowWidth = windowWidth;

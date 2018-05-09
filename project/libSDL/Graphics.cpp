@@ -38,7 +38,7 @@ Graphics &Graphics::operator=(Graphics const &copy) {	//TODO les formes canoniqu
 	return *this;
 }
 
-int Graphics::init(int windowWidth, int windowHeight) {
+int Graphics::init(int windowWidth, int windowHeight) { // TODO ajouter le nom de la fenetre en param
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) ||
 		!(this->_win = SDL_CreateWindow("SDL NIBBLER", SDL_WINDOWPOS_UNDEFINED,
 										SDL_WINDOWPOS_UNDEFINED, windowWidth, windowHeight, SDL_WINDOW_SHOWN))) {

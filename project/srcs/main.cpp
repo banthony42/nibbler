@@ -59,7 +59,7 @@ int main(int argc, char **argv) {
 	manageArguments(argc, argv);
 	if (Nibbler::_aGraphics != nullptr) {
 		nibbler->run();
-//		dlclose(dl_handle);
+		nibbler->closeDlHandle();
 	}
 	return (0);
 }

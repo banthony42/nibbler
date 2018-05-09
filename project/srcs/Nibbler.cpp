@@ -16,7 +16,9 @@ int DEBUG_MODE = false;
 
 Nibbler *Nibbler::_singleton = nullptr;
 AGraphics *Nibbler::_aGraphics = nullptr;
-void *Nibbler::dl_handle = nullptr;
+AGraphics *(*Nibbler::_deleteAGraphics)(AGraphics *) = nullptr;
+
+void *Nibbler::_dlHandle = nullptr;
 eScene Nibbler::_currentScene = MENU;
 int Nibbler::WINDOW_WIDTH = 1200;
 int Nibbler::WINDOW_HEIGHT = 900;
@@ -26,7 +28,7 @@ char *Nibbler::pathLibOpenGL = const_cast<char *>("./libOpenGL/libgraph.so");
 char *Nibbler::pathLibSFML = const_cast<char *>("./libSFML/libgraph.so");
 
 Nibbler::Nibbler() {
-	this->dl_handle = nullptr;
+	this->_dlHandle = nullptr;
 }
 
 Nibbler::Nibbler(Nibbler const &copy) {
@@ -57,6 +59,7 @@ void Nibbler::initRun() {
 	this->_callScene[SKIN] = new SceneSkin(this->_aGraphics);
 	this->_callScene[GAME] = new SceneGame(this->_aGraphics);
 	this->_callScene[GAME_END] = new SceneGameEnd(this->_aGraphics);
+	// TODO separate initialisation of nibbler and agraph
 	this->_aGraphics->loadTexture("./textures/menu_bckg.png", MENU_BCKG);
 	this->_aGraphics->loadTexture("./textures/game_bckg.png", GAME_BCKG);
 	this->_aGraphics->loadTexture("./textures/border_game.png", GAME_BORDER);
@@ -140,10 +143,21 @@ void Nibbler::setWindowHeight(int h) {
 }
 
 bool Nibbler::loadLibrary(std::string const string) {
+	bool toReload = false;
 	AGraphics *(*createGraphics)();
+	AGraphics *(*deleteGraphics)(AGraphics *);
 
-	Nibbler::dl_handle = dlopen(string.c_str(), RTLD_LAZY | RTLD_LOCAL);
-	if (!Nibbler::dl_handle) {
+	// TODO move this function after being sure we must reload the lib
+	if (Nibbler::_aGraphics != nullptr) {
+		toReload = true;
+		Nibbler::_deleteAGraphics(Nibbler::_aGraphics);
+		dlclose(Nibbler::_dlHandle);
+	}
+
+	Nibbler::_dlHandle = dlopen(string.c_str(), RTLD_LAZY | RTLD_LOCAL);
+
+	std::cout << Nibbler::_dlHandle << std::endl;
+	if (!Nibbler::_dlHandle) {
 		if (DEBUG_MODE) {
 			std::cerr << "Failed to load library [" << dlerror() << "]" << std::endl;
 		} else {
@@ -153,17 +167,32 @@ bool Nibbler::loadLibrary(std::string const string) {
 	}
 
 	// get createGraphics function
-	createGraphics = (AGraphics *(*)()) dlsym(Nibbler::dl_handle, "createGraphics");
+	createGraphics = (AGraphics *(*)()) dlsym(Nibbler::_dlHandle, "createGraphics");
 	if (!createGraphics) {
 		if (DEBUG_MODE) {
-			std::cerr << "Failed to load library [" << dlerror() << "]" << std::endl;
+			std::cerr << "Failed to load function[" << dlerror() << "]" << std::endl;
 		} else {
-			std::cerr << "Failed to load library [" << string << "]" << std::endl;
+			std::cerr << "Failed to load  [createGraphics]" << std::endl;
 		}
 		return false;
 	}
+	// get deleteGraphics function
+	deleteGraphics = (AGraphics *(*)(AGraphics *)) dlsym(Nibbler::_dlHandle, "deleteGraphics");
+	if (!deleteGraphics) {
+		if (DEBUG_MODE) {
+			std::cerr << "Failed to load function[" << dlerror() << "]" << std::endl;
+		} else {
+			std::cerr << "Failed to load  [deleteGraphics]" << std::endl;
+		}
+		return false;
+	}
+	Nibbler::_deleteAGraphics = deleteGraphics;
 	Nibbler::_aGraphics = createGraphics();
 	return true;
+}
+
+void Nibbler::closeDlHandle() {
+	dlclose(Nibbler::_dlHandle);
 }
 
 

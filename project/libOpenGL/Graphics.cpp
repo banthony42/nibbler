@@ -64,7 +64,7 @@ unsigned char Graphics::getChar() {
 	return 0;
 }
 
-int Graphics::init(int windowWidth, int windowHeight) {
+int Graphics::init(int windowWidth, int windowHeight) {// TODO ajouter le nom de la fenetre en param
 	if (!glfwInit()) {
 		std::cout << "error: init glfw!" << std::endl;
 		// TODO throw exception
