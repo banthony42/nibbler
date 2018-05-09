@@ -6,7 +6,7 @@
 #    By: banthony <banthony@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/20 18:10:22 by banthony          #+#    #+#              #
-#    Updated: 2018/05/08 11:46:56 by banthony         ###   ########.fr        #
+#    Updated: 2018/05/09 20:01:37 by banthony         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,11 @@ then
 else
 	echo "$image_loader, downloading ..."
 	curl https://raw.githubusercontent.com/nothings/stb/master/stb_image.h > $image_loader
+	error=${?}
+	if [ !error ]
+	then
+		echo "Something goes wrong with the stb_image.h link, please visit this repo to get the file: https://github.com/nothings/stb"
+	fi
 fi
 
 # Compilation de la Lib

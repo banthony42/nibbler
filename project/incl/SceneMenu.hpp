@@ -16,30 +16,24 @@
 #include "AScene.hpp"
 #include "Nibbler.hpp"
 
-#define SIZE_FONT_MENU 3.5
+#define SIZE_FONT_MENU 3.5	// TODO Size font have to be proportional to the window size
 #define FONT_NEWLINE SIZE_FONT_MENU * 20
 
 enum ePage {
-	PAGE_VOID,
 	PAGE_MENU,
 	PAGE_OPTION,
 	NB_PAGE
 };
 
 enum eMenu {
-	MENU_VOID,
 	MENU_GAME,
 	MENU_OPTION,
 	MENU_EXIT,
-	NB_MENU_INPUT
-};
-
-enum eOption {
-	OPTION_VOID,
+	END_MENU_INPUT,
 	OPTION_SDL,
 	OPTION_SFML,
 	OPTION_GL,
-	NB_OPTION
+	END_OPTION_INPUT
 };
 
 class SceneMenu : public AScene {
@@ -58,7 +52,7 @@ private:
 	SceneMenu(SceneMenu const &copy); // Canonical
 	SceneMenu &operator=(SceneMenu const &copy); // Canonical
 
-	int _page;
+	ePage _page;
 	size_t _cursor;
 	std::map<eMenu, t_coordi> _input;
 	std::map<eMenu, std::string> _inputName;
