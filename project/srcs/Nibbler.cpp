@@ -64,6 +64,10 @@ void Nibbler::initRun() {
 	this->_aGraphics->loadTexture("./textures/skin_border.png", SKIN_FRAME);
 	this->_aGraphics->loadTexture("./textures/snake_head_smb.png", SNAKE_H_SMB);
 	this->_aGraphics->loadTexture("./textures/snake_body_smb.png", SNAKE_B_SMB);
+	this->_aGraphics->loadTexture("./textures/snake_head_pcm.png", SNAKE_H_PCM);
+	this->_aGraphics->loadTexture("./textures/snake_body_pcm.png", SNAKE_B_PCM);
+	this->_aGraphics->loadTexture("./textures/snake_head_hk.png", SNAKE_H_HK);
+	this->_aGraphics->loadTexture("./textures/snake_body_hk.png", SNAKE_B_HK);
 	this->_aGraphics->loadTexture("./textures/melon.png", FOOD);
 	this->_aGraphics->loadFontTexture("./textures/snake_font.tga");
 }

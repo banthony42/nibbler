@@ -68,10 +68,18 @@ void SceneMenu::drawScene() {
 	// SKIN selection preview
 	this->_aGraphics->putTexture(SKIN_FRAME, 0, Nibbler::getWindowHeight() / 2, Nibbler::getWindowWidth() / 2, Nibbler::getWindowHeight() / 2);
 	this->_aGraphics->putStrScreen("<               >", 330 - (8 * 32), 490, 2);
-	this->_aGraphics->putTexture(SNAKE_H_SMB, 330, 500, 24, 24);
-	this->_aGraphics->putTexture(SNAKE_B_SMB, 330 - 24, 500, 24, 24);
-	this->_aGraphics->putTexture(SNAKE_B_SMB, 330 - 48, 500, 24, 24);
-	this->_aGraphics->putTexture(SNAKE_B_SMB, 330 - 72, 500, 24, 24);
+	this->_aGraphics->putTexture(SNAKE_H_PCM, 330, 500, 24, 24);
+	this->_aGraphics->putTexture(SNAKE_B_PCM, 330 - 24, 500, 24, 24);
+	this->_aGraphics->putTexture(SNAKE_B_PCM, 330 - 48, 500, 24, 24);
+	this->_aGraphics->putTexture(SNAKE_B_PCM, 330 - 72, 500, 24, 24);
+	this->_aGraphics->putTexture(SNAKE_H_SMB, 330, 655, 24, 24);
+	this->_aGraphics->putTexture(SNAKE_B_SMB, 330 - 24, 655, 24, 24);
+	this->_aGraphics->putTexture(SNAKE_B_SMB, 330 - 48, 655, 24, 24);
+	this->_aGraphics->putTexture(SNAKE_B_SMB, 330 - 72, 655, 24, 24);
+	this->_aGraphics->putTexture(SNAKE_H_HK, 330, 810, 24, 24);
+	this->_aGraphics->putTexture(SNAKE_B_HK, 330 - 24, 810, 24, 24);
+	this->_aGraphics->putTexture(SNAKE_B_HK, 330 - 48, 810, 24, 24);
+	this->_aGraphics->putTexture(SNAKE_B_HK, 330 - 72, 810, 24, 24);
 
 	// GAME END preview
 	this->_aGraphics->putTexture(SCORE_BCKG, Nibbler::getWindowWidth() / 2, Nibbler::getWindowHeight() / 2, Nibbler::getWindowWidth() / 2, Nibbler::getWindowHeight() / 2);

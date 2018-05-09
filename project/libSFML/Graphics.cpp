@@ -143,6 +143,8 @@ void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
 	sf::Sprite sprite;
 	sf::Vector2u vec;
 
+	if (!key)
+		return ;
 	vec = this->_textureList[key].getSize();
 	sprite.setTexture(this->_textureList[key]);
 	sprite.setPosition(sf::Vector2f(posX, posY));
