@@ -85,7 +85,7 @@ int Graphics::loopUpdate() {
 	return !this->_windowTerminated && this->_window->isOpen();
 }
 
-void Graphics::display() {
+void Graphics::display() { // TODO remove the main.cpp and the makefile rule r: in this folder
 	if (this->_windowTerminated) {
 		return;
 	}
