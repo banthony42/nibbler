@@ -37,31 +37,34 @@ SceneMenu::SceneMenu(AGraphics **aGraphics) {
 	this->_page = PAGE_MENU;
 	this->_cursor = MENU_GAME;
 
-	t_coordi pos = {};
-	pos.x = (*this->_aGraphics)->centerTextX("Game", SIZE_FONT_MENU, Nibbler::getWindowWidth());
-	pos.y = PERCENTAGE(38, Nibbler::getWindowHeight());
-	this->_input[MENU_GAME] = pos;
-	this->_input[OPTION_SDL] = pos;
-
-	pos.x = (*this->_aGraphics)->centerTextX("Options", SIZE_FONT_MENU, Nibbler::getWindowWidth());
-	pos.y += FONT_NEWLINE;
-	this->_input[MENU_OPTION] = pos;
-	this->_input[OPTION_SFML] = pos;
-
-	pos.x = (*this->_aGraphics)->centerTextX("Exit", SIZE_FONT_MENU, Nibbler::getWindowWidth());
-	pos.y += FONT_NEWLINE;
-	this->_input[MENU_EXIT] = pos;
-	this->_input[OPTION_GL] = pos;
-
 	this->_inputName[MENU_GAME] = "Game";
 	this->_inputName[MENU_OPTION] = "Options";
 	this->_inputName[MENU_EXIT] = "Exit";
 	this->_inputName[OPTION_SDL] = "SDL";
-	this->_inputName[OPTION_SFML] = " SFML";
+	this->_inputName[OPTION_SFML] = "SFML";
 	this->_inputName[OPTION_GL] = "OPEN_GL";
+
+	t_coordi pos = {};
+	pos.x = (*this->_aGraphics)->centerTextX(_inputName[MENU_GAME], SIZE_FONT_MENU, Nibbler::getWindowWidth());
+	pos.y = PERCENTAGE(38, Nibbler::getWindowHeight());
+	this->_input[MENU_GAME] = pos;
+	pos.x = (*this->_aGraphics)->centerTextX(_inputName[OPTION_GL], SIZE_FONT_MENU, Nibbler::getWindowWidth());
+	this->_input[OPTION_SDL] = pos;
+
+	pos.x = (*this->_aGraphics)->centerTextX(_inputName[MENU_OPTION], SIZE_FONT_MENU, Nibbler::getWindowWidth());
+	pos.y += FONT_NEWLINE;
+	this->_input[MENU_OPTION] = pos;
+	pos.x = (*this->_aGraphics)->centerTextX(_inputName[OPTION_GL], SIZE_FONT_MENU, Nibbler::getWindowWidth());
+	this->_input[OPTION_SFML] = pos;
+
+	pos.x = (*this->_aGraphics)->centerTextX(_inputName[MENU_EXIT], SIZE_FONT_MENU, Nibbler::getWindowWidth());
+	pos.y += FONT_NEWLINE;
+	this->_input[MENU_EXIT] = pos;
+	pos.x = (*this->_aGraphics)->centerTextX(_inputName[OPTION_GL], SIZE_FONT_MENU, Nibbler::getWindowWidth());
+	this->_input[OPTION_GL] = pos;
 }
 
-void SceneMenu::eventHandler(std::vector<eEvent> eventList) { // TODO solve the problem of repeating
+void SceneMenu::eventHandler(std::vector<eEvent> eventList) {	// TODO bug switch to SDL, launch the game skip the skin select
 
 	if (this->_page == PAGE_MENU) {
 		for (size_t j = 0; j < eventList.size(); j++) {
@@ -87,12 +90,12 @@ void SceneMenu::eventHandler(std::vector<eEvent> eventList) { // TODO solve the 
 					this->_page = PAGE_OPTION;
 				}
 				else if (this->_cursor == MENU_EXIT) {
-					Nibbler::_aGraphics->cleanUp();	// TODO fix the segfault sur Exit SDL
+					Nibbler::_aGraphics->cleanUp();
 				}
 			}
 		}
 	}
-	if (this->_page == PAGE_OPTION) {
+	else if (this->_page == PAGE_OPTION) {
 		for (size_t j = 0; j < eventList.size(); j++) {
 			if (eventList.at(j) == ECHAP) {
 				this->_page = PAGE_MENU;
@@ -110,11 +113,14 @@ void SceneMenu::eventHandler(std::vector<eEvent> eventList) { // TODO solve the 
 			}
 			if (eventList.at(j) == ENTER) {
 				switch (this->_cursor) {
-					case OPTION_SDL: Nibbler::loadLibrary(LIB_SDL_PATH);
+					case OPTION_SDL:
+						Nibbler::loadLibrary(LIB_SDL_PATH);
 						break ;
-					case OPTION_SFML: Nibbler::loadLibrary(LIB_SFML_PATH);
+					case OPTION_SFML:
+						Nibbler::loadLibrary(LIB_SFML_PATH);
 						break ;
-					case OPTION_GL: Nibbler::loadLibrary(LIB_OPENGL_PATH);
+					case OPTION_GL:
+						Nibbler::loadLibrary(LIB_OPENGL_PATH);
 						break ;
 				}
 			}
@@ -122,13 +128,12 @@ void SceneMenu::eventHandler(std::vector<eEvent> eventList) { // TODO solve the 
 	}
 }
 
-// TODO griser la lib utilisé dans la selection des libs
-// TODO bug event echap sur la SDL lors d'un clic coin bas gauche
 void SceneMenu::drawScene() {
 	(*this->_aGraphics)->clear();
 
 	// Page du Menu
 	if (this->_page == PAGE_MENU) {
+
 		(*this->_aGraphics)->putTexture(MENU_BCKG, 0, 0, Nibbler::getWindowWidth(), Nibbler::getWindowHeight());
 		(*this->_aGraphics)->putStrScreen(this->_inputName[MENU_GAME], this->_input[MENU_GAME].x, this->_input[MENU_GAME].y, SIZE_FONT_MENU);
 		(*this->_aGraphics)->putStrScreen(this->_inputName[MENU_OPTION], this->_input[MENU_OPTION].x, this->_input[MENU_OPTION].y, SIZE_FONT_MENU);
@@ -138,6 +143,7 @@ void SceneMenu::drawScene() {
 
 	// Page d'options
 	if (this->_page == PAGE_OPTION) {
+
 		(*this->_aGraphics)->putTexture(MENU_BCKG, 0, 0, Nibbler::getWindowWidth(), Nibbler::getWindowHeight());
 		(*this->_aGraphics)->putStrScreen("Choose a library to run:",
 										  (*this->_aGraphics)->centerTextX("Choose a library to run:", SIZE_FONT_MENU, Nibbler::getWindowWidth()),

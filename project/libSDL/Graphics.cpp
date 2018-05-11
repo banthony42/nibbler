@@ -103,7 +103,7 @@ void Graphics::clear() {
 	SDL_FillRect(this->_img, nullptr, 0x000000);
 }
 
-void Graphics::putCharScreen(char const c, t_coordd pos, t_coordd sizeFont) { // TODO pass this method pure
+void Graphics::putCharScreen(char const c, t_coordd pos, t_coordd sizeFont) {
 	if (this->_windowTerminated) {
 		return ;
 	}
@@ -121,7 +121,7 @@ void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
 		return ;
 	}
 	char const *c_str = str.c_str();
-	t_coordd pos{};
+	t_coordd pos = {};
 
 	if (!c_str || !str.size() || posX > this->windowWidth || posY > windowHeight || posX < 0 || posY < 0)
 		return;

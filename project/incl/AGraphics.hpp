@@ -17,8 +17,6 @@
 #include <vector>
 #include <cmath>
 
-// TODO du fait de la var _eventList en static => singleton ? sinon -> _eventList[NB_STATE]
-
 // Nombre de caracteres par ligne sur la texture
 #define NB_CHAR 16
 
@@ -37,7 +35,7 @@ typedef struct {
 typedef struct {
 	int x;
 	int y;
-} t_coordi;	// TODO verifier dans les Graphics si on peut remplacer
+} t_coordi;
 
 enum eEvent {
 	EVENT_VOID,
@@ -91,7 +89,7 @@ public:
 	}
 
 protected:
-	static std::vector<eEvent> _eventList; //TODO t_coord sizeFont
+	static std::vector<eEvent> _eventList;
 	int windowWidth;
 	int windowHeight;
 

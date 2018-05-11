@@ -178,12 +178,12 @@ void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
 	if (!key)
 		return;
 	t_coordd start = {};
-	start.x = static_cast<double>(((posX *  2.0) / this->windowWidth)) - 1.0;
-	start.y = static_cast<double>(((posY *  2.0) / this->windowHeight)) - 1.0;
+	start.x = ((posX *  2.0) / this->windowWidth) - 1.0;
+	start.y = ((posY *  2.0) / this->windowHeight) - 1.0;
 
 	t_coordd end = {};
-	end.x = static_cast<double>((((posX + sizeX) * 2.0) / this->windowWidth)) - 1.0;
-	end.y = static_cast<double>((((posY + sizeY) * 2.0) / this->windowHeight)) - 1.0;
+	end.x = (((posX + sizeX) * 2.0) / this->windowWidth) - 1.0;
+	end.y = (((posY + sizeY) * 2.0) / this->windowHeight) - 1.0;
 
 	glBegin(GL_QUADS);
 	glTexCoord2d(0, 0);
@@ -203,12 +203,12 @@ void Graphics::putCharScreen(char const c, t_coordd pos, t_coordd sizeFont) {
 		return ;
 	}
 	GLint textSize[2] = {0};
-	t_coordd sizeText{};
-	t_coordd c_start;
-	t_coordd c_end;
+	t_coordd sizeText = {};
+	t_coordd c_start = {};
+	t_coordd c_end = {};
 
-	t_coordd start;
-	t_coordd end;
+	t_coordd start = {};
+	t_coordd end = {};
 
 	if (c < '!' || c > '~')
 		return;

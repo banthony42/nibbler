@@ -47,8 +47,6 @@ void SceneSkin::eventHandler(std::vector<eEvent> eventList) {
 	}
 }
 
-// TODO set the skin of the snake with the static var in SceneGame
-
 void SceneSkin::drawScene() {
 	(*this->_aGraphics)->clear();
 

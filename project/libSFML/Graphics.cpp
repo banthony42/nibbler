@@ -100,7 +100,7 @@ void Graphics::clear() {
 	if (this->_windowTerminated) {
 		return;
 	}
-	this->_window->clear();    //TODO dont work properly
+	this->_window->clear();
 }
 
 void Graphics::putCharScreen(char const c, t_coordd pos, t_coordd sizeFont) {
@@ -201,8 +201,10 @@ std::vector<eEvent> &Graphics::getEvent() {
 			AGraphics::addEvent(LEFT);
 		else if (event.key.code == sf::Keyboard::Right)
 			AGraphics::addEvent(RIGHT);
-		else if (event.key.code == sf::Keyboard::Return)
+		else if (event.key.code == sf::Keyboard::Return) {
 			AGraphics::addEvent(ENTER);
+			std::cout << "ENTER" << std::endl; // TODO remove
+		}
 	}
 	return AGraphics::_eventList;
 }
@@ -222,3 +224,7 @@ Graphics *createGraphics() {
 void deleteGraphics(Graphics *graphics) {
 	delete graphics;
 }
+
+//void Graphics::clearEvent() {
+//	AGraphics::clearEvent();
+//}
