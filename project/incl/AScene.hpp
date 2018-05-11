@@ -18,7 +18,7 @@
 enum eTexture {
 	TEXTURE_VOID,
 	MENU_BCKG,
-	GAME_BCKG,
+	GAME_GRASS,
 	GAME_BORDER,
 	GAME_BRICK,
 	SKIN_BCKG, // TODO utile ?

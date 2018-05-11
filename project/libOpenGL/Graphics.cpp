@@ -106,8 +106,7 @@ void Graphics::loadTexture(std::string path, int key) {
 	int width, height, bpp;
 
 	glGenTextures(1, &texture);                                        // Generation de l'iD
-	glBindTexture(GL_TEXTURE_2D,
-				  texture);                                // Verouillage, obligatoire pour modification du GLuint
+	glBindTexture(GL_TEXTURE_2D, texture);                                // Verouillage, obligatoire pour modification du GLuint
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);    // Les textures proche sont lissées
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);    // Les textures éloignées sont lissées
 	stbi_set_flip_vertically_on_load(

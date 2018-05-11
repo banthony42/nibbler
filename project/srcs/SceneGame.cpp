@@ -25,11 +25,25 @@ SceneGame::SceneGame(AGraphics **aGraphics) {
 	this->_floorSceneStart = {FLOOR_SCENE_START_X, FLOOR_SCENE_START_Y};
 	this->_floorSceneEnd = {FLOOR_SCENE_END_X, FLOOR_SCENE_END_Y};
 	this->_sectorStart = {SECTOR_START_X, SECTOR_START_Y};
-	this->_sectorSize = {SECTOR_SIZE_X, SECTOR_SIZE_Y};
+
+	this->_sectorCount = {FLOOR_SIZE_X / SECTOR_DEFAULT_SIZE_X, FLOOR_SIZE_Y / SECTOR_DEFAULT_SIZE_Y};
+
+	this->_sectorSize.x =
+	this->_sectorSize.y = this->_sectorSize.x;
+	
+	std::cout << "count sector x : " << this->_sectorCount.x << " count sector y : " <<
+			  this->_sectorCount.y << std::endl;
+	std::cout << "rest sector x : " << FLOOR_SIZE_X % SECTOR_DEFAULT_SIZE_X << " reset sector y : " <<
+			  FLOOR_SIZE_Y % SECTOR_DEFAULT_SIZE_Y << std::endl;
+
+
+
+
+
 }
 
 SceneGame::SceneGame(SceneGame const &copy) {
-    *this = copy;
+	*this = copy;
 }
 
 SceneGame::~SceneGame() {
@@ -37,10 +51,10 @@ SceneGame::~SceneGame() {
 }
 
 SceneGame &SceneGame::operator=(SceneGame const &copy) {
-    if (this != &copy) {
-        // copy 
-    }
-    return *this;
+	if (this != &copy) {
+		// copy
+	}
+	return *this;
 }
 
 void SceneGame::eventHandler(std::vector<eEvent> eventList) {
@@ -54,10 +68,14 @@ void SceneGame::eventHandler(std::vector<eEvent> eventList) {
 
 void SceneGame::initSceneGame() {
 	(*this->_aGraphics)->clear();
-	std::cout << this->_floorSceneStart.x << std::endl;
-	(*this->_aGraphics)->putTexture(GAME_BORDER, 0, 0, Nibbler::getWindowWidth(), Nibbler::getWindowHeight());
-	(*this->_aGraphics)->putTexture(GAME_BCKG, this->_floorSceneStart.x, this->_floorSceneStart.y,
+	(*this->_aGraphics)->putTexture(GAME_BRICK, this->_floorSceneStart.x, this->_floorSceneStart.y,
 									this->_floorSceneEnd.x, this->_floorSceneEnd.y);
+	(*this->_aGraphics)->putTexture(GAME_BORDER, 0, 0, Nibbler::getWindowWidth(), Nibbler::getWindowHeight());
+
+	(*this->_aGraphics)->putTexture(GAME_GRASS, this->_sectorStart.x, this->_sectorStart.y,
+									this->_sectorSize.x, this->_sectorSize.y);
+
+
 //	this->floorSceneStartX
 
 
@@ -78,8 +96,8 @@ void SceneGame::drawScene() {
 		this->initSceneGame();
 	}
 
-	(void)this->_food;
-	(void)this->_snake;
+	(void) this->_food;
+	(void) this->_snake;
 //	(*this->_aGraphics)->display();
 }
 
