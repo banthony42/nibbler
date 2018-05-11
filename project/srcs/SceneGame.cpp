@@ -24,22 +24,21 @@ SceneGame::SceneGame(AGraphics **aGraphics) {
 	this->_gameInstanced = false;
 	this->_floorSceneStart = {FLOOR_SCENE_START_X, FLOOR_SCENE_START_Y};
 	this->_floorSceneEnd = {FLOOR_SCENE_END_X, FLOOR_SCENE_END_Y};
-	this->_sectorStart = {SECTOR_START_X, SECTOR_START_Y};
 
-	this->_sectorCount = {FLOOR_SIZE_X / SECTOR_DEFAULT_SIZE_X, FLOOR_SIZE_Y / SECTOR_DEFAULT_SIZE_Y};
+    this->_sectorSize =  SECTOR_MINI_SIZE;
 
-	this->_sectorSize.x =
-	this->_sectorSize.y = this->_sectorSize.x;
-	
-	std::cout << "count sector x : " << this->_sectorCount.x << " count sector y : " <<
-			  this->_sectorCount.y << std::endl;
-	std::cout << "rest sector x : " << FLOOR_SIZE_X % SECTOR_DEFAULT_SIZE_X << " reset sector y : " <<
-			  FLOOR_SIZE_Y % SECTOR_DEFAULT_SIZE_Y << std::endl;
+    int min = FLOOR_SIZE_Y;
+    if (FLOOR_SIZE_X < FLOOR_SIZE_Y)
+        min = FLOOR_SIZE_X;
 
+    while ((min % this->_sectorSize)) {
+        this->_sectorSize++;
+    }
 
+    this->_sectorCount = min / this->_sectorSize;
 
-
-
+    std::cout << FLOOR_SIZE_X << " * " << FLOOR_SIZE_Y << " min: "<< min << std::endl;
+    std::cout << this->_sectorSize << " * " << this->_sectorCount << " = " << (this->_sectorSize * this->_sectorCount) << std::endl;
 }
 
 SceneGame::SceneGame(SceneGame const &copy) {
@@ -68,23 +67,31 @@ void SceneGame::eventHandler(std::vector<eEvent> eventList) {
 
 void SceneGame::initSceneGame() {
 	(*this->_aGraphics)->clear();
-	(*this->_aGraphics)->putTexture(GAME_BRICK, this->_floorSceneStart.x, this->_floorSceneStart.y,
-									this->_floorSceneEnd.x, this->_floorSceneEnd.y);
-	(*this->_aGraphics)->putTexture(GAME_BORDER, 0, 0, Nibbler::getWindowWidth(), Nibbler::getWindowHeight());
 
-	(*this->_aGraphics)->putTexture(GAME_GRASS, this->_sectorStart.x, this->_sectorStart.y,
-									this->_sectorSize.x, this->_sectorSize.y);
+    (*this->_aGraphics)->putTexture(GAME_BORDER, 0, 0, Nibbler::getWindowWidth(), Nibbler::getWindowHeight());
+    (*this->_aGraphics)->putTexture(GAME_BORDER_GRASS, this->_floorSceneStart.x, this->_floorSceneStart.y,  FLOOR_SIZE_X,  FLOOR_SIZE_Y);
+
+    t_coordi incr = {};
+    t_coordi pos = {};
+
+    while (incr.y < this->_sectorCount) {
+        incr.x = 0;
+
+        pos.y = this->_floorSceneStart.y + ( incr.y * this->_sectorSize);
+        while (incr.x < this->_sectorCount) {
+            pos.x = this->_floorSceneStart.x +  (incr.x * this->_sectorSize);
+
+//            (*this->_aGraphics)->putTexture(GAME_GRASS, pos.x, pos.y, this->_sectorSize, this->_sectorSize);
+
+            incr.x++;
+        }
+        incr.y++;
+    }
+
+    std::cout << incr.x << " - " << incr.y << std::endl;
 
 
-//	this->floorSceneStartX
 
-
-
-//	(*this->_aGraphics)->putTexture(SNAKE_H_SMB, 850, 200, 48, 48);
-//	(*this->_aGraphics)->putTexture(SNAKE_B_SMB, 850 - 48, 200, 48, 48);
-//	(*this->_aGraphics)->putTexture(SNAKE_B_SMB, 850 - 96, 200, 48, 48);
-//	(*this->_aGraphics)->putTexture(SNAKE_B_SMB, 850 - 144, 200, 48, 48);
-//	(*this->_aGraphics)->putTexture(FOOD, 900, 200, 48, 48);
 	this->_gameInstanced = true;
 	(*this->_aGraphics)->display();
 	std::cout << "init game" << std::endl;

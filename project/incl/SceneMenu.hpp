@@ -17,8 +17,6 @@
 #include "Nibbler.hpp"
 
 #define SIZE_FONT_MENU 3.5
-//#define RATIO_WIN (Nibbler::getWindowWidth() / Nibbler::getWindowHeight())
-//#define SIZE_FONT_MENU PERCENTAGE(((SIZE_FONT_MENU_BRUT * RATIO_WIN)), Nibbler::getWindowWidth())
 #define FONT_NEWLINE SIZE_FONT_MENU * 20
 
 enum ePage {

@@ -53,6 +53,7 @@ void Nibbler::initAGraphics() {
 	Nibbler::_aGraphics->loadTexture("./textures/menu_bckg.png", MENU_BCKG);
 	Nibbler::_aGraphics->loadTexture("./textures/game_grass.png", GAME_GRASS);
 	Nibbler::_aGraphics->loadTexture("./textures/game_border.png", GAME_BORDER);
+	Nibbler::_aGraphics->loadTexture("./textures/game_border_grass.png", GAME_BORDER_GRASS);
 	Nibbler::_aGraphics->loadTexture("./textures/game_brick.png", GAME_BRICK);
 	Nibbler::_aGraphics->loadTexture("./textures/score_bckg.png", SCORE_BCKG);
 	Nibbler::_aGraphics->loadTexture("./textures/skin_border.png", SKIN_FRAME);
@@ -65,7 +66,6 @@ void Nibbler::initAGraphics() {
 	Nibbler::_aGraphics->loadTexture("./textures/melon.png", FOOD);
 	Nibbler::_aGraphics->loadFontTexture("./textures/snake_font.tga");
 }
-
 
 // TODO handle the return ERROR of init !!!!!
 void Nibbler::initRun() {
