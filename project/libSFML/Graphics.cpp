@@ -82,12 +82,12 @@ void Graphics::loadFontTexture(std::string path) {
 
 
 int Graphics::loopUpdate() {
-	return  !this->_windowTerminated && this->_window->isOpen();
+	return !this->_windowTerminated && this->_window->isOpen();
 }
 
 void Graphics::display() {
 	if (this->_windowTerminated) {
-		return ;
+		return;
 	}
 	for (int i = 0; i < this->_spriteList.size(); ++i) {
 		this->_window->draw(this->_spriteList.at(i));
@@ -98,14 +98,14 @@ void Graphics::display() {
 
 void Graphics::clear() {
 	if (this->_windowTerminated) {
-		return ;
+		return;
 	}
 	this->_window->clear();    //TODO dont work properly
 }
 
 void Graphics::putCharScreen(char const c, t_coordd pos, t_coordd sizeFont) {
 	if (this->_windowTerminated) {
-		return ;
+		return;
 	}
 	sf::Sprite sprite;
 	sf::Vector2i position;
@@ -133,7 +133,7 @@ void Graphics::putCharScreen(char const c, t_coordd pos, t_coordd sizeFont) {
 
 void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
 	if (this->_windowTerminated) {
-		return ;
+		return;
 	}
 	char const *tmp = str.c_str();
 	t_coordd pos = {};
@@ -165,7 +165,7 @@ void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
 
 void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
 	if (this->_windowTerminated) {
-		return ;
+		return;
 	}
 	sf::Sprite sprite;
 	sf::Vector2u vec;
@@ -187,11 +187,10 @@ std::vector<eEvent> &Graphics::getEvent() {
 		return AGraphics::_eventList;
 	}
 	AGraphics::clearEvent();
-	sf::Event event;
+	sf::Event event = {};
 	while (this->_window->pollEvent(event)) {
 		if (event.type != sf::Event::KeyPressed)
 			continue;
-		std::cout << "event : " << event.key.code << std::endl;
 		if (event.key.code == sf::Keyboard::Escape)
 			AGraphics::addEvent(ECHAP);
 		else if (event.key.code == sf::Keyboard::Up)

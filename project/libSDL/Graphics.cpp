@@ -173,17 +173,18 @@ std::vector<eEvent> &Graphics::getEvent() {
 	AGraphics::clearEvent();
 	while (SDL_PollEvent(&e) != 0) {
 		int keysym = e.key.keysym.sym;
-		if (e.type == SDL_QUIT || keysym == SDLK_ESCAPE) {
+		bool keyPressed = (e.key.type == SDL_KEYDOWN) && !e.key.repeat;
+		if (e.type == SDL_QUIT || (keysym == SDLK_ESCAPE && keyPressed)) {
 			AGraphics::addEvent(ECHAP);
-		} else if (keysym == SDLK_UP) {
+		} else if (keysym == SDLK_UP && keyPressed) {
 			AGraphics::addEvent(UP);
-		} else if (keysym == SDLK_DOWN) {
+		} else if (keysym == SDLK_DOWN && keyPressed) {
 			AGraphics::addEvent(DOWN);
-		} else if (keysym == SDLK_LEFT) {
+		} else if (keysym == SDLK_LEFT && keyPressed) {
 			AGraphics::addEvent(LEFT);
-		} else if (keysym == SDLK_RIGHT) {
+		} else if (keysym == SDLK_RIGHT && keyPressed) {
 			AGraphics::addEvent(RIGHT);
-		} else if (keysym == SDLK_RETURN || keysym == SDLK_KP_ENTER) {
+		} else if (keysym == SDLK_RETURN || (keysym == SDLK_KP_ENTER  && keyPressed)) {
 			AGraphics::addEvent(ENTER);
 		}
 	}

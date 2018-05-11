@@ -86,18 +86,18 @@ void Nibbler::run() {
 		this->_callScene[this->_currentScene]->drawScene();
 
 		// ************************************** DEBUG
-		for (size_t j = 0; j < vec.size(); j++) {
-
-			std::cout << "size:" << vec.size() << std::endl;
-			std::cout << key[vec.at(j)] << std::endl;
-
-			if (vec.at(j) == ECHAP) {
-				Nibbler::_aGraphics->cleanUp();
-			}
-			if (vec.at(j) == UP) {
-				std::cout << "UP catch" << std::endl;
-			}
-		}
+//		for (size_t j = 0; j < vec.size(); j++) {
+//
+//			std::cout << "size:" << vec.size() << std::endl;
+//			std::cout << key[vec.at(j)] << std::endl;
+//
+//			if (vec.at(j) == ECHAP) {
+//				Nibbler::_aGraphics->cleanUp();
+//			}
+//			if (vec.at(j) == UP) {
+//				std::cout << "UP catch" << std::endl;
+//			}
+//		}
 		// *************************************** DEBUG
 
 		// draw

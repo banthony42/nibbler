@@ -39,9 +39,6 @@ Graphics &Graphics::operator=(Graphics const &copy) {
 }
 
 static void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods) {
-	std::cout << "event : " << key << std::endl;
-
-	AGraphics::clearEvent();
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		AGraphics::addEvent(ECHAP);
 	else if (key == GLFW_KEY_UP && action == GLFW_PRESS)
@@ -60,6 +57,7 @@ std::vector<eEvent> &Graphics::getEvent() {
 	if (this->_windowTerminated) {
 		return AGraphics::_eventList;
 	}
+	AGraphics::clearEvent();
 	glfwPollEvents();    // best choice when rendering continually
 	return AGraphics::_eventList;
 }
