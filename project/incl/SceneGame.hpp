@@ -31,6 +31,20 @@ typedef struct {
 	eTexture skin;
 } t_food;
 
+#define BORDER_GAME_HEIGHT 630.f
+#define BORDER_GAME_WIDTH 900.f
+#define BORDER_GAME_SIDE 74.f
+
+#define FLOOR_SCENE_START_X (int)PERCENTAGE(((BORDER_GAME_SIDE / BORDER_GAME_WIDTH) * 100.f), Nibbler::getWindowWidth()) / 2
+#define FLOOR_SCENE_START_Y (int)PERCENTAGE(((BORDER_GAME_SIDE / BORDER_GAME_HEIGHT) * 100.f), Nibbler::getWindowHeight()) / 2
+#define FLOOR_SCENE_END_X (int)Nibbler::getWindowWidth() - FLOOR_SCENE_START_X
+#define FLOOR_SCENE_END_Y (int)Nibbler::getWindowHeight() - FLOOR_SCENE_START_Y
+
+#define SECTOR_START_X FLOOR_SCENE_START_X * 2
+#define SECTOR_START_Y FLOOR_SCENE_START_Y * 2
+#define SECTOR_END_X Nibbler::getWindowHeight() - (FLOOR_SCENE_END_X * 2)
+#define SECTOR_END_Y FLOOR_SCENE_START_Y + (Nibbler::getWindowHeight() - FLOOR_SCENE_START_Y)
+
 
 class SceneGame : public AScene {
 
@@ -51,11 +65,37 @@ private:
 
 	void moveSnake();
 
+	bool _gameInstanced;
+	t_coordi _floorSceneStart;
+	t_coordi _floorSceneEnd;
+	t_coordi _sectorStart;
+	t_coordi _sectorMaxCount;
+
 	static const int _N_SECTX = 16;    //TODO Voir si on calcul ces valeurs en fonctions de la taille de la fenetre
 	static const int _N_SECTY = 16;
 	t_snake _snake;
 	t_food _food;            //TODO: Definir le nb de food max sur scene, dans ce cas: _food[MAX_FOOD]
+	void initSceneGame();
 };
 
 
 #endif //PROJECT_SCENEGAME_HPP
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
