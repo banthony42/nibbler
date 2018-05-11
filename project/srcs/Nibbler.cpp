@@ -118,8 +118,8 @@ int Nibbler::getWindowHeight() {
 void Nibbler::setWindowHeight(int h) {
 	if (h < 60) {
 		h = 60;
-	} else if (h > 1420) {
-		h = 1420;
+	} else if (h > 1440) {
+		h = 1440;
 	}
 	Nibbler::WINDOW_HEIGHT = h;
 }

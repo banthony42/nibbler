@@ -58,7 +58,7 @@ std::vector<eEvent> &Graphics::getEvent() {
 		return AGraphics::_eventList;
 	}
 	AGraphics::clearEvent();
-	glfwPollEvents();    // best choice when rendering continually
+	glfwPollEvents();
 	return AGraphics::_eventList;
 }
 
