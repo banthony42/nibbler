@@ -184,7 +184,7 @@ std::vector<eEvent> &Graphics::getEvent() {
 			AGraphics::addEvent(LEFT);
 		} else if (keysym == SDLK_RIGHT && keyPressed) {
 			AGraphics::addEvent(RIGHT);
-		} else if (keysym == SDLK_RETURN || (keysym == SDLK_KP_ENTER  && keyPressed)) {
+		} else if ((keysym == SDLK_RETURN &&keyPressed) || (keysym == SDLK_KP_ENTER  && keyPressed)) {
 			AGraphics::addEvent(ENTER);
 		}
 	}

@@ -71,17 +71,17 @@ void SceneMenu::eventHandler(std::vector<eEvent> eventList) {	// TODO bug switch
 			if (eventList.at(j) == ECHAP) {
 				Nibbler::_aGraphics->cleanUp();
 			}
-			if (eventList.at(j) == UP) {
+			else if (eventList.at(j) == UP) {
 				if (this->_cursor > MENU_GAME) {
 					this->_cursor--;
 				}
 			}
-			if (eventList.at(j) == DOWN) {
+			else if (eventList.at(j) == DOWN) {
 				if (this->_cursor < MENU_EXIT) {
 					this->_cursor++;
 				}
 			}
-			if (eventList.at(j) == ENTER) {
+			else if (eventList.at(j) == ENTER) {
 				if (this->_cursor == MENU_GAME) {
 					Nibbler::setCurrentScene(SKIN);
 				}
@@ -101,17 +101,17 @@ void SceneMenu::eventHandler(std::vector<eEvent> eventList) {	// TODO bug switch
 				this->_page = PAGE_MENU;
 				this->_cursor = MENU_GAME;
 			}
-			if (eventList.at(j) == UP) {
+			else if (eventList.at(j) == UP) {
 				if (this->_cursor > OPTION_SDL) {
 					this->_cursor--;
 				}
 			}
-			if (eventList.at(j) == DOWN) {
+			else if (eventList.at(j) == DOWN) {
 				if (this->_cursor < OPTION_GL) {
 					this->_cursor++;
 				}
 			}
-			if (eventList.at(j) == ENTER) {
+			else if (eventList.at(j) == ENTER) {
 				switch (this->_cursor) {
 					case OPTION_SDL:
 						Nibbler::loadLibrary(LIB_SDL_PATH);
@@ -123,6 +123,8 @@ void SceneMenu::eventHandler(std::vector<eEvent> eventList) {	// TODO bug switch
 						Nibbler::loadLibrary(LIB_OPENGL_PATH);
 						break ;
 				}
+				this->_page = PAGE_MENU;
+				this->_cursor = MENU_GAME;
 			}
 		}
 	}
