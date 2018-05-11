@@ -28,7 +28,6 @@ class Graphics : public AGraphics {
 
 public:
 	Graphics(); // Canonical
-	Graphics(Graphics const &copy); // Canonical
 	~Graphics(); // Canonical
 
 	Graphics &operator=(Graphics const &copy);
@@ -46,6 +45,7 @@ public:
 	unsigned char getChar();
 
 private:
+	Graphics(Graphics const &copy); // Canonical
 	bool _windowTerminated;
 	SDL_Window *_win;
 	SDL_Surface *_img;

@@ -57,11 +57,17 @@ static void key_callback(GLFWwindow *window, int key, int scancode, int action, 
 }
 
 std::vector<eEvent> &Graphics::getEvent() {
+	if (this->_windowTerminated) {
+		return AGraphics::_eventList;
+	}
 	glfwPollEvents();    // best choice when rendering continually
 	return AGraphics::_eventList;
 }
 
 unsigned char Graphics::getChar() {
+	if (this->_windowTerminated) {
+		return 0;
+	}
 	return 0;
 }
 
@@ -166,6 +172,9 @@ int Graphics::loopUpdate() {
 }
 
 void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
+	if (this->_windowTerminated) {
+		return ;
+	}
 	glBindTexture(GL_TEXTURE_2D, this->_textureList[key]);    // Verrouillage
 
 	if (!key)
@@ -192,6 +201,9 @@ void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
 }
 
 void Graphics::putCharScreen(char const c, t_coordd pos, t_coordd sizeFont) {
+	if (this->_windowTerminated) {
+		return ;
+	}
 	GLint textSize[2] = {0};
 	t_coordd sizeText{};
 	t_coordd c_start;
@@ -240,6 +252,9 @@ void Graphics::putCharScreen(char const c, t_coordd pos, t_coordd sizeFont) {
 }
 
 void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
+	if (this->_windowTerminated) {
+		return ;
+	}
 	char const *tmp = str.c_str();
 	t_coordd pos{};
 
@@ -269,11 +284,17 @@ void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
 }
 
 void Graphics::display() {
+	if (this->_windowTerminated) {
+		return ;
+	}
 	glFlush();
 	glfwSwapBuffers(this->_window);
 }
 
 void Graphics::clear() {
+	if (this->_windowTerminated) {
+		return ;
+	}
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 

@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "Graphics.hpp"
-#include "SFML/include/SFML/Graphics/Rect.hpp"
 
 /*
  * Declaration de la variable static
@@ -87,6 +86,9 @@ int Graphics::loopUpdate() {
 }
 
 void Graphics::display() {
+	if (this->_windowTerminated) {
+		return ;
+	}
 	for (int i = 0; i < this->_spriteList.size(); ++i) {
 		this->_window->draw(this->_spriteList.at(i));
 	}
@@ -95,10 +97,16 @@ void Graphics::display() {
 }
 
 void Graphics::clear() {
+	if (this->_windowTerminated) {
+		return ;
+	}
 	this->_window->clear();    //TODO dont work properly
 }
 
 void Graphics::putCharScreen(char const c, t_coordd pos, t_coordd sizeFont) {
+	if (this->_windowTerminated) {
+		return ;
+	}
 	sf::Sprite sprite;
 	sf::Vector2i position;
 	sf::Vector2i size;
@@ -124,6 +132,9 @@ void Graphics::putCharScreen(char const c, t_coordd pos, t_coordd sizeFont) {
 }
 
 void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
+	if (this->_windowTerminated) {
+		return ;
+	}
 	char const *tmp = str.c_str();
 	t_coordd pos = {};
 
@@ -153,6 +164,9 @@ void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
 }
 
 void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
+	if (this->_windowTerminated) {
+		return ;
+	}
 	sf::Sprite sprite;
 	sf::Vector2u vec;
 
@@ -169,6 +183,9 @@ void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
 }
 
 std::vector<eEvent> &Graphics::getEvent() {
+	if (this->_windowTerminated) {
+		return AGraphics::_eventList;
+	}
 	AGraphics::clearEvent();
 	sf::Event event;
 	while (this->_window->pollEvent(event)) {
@@ -192,6 +209,9 @@ std::vector<eEvent> &Graphics::getEvent() {
 }
 
 unsigned char Graphics::getChar() {
+	if (this->_windowTerminated) {
+		return 0;
+	}
 	return 0;
 }
 

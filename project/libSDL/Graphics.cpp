@@ -31,7 +31,7 @@ Graphics::~Graphics() {
 
 }
 
-Graphics &Graphics::operator=(Graphics const &copy) {    //TODO les formes canonique en private ? sinon implementation
+Graphics &Graphics::operator=(Graphics const &copy) {
 	if (this != &copy) {
 		// copy
 	}
@@ -90,14 +90,23 @@ int Graphics::loopUpdate() {
 }
 
 void Graphics::display() {
+	if (this->_windowTerminated) {
+		return ;
+	}
 	SDL_UpdateWindowSurface(this->_win);
 }
 
 void Graphics::clear() {
+	if (this->_windowTerminated) {
+		return ;
+	}
 	SDL_FillRect(this->_img, nullptr, 0x000000);
 }
 
 void Graphics::putCharScreen(char const c, t_coordd pos, t_coordd sizeFont) { // TODO pass this method pure
+	if (this->_windowTerminated) {
+		return ;
+	}
 	if (c < '!' || c > '~')
 		return;
 
@@ -108,6 +117,9 @@ void Graphics::putCharScreen(char const c, t_coordd pos, t_coordd sizeFont) { //
 }
 
 void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
+	if (this->_windowTerminated) {
+		return ;
+	}
 	char const *c_str = str.c_str();
 	t_coordd pos{};
 
@@ -138,6 +150,9 @@ void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
 }
 
 void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
+	if (this->_windowTerminated) {
+		return ;
+	}
 	SDL_Surface *surface;
 
 	if (!key) {
@@ -151,6 +166,9 @@ void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
 }
 
 std::vector<eEvent> &Graphics::getEvent() {
+	if (this->_windowTerminated) {
+		return AGraphics::_eventList;
+	}
 	SDL_Event e{};
 	AGraphics::clearEvent();
 	while (SDL_PollEvent(&e) != 0) {
@@ -173,6 +191,9 @@ std::vector<eEvent> &Graphics::getEvent() {
 }
 
 unsigned char Graphics::getChar() {
+	if (this->_windowTerminated) {
+		return 0;
+	}
 	return 0;
 }
 
