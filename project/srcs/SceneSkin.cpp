@@ -14,8 +14,7 @@
 #include "../incl/Nibbler.hpp"
 
 SceneSkin::SceneSkin() {
-	this->_selectedHeadSkin = SNAKE_H_PCM;
-	this->_selectedBodySkin = SNAKE_B_PCM;
+	
 }
 
 SceneSkin::SceneSkin(SceneSkin const &copy) {
