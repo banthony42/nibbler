@@ -14,7 +14,8 @@
 #include "../incl/Nibbler.hpp"
 
 SceneSkin::SceneSkin() {
-
+	this->_selectedHeadSkin = SNAKE_H_PCM;
+	this->_selectedBodySkin = SNAKE_B_PCM;
 }
 
 SceneSkin::SceneSkin(SceneSkin const &copy) {
@@ -41,8 +42,13 @@ void SceneSkin::eventHandler(std::vector<eEvent> eventList) {
 		if (eventList.at(j) == ECHAP) {
 			Nibbler::setCurrentScene(MENU);
 		}
+		if (eventList.at(j) == ENTER) {
+			Nibbler::setCurrentScene(GAME);
+		}
 	}
 }
+
+// TODO set the skin of the snake with the static var in SceneGame
 
 void SceneSkin::drawScene() {
 	(*this->_aGraphics)->clear();

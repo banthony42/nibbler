@@ -77,32 +77,14 @@ void Nibbler::initRun() {
 
 void Nibbler::run() {
 	this->initRun();
-	std::string key[NB_EVENT] = {"VOID", "ECHAP", "UP", "DOWN", "LEFT", "RIGHT", "ENTER",}; // debug
 
+	/****************** MAIN WHILE ******************/
 	while (Nibbler::_aGraphics->loopUpdate()) {
 		auto vec = Nibbler::_aGraphics->getEvent();
 
 		this->_callScene[this->_currentScene]->eventHandler(vec);
 		this->_callScene[this->_currentScene]->drawScene();
 
-		// ************************************** DEBUG
-//		for (size_t j = 0; j < vec.size(); j++) {
-//
-//			std::cout << "size:" << vec.size() << std::endl;
-//			std::cout << key[vec.at(j)] << std::endl;
-//
-//			if (vec.at(j) == ECHAP) {
-//				Nibbler::_aGraphics->cleanUp();
-//			}
-//			if (vec.at(j) == UP) {
-//				std::cout << "UP catch" << std::endl;
-//			}
-//		}
-		// *************************************** DEBUG
-
-		// draw
-		// event
-		// update nibbler
 	}
 	Nibbler::_aGraphics->cleanUp();
 }
@@ -173,7 +155,7 @@ bool Nibbler::loadLibrary(std::string const string) {
 	createGraphics = (AGraphics *(*)()) dlsym(dlHandle, "createGraphics");
 	if (!createGraphics) {
 		if (DEBUG_MODE) {
-			std::cerr << "Failed to load function[" << dlerror() << "]" << std::endl;
+			std::cerr << "Failed to load function [" << dlerror() << "]" << std::endl;
 		} else {
 			std::cerr << "Failed to load [createGraphics]" << std::endl;
 		}
@@ -183,7 +165,7 @@ bool Nibbler::loadLibrary(std::string const string) {
 	deleteGraphics = (AGraphics *(*)(AGraphics *)) dlsym(dlHandle, "deleteGraphics");
 	if (!deleteGraphics) {
 		if (DEBUG_MODE) {
-			std::cerr << "Failed to load function[" << dlerror() << "]" << std::endl;
+			std::cerr << "Failed to load function [" << dlerror() << "]" << std::endl;
 		} else {
 			std::cerr << "Failed to load [deleteGraphics]" << std::endl;
 		}
@@ -202,12 +184,3 @@ bool Nibbler::loadLibrary(std::string const string) {
 void Nibbler::closeDlHandle() {
 	dlclose(Nibbler::_dlHandle);
 }
-
-
-
-
-
-
-
-
-

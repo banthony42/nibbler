@@ -78,21 +78,15 @@ private:
 	Nibbler &operator=(Nibbler const &copy); // Canonical
 };
 
-/*
-
-+ enum eStateGame { MENU, GAME, SKIN, GAME_END, NB_STATE } // Définit les différent états du jeux
-+ enum eTexture { MENU_BCKG, GAME_BCKG, SCORE_BCKG, ITEM1, ITEM2, NB_TEXTURE } // Définit les différentes textures du jeux
-+ typedef void (*t_displayer)(void *data)
-+ typedef void (*t_event)(void *data)
-
-+ AGraphics                *aGraphics;
-+ Nibbler                     *singleton;
-+ std::vector<char>     _map
-+ int                             _skin[SIZE_INIT];
-+ t_displayer               _displayer[NB_STATE]             // Tableau de fonction d'affichage, une pour chaque état du jeu
-+ t_event                     _eventManager[NB_STATE]    // Tableau de fonction d'event, une pour chaque état du jeu
-
-*/
-
-
 #endif //PROJECT_NIBBLER_HPP
+
+
+
+
+
+
+
+
+
+
+

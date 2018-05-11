@@ -12,6 +12,9 @@
 
 #include "../incl/SceneGame.hpp"
 
+eTexture SceneGame::_selectedHeadSkin = SNAKE_H_PCM;
+eTexture SceneGame::_selectedBodySkin = SNAKE_B_PCM;
+
 SceneGame::SceneGame() {
 
 }

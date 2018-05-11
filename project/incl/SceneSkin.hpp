@@ -18,17 +18,17 @@
 class SceneSkin : public AScene {
 
 public:
-    SceneSkin(AGraphics **aGraphics);
-    ~SceneSkin(); // Canonical
+	SceneSkin(AGraphics **aGraphics);
+	~SceneSkin(); // Canonical
 
 	void eventHandler(std::vector<eEvent> eventList);
 	void drawScene();
 
 private:
-    SceneSkin(); // Canonical
-    SceneSkin(SceneSkin const &copy); // Canonical
-    SceneSkin &operator=(SceneSkin const &copy);    // Canonical
-//    void selectSkinScreen(snakeData *snakeData); // TODO implement this
+	SceneSkin(); // Canonical
+	SceneSkin(SceneSkin const &copy); // Canonical
+	SceneSkin &operator=(SceneSkin const &copy);    // Canonical
+
 };
 
 
