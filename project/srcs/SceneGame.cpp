@@ -25,6 +25,7 @@ SceneGame::SceneGame(AGraphics **aGraphics) {
 	this->_floorSceneStart = {FLOOR_SCENE_START_X, FLOOR_SCENE_START_Y};
 	this->_floorSceneEnd = {FLOOR_SCENE_END_X, FLOOR_SCENE_END_Y};
 	this->_sectorStart = {SECTOR_START_X, SECTOR_START_Y};
+	this->_sectorSize = {SECTOR_SIZE_X, SECTOR_SIZE_Y};
 }
 
 SceneGame::SceneGame(SceneGame const &copy) {
