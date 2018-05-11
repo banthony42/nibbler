@@ -41,15 +41,13 @@ typedef struct {
 #define FLOOR_SCENE_END_X (Nibbler::getWindowWidth() - FLOOR_SCENE_START_X * 1)
 #define FLOOR_SCENE_END_Y (Nibbler::getWindowHeight() - FLOOR_SCENE_START_Y * 1)
 
+#define CONST 20
+
 #define FLOOR_SIZE_X (FLOOR_SCENE_END_X - FLOOR_SCENE_START_X)
 #define FLOOR_SIZE_Y (FLOOR_SCENE_END_Y - FLOOR_SCENE_START_Y)
 
-#define SECTOR_START_X (FLOOR_SCENE_START_X * 2)
-#define SECTOR_START_Y (FLOOR_SCENE_START_Y * 2)
-#define SECTOR_DEFAULT_SIZE_X 40
-#define SECTOR_DEFAULT_SIZE_Y 40
-
-#define SECTOR_MINI_SIZE 16
+#define SECTOR_DEFAULT_SIZE_X 32
+#define SECTOR_DEFAULT_SIZE_Y 32
 
 class SceneGame : public AScene {
 
@@ -73,9 +71,9 @@ private:
 	bool _gameInstanced;
 	t_coordi _floorSceneStart;
 	t_coordi _floorSceneEnd;
-    t_coordi _sectorStart;
-	int _sectorSize;
-	int _sectorCount;
+	t_coordi _sectorStart;
+	t_coordi _sectorSize;
+	t_coordi _sectorCount;
 
 	static const int _N_SECTX = 16;    //TODO Voir si on calcul ces valeurs en fonctions de la taille de la fenetre
 	static const int _N_SECTY = 16;
