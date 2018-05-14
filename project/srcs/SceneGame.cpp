@@ -33,7 +33,11 @@ void SceneGame::initNewSnake() {
 	this->_snake.body.clear();
 	int y = headPos.y - 1;
 	while (++y <= tailPos.y) {
-		this->_snake.body.push_back({round(headPos.x), round(headPos.y + y)});
+		this->_snake.body.push_back({round(headPos.x), round(y)});
+	}
+	std::cout << "total x :" << this->_sectorCount.x << " y :" << this->_sectorCount.y << std::endl;
+	for (auto &item : this->_snake.body) {
+		std::cout << "x :" << item.x << " y :" << item.y << std::endl;
 	}
 }
 
@@ -139,8 +143,6 @@ void SceneGame::initSceneGame() {
 		}
 	}
 	(*this->_aGraphics)->putTexture(GAME_BORDER, 0, 0, Nibbler::getWindowWidth(), Nibbler::getWindowHeight());
-	this->initNewSnake();
-	this->drawFullSnake();
 	this->_gameInstanced = true;
 	(*this->_aGraphics)->display();
 	std::cout << "init game" << std::endl;
@@ -156,6 +158,8 @@ void SceneGame::drawScene() {
 	if (!this->_gameInstanced) {
 		this->initSceneGame();
 		this->initSceneGame();
+		this->initNewSnake();
+		this->drawFullSnake();
 	} else {
 		usleep(500000);
 		this->moveSnake();

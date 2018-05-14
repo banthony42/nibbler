@@ -66,6 +66,7 @@ private:
 	SceneGame &operator=(SceneGame const &copy); // Canonical
 
 	void moveSnake();
+	void initSceneGame();
 	void drawSector(eTexture t, int sectorX, int sectorY);
 	/* TODO we must save all the body of snake because if not we dont know where put the food
 	and its more easy like it */
@@ -84,7 +85,6 @@ private:
 	static const int _N_SECTY = 16; // TODO Non utilisé
 	t_snake _snake;
 	t_food _food;            //TODO: Definir le nb de food max sur scene, dans ce cas: _food[MAX_FOOD]
-	void initSceneGame();
 };
 
 
