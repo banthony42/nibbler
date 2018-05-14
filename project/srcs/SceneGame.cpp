@@ -22,7 +22,7 @@ SceneGame::SceneGame() {
 
 void SceneGame::initNewSnake() {
 	t_coordi headPos = {(std::rand() % (this->_sectorCount.x - 3)) + 2,
-						(std::rand() % (this->_sectorCount.y - 3)) + 2};
+						(std::rand() % (this->_sectorCount.y - 3))};
 	t_coordi tailPos = {headPos.x, headPos.y + 2}; // so the size of 2 + the head so 3
 
 	this->_snake.headPos = {round(headPos.x), round(headPos.y)};
@@ -34,10 +34,6 @@ void SceneGame::initNewSnake() {
 	int y = headPos.y - 1;
 	while (++y <= tailPos.y) {
 		this->_snake.body.push_back({round(headPos.x), round(y)});
-	}
-	std::cout << "total x :" << this->_sectorCount.x << " y :" << this->_sectorCount.y << std::endl;
-	for (auto &item : this->_snake.body) {
-		std::cout << "x :" << item.x << " y :" << item.y << std::endl;
 	}
 }
 
@@ -82,25 +78,33 @@ SceneGame &SceneGame::operator=(SceneGame const &copy) {
 
 void SceneGame::eventHandler(std::vector<eEvent> eventList) {
 	for (size_t j = 0; j < eventList.size(); j++) {
-		if (eventList.at(j) == ECHAP) {
+		eEvent e = eventList.at(j);
+		if (e == ECHAP) {
 			this->_gameInstanced = false;
 			Nibbler::setCurrentScene(MENU);
+		} else if (e == UP) {
+			this->_snake.vec = {0, -1};
+		} else if (e == DOWN) {
+			this->_snake.vec = {0, 1};
+		} else if (e == LEFT) {
+			this->_snake.vec = {-1, 0};
+		} else if (e == RIGHT) {
+			this->_snake.vec = {1, 0};
 		}
 	}
 }
 
-// The snake is drawed by the end before, then finish by the head
+// The snake is drawn by the end before, then finish by the head
 void SceneGame::drawFullSnake() {
 	int size = this->_snake.body.size() - 1;
-	int i = -1;
 
-	t_coordd sec;
-	while (++i < size) {
+	t_coordd sec = this->_snake.body.at(0);
+	drawSector(this->_snake.headSkin, sec.x, sec.y);
+	int i = 0;
+	while (++i <= size) {
 		sec = this->_snake.body.at(i);
 		drawSector(this->_snake.bodySkin, sec.x, sec.y);
 	}
-	sec = this->_snake.body.at(i);
-	drawSector(this->_snake.headSkin, sec.x, sec.y);
 }
 
 void SceneGame::drawRecycledSnake() {
@@ -134,12 +138,6 @@ void SceneGame::initSceneGame() {
 		int y = -1;
 		while (++y < this->_sectorCount.y) {
 			this->drawSector(GAME_GRASS, x, y);
-
-			// TODO is it nece
-			// Bordure non jouable pour eviter colision avec GAME_BORDER
-//            if (i == 0 || j == 0 || i == this->_sectorCount.x - 1 || j == this->_sectorCount.y - 1)
-//                (*this->_aGraphics)->putTexture(GAME_BORDER_GRASS, this->_sectorStart.x + x_increment, this->_sectorStart.y + y_increment,
-//                                                this->_sectorSize.x, this->_sectorSize.y);
 		}
 	}
 	(*this->_aGraphics)->putTexture(GAME_BORDER, 0, 0, Nibbler::getWindowWidth(), Nibbler::getWindowHeight());
@@ -160,6 +158,7 @@ void SceneGame::drawScene() {
 		this->initSceneGame();
 		this->initNewSnake();
 		this->drawFullSnake();
+		(*this->_aGraphics)->display();
 	} else {
 		usleep(500000);
 		this->moveSnake();

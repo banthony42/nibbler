@@ -65,7 +65,6 @@ SceneMenu::SceneMenu(AGraphics **aGraphics) {
 }
 
 void SceneMenu::eventHandler(std::vector<eEvent> eventList) {	// TODO bug switch to SDL, launch the game skip the skin select
-
 	if (this->_page == PAGE_MENU) {
 		for (size_t j = 0; j < eventList.size(); j++) {
 			if (eventList.at(j) == ECHAP) {

@@ -13,6 +13,7 @@
 #ifndef AGRAPHICS_HPP
 #define AGRAPHICS_HPP
 
+#include <iostream>
 #include <string>
 #include <vector>
 #include <cmath>
@@ -47,10 +48,6 @@ enum eEvent {
 	ENTER,
 	NB_EVENT
 };
-
-// TODO add the name of the lib on the screen
-
-#include <iostream>
 
 class AGraphics {
 
