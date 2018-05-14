@@ -70,14 +70,10 @@ void SceneMenu::eventHandler(std::vector<eEvent> eventList) {
         for (auto &event : eventList) {
             if (event == ECHAP) {
                 Nibbler::_aGraphics->cleanUp();
-            } else if (event == UP) {
-                if (this->_cursor > MENU_GAME) {
-                    this->_cursor--;
-                }
-            } else if (event == DOWN) {
-                if (this->_cursor < MENU_EXIT) {
-                    this->_cursor++;
-                }
+            } else if (event == UP && this->_cursor > MENU_GAME) {
+                this->_cursor--;
+            } else if (event == DOWN && this->_cursor < MENU_EXIT) {
+                this->_cursor++;
             } else if (event == ENTER) {
                 if (this->_cursor == MENU_GAME) {
                     Nibbler::setCurrentScene(SKIN);
@@ -94,14 +90,10 @@ void SceneMenu::eventHandler(std::vector<eEvent> eventList) {
             if (event == ECHAP) {
                 this->_page = PAGE_MENU;
                 this->_cursor = MENU_GAME;
-            } else if (event == UP) {
-                if (this->_cursor > OPTION_SDL) {
-                    this->_cursor--;
-                }
-            } else if (event == DOWN) {
-                if (this->_cursor < OPTION_GL) {
-                    this->_cursor++;
-                }
+            } else if (event == UP && this->_cursor > OPTION_SDL) {
+                this->_cursor--;
+            } else if (event == DOWN && this->_cursor < OPTION_GL) {
+                this->_cursor++;
             } else if (event == ENTER) {
                 if (this->_cursor == OPTION_SDL) {
                     Nibbler::loadLibrary(LIB_SDL_PATH);
