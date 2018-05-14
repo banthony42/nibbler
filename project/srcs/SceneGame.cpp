@@ -22,15 +22,21 @@ SceneGame::SceneGame() {
 SceneGame::SceneGame(AGraphics **aGraphics) {
 	this->_aGraphics = aGraphics;
 	this->_gameInstanced = false;
+	this->_snake = {{15, 15}, {15, 17}, {1, 0}, 3, SNAKE_H_PCM, SNAKE_B_PCM};
+	this->_food = {{10, 10}, 1, FOOD};
+
+	// INIT VAR
 	this->_floorSceneStart = {FLOOR_SCENE_START_X, FLOOR_SCENE_START_Y};
-	this->_floorSceneEnd = {FLOOR_SCENE_END_X, FLOOR_SCENE_END_Y};
+	this->_floorSize = {FLOOR_SIZE_X, FLOOR_SIZE_Y};
 	// -2 because we don't draw the first line and the last line
 	this->_sectorCount = {FLOOR_SIZE_X / SECTOR_DEFAULT_SIZE_X - 2, FLOOR_SIZE_Y / SECTOR_DEFAULT_SIZE_Y - 2};
 	this->_sectorSize = {SECTOR_DEFAULT_SIZE_X, SECTOR_DEFAULT_SIZE_Y};
 
 	// we add a sector to the sectorSize because we don't draw the first line
-    this->_sectorStart.x = (this->_floorSceneStart.x) + this->_sectorSize.x + ((FLOOR_SIZE_X % SECTOR_DEFAULT_SIZE_X) / 2);
-    this->_sectorStart.y = (this->_floorSceneStart.y) + this->_sectorSize.y + ((FLOOR_SIZE_Y % SECTOR_DEFAULT_SIZE_Y) / 2);
+	this->_sectorStart.x =
+			(this->_floorSceneStart.x) + this->_sectorSize.x + ((FLOOR_SIZE_X % SECTOR_DEFAULT_SIZE_X) / 2);
+	this->_sectorStart.y =
+			(this->_floorSceneStart.y) + this->_sectorSize.y + ((FLOOR_SIZE_Y % SECTOR_DEFAULT_SIZE_Y) / 2);
 }
 
 SceneGame::SceneGame(SceneGame const &copy) {
@@ -57,33 +63,40 @@ void SceneGame::eventHandler(std::vector<eEvent> eventList) {
 	}
 }
 
+void SceneGame::drawSector(eTexture t, int sectorX, int sectorY) {
+	int posSectorX = this->_sectorStart.x + (this->_sectorSize.x * sectorX);
+	int posSectorY = this->_sectorStart.y + (this->_sectorSize.y * sectorY);
+
+	(*this->_aGraphics)->putTexture(t, posSectorX, posSectorY, this->_sectorSize.x, this->_sectorSize.y);
+}
+
 void SceneGame::initSceneGame() {
 	(*this->_aGraphics)->clear();
 
 	(*this->_aGraphics)->putTexture(GAME_BORDER_GRASS, this->_floorSceneStart.x, this->_floorSceneStart.x,
-                                    FLOOR_SIZE_X, FLOOR_SIZE_Y);
+									this->_floorSize.x, this->_floorSize.y);
 
 
-	int i = -1;
-	while (++i < this->_sectorCount.x) {
-		int x_increment = this->_sectorSize.x * i;
-		int j = -1;
-		while (++j < this->_sectorCount.y) {
-			int y_increment = this->_sectorSize.y * j;
-			(*this->_aGraphics)->putTexture(GAME_GRASS, this->_sectorStart.x + x_increment, this->_sectorStart.y + y_increment,
-											this->_sectorSize.x, this->_sectorSize.y);
+	// init the map
+	int x = -1;
+	while (++x < this->_sectorCount.x) {
+		int y = -1;
+		while (++y < this->_sectorCount.y) {
+			this->drawSector(GAME_GRASS, x, y);
 
-			// TODO is it necessary ? 
-            // Bordure non jouable pour eviter colision avec GAME_BORDER
+			// TODO is it nece
+			// Bordure non jouable pour eviter colision avec GAME_BORDER
 //            if (i == 0 || j == 0 || i == this->_sectorCount.x - 1 || j == this->_sectorCount.y - 1)
 //                (*this->_aGraphics)->putTexture(GAME_BORDER_GRASS, this->_sectorStart.x + x_increment, this->_sectorStart.y + y_increment,
 //                                                this->_sectorSize.x, this->_sectorSize.y);
 
-
 		}
 	}
-    (*this->_aGraphics)->putTexture(GAME_BORDER, 0, 0, Nibbler::getWindowWidth(), Nibbler::getWindowHeight());
 
+	// init the snake
+	this->drawSector(this->_snake.headSkin, static_cast<int>(this->_snake.headPos.x), static_cast<int>(this->_snake.headPos.y));
+
+	(*this->_aGraphics)->putTexture(GAME_BORDER, 0, 0, Nibbler::getWindowWidth(), Nibbler::getWindowHeight());
 
 //	(*this->_aGraphics)->putTexture(SNAKE_H_SMB, 850, 200, 48, 48);
 //	(*this->_aGraphics)->putTexture(SNAKE_B_SMB, 850 - 48, 200, 48, 48);

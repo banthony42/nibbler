@@ -67,16 +67,17 @@ private:
 	SceneGame &operator=(SceneGame const &copy); // Canonical
 
 	void moveSnake();
+	void drawSector(eTexture t, int sectorX, int sectorY);
 
 	bool _gameInstanced;
 	t_coordi _floorSceneStart;
-	t_coordi _floorSceneEnd;
+	t_coordi _floorSize;
 	t_coordi _sectorStart;
 	t_coordi _sectorSize;
 	t_coordi _sectorCount;
 
-	static const int _N_SECTX = 16;    //TODO Voir si on calcul ces valeurs en fonctions de la taille de la fenetre
-	static const int _N_SECTY = 16;
+	static const int _N_SECTX = 16;//TODO Voir si on calcul ces valeurs en fonctions de la taille de la fenetre
+	static const int _N_SECTY = 16; // TODO Non utilisé
 	t_snake _snake;
 	t_food _food;            //TODO: Definir le nb de food max sur scene, dans ce cas: _food[MAX_FOOD]
 	void initSceneGame();
