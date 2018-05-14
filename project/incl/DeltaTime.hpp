@@ -19,6 +19,7 @@ class DeltaTime {
 
 public:
 	static double deltaTime;
+	static double elapsedTime;
 	static int fps;
 
 	static void startDelta();
@@ -30,7 +31,6 @@ private:
 	~DeltaTime(); // Canonical
 	DeltaTime &operator=(DeltaTime const &copy); // Canonical
 
-	static double elapsedTime;
 	static struct timeval t1;
 	static struct timeval t2;
 

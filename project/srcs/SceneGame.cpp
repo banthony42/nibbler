@@ -63,7 +63,7 @@ void SceneGame::initNewSnake() {
 						(std::rand() % (this->_sectorCount.y - 3))};
 	t_coordi tailPos = {headPos.x, headPos.y + 2}; // so the size of 2 + the head so 3
 
-	this->_snake.speed = 2;
+	this->_snake.speed = 12;
 	this->_snake.vec = {1 * this->_snake.speed, 0 * this->_snake.speed};
 	this->_snake.headSkin = SceneGame::_selectedHeadSkin;
 	this->_snake.bodySkin = SceneGame::_selectedBodySkin;
@@ -128,7 +128,10 @@ void SceneGame::drawFullSnake() {
 		drawSector(this->_snake.bodySkin, sec.x, sec.y);
 	}
 }
-#include <unistd.h> // TODO to remove
+
+// TODO le snake peut faire demi tour
+// TODO regler le bug d'affichage de depart
+
 
 void SceneGame::moveSnake() {
 	static t_coordd lastHeadPos = {0, 0};

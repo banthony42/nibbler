@@ -81,6 +81,7 @@ void Nibbler::initRun() {
 }
 
 void Nibbler::run() {
+	double fpsElapsedTime = 0;
 	this->initRun();
 
 	/****************** MAIN WHILE ******************/
@@ -90,6 +91,9 @@ void Nibbler::run() {
 
 		this->_callScene[this->_currentScene]->eventHandler(vec);
 		this->_callScene[this->_currentScene]->drawScene();
+		fpsElapsedTime += DeltaTime::deltaTime; // TODO l'afficher a l'ecran
+			std::cout << "fps : " << DeltaTime::fps << std::endl;
+			fpsElapsedTime = 0;
 		DeltaTime::endDelta();
 	}
 	Nibbler::_aGraphics->cleanUp();
