@@ -140,19 +140,19 @@ void SceneGame::drawRecycledSnake() {
 		drawSector(this->_snake.bodySkin, begin->x, begin->y);
 		this->_snake.body.pop_back();
 		this->_snakeCoordUpdated = false;
-	}
+    }
 }
 
 void SceneGame::moveSnake() {
 	static t_coordd lastHeadPos = {0, 0};
-	static t_coordd headPos = this->_snake.body.at(0);
+	t_coordd &headPos = this->_snake.body.at(0);
 
 	headPos.x += (this->_snake.vec.x * DeltaTime::deltaTime);
 	headPos.y += (this->_snake.vec.y * DeltaTime::deltaTime);
 	if (Nibbler::iRound(headPos.x) != Nibbler::iRound((lastHeadPos.x)) ||
 		Nibbler::iRound(headPos.y) != Nibbler::iRound((lastHeadPos.y))) {
-		this->_snake.body.insert(this->_snake.body.cbegin(), {headPos.x + (this->_snake.vec.x * DeltaTime::deltaTime),
-															  headPos.y + (this->_snake.vec.y * DeltaTime::deltaTime)});
+        std::cout << "move trigger" << std::endl;
+		this->_snake.body.insert(++this->_snake.body.cbegin(), {headPos.x, headPos.y});
 		lastHeadPos = headPos;
 		this->_snakeCoordUpdated = true;
 	}
@@ -171,6 +171,6 @@ void SceneGame::drawScene() {
 //		usleep(500000);
 		this->moveSnake();
 		this->drawRecycledSnake();
-		(*this->_aGraphics)->display();
+        (*this->_aGraphics)->display();
 	}
 }
