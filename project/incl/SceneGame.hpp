@@ -35,22 +35,19 @@ typedef struct {
 #define BORDER_GAME_WIDTH 900.f
 #define BORDER_GAME_SIDE 74.f
 
-#define FLOOR_SCENE_START_X (int)PERCENTAGE(((BORDER_GAME_SIDE / BORDER_GAME_WIDTH) * 100.f), Nibbler::getWindowWidth()) / 2
-#define FLOOR_SCENE_START_Y (int)PERCENTAGE(((BORDER_GAME_SIDE / BORDER_GAME_HEIGHT) * 100.f), Nibbler::getWindowHeight()) / 2
+#define FLOOR_SCENE_START_X (int)(PERCENTAGE(((BORDER_GAME_SIDE / BORDER_GAME_WIDTH) * 100.f), Nibbler::getWindowWidth()) / 2)
+#define FLOOR_SCENE_START_Y (int)(PERCENTAGE(((BORDER_GAME_SIDE / BORDER_GAME_HEIGHT) * 100.f), Nibbler::getWindowHeight()) / 2)
 
-#define FLOOR_SCENE_END_X ((int)Nibbler::getWindowWidth() - FLOOR_SCENE_START_X * 2)
-#define FLOOR_SCENE_END_Y ((int)Nibbler::getWindowHeight() - FLOOR_SCENE_START_Y * 2)
+#define FLOOR_SCENE_END_X (Nibbler::getWindowWidth() - FLOOR_SCENE_START_X * 1)
+#define FLOOR_SCENE_END_Y (Nibbler::getWindowHeight() - FLOOR_SCENE_START_Y * 1)
+
+#define CONST 20
 
 #define FLOOR_SIZE_X (FLOOR_SCENE_END_X - FLOOR_SCENE_START_X)
 #define FLOOR_SIZE_Y (FLOOR_SCENE_END_Y - FLOOR_SCENE_START_Y)
 
-#define SECTOR_START_X FLOOR_SCENE_START_X * 2
-#define SECTOR_START_Y FLOOR_SCENE_START_Y * 2
-#define SECTOR_DEFAULT_SIZE_X 40
-#define SECTOR_DEFAULT_SIZE_Y 40
-#define SECTOR_COUNT_X
-#define SECTOR_COUNT_Y
-
+#define SECTOR_DEFAULT_SIZE_X 32
+#define SECTOR_DEFAULT_SIZE_Y 32
 
 class SceneGame : public AScene {
 

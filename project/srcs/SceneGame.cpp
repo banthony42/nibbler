@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../incl/SceneGame.hpp"
+#include "../incl/AGraphics.hpp"
 
 eTexture SceneGame::_selectedHeadSkin = SNAKE_H_PCM;
 eTexture SceneGame::_selectedBodySkin = SNAKE_B_PCM;
@@ -24,22 +25,11 @@ SceneGame::SceneGame(AGraphics **aGraphics) {
 	this->_gameInstanced = false;
 	this->_floorSceneStart = {FLOOR_SCENE_START_X, FLOOR_SCENE_START_Y};
 	this->_floorSceneEnd = {FLOOR_SCENE_END_X, FLOOR_SCENE_END_Y};
-	this->_sectorStart = {SECTOR_START_X, SECTOR_START_Y};
-
 	this->_sectorCount = {FLOOR_SIZE_X / SECTOR_DEFAULT_SIZE_X, FLOOR_SIZE_Y / SECTOR_DEFAULT_SIZE_Y};
+	this->_sectorSize = {SECTOR_DEFAULT_SIZE_X, SECTOR_DEFAULT_SIZE_Y};
 
-	this->_sectorSize.x =
-	this->_sectorSize.y = this->_sectorSize.x;
-	
-	std::cout << "count sector x : " << this->_sectorCount.x << " count sector y : " <<
-			  this->_sectorCount.y << std::endl;
-	std::cout << "rest sector x : " << FLOOR_SIZE_X % SECTOR_DEFAULT_SIZE_X << " reset sector y : " <<
-			  FLOOR_SIZE_Y % SECTOR_DEFAULT_SIZE_Y << std::endl;
-
-
-
-
-
+    this->_sectorStart.x = (this->_floorSceneStart.x) + ((FLOOR_SIZE_X % SECTOR_DEFAULT_SIZE_X) / 2);
+    this->_sectorStart.y = (this->_floorSceneStart.y) + ((FLOOR_SIZE_Y % SECTOR_DEFAULT_SIZE_Y) / 2);
 }
 
 SceneGame::SceneGame(SceneGame const &copy) {
@@ -68,12 +58,30 @@ void SceneGame::eventHandler(std::vector<eEvent> eventList) {
 
 void SceneGame::initSceneGame() {
 	(*this->_aGraphics)->clear();
-	(*this->_aGraphics)->putTexture(GAME_BRICK, this->_floorSceneStart.x, this->_floorSceneStart.y,
-									this->_floorSceneEnd.x, this->_floorSceneEnd.y);
-	(*this->_aGraphics)->putTexture(GAME_BORDER, 0, 0, Nibbler::getWindowWidth(), Nibbler::getWindowHeight());
 
-	(*this->_aGraphics)->putTexture(GAME_GRASS, this->_sectorStart.x, this->_sectorStart.y,
-									this->_sectorSize.x, this->_sectorSize.y);
+	(*this->_aGraphics)->putTexture(GAME_BORDER_GRASS, this->_floorSceneStart.x, this->_floorSceneStart.x,
+                                    FLOOR_SIZE_X, FLOOR_SIZE_Y);
+
+
+	int i = -1;
+	while (++i < this->_sectorCount.x) {
+		int x_increment = this->_sectorSize.x * i;
+		int j = -1;
+		while (++j < this->_sectorCount.y) {
+			int y_increment = this->_sectorSize.y * j;
+			(*this->_aGraphics)->putTexture(GAME_GRASS, this->_sectorStart.x + x_increment, this->_sectorStart.y + y_increment,
+											this->_sectorSize.x, this->_sectorSize.y);
+
+
+            // Bordure non jouable pour eviter colision avec GAME_BORDER
+            if (i == 0 || j == 0 || i == this->_sectorCount.x - 1 || j == this->_sectorCount.y - 1)
+                (*this->_aGraphics)->putTexture(GAME_BORDER_GRASS, this->_sectorStart.x + x_increment, this->_sectorStart.y + y_increment,
+                                                this->_sectorSize.x, this->_sectorSize.y);
+
+
+		}
+	}
+    (*this->_aGraphics)->putTexture(GAME_BORDER, 0, 0, Nibbler::getWindowWidth(), Nibbler::getWindowHeight());
 
 
 //	this->floorSceneStartX

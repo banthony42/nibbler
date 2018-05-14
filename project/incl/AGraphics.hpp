@@ -88,10 +88,6 @@ public:
 		return ((w / 2) - static_cast<int>((str.length() / 2) * GET_SIZEFONT_X(size)));
 	}
 
-	double getWindowRatio() {
-		return (static_cast<double>(this->windowWidth / this->windowHeight));
-	}
-
 protected:
 	static std::vector<eEvent> _eventList;
 	int windowWidth;
