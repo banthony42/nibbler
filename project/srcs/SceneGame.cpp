@@ -23,7 +23,6 @@ SceneGame::SceneGame(AGraphics **aGraphics) {
 	this->_aGraphics = aGraphics;
 	this->_gameInstanced = false;
 
-//	this->initSnake();
 	this->_snake.headSkin = SceneGame::_selectedHeadSkin;
 	this->_snake.bodySkin = SceneGame::_selectedBodySkin;
 	this->_snake.vec = {1, 0};
@@ -72,21 +71,30 @@ void SceneGame::initNewSnake() {
 	while (++y <= tailPos.y) {
 		this->_snake.body.push_back({round(headPos.x), round(y)});
 	}
+    this->_lastHeadPos = {0, 0};
+    this->_headPos = this->_snake.body.at(0);
+    this->_score = 0;
 }
 
 void SceneGame::eventHandler(std::vector<eEvent> eventList) {
-	for (size_t j = 0; j < eventList.size(); j++) {
-		eEvent e = eventList.at(j);
-		if (e == ECHAP) {
+	for (auto &event : eventList) {
+		if (event == ECHAP) {
 			this->_gameInstanced = false;
 			Nibbler::setCurrentScene(MENU);
-		} else if (e == UP) {
-			this->_snake.vec = {0, -1 * this->_snake.speed};
-		} else if (e == DOWN) {
-			this->_snake.vec = {0, 1 * this->_snake.speed};
-		} else if (e == LEFT) {
-			this->_snake.vec = {-1 * this->_snake.speed, 0};
-		} else if (e == RIGHT) {
+		} else if (event == UP) {
+            if (!(this->_snake.vec.x == 0 && this->_snake.vec.y > 0)) {
+                this->_snake.vec = {0, -1 * this->_snake.speed};
+            }
+		} else if (event == DOWN) {
+            if (!(this->_snake.vec.x == 0 && this->_snake.vec.y < 0)) {
+                this->_snake.vec = {0, 1 * this->_snake.speed};
+            }
+		} else if (event == LEFT) {
+            if (!(this->_snake.vec.x > 0 && this->_snake.vec.y == 0)) {
+                this->_snake.vec = {-1 * this->_snake.speed, 0};
+            }
+		} else if (event == RIGHT) {
+            if (!(this->_snake.vec.x < 0 && this->_snake.vec.y == 0))
 			this->_snake.vec = {1 * this->_snake.speed, 0};
 		}
 	}
@@ -129,23 +137,41 @@ void SceneGame::drawFullSnake() {
 	}
 }
 
-// TODO le snake peut faire demi tour
-// TODO regler le bug d'affichage de depart
+void SceneGame::drawOverlay() {
+	std::ostringstream fps;
+	fps << DeltaTime::fps;
+	std::string fpsInfo = "fps:" + fps.str();
 
+    std::ostringstream score;
+    score << this->_score;
+    std::string scoreInfo = "Score:" + score.str();
+    (*this->_aGraphics)->putStrScreen(fpsInfo, PERCENTAGE(20, Nibbler::getWindowWidth()), 40, 1);
+    (*this->_aGraphics)->putStrScreen(scoreInfo, PERCENTAGE(75, Nibbler::getWindowWidth()), 40, 1);
+}
+
+// TODO le snake peut faire demi tour
+//  => fix mais sur un changement de direction rapide le demi tour passe - ajouter un delai sur le getEvent ?
 
 void SceneGame::moveSnake() {
-	static t_coordd lastHeadPos = {0, 0};
-	static t_coordd headPos = this->_snake.body.at(0);
+    t_coordd newPos = this->_headPos;
 
-	headPos.x += (this->_snake.vec.x * DeltaTime::deltaTime);
-	headPos.y += (this->_snake.vec.y * DeltaTime::deltaTime);
-	if (Nibbler::iRound(headPos.x) != Nibbler::iRound((lastHeadPos.x)) ||
-		Nibbler::iRound(headPos.y) != Nibbler::iRound((lastHeadPos.y))) {
-        std::cout << "move trigger" << std::endl;
-		this->_snake.body.insert(this->_snake.body.cbegin(), {round(headPos.x), round(headPos.y)});
-		this->_snake.body.pop_back();
-		lastHeadPos = this->_snake.body.at(0);
-	}
+	newPos.x += (this->_snake.vec.x * DeltaTime::deltaTime);
+	newPos.y += (this->_snake.vec.y * DeltaTime::deltaTime);
+
+    // Si collisions avec les murs
+    if ((newPos.x > (this->_sectorCount.x - 1 )) || newPos.x < 0 || (newPos.y > (this->_sectorCount.y - 1))  || newPos.y < 0) {
+        Nibbler::setCurrentScene(GAME_END);
+        this->_gameInstanced = false;
+        return ;
+    }
+    else
+        this->_headPos = newPos;
+    if (Nibbler::iRound(this->_headPos.x) != Nibbler::iRound((this->_lastHeadPos.x)) ||
+        Nibbler::iRound(this->_headPos.y) != Nibbler::iRound((this->_lastHeadPos.y))) {
+        this->_snake.body.insert(this->_snake.body.cbegin(), {round(this->_headPos.x), round(this->_headPos.y)});
+        this->_snake.body.pop_back();
+        this->_lastHeadPos = this->_snake.body.at(0);
+    }
 }
 
 void SceneGame::drawScene() {
@@ -153,11 +179,12 @@ void SceneGame::drawScene() {
 	this->resetSceneGame();
 	if (!this->_gameInstanced) {
 		this->initNewSnake();
-		this->drawFullSnake();
+        this->drawFullSnake();
 		this->_gameInstanced = true;
 	} else {
 		this->moveSnake();
 		this->drawFullSnake();
+        this->drawOverlay();
 	}
 	(*this->_aGraphics)->display();
 }

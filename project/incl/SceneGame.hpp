@@ -15,6 +15,7 @@
 
 #include "AScene.hpp"
 #include "Nibbler.hpp"
+#include <sstream>
 
 #define BORDER_GAME_HEIGHT 630.f
 #define BORDER_GAME_WIDTH 900.f
@@ -64,6 +65,7 @@ private:
 	SceneGame(SceneGame const &copy); // Canonical
 	SceneGame &operator=(SceneGame const &copy); // Canonical
 
+    void drawOverlay();
 	void moveSnake();
 	void resetSceneGame();
 	void drawSector(eTexture t, int sectorX, int sectorY);
@@ -81,7 +83,11 @@ private:
 
 	static const int _N_SECTX = 16;//TODO Voir si on calcul ces valeurs en fonctions de la taille de la fenetre
 	static const int _N_SECTY = 16; // TODO Non utilisé
+
+    int     _score;
 	t_snake _snake;
+	t_coordd _headPos;
+	t_coordd _lastHeadPos;
 	t_food _food;            //TODO: Definir le nb de food max sur scene, dans ce cas: _food[MAX_FOOD]
 };
 

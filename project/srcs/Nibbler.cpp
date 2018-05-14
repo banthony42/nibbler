@@ -48,7 +48,7 @@ Nibbler *Nibbler::getInstance() {
 	return Nibbler::_singleton;
 }
 
-int Nibbler::iRound(double a) {
+int Nibbler::iRound(double a) { // TODO NAN MAIS LOL !
 	return round(a);
 }
 

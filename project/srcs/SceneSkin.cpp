@@ -90,7 +90,7 @@ void SceneSkin::drawScene() {
     eTexture curs = static_cast<eTexture>(this->_cursor);
     t_coordi posCurs = {};
 
-    posCurs.x = PERCENTAGE(50, Nibbler::getWindowWidth()) - (SELECTOR_SIZE / 2);
+    posCurs.x = static_cast<int>((PERCENTAGE(50, Nibbler::getWindowWidth())) - (SELECTOR_SIZE / 2));
     posCurs.y = this->_input[curs].y - (SECTOR_DEFAULT_SIZE / 2);
     (*this->_aGraphics)->putStrScreen("<", posCurs.x, posCurs.y, SIZE_FONT_MENU);
 
