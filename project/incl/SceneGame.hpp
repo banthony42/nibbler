@@ -18,7 +18,6 @@
 
 typedef struct {
 	std::vector<t_coordd> body;
-	int size; // TODO if body works, we must remove this
 	t_coordd headPos; // TODO if body works, we must remove this
 	t_coordd tailPos; // TODO if body works, we must remove this
 	t_coordd vec;
@@ -70,8 +69,9 @@ private:
 	void drawSector(eTexture t, int sectorX, int sectorY);
 	/* TODO we must save all the body of snake because if not we dont know where put the food
 	and its more easy like it */
-	void drawSnake();
-	void initSnake();
+	void drawFullSnake();
+	void drawRecycledSnake();
+	void initNewSnake();
 
 	bool _gameInstanced;
 	t_coordi _floorSceneStart;

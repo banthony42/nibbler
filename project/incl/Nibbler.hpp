@@ -48,6 +48,7 @@ public:
 	static void *_dlHandle;
 	static AGraphics *_aGraphics;
 
+	static int iRound(double a);
 	static int getWindowWidth();
 	static void setWindowWidth(int w);
 	static int getWindowHeight();

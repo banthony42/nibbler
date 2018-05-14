@@ -48,6 +48,10 @@ Nibbler *Nibbler::getInstance() {
 	return Nibbler::_singleton;
 }
 
+int Nibbler::iRound(double a) {
+	return round(a);
+}
+
 void Nibbler::initAGraphics() {
 	Nibbler::_aGraphics->init(Nibbler::WINDOW_WIDTH, Nibbler::WINDOW_HEIGHT, "Nibbler");
 	Nibbler::_aGraphics->loadTexture("./textures/menu_bckg.png", MENU_BCKG);
