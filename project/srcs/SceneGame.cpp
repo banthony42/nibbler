@@ -43,14 +43,14 @@ SceneGame::SceneGame(AGraphics **aGraphics) {
 	this->_floorSceneStart = {FLOOR_SCENE_START_X, FLOOR_SCENE_START_Y};
 	this->_floorSize = {FLOOR_SIZE_X, FLOOR_SIZE_Y};
 	// -2 because we don't draw the first line and the last line
-	this->_sectorCount = {FLOOR_SIZE_X / SECTOR_DEFAULT_SIZE_X - 2, FLOOR_SIZE_Y / SECTOR_DEFAULT_SIZE_Y - 2};
-	this->_sectorSize = {SECTOR_DEFAULT_SIZE_X, SECTOR_DEFAULT_SIZE_Y};
+	this->_sectorCount = {FLOOR_SIZE_X / SECTOR_DEFAULT_SIZE - 2, FLOOR_SIZE_Y / SECTOR_DEFAULT_SIZE - 2};
+	this->_sectorSize = {SECTOR_DEFAULT_SIZE, SECTOR_DEFAULT_SIZE};
 
 	// we add a sector to the sectorSize because we don't draw the first line
 	this->_sectorStart.x =
-			(this->_floorSceneStart.x) + this->_sectorSize.x + ((FLOOR_SIZE_X % SECTOR_DEFAULT_SIZE_X) / 2);
+			(this->_floorSceneStart.x) + this->_sectorSize.x + ((FLOOR_SIZE_X % SECTOR_DEFAULT_SIZE) / 2);
 	this->_sectorStart.y =
-			(this->_floorSceneStart.y) + this->_sectorSize.y + ((FLOOR_SIZE_Y % SECTOR_DEFAULT_SIZE_Y) / 2);
+			(this->_floorSceneStart.y) + this->_sectorSize.y + ((FLOOR_SIZE_Y % SECTOR_DEFAULT_SIZE) / 2);
 }
 
 SceneGame::SceneGame(SceneGame const &copy) {

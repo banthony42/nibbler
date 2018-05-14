@@ -47,8 +47,7 @@ typedef struct {
 #define FLOOR_SIZE_X (FLOOR_SCENE_END_X - FLOOR_SCENE_START_X)
 #define FLOOR_SIZE_Y (FLOOR_SCENE_END_Y - FLOOR_SCENE_START_Y)
 
-#define SECTOR_DEFAULT_SIZE_X 32
-#define SECTOR_DEFAULT_SIZE_Y 32
+#define SECTOR_DEFAULT_SIZE 32
 
 class SceneGame : public AScene {
 
