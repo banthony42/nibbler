@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../incl/SceneGame.hpp"
-#include "../incl/AGraphics.hpp"
 
 eTexture SceneGame::_selectedHeadSkin = SNAKE_H_PCM;
 eTexture SceneGame::_selectedBodySkin = SNAKE_B_PCM;
@@ -25,8 +24,6 @@ void SceneGame::initNewSnake() {
 						(std::rand() % (this->_sectorCount.y - 3))};
 	t_coordi tailPos = {headPos.x, headPos.y + 2}; // so the size of 2 + the head so 3
 
-	this->_snake.headPos = {round(headPos.x), round(headPos.y)};
-	this->_snake.tailPos = {round(tailPos.x), round(tailPos.y)};
 	this->_snake.vec = {1, 0};
 	this->_snake.headSkin = SceneGame::_selectedHeadSkin;
 	this->_snake.bodySkin = SceneGame::_selectedBodySkin;
@@ -94,42 +91,14 @@ void SceneGame::eventHandler(std::vector<eEvent> eventList) {
 	}
 }
 
-// The snake is drawn by the end before, then finish by the head
-void SceneGame::drawFullSnake() {
-	int size = this->_snake.body.size() - 1;
-
-	t_coordd sec = this->_snake.body.at(0);
-	drawSector(this->_snake.headSkin, sec.x, sec.y);
-	int i = 0;
-	while (++i <= size) {
-		sec = this->_snake.body.at(i);
-		drawSector(this->_snake.bodySkin, sec.x, sec.y);
-	}
-}
-
-void SceneGame::drawRecycledSnake() {
-
-	auto begin = this->_snake.body.cbegin();
-	auto end = this->_snake.body.back();
-
-	drawSector(GAME_GRASS, end.x, end.y);
-	drawSector(this->_snake.headSkin, begin->x, begin->y);
-	begin++;
-	drawSector(GAME_GRASS, begin->x, begin->y);
-	drawSector(this->_snake.bodySkin, begin->x, begin->y);
-	this->_snake.body.pop_back();
-}
-
 void SceneGame::drawSector(eTexture t, int sectorX, int sectorY) {
 	int posSectorX = this->_sectorStart.x + (this->_sectorSize.x * sectorX);
 	int posSectorY = this->_sectorStart.y + (this->_sectorSize.y * sectorY);
-
 	(*this->_aGraphics)->putTexture(t, posSectorX, posSectorY, this->_sectorSize.x, this->_sectorSize.y);
 }
 
 void SceneGame::initSceneGame() {
 	(*this->_aGraphics)->clear();
-
 	(*this->_aGraphics)->putTexture(GAME_BORDER_GRASS, this->_floorSceneStart.x, this->_floorSceneStart.x,
 									this->_floorSize.x, this->_floorSize.y);
 	// init the map
@@ -146,12 +115,51 @@ void SceneGame::initSceneGame() {
 	std::cout << "init game" << std::endl;
 }
 
-void SceneGame::moveSnake() {
-	auto coordOfHead = this->_snake.body.at(0);
-	this->_snake.body.insert(this->_snake.body.cbegin(), {coordOfHead.x + this->_snake.vec.x, coordOfHead.y + this->_snake.vec.y});
+// The snake is drawn by the end before, then finish by the head
+void SceneGame::drawFullSnake() {
+	int size = this->_snake.body.size() - 1;
+
+	t_coordd sec = this->_snake.body.at(0);
+	drawSector(this->_snake.headSkin, sec.x, sec.y);
+	int i = 0;
+	while (++i <= size) {
+		sec = this->_snake.body.at(i);
+		drawSector(this->_snake.bodySkin, sec.x, sec.y);
+	}
+}
+#include <unistd.h> // TODO to remove
+
+void SceneGame::drawRecycledSnake() {
+	if (this->_snakeCoordUpdated) {
+		auto begin = this->_snake.body.cbegin();
+		auto end = this->_snake.body.back();
+		drawSector(GAME_GRASS, end.x, end.y);
+		drawSector(this->_snake.headSkin, begin->x, begin->y);
+		begin++;
+		drawSector(GAME_GRASS, begin->x, begin->y);
+		drawSector(this->_snake.bodySkin, begin->x, begin->y);
+		this->_snake.body.pop_back();
+		this->_snakeCoordUpdated = false;
+	}
 }
 
-#include <unistd.h>
+void SceneGame::moveSnake() {
+	static t_coordd lastHeadPos = {0, 0};
+	static t_coordd headPos = this->_snake.body.at(0);
+
+	headPos.x += (this->_snake.vec.x * DeltaTime::deltaTime);
+	headPos.y += (this->_snake.vec.y * DeltaTime::deltaTime);
+	if (Nibbler::iRound(headPos.x) != Nibbler::iRound((lastHeadPos.x)) ||
+		Nibbler::iRound(headPos.y) != Nibbler::iRound((lastHeadPos.y))) {
+		this->_snake.body.insert(this->_snake.body.cbegin(), {headPos.x + (this->_snake.vec.x * DeltaTime::deltaTime),
+															  headPos.y + (this->_snake.vec.y * DeltaTime::deltaTime)});
+		lastHeadPos = headPos;
+		this->_snakeCoordUpdated = true;
+	}
+
+
+}
+
 void SceneGame::drawScene() {
 	if (!this->_gameInstanced) {
 		this->initSceneGame();
@@ -160,12 +168,9 @@ void SceneGame::drawScene() {
 		this->drawFullSnake();
 		(*this->_aGraphics)->display();
 	} else {
-		usleep(500000);
+//		usleep(500000);
 		this->moveSnake();
 		this->drawRecycledSnake();
 		(*this->_aGraphics)->display();
 	}
 }
-
-
-

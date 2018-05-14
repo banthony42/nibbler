@@ -7,7 +7,8 @@ FILES =				main.cpp \
 					SceneMenu.cpp \
 					SceneGameEnd.cpp \
 					SceneGame.cpp \
-					SceneSkin.cpp
+					SceneSkin.cpp \
+					DeltaTime.cpp
 
 SRCS =				$(addprefix $(SOURCES_NAME_FOLDER)/, $(FILES))
 

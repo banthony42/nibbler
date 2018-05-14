@@ -85,11 +85,12 @@ void Nibbler::run() {
 
 	/****************** MAIN WHILE ******************/
 	while (Nibbler::_aGraphics->loopUpdate()) {
+		DeltaTime::startDelta();
 		auto vec = Nibbler::_aGraphics->getEvent();
 
 		this->_callScene[this->_currentScene]->eventHandler(vec);
 		this->_callScene[this->_currentScene]->drawScene();
-
+		DeltaTime::endDelta();
 	}
 	Nibbler::_aGraphics->cleanUp();
 }

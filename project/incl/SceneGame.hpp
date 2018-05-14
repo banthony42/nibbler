@@ -16,21 +16,6 @@
 #include "AScene.hpp"
 #include "Nibbler.hpp"
 
-typedef struct {
-	std::vector<t_coordd> body;
-	t_coordd headPos; // TODO if body works, we must remove this
-	t_coordd tailPos; // TODO if body works, we must remove this
-	t_coordd vec;
-	eTexture headSkin;
-	eTexture bodySkin;
-} t_snake;
-
-typedef struct {
-	t_coordd pos;
-	int energy;    // TODO définir l'utilité
-	eTexture skin;
-} t_food;
-
 #define BORDER_GAME_HEIGHT 630.f
 #define BORDER_GAME_WIDTH 900.f
 #define BORDER_GAME_SIDE 74.f
@@ -47,6 +32,19 @@ typedef struct {
 #define FLOOR_SIZE_Y (FLOOR_SCENE_END_Y - FLOOR_SCENE_START_Y)
 
 #define SECTOR_DEFAULT_SIZE 32
+
+typedef struct {
+	std::vector<t_coordd> body;
+	t_coordd vec;
+	eTexture headSkin;
+	eTexture bodySkin;
+} t_snake;
+
+typedef struct {
+	t_coordd pos;
+	int energy;    // TODO définir l'utilité
+	eTexture skin;
+} t_food;
 
 class SceneGame : public AScene {
 
@@ -80,6 +78,7 @@ private:
 	t_coordi _sectorStart;
 	t_coordi _sectorSize;
 	t_coordi _sectorCount;
+	bool _snakeCoordUpdated;
 
 	static const int _N_SECTX = 16;//TODO Voir si on calcul ces valeurs en fonctions de la taille de la fenetre
 	static const int _N_SECTY = 16; // TODO Non utilisé

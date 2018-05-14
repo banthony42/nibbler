@@ -23,6 +23,7 @@
 #include "SceneSkin.hpp"
 #include "SceneGame.hpp"
 #include "SceneGameEnd.hpp"
+#include "DeltaTime.hpp"
 
 // Calcul x % de val
 #define PERCENTAGE(x, val) ((x * val) / 100)
