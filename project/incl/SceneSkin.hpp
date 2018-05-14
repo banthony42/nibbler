@@ -16,20 +16,22 @@
 #include <map>
 #include "AScene.hpp"
 
-enum eSelectSkin {
-	NO_SKIN,
-	SKIN_1,
-	SKIN_2,
-	SKIN_3,
-	NB_SKIN
-};
+#define NB_SKIN 3
 
 #define MARGIN_X 25
 #define MARGIN_Y 10
+
 #define FRAME_START_X PERCENTAGE((MARGIN_X / 2), Nibbler::getWindowWidth())
 #define FRAME_START_Y PERCENTAGE((MARGIN_Y / 2), Nibbler::getWindowHeight())
+
 #define FRAME_WIDTH PERCENTAGE((100 - MARGIN_X), Nibbler::getWindowWidth())
 #define FRAME_HEIGHT PERCENTAGE((100 - MARGIN_Y), Nibbler::getWindowHeight())
+
+#define SKIN_START_X(x) (PERCENTAGE(x, Nibbler::getWindowWidth()) + (1 * SECTOR_DEFAULT_SIZE))
+#define SKIN_START_Y(x) static_cast<int>(PERCENTAGE(x, Nibbler::getWindowHeight()) - (SECTOR_DEFAULT_SIZE / 2))
+#define SKIN_B_START_X(x, offset) (x - (offset * SECTOR_DEFAULT_SIZE))
+
+#define SELECTOR_SIZE (10 * GET_SIZEFONT_X(SIZE_FONT_MENU))
 
 class SceneSkin : public AScene {
 
@@ -45,8 +47,8 @@ private:
 	SceneSkin(SceneSkin const &copy); // Canonical
 	SceneSkin &operator=(SceneSkin const &copy);    // Canonical
 
-	size_t								_cursor;
-	std::map<eTexture, t_coordi>		_input;
+	size_t								    _cursor;
+	std::map<eTexture , t_coordi>		_input;
 };
 
 

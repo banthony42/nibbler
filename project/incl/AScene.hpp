@@ -25,11 +25,11 @@ enum eTexture {
 	SKIN_BCKG, // TODO utile ?
 	SKIN_FRAME,
 	SCORE_BCKG,
-	SNAKE_H_PCM,
-	SNAKE_B_PCM,
+	SNAKE_H_PCM,	// Order of the skin texture is important
 	SNAKE_H_SMB,
-	SNAKE_B_SMB,
 	SNAKE_H_HK,
+	SNAKE_B_PCM,
+	SNAKE_B_SMB,
 	SNAKE_B_HK,
 	FOOD,
 	NB_TEXTURE

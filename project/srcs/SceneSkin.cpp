@@ -12,6 +12,7 @@
 
 #include "../incl/SceneSkin.hpp"
 #include "../incl/Nibbler.hpp"
+#include "../incl/AGraphics.hpp"
 
 SceneSkin::SceneSkin() {
 	
@@ -34,7 +35,16 @@ SceneSkin &SceneSkin::operator=(SceneSkin const &copy) {
 
 SceneSkin::SceneSkin(AGraphics **aGraphics) {
 	this->_aGraphics = aGraphics;
-	this->_cursor = SKIN_1;
+	this->_cursor = SNAKE_H_PCM;
+
+    t_coordi pos = { SKIN_START_X(50), SKIN_START_Y(17) };
+    this->_input[SNAKE_H_PCM] = pos;
+
+    pos.y = SKIN_START_Y(48.5);
+    this->_input[SNAKE_H_SMB] = pos;
+
+    pos.y = SKIN_START_Y(79);
+    this->_input[SNAKE_H_HK] = pos;
 }
 
 void SceneSkin::eventHandler(std::vector<eEvent> eventList) {
@@ -42,9 +52,17 @@ void SceneSkin::eventHandler(std::vector<eEvent> eventList) {
 		if (event == ECHAP) {
 			Nibbler::setCurrentScene(MENU);
 		}
-		else if (event == ENTER) {
-			Nibbler::setCurrentScene(GAME);
-		}
+        else if (event == UP && this->_cursor > SNAKE_H_PCM) {
+            this->_cursor--;
+        }
+        else if (event == DOWN && this->_cursor < SNAKE_H_HK) {
+            this->_cursor++;
+        }
+        else if (event == ENTER) {
+            SceneGame::_selectedHeadSkin = static_cast<eTexture >(this->_cursor);
+            SceneGame::_selectedBodySkin = static_cast<eTexture >(this->_cursor + NB_SKIN);
+            Nibbler::setCurrentScene(GAME);
+        }
 	}
 }
 
@@ -53,33 +71,32 @@ void SceneSkin::drawScene() {
 
 	(*this->_aGraphics)->putTexture(SKIN_FRAME, FRAME_START_X, FRAME_START_Y, FRAME_WIDTH, FRAME_HEIGHT);
 
+    (*this->_aGraphics)->putTexture(SNAKE_H_PCM, this->_input[SNAKE_H_PCM].x, this->_input[SNAKE_H_PCM].y, SECTOR_DEFAULT_SIZE, SECTOR_DEFAULT_SIZE);
+    (*this->_aGraphics)->putTexture(SNAKE_B_PCM, SKIN_B_START_X(this->_input[SNAKE_H_PCM].x, 1), this->_input[SNAKE_H_PCM].y, SECTOR_DEFAULT_SIZE, SECTOR_DEFAULT_SIZE);
+    (*this->_aGraphics)->putTexture(SNAKE_B_PCM, SKIN_B_START_X(this->_input[SNAKE_H_PCM].x, 2), this->_input[SNAKE_H_PCM].y, SECTOR_DEFAULT_SIZE, SECTOR_DEFAULT_SIZE);
+    (*this->_aGraphics)->putTexture(SNAKE_B_PCM, SKIN_B_START_X(this->_input[SNAKE_H_PCM].x, 3), this->_input[SNAKE_H_PCM].y, SECTOR_DEFAULT_SIZE, SECTOR_DEFAULT_SIZE);
 
+    (*this->_aGraphics)->putTexture(SNAKE_H_SMB, this->_input[SNAKE_H_SMB].x, this->_input[SNAKE_H_SMB].y, SECTOR_DEFAULT_SIZE, SECTOR_DEFAULT_SIZE);
+    (*this->_aGraphics)->putTexture(SNAKE_B_SMB, SKIN_B_START_X(this->_input[SNAKE_H_SMB].x, 1), this->_input[SNAKE_H_SMB].y, SECTOR_DEFAULT_SIZE, SECTOR_DEFAULT_SIZE);
+    (*this->_aGraphics)->putTexture(SNAKE_B_SMB, SKIN_B_START_X(this->_input[SNAKE_H_SMB].x, 2), this->_input[SNAKE_H_SMB].y, SECTOR_DEFAULT_SIZE, SECTOR_DEFAULT_SIZE);
+    (*this->_aGraphics)->putTexture(SNAKE_B_SMB, SKIN_B_START_X(this->_input[SNAKE_H_SMB].x, 3), this->_input[SNAKE_H_SMB].y, SECTOR_DEFAULT_SIZE, SECTOR_DEFAULT_SIZE);
 
-    (*this->_aGraphics)->putTexture(SNAKE_H_SMB, PERCENTAGE(50, Nibbler::getWindowWidth()),
-                                    PERCENTAGE(47, Nibbler::getWindowHeight()) - (SECTOR_DEFAULT_SIZE / 2), SECTOR_DEFAULT_SIZE, SECTOR_DEFAULT_SIZE);
+    (*this->_aGraphics)->putTexture(SNAKE_H_HK, this->_input[SNAKE_H_HK].x, this->_input[SNAKE_H_HK].y, SECTOR_DEFAULT_SIZE, SECTOR_DEFAULT_SIZE);
+    (*this->_aGraphics)->putTexture(SNAKE_B_HK, SKIN_B_START_X(this->_input[SNAKE_H_HK].x, 1), this->_input[SNAKE_H_HK].y, SECTOR_DEFAULT_SIZE, SECTOR_DEFAULT_SIZE);
+    (*this->_aGraphics)->putTexture(SNAKE_B_HK, SKIN_B_START_X(this->_input[SNAKE_H_HK].x, 2), this->_input[SNAKE_H_HK].y, SECTOR_DEFAULT_SIZE, SECTOR_DEFAULT_SIZE);
+    (*this->_aGraphics)->putTexture(SNAKE_B_HK, SKIN_B_START_X(this->_input[SNAKE_H_HK].x, 3), this->_input[SNAKE_H_HK].y, SECTOR_DEFAULT_SIZE, SECTOR_DEFAULT_SIZE);
 
+    // Draw Cursor
+    eTexture curs = static_cast<eTexture>(this->_cursor);
+    t_coordi posCurs = {};
 
+    posCurs.x = PERCENTAGE(50, Nibbler::getWindowWidth()) - (SELECTOR_SIZE / 2);
+    posCurs.y = this->_input[curs].y - (SECTOR_DEFAULT_SIZE / 2);
+    (*this->_aGraphics)->putStrScreen("<", posCurs.x, posCurs.y, SIZE_FONT_MENU);
 
+    posCurs.x += SELECTOR_SIZE;
+    (*this->_aGraphics)->putStrScreen(">", posCurs.x, posCurs.y, SIZE_FONT_MENU);
 
-    /*
-	(*this->_aGraphics)->putTexture(SNAKE_H_PCM, PERCENTAGE(58, Nibbler::getWindowWidth()), PERCENTAGE(11, Nibbler::getWindowHeight()), 48, 48);
-	(*this->_aGraphics)->putTexture(SNAKE_B_PCM, PERCENTAGE(58, Nibbler::getWindowWidth()) - 48, PERCENTAGE(11, Nibbler::getWindowHeight()), 48, 48);
-	(*this->_aGraphics)->putTexture(SNAKE_B_PCM, PERCENTAGE(58, Nibbler::getWindowWidth()) - 96, PERCENTAGE(11, Nibbler::getWindowHeight()), 48, 48);
-	(*this->_aGraphics)->putTexture(SNAKE_B_PCM, PERCENTAGE(58, Nibbler::getWindowWidth()) - 144, PERCENTAGE(11, Nibbler::getWindowHeight()), 48, 48);
-
-
-
-
-	(*this->_aGraphics)->putTexture(SNAKE_B_SMB, PERCENTAGE(50, Nibbler::getWindowWidth()) - 48, PERCENTAGE(50, Nibbler::getWindowHeight()), 48, 48);
-	(*this->_aGraphics)->putTexture(SNAKE_B_SMB, PERCENTAGE(50, Nibbler::getWindowWidth()) - 96, PERCENTAGE(50, Nibbler::getWindowHeight()), 48, 48);
-	(*this->_aGraphics)->putTexture(SNAKE_B_SMB, PERCENTAGE(50, Nibbler::getWindowWidth()) - 144, PERCENTAGE(50, Nibbler::getWindowHeight()), 48, 48);
-
-
-	(*this->_aGraphics)->putTexture(SNAKE_H_HK, PERCENTAGE(58, Nibbler::getWindowWidth()), PERCENTAGE(80, Nibbler::getWindowHeight()), 48, 48);
-	(*this->_aGraphics)->putTexture(SNAKE_B_HK, PERCENTAGE(58, Nibbler::getWindowWidth()) - 48, PERCENTAGE(80, Nibbler::getWindowHeight()), 48, 48);
-	(*this->_aGraphics)->putTexture(SNAKE_B_HK, PERCENTAGE(58, Nibbler::getWindowWidth()) - 96, PERCENTAGE(80, Nibbler::getWindowHeight()), 48, 48);
-	(*this->_aGraphics)->putTexture(SNAKE_B_HK, PERCENTAGE(58, Nibbler::getWindowWidth()) - 144, PERCENTAGE(80, Nibbler::getWindowHeight()), 48, 48);
-*/
 	(*this->_aGraphics)->display();
 }
 
