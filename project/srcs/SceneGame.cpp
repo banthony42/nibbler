@@ -35,7 +35,6 @@ void SceneGame::initNewSnake() {
 	while (++y <= tailPos.y) {
 		this->_snake.body.push_back({round(headPos.x), round(headPos.y + y)});
 	}
-	drawFullSnake();
 }
 
 SceneGame::SceneGame(AGraphics **aGraphics) {
@@ -105,10 +104,10 @@ void SceneGame::drawRecycledSnake() {
 	auto begin = this->_snake.body.cbegin();
 	auto end = this->_snake.body.back();
 
-//	end--;
 	drawSector(GAME_GRASS, end.x, end.y);
 	drawSector(this->_snake.headSkin, begin->x, begin->y);
 	begin++;
+	drawSector(GAME_GRASS, begin->x, begin->y);
 	drawSector(this->_snake.bodySkin, begin->x, begin->y);
 	this->_snake.body.pop_back();
 }
@@ -125,8 +124,6 @@ void SceneGame::initSceneGame() {
 
 	(*this->_aGraphics)->putTexture(GAME_BORDER_GRASS, this->_floorSceneStart.x, this->_floorSceneStart.x,
 									this->_floorSize.x, this->_floorSize.y);
-
-
 	// init the map
 	int x = -1;
 	while (++x < this->_sectorCount.x) {
@@ -139,21 +136,11 @@ void SceneGame::initSceneGame() {
 //            if (i == 0 || j == 0 || i == this->_sectorCount.x - 1 || j == this->_sectorCount.y - 1)
 //                (*this->_aGraphics)->putTexture(GAME_BORDER_GRASS, this->_sectorStart.x + x_increment, this->_sectorStart.y + y_increment,
 //                                                this->_sectorSize.x, this->_sectorSize.y);
-
 		}
 	}
-
-	// init the snake
-//	this->drawSector(this->_snake.headSkin, static_cast<int>(this->_snake.headPos.x), static_cast<int>(this->_snake.headPos.y));
-
 	(*this->_aGraphics)->putTexture(GAME_BORDER, 0, 0, Nibbler::getWindowWidth(), Nibbler::getWindowHeight());
 	this->initNewSnake();
-
-//	(*this->_aGraphics)->putTexture(SNAKE_H_SMB, 850, 200, 48, 48);
-//	(*this->_aGraphics)->putTexture(SNAKE_B_SMB, 850 - 48, 200, 48, 48);
-//	(*this->_aGraphics)->putTexture(SNAKE_B_SMB, 850 - 96, 200, 48, 48);
-//	(*this->_aGraphics)->putTexture(SNAKE_B_SMB, 850 - 144, 200, 48, 48);
-//	(*this->_aGraphics)->putTexture(FOOD, 900, 200, 48, 48);
+	this->drawFullSnake();
 	this->_gameInstanced = true;
 	(*this->_aGraphics)->display();
 	std::cout << "init game" << std::endl;
@@ -166,14 +153,14 @@ void SceneGame::moveSnake() {
 
 #include <unistd.h>
 void SceneGame::drawScene() {
-//	(*this->_aGraphics)->clear();
 	if (!this->_gameInstanced) {
+		this->initSceneGame();
 		this->initSceneGame();
 	} else {
 		usleep(500000);
+		this->moveSnake();
 		this->drawRecycledSnake();
 		(*this->_aGraphics)->display();
-		this->moveSnake();
 	}
 }
 
