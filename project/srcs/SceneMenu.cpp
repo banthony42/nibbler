@@ -67,8 +67,7 @@ SceneMenu::SceneMenu(AGraphics **aGraphics) {
 void SceneMenu::eventHandler(std::vector<eEvent> eventList) {
     eEvent event = EVENT_VOID;
     if (this->_page == PAGE_MENU) {
-        for (size_t j = 0; j < eventList.size(); j++) {
-            event = eventList.at(j);
+        for (auto &event : eventList) {
             if (event == ECHAP) {
                 Nibbler::_aGraphics->cleanUp();
             } else if (event == UP) {
@@ -91,8 +90,7 @@ void SceneMenu::eventHandler(std::vector<eEvent> eventList) {
             }
         }
     } else if (this->_page == PAGE_OPTION) {
-        for (size_t j = 0; j < eventList.size(); j++) {
-            event = eventList.at(j);
+        for (auto &event : eventList) {
             if (event == ECHAP) {
                 this->_page = PAGE_MENU;
                 this->_cursor = MENU_GAME;
@@ -112,9 +110,9 @@ void SceneMenu::eventHandler(std::vector<eEvent> eventList) {
                 } else if (this->_cursor == OPTION_GL) {
                     Nibbler::loadLibrary(LIB_OPENGL_PATH);
                 }
+                this->_page = PAGE_MENU;
+                this->_cursor = MENU_GAME;
             }
-            this->_page = PAGE_MENU;
-            this->_cursor = MENU_GAME;
         }
     }
 }

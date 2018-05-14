@@ -38,12 +38,11 @@ SceneSkin::SceneSkin(AGraphics **aGraphics) {
 }
 
 void SceneSkin::eventHandler(std::vector<eEvent> eventList) {
-	for (size_t j = 0; j < eventList.size(); j++) {
-		eEvent e = eventList.at(j);
-		if (e == ECHAP) {
+	for (auto &event : eventList) {
+		if (event == ECHAP) {
 			Nibbler::setCurrentScene(MENU);
 		}
-		else if (e == ENTER) {
+		else if (event == ENTER) {
 			Nibbler::setCurrentScene(GAME);
 		}
 	}
