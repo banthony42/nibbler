@@ -55,6 +55,7 @@ void manageArguments(int ac, char **av) {
 int main(int argc, char **argv) {
 	Nibbler *nibbler;
 
+	std::srand(std::time(0));
 	nibbler = Nibbler::getInstance();
 	manageArguments(argc, argv);
 	if (Nibbler::_aGraphics != nullptr) {

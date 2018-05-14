@@ -19,10 +19,24 @@ SceneGame::SceneGame() {
 
 }
 
+void SceneGame::initSnake() {
+	t_coordi headPos = {(std::rand() % (this->_sectorCount.x - 3)) + 2,
+						(std::rand() % (this->_sectorCount.y - 3)) + 2};
+
+	t_coordi tailPos = {headPos.x, headPos.y + 2};
+
+	std::vector<t_coordd> snakeBody; // TODO TOTALLY IN PROGRESS BY CLEMENT 
+	this->_snake = {snakeBody, 2, {(double)headPos.x, (double)headPos.y}, {(double)tailPos.x, (double)tailPos.y}, {1, 0}, SNAKE_H_PCM, SNAKE_B_PCM};
+	this->drawSector(this->_snake.headSkin, static_cast<int>(this->_snake.headPos.x), static_cast<int>(this->_snake.headPos.y));
+
+//	snakeBody().push_back()
+}
+
 SceneGame::SceneGame(AGraphics **aGraphics) {
 	this->_aGraphics = aGraphics;
 	this->_gameInstanced = false;
-	this->_snake = {{15, 15}, {15, 17}, {1, 0}, 3, SNAKE_H_PCM, SNAKE_B_PCM};
+
+//	this->initSnake();
 	this->_food = {{10, 10}, 1, FOOD};
 
 	// INIT VAR
@@ -63,6 +77,10 @@ void SceneGame::eventHandler(std::vector<eEvent> eventList) {
 	}
 }
 
+void SceneGame::drawSnake() {
+
+}
+
 void SceneGame::drawSector(eTexture t, int sectorX, int sectorY) {
 	int posSectorX = this->_sectorStart.x + (this->_sectorSize.x * sectorX);
 	int posSectorY = this->_sectorStart.y + (this->_sectorSize.y * sectorY);
@@ -94,9 +112,10 @@ void SceneGame::initSceneGame() {
 	}
 
 	// init the snake
-	this->drawSector(this->_snake.headSkin, static_cast<int>(this->_snake.headPos.x), static_cast<int>(this->_snake.headPos.y));
+//	this->drawSector(this->_snake.headSkin, static_cast<int>(this->_snake.headPos.x), static_cast<int>(this->_snake.headPos.y));
 
 	(*this->_aGraphics)->putTexture(GAME_BORDER, 0, 0, Nibbler::getWindowWidth(), Nibbler::getWindowHeight());
+	this->initSnake();
 
 //	(*this->_aGraphics)->putTexture(SNAKE_H_SMB, 850, 200, 48, 48);
 //	(*this->_aGraphics)->putTexture(SNAKE_B_SMB, 850 - 48, 200, 48, 48);
