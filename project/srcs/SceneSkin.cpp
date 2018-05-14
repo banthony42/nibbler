@@ -34,6 +34,7 @@ SceneSkin &SceneSkin::operator=(SceneSkin const &copy) {
 
 SceneSkin::SceneSkin(AGraphics **aGraphics) {
 	this->_aGraphics = aGraphics;
+	this->_cursor = SKIN_1;
 }
 
 void SceneSkin::eventHandler(std::vector<eEvent> eventList) {
@@ -51,20 +52,35 @@ void SceneSkin::eventHandler(std::vector<eEvent> eventList) {
 void SceneSkin::drawScene() {
 	(*this->_aGraphics)->clear();
 
-	(*this->_aGraphics)->putTexture(SKIN_FRAME, 0, 0, Nibbler::getWindowWidth(), Nibbler::getWindowHeight());
-	(*this->_aGraphics)->putTexture(SNAKE_H_PCM, PERCENTAGE(55, Nibbler::getWindowWidth()), PERCENTAGE(11, Nibbler::getWindowHeight()), 48, 48);
-	(*this->_aGraphics)->putTexture(SNAKE_B_PCM, PERCENTAGE(55, Nibbler::getWindowWidth()) - 48, PERCENTAGE(11, Nibbler::getWindowHeight()), 48, 48);
-	(*this->_aGraphics)->putTexture(SNAKE_B_PCM, PERCENTAGE(55, Nibbler::getWindowWidth()) - 96, PERCENTAGE(11, Nibbler::getWindowHeight()), 48, 48);
-	(*this->_aGraphics)->putTexture(SNAKE_B_PCM, PERCENTAGE(55, Nibbler::getWindowWidth()) - 144, PERCENTAGE(11, Nibbler::getWindowHeight()), 48, 48);
-	(*this->_aGraphics)->putTexture(SNAKE_H_SMB, PERCENTAGE(55, Nibbler::getWindowWidth()), PERCENTAGE(45, Nibbler::getWindowHeight()), 48, 48);
-	(*this->_aGraphics)->putTexture(SNAKE_B_SMB, PERCENTAGE(55, Nibbler::getWindowWidth()) - 48, PERCENTAGE(45, Nibbler::getWindowHeight()), 48, 48);
-	(*this->_aGraphics)->putTexture(SNAKE_B_SMB, PERCENTAGE(55, Nibbler::getWindowWidth()) - 96, PERCENTAGE(45, Nibbler::getWindowHeight()), 48, 48);
-	(*this->_aGraphics)->putTexture(SNAKE_B_SMB, PERCENTAGE(55, Nibbler::getWindowWidth()) - 144, PERCENTAGE(45, Nibbler::getWindowHeight()), 48, 48);
-	(*this->_aGraphics)->putTexture(SNAKE_H_HK, PERCENTAGE(55, Nibbler::getWindowWidth()), PERCENTAGE(80, Nibbler::getWindowHeight()), 48, 48);
-	(*this->_aGraphics)->putTexture(SNAKE_B_HK, PERCENTAGE(55, Nibbler::getWindowWidth()) - 48, PERCENTAGE(80, Nibbler::getWindowHeight()), 48, 48);
-	(*this->_aGraphics)->putTexture(SNAKE_B_HK, PERCENTAGE(55, Nibbler::getWindowWidth()) - 96, PERCENTAGE(80, Nibbler::getWindowHeight()), 48, 48);
-	(*this->_aGraphics)->putTexture(SNAKE_B_HK, PERCENTAGE(55, Nibbler::getWindowWidth()) - 144, PERCENTAGE(80, Nibbler::getWindowHeight()), 48, 48);
+	(*this->_aGraphics)->putTexture(SKIN_FRAME, FRAME_START_X, FRAME_START_Y, FRAME_WIDTH, FRAME_HEIGHT);
 
+
+
+    (*this->_aGraphics)->putTexture(SNAKE_H_SMB, PERCENTAGE(50, Nibbler::getWindowWidth()),
+                                    PERCENTAGE(47, Nibbler::getWindowHeight()) - (SECTOR_DEFAULT_SIZE / 2), SECTOR_DEFAULT_SIZE, SECTOR_DEFAULT_SIZE);
+
+
+
+
+    /*
+	(*this->_aGraphics)->putTexture(SNAKE_H_PCM, PERCENTAGE(58, Nibbler::getWindowWidth()), PERCENTAGE(11, Nibbler::getWindowHeight()), 48, 48);
+	(*this->_aGraphics)->putTexture(SNAKE_B_PCM, PERCENTAGE(58, Nibbler::getWindowWidth()) - 48, PERCENTAGE(11, Nibbler::getWindowHeight()), 48, 48);
+	(*this->_aGraphics)->putTexture(SNAKE_B_PCM, PERCENTAGE(58, Nibbler::getWindowWidth()) - 96, PERCENTAGE(11, Nibbler::getWindowHeight()), 48, 48);
+	(*this->_aGraphics)->putTexture(SNAKE_B_PCM, PERCENTAGE(58, Nibbler::getWindowWidth()) - 144, PERCENTAGE(11, Nibbler::getWindowHeight()), 48, 48);
+
+
+
+
+	(*this->_aGraphics)->putTexture(SNAKE_B_SMB, PERCENTAGE(50, Nibbler::getWindowWidth()) - 48, PERCENTAGE(50, Nibbler::getWindowHeight()), 48, 48);
+	(*this->_aGraphics)->putTexture(SNAKE_B_SMB, PERCENTAGE(50, Nibbler::getWindowWidth()) - 96, PERCENTAGE(50, Nibbler::getWindowHeight()), 48, 48);
+	(*this->_aGraphics)->putTexture(SNAKE_B_SMB, PERCENTAGE(50, Nibbler::getWindowWidth()) - 144, PERCENTAGE(50, Nibbler::getWindowHeight()), 48, 48);
+
+
+	(*this->_aGraphics)->putTexture(SNAKE_H_HK, PERCENTAGE(58, Nibbler::getWindowWidth()), PERCENTAGE(80, Nibbler::getWindowHeight()), 48, 48);
+	(*this->_aGraphics)->putTexture(SNAKE_B_HK, PERCENTAGE(58, Nibbler::getWindowWidth()) - 48, PERCENTAGE(80, Nibbler::getWindowHeight()), 48, 48);
+	(*this->_aGraphics)->putTexture(SNAKE_B_HK, PERCENTAGE(58, Nibbler::getWindowWidth()) - 96, PERCENTAGE(80, Nibbler::getWindowHeight()), 48, 48);
+	(*this->_aGraphics)->putTexture(SNAKE_B_HK, PERCENTAGE(58, Nibbler::getWindowWidth()) - 144, PERCENTAGE(80, Nibbler::getWindowHeight()), 48, 48);
+*/
 	(*this->_aGraphics)->display();
 }
 
