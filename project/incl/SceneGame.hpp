@@ -38,6 +38,7 @@ typedef struct {
 	t_coordd vec;
 	eTexture headSkin;
 	eTexture bodySkin;
+	double speed;
 } t_snake;
 
 typedef struct {
@@ -64,12 +65,11 @@ private:
 	SceneGame &operator=(SceneGame const &copy); // Canonical
 
 	void moveSnake();
-	void initSceneGame();
+	void resetSceneGame();
 	void drawSector(eTexture t, int sectorX, int sectorY);
 	/* TODO we must save all the body of snake because if not we dont know where put the food
 	and its more easy like it */
 	void drawFullSnake();
-	void drawRecycledSnake();
 	void initNewSnake();
 
 	bool _gameInstanced;
@@ -78,7 +78,6 @@ private:
 	t_coordi _sectorStart;
 	t_coordi _sectorSize;
 	t_coordi _sectorCount;
-	bool _snakeCoordUpdated;
 
 	static const int _N_SECTX = 16;//TODO Voir si on calcul ces valeurs en fonctions de la taille de la fenetre
 	static const int _N_SECTY = 16; // TODO Non utilisé
