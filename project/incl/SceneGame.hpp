@@ -34,7 +34,7 @@
 #define SIZE_FONT_GAMEOVER 2
 
 #define SPEED_DEFAULT 8
-#define SPEED_INCR (1 * 42)    // Multiple de 42 car on utilise le % 42 dans le code
+#define SPEED_INCR (12 * 42)    // Multiple de 42 car on utilise le % 42 dans le code
 #define DIFFICULTY_INCR 0.5
 
 enum ePageGame {

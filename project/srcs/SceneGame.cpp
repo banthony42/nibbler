@@ -46,21 +46,21 @@ SceneGame::SceneGame(AGraphics **aGraphics) {
 			(this->_floorSceneStart.y) + this->_sectorSize.y + ((FLOOR_SIZE_Y % SECTOR_DEFAULT_SIZE) / 2);
 	this->_page = PAGE_GAME;
 
-	// Init Input Name and Position, for page PAUSE
-	this->_cursor = RESUME;
-	this->_inputName[PAUSE_TITLE] = "PAUSE";
-	this->_inputName[RESUME] = "Resume";
-	this->_inputName[QUIT] = "Quit";
-	t_coordi pos = {};
-	pos.x = (*this->_aGraphics)->centerTextX(this->_inputName[PAUSE_TITLE], SIZE_FONT_MENU, Nibbler::getWindowWidth());
-	pos.y = PERCENTAGE(20, Nibbler::getWindowHeight());
-	this->_input[PAUSE_TITLE] = pos;
-	pos.x = (*this->_aGraphics)->centerTextX(this->_inputName[RESUME], SIZE_FONT_MENU, Nibbler::getWindowWidth());
-	pos.y = PERCENTAGE(45, Nibbler::getWindowHeight());
-	this->_input[RESUME] = pos;
-	pos.x = (*this->_aGraphics)->centerTextX(this->_inputName[QUIT], SIZE_FONT_MENU, Nibbler::getWindowWidth());
-	pos.y += FONT_NEWLINE(SIZE_FONT_MENU);
-	this->_input[QUIT] = pos;
+    // Init Input Name and Position, for page PAUSE
+    this->_cursor = RESUME;
+    this->_inputName[PAUSE_TITLE] = "PAUSE";
+    this->_inputName[RESUME] = "Resume";
+    this->_inputName[QUIT] = "Quit";
+    t_coordi pos = {};
+    pos.x = (*this->_aGraphics)->centerTextX(this->_inputName[PAUSE_TITLE], SIZE_FONT_MENU, Nibbler::getWindowWidth());
+    pos.y = PERCENTAGE(20, Nibbler::getWindowHeight());
+    this->_input[PAUSE_TITLE] = pos;
+    pos.x = (*this->_aGraphics)->centerTextX(this->_inputName[RESUME], SIZE_FONT_MENU, Nibbler::getWindowWidth());
+    pos.y = PERCENTAGE(45, Nibbler::getWindowHeight());
+    this->_input[RESUME] = pos;
+    pos.x = (*this->_aGraphics)->centerTextX(this->_inputName[QUIT], SIZE_FONT_MENU, Nibbler::getWindowWidth());
+    pos.y += FONT_NEWLINE(SIZE_FONT_MENU);
+    this->_input[QUIT] = pos;
 }
 
 SceneGame::SceneGame(SceneGame const &copy) {
@@ -148,26 +148,27 @@ void SceneGame::eventHandler(std::vector<eEvent> eventList) {
 	} else if (this->_page == PAGE_PAUSE) {
 		for (auto &event : eventList) {
 			if (event == UP && this->_cursor > RESUME) {
-				this->_cursor--;
-			} else if (event == DOWN && this->_cursor < QUIT) {
-				this->_cursor++;
-			} else if (event == ENTER) {
-				if (this->_cursor == RESUME) {
-					this->_page = PAGE_GAME;
-				} else if (this->_cursor == QUIT) {
-					this->_gameInstanced = false;
-					Nibbler::setCurrentScene(MENU);
-					this->_page = PAGE_GAME;
-				}
-			}
+                this->_cursor--;
+            } else if (event == DOWN && this->_cursor < QUIT) {
+                this->_cursor++;
+            } else if (event == ENTER) {
+                if (this->_cursor == RESUME) {
+                    this->_page = PAGE_GAME;
+                } else if (this->_cursor == QUIT) {
+                    this->_gameInstanced = false;
+                    Nibbler::setCurrentScene(MENU);
+                    this->_page = PAGE_GAME;
+                }
+            }
 		}
 	} else if (this->_page == PAGE_GAMEOVER) {
 		for (auto &event : eventList) {
-			if (event == ECHAP) {
-				this->_gameInstanced = false;
-				Nibbler::setCurrentScene(MENU);
-				this->_page = PAGE_GAME;
-			} else if (event == ENTER) {
+            if (event == ECHAP) {
+                this->_gameInstanced = false;
+                Nibbler::setCurrentScene(MENU);
+                this->_page = PAGE_GAME;
+            }
+			else if (event == ENTER) {
 				this->_gameInstanced = false;
 				this->_page = PAGE_GAME;
 				Nibbler::setCurrentScene(GAME_END);
@@ -216,11 +217,12 @@ void SceneGame::drawFood() {
 void SceneGame::drawInfoOverlay() { // clem : je l'ai rajouté dans l'UML BRAVO ANTHO
 	std::string fpsInfo = "fps: " + std::to_string(DeltaTime::fps);
 	std::string scoreInfo = "Score: " + std::to_string(this->_score);
-	std::ostringstream speedInfo;
-	speedInfo << "Speed x " << std::setprecision(2) << this->_difficulty;
+    // Obliger pour pouvoir regler la precision, car to_string affiche 1.000000
+    std::ostringstream speedInfo;
+    speedInfo << "Speed x " << std::setprecision(2) << this->_difficulty;
 	(*this->_aGraphics)->putStrScreen(fpsInfo, PERCENTAGE(20, Nibbler::getWindowWidth()), 40, 1);
 	(*this->_aGraphics)->putStrScreen(scoreInfo, PERCENTAGE(80, Nibbler::getWindowWidth()), 40, 1);
-	(*this->_aGraphics)->putStrScreen(speedInfo.str(), PERCENTAGE(62, Nibbler::getWindowWidth()), 40, 1);
+    (*this->_aGraphics)->putStrScreen(speedInfo.str(), PERCENTAGE(62, Nibbler::getWindowWidth()), 40, 1);
 }
 
 // TODO faire un ecran pause. Pour le début, pour l'echap, et pour la mort
@@ -250,11 +252,11 @@ bool SceneGame::checkCollision(t_coordi pos) {
 		t_coordd toInsert = this->_snake.body.at(0);
 		this->_snake.body.insert(++this->_snake.body.cbegin(), {toInsert.x, toInsert.y});
 		this->_score += 42;
-		if (!(this->_score % SPEED_INCR)) {
-			this->_difficulty += DIFFICULTY_INCR;
-			this->_snake.speed = SceneGame::_speed * this->_difficulty;
-			std::cout << "New speed:" << SceneGame::_speed << std::endl;
-		}
+        if (!(this->_score % SPEED_INCR)) {
+            this->_difficulty += DIFFICULTY_INCR;
+            this->_snake.speed = SceneGame::_speed * this->_difficulty;
+            std::cout << "New speed:" << SceneGame::_speed << std::endl;
+        }
 	}
 	return false;
 }
@@ -285,49 +287,45 @@ void SceneGame::moveSnake() {
 }
 
 void SceneGame::drawPauseOverlay() {
-	(*this->_aGraphics)->putTexture(FOG_OVERLAY, 0, 0, Nibbler::getWindowWidth(), Nibbler::getWindowHeight());
-	(*this->_aGraphics)->putStrScreen(this->_inputName[PAUSE_TITLE], this->_input[PAUSE_TITLE].x,
-									  this->_input[PAUSE_TITLE].y, SIZE_FONT_MENU);
-	(*this->_aGraphics)->putStrScreen(this->_inputName[RESUME], this->_input[RESUME].x, this->_input[RESUME].y,
-									  SIZE_FONT_MENU);
-	(*this->_aGraphics)->putStrScreen(this->_inputName[QUIT], this->_input[QUIT].x, this->_input[QUIT].y,
-									  SIZE_FONT_MENU);
+    (*this->_aGraphics)->putTexture(FOG_OVERLAY, 0, 0, Nibbler::getWindowWidth(), Nibbler::getWindowHeight());
+    (*this->_aGraphics)->putStrScreen(this->_inputName[PAUSE_TITLE], this->_input[PAUSE_TITLE].x, this->_input[PAUSE_TITLE].y, SIZE_FONT_MENU);
+    (*this->_aGraphics)->putStrScreen(this->_inputName[RESUME], this->_input[RESUME].x, this->_input[RESUME].y, SIZE_FONT_MENU);
+    (*this->_aGraphics)->putStrScreen(this->_inputName[QUIT], this->_input[QUIT].x, this->_input[QUIT].y, SIZE_FONT_MENU);
 
-	// Draw Cursor
-	ePause curs = static_cast<ePause>(this->_cursor);
-	t_coordi posCurs = {};
+    // Draw Cursor
+    ePause curs = static_cast<ePause>(this->_cursor);
+    t_coordi posCurs = {};
 
-	posCurs.x = static_cast<int>(this->_input[curs].x - GET_SIZEFONT_X(SIZE_FONT_MENU));
-	posCurs.y = this->_input[curs].y;
-	(*this->_aGraphics)->putStrScreen("<", posCurs.x, posCurs.y, SIZE_FONT_MENU);
-	posCurs.x = static_cast<int>(this->_input[curs].x +
-								 ((this->_inputName[curs].length()) * GET_SIZEFONT_X(SIZE_FONT_MENU)));
-	posCurs.y = this->_input[curs].y;
-	(*this->_aGraphics)->putStrScreen(">", posCurs.x, posCurs.y, SIZE_FONT_MENU);
+    posCurs.x = static_cast<int>(this->_input[curs].x - GET_SIZEFONT_X(SIZE_FONT_MENU));
+    posCurs.y = this->_input[curs].y;
+    (*this->_aGraphics)->putStrScreen("<", posCurs.x, posCurs.y, SIZE_FONT_MENU);
+    posCurs.x = static_cast<int>(this->_input[curs].x + ((this->_inputName[curs].length()) * GET_SIZEFONT_X(SIZE_FONT_MENU)));
+    posCurs.y = this->_input[curs].y;
+    (*this->_aGraphics)->putStrScreen(">", posCurs.x, posCurs.y, SIZE_FONT_MENU);
 }
 
 void SceneGame::drawGameOverOverlay() {
-	std::string gameOverMessage = "GAME OVER";
-	std::string scoreInfo = "Score:" + std::to_string(this->_score);
-	std::string quitInfo = "Press ENTER";
-	t_coordi pos = {};
+    std::string gameOverMessage = "GAME OVER";
+    std::string scoreInfo = "Score:" + std::to_string(this->_score);
+    std::string quitInfo = "Press ENTER";
+    t_coordi pos = {};
 
-	(*this->_aGraphics)->putTexture(GAMEOVER_BORDER, 0, 0, Nibbler::getWindowWidth(), Nibbler::getWindowHeight());
-	pos.x = (*this->_aGraphics)->centerTextX(gameOverMessage, SIZE_FONT_MENU, Nibbler::getWindowWidth());
-	pos.y = PERCENTAGE(45, Nibbler::getWindowHeight());
-	(*this->_aGraphics)->putStrScreen(gameOverMessage, pos.x, pos.y, SIZE_FONT_MENU);
-	pos.x = (*this->_aGraphics)->centerTextX(scoreInfo, SIZE_FONT_GAMEOVER, Nibbler::getWindowWidth());
-	pos.y += FONT_NEWLINE(SIZE_FONT_MENU);
-	(*this->_aGraphics)->putStrScreen(scoreInfo, pos.x, pos.y, SIZE_FONT_GAMEOVER);
-	pos.x = (*this->_aGraphics)->centerTextX(quitInfo, SIZE_FONT_GAMEOVER, Nibbler::getWindowWidth());
-	pos.y = PERCENTAGE(75, Nibbler::getWindowHeight());
+    (*this->_aGraphics)->putTexture(GAMEOVER_BORDER, 0, 0, Nibbler::getWindowWidth(), Nibbler::getWindowHeight());
+    pos.x = (*this->_aGraphics)->centerTextX(gameOverMessage, SIZE_FONT_MENU, Nibbler::getWindowWidth());
+    pos.y = PERCENTAGE(45, Nibbler::getWindowHeight());
+    (*this->_aGraphics)->putStrScreen(gameOverMessage, pos.x, pos.y, SIZE_FONT_MENU);
+    pos.x = (*this->_aGraphics)->centerTextX(scoreInfo, SIZE_FONT_GAMEOVER, Nibbler::getWindowWidth());
+    pos.y += FONT_NEWLINE(SIZE_FONT_MENU);
+    (*this->_aGraphics)->putStrScreen(scoreInfo, pos.x, pos.y, SIZE_FONT_GAMEOVER);
+    pos.x = (*this->_aGraphics)->centerTextX(quitInfo, SIZE_FONT_GAMEOVER, Nibbler::getWindowWidth());
+    pos.y = PERCENTAGE(75, Nibbler::getWindowHeight());
 
-	if (this->_timestamp > this->_deltaTimeCount) {
-		this->_timestamp = 0;
-	}
-	if (this->_timestamp < (this->_deltaTimeCount / 2))
-		(*this->_aGraphics)->putStrScreen(quitInfo, pos.x, pos.y, SIZE_FONT_GAMEOVER);
-	this->_timestamp += (DeltaTime::elapsedTime);
+    if (this->_timestamp > this->_deltaTimeCount) {
+        this->_timestamp = 0;
+    }
+    if (this->_timestamp < (this->_deltaTimeCount / 2))
+        (*this->_aGraphics)->putStrScreen(quitInfo, pos.x, pos.y, SIZE_FONT_GAMEOVER);
+    this->_timestamp += (DeltaTime::elapsedTime);
 }
 
 void SceneGame::drawScene() {
@@ -341,9 +339,10 @@ void SceneGame::drawScene() {
 			this->drawFullSnake();
 			this->drawFood();
 			this->_score = 0;
-			this->_difficulty = 1;
-			this->_deltaTimeCount = 1000;
-			this->_timestamp = 0;
+            this->_difficulty = 1;
+            this->_deltaTimeCount = 1000;
+            this->_timestamp = 0;
+            this->vectorPool.clear();
 			this->_gameInstanced = true;
 		} else {
 			this->moveSnake();
@@ -356,13 +355,13 @@ void SceneGame::drawScene() {
 		this->drawFullSnake();
 		this->drawFood();
 		this->drawInfoOverlay();
-		this->drawPauseOverlay();
+        this->drawPauseOverlay();
 	} else if (this->_page == PAGE_GAMEOVER) {
 		this->resetSceneGame();
 		this->drawFullSnake();
 		this->drawFood();
 		this->drawInfoOverlay();
-		this->drawGameOverOverlay();
+        this->drawGameOverOverlay();
 	}
 	(*this->_aGraphics)->display();
 }
