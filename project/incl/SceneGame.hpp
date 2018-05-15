@@ -40,7 +40,7 @@ typedef struct {
 } t_snake;
 
 typedef struct {
-	t_coordd pos;
+	t_coordi pos;
 	int energy;    // TODO définir l'utilité
 	eTexture skin;
 } t_food;
@@ -68,7 +68,9 @@ private:
 	void resetSceneGame();
 	void drawSector(eTexture t, int sectorX, int sectorY);
 	void drawFullSnake();
+	void drawFood();
 	void initNewSnake();
+	void initNewFood();
 
 	bool _gameInstanced;
 	t_coordi _floorSceneStart;

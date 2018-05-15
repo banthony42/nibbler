@@ -73,9 +73,26 @@ void SceneGame::initNewSnake() {
 	while (++y <= tailPos.y) {
 		this->_snake.body.push_back({round(headPos.x), round(y)});
 	}
-    this->_lastHeadPos = {0, 0};
-    this->_headPos = this->_snake.body.at(0);
-    this->_score = 0;
+	this->_lastHeadPos = {0, 0};
+	this->_headPos = this->_snake.body.at(0);
+	this->_score = 0;
+}
+
+void SceneGame::initNewFood() {
+	t_coordi foodPos = {};
+	bool posFound = false;
+
+	while (!posFound) {
+		foodPos = {std::rand() % (this->_sectorCount.x), std::rand() % (this->_sectorCount.y)};
+		posFound = true;
+		for (auto &item : this->_snake.body) {
+			if (foodPos.x == item.x && foodPos.y == item.y) {
+				posFound = false;
+				continue;
+			}
+		}
+	}
+	this->_food.pos = {foodPos.x, foodPos.y};
 }
 
 void SceneGame::eventHandler(std::vector<eEvent> eventList) {
@@ -141,36 +158,45 @@ void SceneGame::drawFullSnake() {
 	}
 }
 
+void SceneGame::drawFood() {
+	drawSector(FOOD, this->_food.pos.x, this->_food.pos.y);
+}
+
 void SceneGame::drawOverlay() { // clem : je l'ai rajouté dans l'UML BRAVO ANTHO
-	std::string fpsInfo = "fps: " + DeltaTime::fps;
-    std::string scoreInfo = "Score: " + this->_score;
-    (*this->_aGraphics)->putStrScreen(fpsInfo, PERCENTAGE(20, Nibbler::getWindowWidth()), 40, 1);
-    (*this->_aGraphics)->putStrScreen(scoreInfo, PERCENTAGE(75, Nibbler::getWindowWidth()), 40, 1);
+	std::string fpsInfo = "fps: " + std::to_string(DeltaTime::fps);
+	std::string scoreInfo = "Score: " + std::to_string(this->_score);
+	(*this->_aGraphics)->putStrScreen(fpsInfo, PERCENTAGE(20, Nibbler::getWindowWidth()), 40, 1);
+	(*this->_aGraphics)->putStrScreen(scoreInfo, PERCENTAGE(75, Nibbler::getWindowWidth()), 40, 1);
 }
 
 void SceneGame::moveSnake() {
-    t_coordd newPos = this->_headPos;
+	t_coordd newPos = this->_headPos;
 
 	newPos.x += (this->_snake.vec.x * DeltaTime::deltaTime);
 	newPos.y += (this->_snake.vec.y * DeltaTime::deltaTime);
 
-    // Si collisions avec les murs
-    if ((newPos.x > (this->_sectorCount.x - 1 )) || newPos.x < 0 || (newPos.y > (this->_sectorCount.y - 1))  || newPos.y < 0) {
+	if ((newPos.x > (this->_sectorCount.x - 1)) || newPos.x < 0 || (newPos.y > (this->_sectorCount.y - 1)) ||
+		newPos.y < 0) {
+		// Collision with wall
 		// TODO faire un ecran de pause quand meme
-        Nibbler::setCurrentScene(GAME_END);
-        this->_gameInstanced = false;
-        return ;
-    }
-    else {
+		Nibbler::setCurrentScene(GAME_END);
+		this->_gameInstanced = false;
+		return;
+	} else if (Nibbler::iRound(newPos.x) == this->_food.pos.x && Nibbler::iRound(newPos.y) == this->_food.pos.y) {
+		// Collision with food
+		this->initNewFood();
+		t_coordd toInsert = this->_snake.body.at(0);
+		this->_snake.body.insert(++this->_snake.body.cbegin(), {toInsert.x, toInsert.y});
+	} else {
 		this->_headPos = newPos;
 	}
-    if (Nibbler::iRound(this->_headPos.x) != Nibbler::iRound((this->_lastHeadPos.x)) ||
-        Nibbler::iRound(this->_headPos.y) != Nibbler::iRound((this->_lastHeadPos.y))) {
-        this->_snake.body.insert(this->_snake.body.cbegin(), {round(this->_headPos.x), round(this->_headPos.y)});
-        this->_snake.body.pop_back();
-        this->_lastHeadPos = this->_snake.body.at(0);
+	if (Nibbler::iRound(this->_headPos.x) != Nibbler::iRound((this->_lastHeadPos.x)) ||
+		Nibbler::iRound(this->_headPos.y) != Nibbler::iRound((this->_lastHeadPos.y))) {
+		this->_snake.body.insert(this->_snake.body.cbegin(), {round(this->_headPos.x), round(this->_headPos.y)});
+		this->_snake.body.pop_back();
+		this->_lastHeadPos = this->_snake.body.at(0);
 		this->_vectorAlreadyWaitingForAnUsage = false;
-    }
+	}
 }
 
 void SceneGame::drawScene() {
@@ -178,12 +204,16 @@ void SceneGame::drawScene() {
 	this->resetSceneGame();
 	if (!this->_gameInstanced) {
 		this->initNewSnake();
-        this->drawFullSnake();
+		this->initNewFood();
+		this->drawFullSnake();
+		this->drawFood();
 		this->_gameInstanced = true;
 	} else {
 		this->moveSnake();
 		this->drawFullSnake();
-        this->drawOverlay();
+		this->drawFood();
+		this->drawOverlay();
 	}
 	(*this->_aGraphics)->display();
 }
+
