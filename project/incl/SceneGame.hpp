@@ -80,7 +80,8 @@ private:
 	t_coordi _sectorCount;
 
 	int _score;
-	bool _vectorAlreadyWaitingForAnUsage;
+	std::vector<t_coordd> vectorPool;
+//	bool _vectorAlreadyWaitingForAnUsage;
 	t_snake _snake;
 	t_coordd _headPos;
 	t_coordd _lastHeadPos;
