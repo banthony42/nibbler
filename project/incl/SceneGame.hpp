@@ -15,7 +15,6 @@
 
 #include "AScene.hpp"
 #include "Nibbler.hpp"
-#include <sstream>
 
 #define BORDER_GAME_HEIGHT 630.f
 #define BORDER_GAME_WIDTH 900.f
@@ -64,7 +63,7 @@ private:
 	SceneGame(SceneGame const &copy); // Canonical
 	SceneGame &operator=(SceneGame const &copy); // Canonical
 
-    void drawOverlay();
+	void drawOverlay();
 	void moveSnake();
 	void resetSceneGame();
 	void drawSector(eTexture t, int sectorX, int sectorY);
@@ -78,7 +77,7 @@ private:
 	t_coordi _sectorSize;
 	t_coordi _sectorCount;
 
-    int     _score;
+	int _score;
 	bool _vectorAlreadyWaitingForAnUsage;
 	t_snake _snake;
 	t_coordd _headPos;

@@ -142,13 +142,8 @@ void SceneGame::drawFullSnake() {
 }
 
 void SceneGame::drawOverlay() { // clem : je l'ai rajouté dans l'UML BRAVO ANTHO
-	std::ostringstream fps;
-	fps << DeltaTime::fps;
-	std::string fpsInfo = "fps:" + fps.str();
-
-    std::ostringstream score;
-    score << this->_score;
-    std::string scoreInfo = "Score:" + score.str();
+	std::string fpsInfo = "fps: " + DeltaTime::fps;
+    std::string scoreInfo = "Score: " + this->_score;
     (*this->_aGraphics)->putStrScreen(fpsInfo, PERCENTAGE(20, Nibbler::getWindowWidth()), 40, 1);
     (*this->_aGraphics)->putStrScreen(scoreInfo, PERCENTAGE(75, Nibbler::getWindowWidth()), 40, 1);
 }
