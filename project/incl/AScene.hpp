@@ -22,7 +22,7 @@ enum eTexture {
 	GAME_BORDER,
 	GAME_BRICK,
 	GAME_BORDER_GRASS,
-	SKIN_BCKG, // TODO utile ?
+	GAMEOVER_BORDER,
 	SKIN_FRAME,
 	SCORE_BCKG,
 	SNAKE_H_PCM,	// Order of the skin texture is important

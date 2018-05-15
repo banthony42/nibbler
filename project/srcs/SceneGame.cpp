@@ -99,8 +99,7 @@ void SceneGame::eventHandler(std::vector<eEvent> eventList) {
     if (this->_page == PAGE_GAME) {
         for (auto &event : eventList) {
             if (event == ECHAP) {
-                this->_gameInstanced = false;
-                Nibbler::setCurrentScene(MENU);
+                this->_page = PAGE_PAUSE;
             } else if (this->vectorPool.size() < 2) {
                 if (event == UP) {
                     if (!(this->_snake.vec.x == 0 && this->_snake.vec.y > 0) || this->vectorPool.size()) {
@@ -124,10 +123,25 @@ void SceneGame::eventHandler(std::vector<eEvent> eventList) {
         }
     }
     else if (this->_page == PAGE_PAUSE) {
-
+        for (auto &event : eventList) {
+            if (event == ECHAP) {
+                this->_gameInstanced = false;
+                Nibbler::setCurrentScene(MENU);
+                this->_page = PAGE_GAME;
+            }
+            if (event == ENTER) {
+                this->_page = PAGE_GAME;
+            }
+        }
     }
     else if (this->_page == PAGE_GAMEOVER) {
-
+        for (auto &event : eventList) {
+            if (event) {
+                this->_gameInstanced = false;
+                this->_page = PAGE_GAME;
+                Nibbler::setCurrentScene(GAME_END);
+            }
+        }
     }
 }
 
@@ -186,8 +200,7 @@ void SceneGame::moveSnake() {
 	if ((Nibbler::iRound(newPos.x) > this->_sectorCount.x - 1) || Nibbler::iRound(newPos.x) < 0 ||
 		(Nibbler::iRound(newPos.y) > this->_sectorCount.y - 1) || Nibbler::iRound(newPos.y) < 0) {
 		// Collision with wall
-		Nibbler::setCurrentScene(GAME_END);
-		this->_gameInstanced = false;
+        this->_page = PAGE_GAMEOVER;
 		return;
 	} else if (Nibbler::iRound(newPos.x) == this->_food.pos.x && Nibbler::iRound(newPos.y) == this->_food.pos.y) {
 		// Collision with food
@@ -230,10 +243,19 @@ void SceneGame::drawScene() {
         }
     }
     else if (this->_page == PAGE_PAUSE) {
-
+        this->resetSceneGame();
+        this->drawFullSnake();
+        this->drawFood();
+        this->drawOverlay();
+        (*this->_aGraphics)->putStrScreen("PAUSE", PERCENTAGE(50, Nibbler::getWindowWidth()), PERCENTAGE(50, Nibbler::getWindowHeight()), 2);
     }
     else if (this->_page == PAGE_GAMEOVER) {
-
+        this->resetSceneGame();
+        this->drawFullSnake();
+        this->drawFood();
+        this->drawOverlay();
+        (*this->_aGraphics)->putTexture(GAMEOVER_BORDER, 0, 0, Nibbler::getWindowWidth(), Nibbler::getWindowHeight());
+        (*this->_aGraphics)->putStrScreen("GAME OVER - YOU SUCKS", PERCENTAGE(50, Nibbler::getWindowWidth()), PERCENTAGE(50, Nibbler::getWindowHeight()), 2);
     }
 
 	(*this->_aGraphics)->display();

@@ -38,6 +38,12 @@ enum ePageGame {
     NB_PAGE_GAME
 };
 
+enum ePause {
+    RESUME,
+    QUIT,
+    NB_INPUT_PAUSE
+};
+
 typedef struct {
 	std::vector<t_coordd> body;
 	t_coordd vec;
@@ -85,7 +91,9 @@ private:
 	t_coordi _sectorSize;
 	t_coordi _sectorCount;
 
-    ePageGame _page;
+    ePageGame   _page;
+    size_t      _cursor;
+
 	int _score;
 	std::vector<t_coordd> vectorPool;
 	t_snake _snake;
