@@ -14,7 +14,7 @@
 
 eTexture SceneGame::_selectedHeadSkin = SNAKE_H_PCM;
 eTexture SceneGame::_selectedBodySkin = SNAKE_B_PCM;
-int SceneGame::_speed = 7;
+int SceneGame::_speed = 8;
 
 SceneGame::SceneGame() {
 
@@ -59,23 +59,28 @@ SceneGame &SceneGame::operator=(SceneGame const &copy) {
 	return *this;
 }
 
+// memo : head is the begin
 void SceneGame::initNewSnake() {
 	t_coordi headPos = {(std::rand() % (this->_sectorCount.x - 3)) + 2,
 						(std::rand() % (this->_sectorCount.y - 3))};
-	t_coordi tailPos = {headPos.x, headPos.y + 2}; // so the size of 2 + the head so 3
+	t_coordi tailPos = {headPos.x, headPos.y + 2};
 
 	this->_snake.speed = SceneGame::_speed;
-	this->_snake.vec = {1 * this->_snake.speed, 0 * this->_snake.speed};
+	this->_snake.vec = {0 * this->_snake.speed, -1 * this->_snake.speed};
 	this->_snake.headSkin = SceneGame::_selectedHeadSkin;
 	this->_snake.bodySkin = SceneGame::_selectedBodySkin;
 	this->_snake.body.clear();
 	int y = headPos.y - 1;
 	while (++y <= tailPos.y) {
-		this->_snake.body.insert(this->_snake.body.cbegin(), {round(headPos.x), round(y)});
+		this->_snake.body.insert(this->_snake.body.cend(), {round(headPos.x), round(y)});
 	}
-	this->_lastHeadPos = this->_snake.body.at(this->_snake.body.size() - 2);
-	this->_headPos = this->_snake.body.back();
+	this->_lastHeadPos = this->_snake.body.front();
+	this->_headPos = this->_snake.body.front();
 	this->_score = 0;
+//	std::cout << "snake :" << std::endl;
+//	for (auto &item : this->_snake.body) {
+//		std::cout << "x: " << item.x << " y: " << item.y << std::endl;
+//	}
 }
 
 void SceneGame::initNewFood() {
@@ -196,21 +201,18 @@ bool SceneGame::checkCollision(t_coordi pos) {
 	// Collision with wall
 	if ((pos.x > this->_sectorCount.x - 1) || pos.x < 0 ||
 		(pos.y > this->_sectorCount.y - 1) || pos.y < 0) {
-		this->_page = PAGE_GAMEOVER;
-		return false;
+		return true;
 	}
 
 	// Collision with himself
-//	int i = -1;
-//	int max = this->_snake.body.size() - 1;
-//	std::cout << "compared x: " << pos.x << " y: " << pos.y << std::endl;
-//	while (++i < max) {
-//		auto item = this->_snake.body.at(i);
-//		std::cout << "x: " << item.x << " y: " << item.y << std::endl;
-//		if (pos.x == Nibbler::iRound(item.x) && pos.y == Nibbler::iRound(item.y)) {
-//			return true;
-//		}
-//	}
+	int i = 0;
+	int max = this->_snake.body.size();
+	while (++i < max) {
+		auto item = this->_snake.body.at(i);
+		if (pos.x == Nibbler::iRound(item.x) && pos.y == Nibbler::iRound(item.y)) {
+			return true;
+		}
+	}
 
 	// Collision with food
 	if (pos.x == this->_food.pos.x && pos.y == this->_food.pos.y) {
@@ -230,7 +232,7 @@ void SceneGame::moveSnake() {
 	newPos.y += (this->_snake.vec.y * DeltaTime::deltaTime);
 
 	if (this->checkCollision({Nibbler::iRound(newPos.x), Nibbler::iRound(newPos.y)})) {
-		Nibbler::setCurrentScene(GAME_END);
+		this->_page = PAGE_GAMEOVER;
 		this->_gameInstanced = false;
 	} else {
 		this->_headPos = newPos;
