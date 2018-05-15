@@ -29,7 +29,7 @@
 #define FLOOR_SIZE_X (FLOOR_SCENE_END_X - FLOOR_SCENE_START_X)
 #define FLOOR_SIZE_Y (FLOOR_SCENE_END_Y - FLOOR_SCENE_START_Y)
 
-#define SECTOR_DEFAULT_SIZE 32
+#define SECTOR_DEFAULT_SIZE 40
 
 typedef struct {
 	std::vector<t_coordd> body;
@@ -41,7 +41,6 @@ typedef struct {
 
 typedef struct {
 	t_coordi pos;
-	int energy;    // TODO définir l'utilité
 	eTexture skin;
 } t_food;
 
@@ -81,11 +80,10 @@ private:
 
 	int _score;
 	std::vector<t_coordd> vectorPool;
-//	bool _vectorAlreadyWaitingForAnUsage;
 	t_snake _snake;
 	t_coordd _headPos;
 	t_coordd _lastHeadPos;
-	t_food _food;            //TODO: Definir le nb de food max sur scene, dans ce cas: _food[MAX_FOOD]
+	t_food _food;
 };
 
 
