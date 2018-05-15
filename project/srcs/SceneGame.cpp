@@ -41,7 +41,7 @@ SceneGame::SceneGame(AGraphics **aGraphics) {
 			(this->_floorSceneStart.x) + this->_sectorSize.x + ((FLOOR_SIZE_X % SECTOR_DEFAULT_SIZE) / 2);
 	this->_sectorStart.y =
 			(this->_floorSceneStart.y) + this->_sectorSize.y + ((FLOOR_SIZE_Y % SECTOR_DEFAULT_SIZE) / 2);
-    this->_page = PAGE_GAME;
+	this->_page = PAGE_GAME;
 }
 
 SceneGame::SceneGame(SceneGame const &copy) {
@@ -71,10 +71,10 @@ void SceneGame::initNewSnake() {
 	this->_snake.body.clear();
 	int y = headPos.y - 1;
 	while (++y <= tailPos.y) {
-		this->_snake.body.push_back({round(headPos.x), round(y)});
+		this->_snake.body.insert(this->_snake.body.cbegin(), {round(headPos.x), round(y)});
 	}
-	this->_lastHeadPos = {0, 0};
-	this->_headPos = this->_snake.body.at(0);
+	this->_lastHeadPos = this->_snake.body.at(this->_snake.body.size() - 2);
+	this->_headPos = this->_snake.body.back();
 	this->_score = 0;
 }
 
@@ -96,53 +96,54 @@ void SceneGame::initNewFood() {
 }
 
 void SceneGame::eventHandler(std::vector<eEvent> eventList) {
-    if (this->_page == PAGE_GAME) {
-        for (auto &event : eventList) {
-            if (event == ECHAP) {
-                this->_page = PAGE_PAUSE;
-            } else if (this->vectorPool.size() < 2) {
-                if (event == UP) {
-                    if (!(this->_snake.vec.x == 0 && this->_snake.vec.y > 0) || this->vectorPool.size()) {
-                        this->vectorPool.insert(this->vectorPool.cbegin(), {0, -1 * this->_snake.speed});
-                    }
-                } if (event == DOWN) {
-                    if (!(this->_snake.vec.x == 0 && this->_snake.vec.y < 0) || this->vectorPool.size()) {
-                        this->vectorPool.insert(this->vectorPool.cbegin(), {0, 1 * this->_snake.speed});
-                    }
-                } if (event == LEFT) {
-                    if (!(this->_snake.vec.x > 0 && this->_snake.vec.y == 0) || this->vectorPool.size()) {
+	if (this->_page == PAGE_GAME) {
+		for (auto &event : eventList) {
+			if (event == ECHAP) {
+				this->_page = PAGE_PAUSE;
+			} else if (this->vectorPool.size() < 2) {
+				if (event == UP) {
+					if (!(this->_snake.vec.x == 0 && this->_snake.vec.y > 0) || this->vectorPool.size()) {
+						this->vectorPool.insert(this->vectorPool.cbegin(), {0, -1 * this->_snake.speed});
+					}
+				}
+				if (event == DOWN) {
+					if (!(this->_snake.vec.x == 0 && this->_snake.vec.y < 0) || this->vectorPool.size()) {
+						this->vectorPool.insert(this->vectorPool.cbegin(), {0, 1 * this->_snake.speed});
+					}
+				}
+				if (event == LEFT) {
+					if (!(this->_snake.vec.x > 0 && this->_snake.vec.y == 0) || this->vectorPool.size()) {
 
-                        this->vectorPool.insert(this->vectorPool.cbegin(), {-1 * this->_snake.speed, 0});
-                    }
-                } if (event == RIGHT) {
-                    if (!(this->_snake.vec.x < 0 && this->_snake.vec.y == 0) || this->vectorPool.size()) {
-                        this->vectorPool.insert(this->vectorPool.cbegin(), {1 * this->_snake.speed, 0});
-                    }
-                }
-            }
-        }
-    }
-    else if (this->_page == PAGE_PAUSE) {
-        for (auto &event : eventList) {
-            if (event == ECHAP) {
-                this->_gameInstanced = false;
-                Nibbler::setCurrentScene(MENU);
-                this->_page = PAGE_GAME;
-            }
-            if (event == ENTER) {
-                this->_page = PAGE_GAME;
-            }
-        }
-    }
-    else if (this->_page == PAGE_GAMEOVER) {
-        for (auto &event : eventList) {
-            if (event) {
-                this->_gameInstanced = false;
-                this->_page = PAGE_GAME;
-                Nibbler::setCurrentScene(GAME_END);
-            }
-        }
-    }
+						this->vectorPool.insert(this->vectorPool.cbegin(), {-1 * this->_snake.speed, 0});
+					}
+				}
+				if (event == RIGHT) {
+					if (!(this->_snake.vec.x < 0 && this->_snake.vec.y == 0) || this->vectorPool.size()) {
+						this->vectorPool.insert(this->vectorPool.cbegin(), {1 * this->_snake.speed, 0});
+					}
+				}
+			}
+		}
+	} else if (this->_page == PAGE_PAUSE) {
+		for (auto &event : eventList) {
+			if (event == ECHAP) {
+				this->_gameInstanced = false;
+				Nibbler::setCurrentScene(MENU);
+				this->_page = PAGE_GAME;
+			}
+			if (event == ENTER) {
+				this->_page = PAGE_GAME;
+			}
+		}
+	} else if (this->_page == PAGE_GAMEOVER) {
+		for (auto &event : eventList) {
+			if (event) {
+				this->_gameInstanced = false;
+				this->_page = PAGE_GAME;
+				Nibbler::setCurrentScene(GAME_END);
+			}
+		}
+	}
 }
 
 void SceneGame::drawSector(eTexture t, int sectorX, int sectorY) {
@@ -191,28 +192,52 @@ void SceneGame::drawOverlay() { // clem : je l'ai rajouté dans l'UML BRAVO ANTH
 
 // TODO faire un ecran pause. Pour le début, pour l'echap, et pour la mort
 
+bool SceneGame::checkCollision(t_coordi pos) {
+	// Collision with wall
+	if ((pos.x > this->_sectorCount.x - 1) || pos.x < 0 ||
+		(pos.y > this->_sectorCount.y - 1) || pos.y < 0) {
+		this->_page = PAGE_GAMEOVER;
+		return false;
+	}
+
+	// Collision with himself
+//	int i = -1;
+//	int max = this->_snake.body.size() - 1;
+//	std::cout << "compared x: " << pos.x << " y: " << pos.y << std::endl;
+//	while (++i < max) {
+//		auto item = this->_snake.body.at(i);
+//		std::cout << "x: " << item.x << " y: " << item.y << std::endl;
+//		if (pos.x == Nibbler::iRound(item.x) && pos.y == Nibbler::iRound(item.y)) {
+//			return true;
+//		}
+//	}
+
+	// Collision with food
+	if (pos.x == this->_food.pos.x && pos.y == this->_food.pos.y) {
+		this->initNewFood();
+		t_coordd toInsert = this->_snake.body.at(0);
+		this->_snake.body.insert(++this->_snake.body.cbegin(), {toInsert.x, toInsert.y});
+		this->_score += 42;
+	}
+	return false;
+}
+
+
 void SceneGame::moveSnake() {
 	t_coordd newPos = this->_headPos;
 
 	newPos.x += (this->_snake.vec.x * DeltaTime::deltaTime);
 	newPos.y += (this->_snake.vec.y * DeltaTime::deltaTime);
 
-	if ((Nibbler::iRound(newPos.x) > this->_sectorCount.x - 1) || Nibbler::iRound(newPos.x) < 0 ||
-		(Nibbler::iRound(newPos.y) > this->_sectorCount.y - 1) || Nibbler::iRound(newPos.y) < 0) {
-		// Collision with wall
-        this->_page = PAGE_GAMEOVER;
-		return;
-	} else if (Nibbler::iRound(newPos.x) == this->_food.pos.x && Nibbler::iRound(newPos.y) == this->_food.pos.y) {
-		// Collision with food
-		this->initNewFood();
-		t_coordd toInsert = this->_snake.body.at(0);
-		this->_snake.body.insert(++this->_snake.body.cbegin(), {toInsert.x, toInsert.y});
-		this->_score += 42;
+	if (this->checkCollision({Nibbler::iRound(newPos.x), Nibbler::iRound(newPos.y)})) {
+		Nibbler::setCurrentScene(GAME_END);
+		this->_gameInstanced = false;
 	} else {
 		this->_headPos = newPos;
 	}
 	if (Nibbler::iRound(this->_headPos.x) != Nibbler::iRound((this->_lastHeadPos.x)) ||
 		Nibbler::iRound(this->_headPos.y) != Nibbler::iRound((this->_lastHeadPos.y))) {
+		// Move the snake
 		if (this->vectorPool.size()) {
 			this->_snake.vec = this->vectorPool.back();
 			this->vectorPool.pop_back();
@@ -226,48 +251,47 @@ void SceneGame::moveSnake() {
 void SceneGame::drawScene() {
 	(*this->_aGraphics)->clear();
 
-    // TODO optimiser le code pour pas ecrir 3 fois la meme sequence de draw si possible
-    if (this->_page == PAGE_GAME) {
-        this->resetSceneGame();
-        if (!this->_gameInstanced) {
-            this->initNewSnake();
-            this->initNewFood();
-            this->drawFullSnake();
-            this->drawFood();
-            this->_score = 0;
-            this->_gameInstanced = true;
-        } else {
-            this->moveSnake();
-            this->drawFullSnake();
-            this->drawFood();
-            this->drawOverlay();
-        }
-    }
-    else if (this->_page == PAGE_PAUSE) {
-        this->resetSceneGame();
-        this->drawFullSnake();
-        this->drawFood();
-        this->drawOverlay();
-        (*this->_aGraphics)->putStrScreen("PAUSE", PERCENTAGE(50, Nibbler::getWindowWidth()), PERCENTAGE(50, Nibbler::getWindowHeight()), 2);
-    }
-    else if (this->_page == PAGE_GAMEOVER) {
-        this->resetSceneGame();
-        this->drawFullSnake();
-        this->drawFood();
-        this->drawOverlay();
+	// TODO optimiser le code pour pas ecrir 3 fois la meme sequence de draw si possible
+	if (this->_page == PAGE_GAME) {
+		this->resetSceneGame();
+		if (!this->_gameInstanced) {
+			this->initNewSnake();
+			this->initNewFood();
+			this->drawFullSnake();
+			this->drawFood();
+			this->_score = 0;
+			this->_gameInstanced = true;
+		} else {
+			this->moveSnake();
+			this->drawFullSnake();
+			this->drawFood();
+			this->drawOverlay();
+		}
+	} else if (this->_page == PAGE_PAUSE) {
+		this->resetSceneGame();
+		this->drawFullSnake();
+		this->drawFood();
+		this->drawOverlay();
+		(*this->_aGraphics)->putStrScreen("PAUSE", PERCENTAGE(50, Nibbler::getWindowWidth()),
+										  PERCENTAGE(50, Nibbler::getWindowHeight()), 2);
+	} else if (this->_page == PAGE_GAMEOVER) {
+		this->resetSceneGame();
+		this->drawFullSnake();
+		this->drawFood();
+		this->drawOverlay();
 
-        // Draw Game Over Overlay
-        std::string gameOverMessage = "GAME OVER";
-        std::string scoreInfo = "Score:" + std::to_string(this->_score);
-        t_coordi pos = {};
-        pos.x = (*this->_aGraphics)->centerTextX(gameOverMessage, SIZE_FONT_GAMEOVER, Nibbler::getWindowWidth());
-        pos.y = PERCENTAGE(50, Nibbler::getWindowHeight());
+		// Draw Game Over Overlay
+		std::string gameOverMessage = "GAME OVER";
+		std::string scoreInfo = "Score:" + std::to_string(this->_score);
+		t_coordi pos = {};
+		pos.x = (*this->_aGraphics)->centerTextX(gameOverMessage, SIZE_FONT_GAMEOVER, Nibbler::getWindowWidth());
+		pos.y = PERCENTAGE(50, Nibbler::getWindowHeight());
 
-        (*this->_aGraphics)->putTexture(GAMEOVER_BORDER, 0, 0, Nibbler::getWindowWidth(), Nibbler::getWindowHeight());
-        (*this->_aGraphics)->putStrScreen(gameOverMessage, pos.x, pos.y, SIZE_FONT_GAMEOVER);
-        pos.y += FONT_NEWLINE(SIZE_FONT_GAMEOVER);
-        (*this->_aGraphics)->putStrScreen(scoreInfo, pos.x, pos.y, SIZE_FONT_GAMEOVER);
-    }
+		(*this->_aGraphics)->putTexture(GAMEOVER_BORDER, 0, 0, Nibbler::getWindowWidth(), Nibbler::getWindowHeight());
+		(*this->_aGraphics)->putStrScreen(gameOverMessage, pos.x, pos.y, SIZE_FONT_GAMEOVER);
+		pos.y += FONT_NEWLINE(SIZE_FONT_GAMEOVER);
+		(*this->_aGraphics)->putStrScreen(scoreInfo, pos.x, pos.y, SIZE_FONT_GAMEOVER);
+	}
 
 	(*this->_aGraphics)->display();
 }

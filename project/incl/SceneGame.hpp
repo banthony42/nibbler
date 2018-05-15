@@ -35,16 +35,16 @@
 #define SIZE_FONT_GAMEOVER 3
 
 enum ePageGame {
-    PAGE_GAME,
-    PAGE_PAUSE,
-    PAGE_GAMEOVER,
-    NB_PAGE_GAME
+	PAGE_GAME,
+	PAGE_PAUSE,
+	PAGE_GAMEOVER,
+	NB_PAGE_GAME
 };
 
 enum ePause {
-    RESUME,
-    QUIT,
-    NB_INPUT_PAUSE
+	RESUME,
+	QUIT,
+	NB_INPUT_PAUSE
 };
 
 typedef struct {
@@ -86,6 +86,7 @@ private:
 	void drawFood();
 	void initNewSnake();
 	void initNewFood();
+	bool checkCollision(t_coordi pos);
 
 	bool _gameInstanced;
 	t_coordi _floorSceneStart;
@@ -94,8 +95,8 @@ private:
 	t_coordi _sectorSize;
 	t_coordi _sectorCount;
 
-    ePageGame   _page;
-    size_t      _cursor;
+	ePageGame _page;
+	size_t _cursor;
 
 	int _score;
 	std::vector<t_coordd> vectorPool;
