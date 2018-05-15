@@ -51,8 +51,7 @@ void SceneGameEnd::drawScene() {
     (*this->_aGraphics)->clear();
 
 	(*this->_aGraphics)->putTexture(SCORE_BCKG, 0, 0, Nibbler::getWindowWidth(), Nibbler::getWindowHeight());
-	(*this->_aGraphics)->putStrScreen("GAME OVER", (900) - (4 * 32), 550, 2);
-	(*this->_aGraphics)->putStrScreen("Score: 1542", (900) - (5 * 32), 600, 2);
+	(*this->_aGraphics)->putStrScreen("BEST SCORE: 2500", (900) - (4 * 32), 550, 2);
 	(*this->_aGraphics)->putStrScreen("< Replay >", (900) - (5 * 32), 700, 2);
 	(*this->_aGraphics)->putStrScreen("Menu", (900) - (3 * 32), 750, 2);
 

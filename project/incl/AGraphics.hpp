@@ -80,10 +80,13 @@ public:
 	}
 
 	static int centerTextX(std::string str, float size, int w) {
+        int rest = 0;
 		if (size <= 0) {
 			size = 1;
 		}
-		return ((w / 2) - static_cast<int>((str.length() / 2) * GET_SIZEFONT_X(size)));
+        if (str.length() % 2)
+            rest = static_cast<int>(GET_SIZEFONT_X(size) / 2);
+		return ((w / 2) - static_cast<int>(((str.length() / 2) * GET_SIZEFONT_X(size)) + rest));
 	}
 
 protected:

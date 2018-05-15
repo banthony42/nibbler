@@ -48,13 +48,13 @@ SceneMenu::SceneMenu(AGraphics **aGraphics) {
     pos.x = (*this->_aGraphics)->centerTextX(_inputName[MENU_GAME], SIZE_FONT_MENU, Nibbler::getWindowWidth());
     pos.y = PERCENTAGE(38, Nibbler::getWindowHeight());
     this->_input[MENU_GAME] = pos;
-    pos.x = (*this->_aGraphics)->centerTextX(_inputName[OPTION_GL], SIZE_FONT_MENU, Nibbler::getWindowWidth());
+    pos.x = (*this->_aGraphics)->centerTextX(_inputName[OPTION_SDL], SIZE_FONT_MENU, Nibbler::getWindowWidth());
     this->_input[OPTION_SDL] = pos;
 
     pos.x = (*this->_aGraphics)->centerTextX(_inputName[MENU_OPTION], SIZE_FONT_MENU, Nibbler::getWindowWidth());
     pos.y += FONT_NEWLINE(SIZE_FONT_MENU);
     this->_input[MENU_OPTION] = pos;
-    pos.x = (*this->_aGraphics)->centerTextX(_inputName[OPTION_GL], SIZE_FONT_MENU, Nibbler::getWindowWidth());
+    pos.x = (*this->_aGraphics)->centerTextX(_inputName[OPTION_SFML], SIZE_FONT_MENU, Nibbler::getWindowWidth());
     this->_input[OPTION_SFML] = pos;
 
     pos.x = (*this->_aGraphics)->centerTextX(_inputName[MENU_EXIT], SIZE_FONT_MENU, Nibbler::getWindowWidth());

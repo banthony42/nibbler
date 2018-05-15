@@ -31,8 +31,11 @@
 
 #define SECTOR_DEFAULT_SIZE 40
 
-#define SIZE_FONT_GAME 1
-#define SIZE_FONT_GAMEOVER 3
+#define SIZE_FONT_GAMEOVER 2
+
+#define SPEED_DEFAULT 8
+#define SPEED_INCR (1 * 42)    // Multiple de 42 car on utilise le % 42 dans le code
+#define DIFFICULTY_INCR 0.5
 
 enum ePageGame {
 	PAGE_GAME,
@@ -42,6 +45,7 @@ enum ePageGame {
 };
 
 enum ePause {
+    PAUSE_TITLE,
 	RESUME,
 	QUIT,
 	NB_INPUT_PAUSE
@@ -78,7 +82,9 @@ private:
 	SceneGame(SceneGame const &copy); // Canonical
 	SceneGame &operator=(SceneGame const &copy); // Canonical
 
-	void drawOverlay();
+	void drawInfoOverlay();
+    void drawGameOverOverlay();
+    void drawPauseOverlay();
 	void moveSnake();
 	void resetSceneGame();
 	void drawSector(eTexture t, int sectorX, int sectorY);
@@ -95,11 +101,16 @@ private:
 	t_coordi _sectorSize;
 	t_coordi _sectorCount;
 
-	ePageGame _page;
-	size_t _cursor;
+    double                          _difficulty;
+    double                          _timestamp;
+    double                          _deltaTimeCount;
+	ePageGame                       _page;
+	size_t                          _cursor;
+    std::map<ePause, t_coordi>      _input;
+    std::map<ePause, std::string>   _inputName;
 
 	int _score;
-	std::vector<t_coordd> vectorPool;
+	std::vector<t_coordd> vectorPool;   // TODO il manque l'underscore ! Tu m'emmerdes avec tes accolades pour des if de une ligne, et tu met pas l'underscore ici ?? OH ! mais tes un fou
 	t_snake _snake;
 	t_coordd _headPos;
 	t_coordd _lastHeadPos;

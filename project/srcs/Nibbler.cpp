@@ -57,6 +57,7 @@ void Nibbler::initAGraphics() {
 	Nibbler::_aGraphics->loadTexture("./textures/menu_bckg.png", MENU_BCKG);
 	Nibbler::_aGraphics->loadTexture("./textures/game_grass.png", GAME_GRASS);
 	Nibbler::_aGraphics->loadTexture("./textures/game_border.png", GAME_BORDER);
+    Nibbler::_aGraphics->loadTexture("./textures/fog-overlay.png", FOG_OVERLAY);
 	Nibbler::_aGraphics->loadTexture("./textures/game_border_grass.png", GAME_BORDER_GRASS);
     Nibbler::_aGraphics->loadTexture("./textures/snake_gameOver.png", GAMEOVER_BORDER);
 	Nibbler::_aGraphics->loadTexture("./textures/game_brick.png", GAME_BRICK);
@@ -89,6 +90,7 @@ void Nibbler::run() {
 		DeltaTime::startDelta();
 		auto vec = Nibbler::_aGraphics->getEvent();
 		// TODO 1000 constant fps for the sfml is suspect
+        // TODO lock fps
 		this->_callScene[this->_currentScene]->eventHandler(vec);
 		this->_callScene[this->_currentScene]->drawScene();
 		DeltaTime::endDelta();
