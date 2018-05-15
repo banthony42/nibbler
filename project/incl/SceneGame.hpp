@@ -31,6 +31,9 @@
 
 #define SECTOR_DEFAULT_SIZE 40
 
+#define SIZE_FONT_GAME 1
+#define SIZE_FONT_GAMEOVER 3
+
 enum ePageGame {
     PAGE_GAME,
     PAGE_PAUSE,

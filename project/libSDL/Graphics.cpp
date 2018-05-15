@@ -141,7 +141,7 @@ void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
 		}
 		pos.x += sizeFont.x;
 		if (*c_str == '\n' || (pos.x + sizeFont.x) >= this->windowWidth) {
-			pos.x = 0;
+			pos.x = posX;
 			if ((pos.y + sizeFont.y) < this->windowHeight)
 				pos.y += sizeFont.y;
 		}

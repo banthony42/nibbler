@@ -27,6 +27,7 @@
 
 #define GET_SIZEFONT_X(s) ((CHAR_SIZE_X / 2.5) * s)
 #define GET_SIZEFONT_Y(s) ((CHAR_SIZE_Y / 2.5) * s)
+#define FONT_NEWLINE(x) x * 20
 
 typedef struct {
 	double x;

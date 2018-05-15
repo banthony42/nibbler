@@ -17,7 +17,6 @@
 #include "Nibbler.hpp"
 
 #define SIZE_FONT_MENU 3.5
-#define FONT_NEWLINE SIZE_FONT_MENU * 20
 
 enum ePageMenu {
 	PAGE_MENU,

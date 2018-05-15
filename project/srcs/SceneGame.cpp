@@ -226,6 +226,7 @@ void SceneGame::moveSnake() {
 void SceneGame::drawScene() {
 	(*this->_aGraphics)->clear();
 
+    // TODO optimiser le code pour pas ecrir 3 fois la meme sequence de draw si possible
     if (this->_page == PAGE_GAME) {
         this->resetSceneGame();
         if (!this->_gameInstanced) {
@@ -254,8 +255,18 @@ void SceneGame::drawScene() {
         this->drawFullSnake();
         this->drawFood();
         this->drawOverlay();
+
+        // Draw Game Over Overlay
+        std::string gameOverMessage = "GAME OVER";
+        std::string scoreInfo = "Score:" + std::to_string(this->_score);
+        t_coordi pos = {};
+        pos.x = (*this->_aGraphics)->centerTextX(gameOverMessage, SIZE_FONT_GAMEOVER, Nibbler::getWindowWidth());
+        pos.y = PERCENTAGE(50, Nibbler::getWindowHeight());
+
         (*this->_aGraphics)->putTexture(GAMEOVER_BORDER, 0, 0, Nibbler::getWindowWidth(), Nibbler::getWindowHeight());
-        (*this->_aGraphics)->putStrScreen("GAME OVER - YOU SUCKS", PERCENTAGE(50, Nibbler::getWindowWidth()), PERCENTAGE(50, Nibbler::getWindowHeight()), 2);
+        (*this->_aGraphics)->putStrScreen(gameOverMessage, pos.x, pos.y, SIZE_FONT_GAMEOVER);
+        pos.y += FONT_NEWLINE(SIZE_FONT_GAMEOVER);
+        (*this->_aGraphics)->putStrScreen(scoreInfo, pos.x, pos.y, SIZE_FONT_GAMEOVER);
     }
 
 	(*this->_aGraphics)->display();
