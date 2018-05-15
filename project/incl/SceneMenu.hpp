@@ -40,11 +40,9 @@ class SceneMenu : public AScene {
 
 public:
 	SceneMenu(AGraphics **aGraphics);
-
 	~SceneMenu(); // Canonical
 
 	void eventHandler(std::vector<eEvent> eventList);
-
 	void drawScene();
 
 private:
@@ -52,10 +50,10 @@ private:
 	SceneMenu(SceneMenu const &copy); // Canonical
 	SceneMenu &operator=(SceneMenu const &copy); // Canonical
 
-	ePage							_page;
-	size_t							_cursor;
-	std::map<eMenu, t_coordi>		_input;
-	std::map<eMenu, std::string>	_inputName;
+	ePage _page;
+	size_t _cursor;
+	std::map<eMenu, t_coordi> _input;
+	std::map<eMenu, std::string> _inputName;
 };
 
 

@@ -14,6 +14,7 @@
 
 eTexture SceneGame::_selectedHeadSkin = SNAKE_H_PCM;
 eTexture SceneGame::_selectedBodySkin = SNAKE_B_PCM;
+int SceneGame::_speed = 10;
 
 SceneGame::SceneGame() {
 
@@ -22,6 +23,7 @@ SceneGame::SceneGame() {
 SceneGame::SceneGame(AGraphics **aGraphics) {
 	this->_aGraphics = aGraphics;
 	this->_gameInstanced = false;
+	this->_vectorAlreadyWaitingForAnUsage = false;
 
 	this->_snake.headSkin = SceneGame::_selectedHeadSkin;
 	this->_snake.bodySkin = SceneGame::_selectedBodySkin;
@@ -62,7 +64,7 @@ void SceneGame::initNewSnake() {
 						(std::rand() % (this->_sectorCount.y - 3))};
 	t_coordi tailPos = {headPos.x, headPos.y + 2}; // so the size of 2 + the head so 3
 
-	this->_snake.speed = 12;
+	this->_snake.speed = SceneGame::_speed;
 	this->_snake.vec = {1 * this->_snake.speed, 0 * this->_snake.speed};
 	this->_snake.headSkin = SceneGame::_selectedHeadSkin;
 	this->_snake.bodySkin = SceneGame::_selectedBodySkin;
@@ -81,21 +83,27 @@ void SceneGame::eventHandler(std::vector<eEvent> eventList) {
 		if (event == ECHAP) {
 			this->_gameInstanced = false;
 			Nibbler::setCurrentScene(MENU);
-		} else if (event == UP) {
-            if (!(this->_snake.vec.x == 0 && this->_snake.vec.y > 0)) {
-                this->_snake.vec = {0, -1 * this->_snake.speed};
-            }
-		} else if (event == DOWN) {
-            if (!(this->_snake.vec.x == 0 && this->_snake.vec.y < 0)) {
-                this->_snake.vec = {0, 1 * this->_snake.speed};
-            }
-		} else if (event == LEFT) {
-            if (!(this->_snake.vec.x > 0 && this->_snake.vec.y == 0)) {
-                this->_snake.vec = {-1 * this->_snake.speed, 0};
-            }
-		} else if (event == RIGHT) {
-            if (!(this->_snake.vec.x < 0 && this->_snake.vec.y == 0))
-			this->_snake.vec = {1 * this->_snake.speed, 0};
+		} else if (!this->_vectorAlreadyWaitingForAnUsage) {
+			if (event == UP) {
+				if (!(this->_snake.vec.x == 0 && this->_snake.vec.y > 0)) {
+					this->_snake.vec = {0, -1 * this->_snake.speed};
+					this->_vectorAlreadyWaitingForAnUsage = true;
+				}
+			} else if (event == DOWN) {
+				if (!(this->_snake.vec.x == 0 && this->_snake.vec.y < 0)) {
+					this->_snake.vec = {0, 1 * this->_snake.speed};
+					this->_vectorAlreadyWaitingForAnUsage = true;
+				}
+			} else if (event == LEFT) {
+				if (!(this->_snake.vec.x > 0 && this->_snake.vec.y == 0)) {
+					this->_snake.vec = {-1 * this->_snake.speed, 0};
+					this->_vectorAlreadyWaitingForAnUsage = true;
+				}
+			} else if (event == RIGHT) {
+				if (!(this->_snake.vec.x < 0 && this->_snake.vec.y == 0))
+					this->_snake.vec = {1 * this->_snake.speed, 0};
+				this->_vectorAlreadyWaitingForAnUsage = true;
+			}
 		}
 	}
 }
@@ -124,10 +132,6 @@ void SceneGame::resetSceneGame() {
 void SceneGame::drawFullSnake() {
 	int size = this->_snake.body.size() - 1;
 
-//	std::cout << "draw new snake :" << std::endl;
-//	for (auto &item : this->_snake.body) {
-//		std::cout << "snake body x[" << item.x << "]y[" << item.y << "]" << std::endl;
-//	}
 	t_coordd sec = this->_snake.body.at(0);
 	drawSector(this->_snake.headSkin, sec.x, sec.y);
 	int i = 0;
@@ -137,7 +141,7 @@ void SceneGame::drawFullSnake() {
 	}
 }
 
-void SceneGame::drawOverlay() {
+void SceneGame::drawOverlay() { // clem : je l'ai rajouté dans l'UML BRAVO ANTHO
 	std::ostringstream fps;
 	fps << DeltaTime::fps;
 	std::string fpsInfo = "fps:" + fps.str();
@@ -149,9 +153,6 @@ void SceneGame::drawOverlay() {
     (*this->_aGraphics)->putStrScreen(scoreInfo, PERCENTAGE(75, Nibbler::getWindowWidth()), 40, 1);
 }
 
-// TODO le snake peut faire demi tour
-//  => fix mais sur un changement de direction rapide le demi tour passe - ajouter un delai sur le getEvent ?
-
 void SceneGame::moveSnake() {
     t_coordd newPos = this->_headPos;
 
@@ -160,17 +161,20 @@ void SceneGame::moveSnake() {
 
     // Si collisions avec les murs
     if ((newPos.x > (this->_sectorCount.x - 1 )) || newPos.x < 0 || (newPos.y > (this->_sectorCount.y - 1))  || newPos.y < 0) {
+		// TODO faire un ecran de pause quand meme
         Nibbler::setCurrentScene(GAME_END);
         this->_gameInstanced = false;
         return ;
     }
-    else
-        this->_headPos = newPos;
+    else {
+		this->_headPos = newPos;
+	}
     if (Nibbler::iRound(this->_headPos.x) != Nibbler::iRound((this->_lastHeadPos.x)) ||
         Nibbler::iRound(this->_headPos.y) != Nibbler::iRound((this->_lastHeadPos.y))) {
         this->_snake.body.insert(this->_snake.body.cbegin(), {round(this->_headPos.x), round(this->_headPos.y)});
         this->_snake.body.pop_back();
         this->_lastHeadPos = this->_snake.body.at(0);
+		this->_vectorAlreadyWaitingForAnUsage = false;
     }
 }
 

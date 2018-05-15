@@ -47,8 +47,8 @@ private:
 	SceneSkin(SceneSkin const &copy); // Canonical
 	SceneSkin &operator=(SceneSkin const &copy);    // Canonical
 
-	size_t								    _cursor;
-	std::map<eTexture , t_coordi>		_input;
+	size_t _cursor;
+	std::map<eTexture, t_coordi> _input;
 };
 
 

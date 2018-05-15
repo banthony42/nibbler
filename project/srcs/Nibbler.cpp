@@ -81,19 +81,15 @@ void Nibbler::initRun() {
 }
 
 void Nibbler::run() {
-	double fpsElapsedTime = 0;
 	this->initRun();
 
 	/****************** MAIN WHILE ******************/
 	while (Nibbler::_aGraphics->loopUpdate()) {
 		DeltaTime::startDelta();
 		auto vec = Nibbler::_aGraphics->getEvent();
-
+		// TODO 1000 constant fps for the sfml is suspect
 		this->_callScene[this->_currentScene]->eventHandler(vec);
 		this->_callScene[this->_currentScene]->drawScene();
-		fpsElapsedTime += DeltaTime::deltaTime; // TODO l'afficher a l'ecran
-			std::cout << "fps : " << DeltaTime::fps << std::endl;
-			fpsElapsedTime = 0;
 		DeltaTime::endDelta();
 	}
 	Nibbler::_aGraphics->cleanUp();

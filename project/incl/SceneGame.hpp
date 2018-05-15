@@ -27,8 +27,6 @@
 #define FLOOR_SCENE_END_X (Nibbler::getWindowWidth() - FLOOR_SCENE_START_X * 1)
 #define FLOOR_SCENE_END_Y (Nibbler::getWindowHeight() - FLOOR_SCENE_START_Y * 1)
 
-#define CONST 20 // TODO usefull ?
-
 #define FLOOR_SIZE_X (FLOOR_SCENE_END_X - FLOOR_SCENE_START_X)
 #define FLOOR_SIZE_Y (FLOOR_SCENE_END_Y - FLOOR_SCENE_START_Y)
 
@@ -53,6 +51,7 @@ class SceneGame : public AScene {
 public:
 	static eTexture _selectedHeadSkin;
 	static eTexture _selectedBodySkin;
+	static int _speed;
 	SceneGame(AGraphics **aGraphics);
 	~SceneGame(); // Canonical
 
@@ -69,8 +68,6 @@ private:
 	void moveSnake();
 	void resetSceneGame();
 	void drawSector(eTexture t, int sectorX, int sectorY);
-	/* TODO we must save all the body of snake because if not we dont know where put the food
-	and its more easy like it */
 	void drawFullSnake();
 	void initNewSnake();
 
@@ -81,10 +78,8 @@ private:
 	t_coordi _sectorSize;
 	t_coordi _sectorCount;
 
-	static const int _N_SECTX = 16;//TODO Voir si on calcul ces valeurs en fonctions de la taille de la fenetre
-	static const int _N_SECTY = 16; // TODO Non utilisé
-
     int     _score;
+	bool _vectorAlreadyWaitingForAnUsage;
 	t_snake _snake;
 	t_coordd _headPos;
 	t_coordd _lastHeadPos;
