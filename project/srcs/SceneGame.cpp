@@ -14,7 +14,7 @@
 
 eTexture SceneGame::_selectedHeadSkin = SNAKE_H_PCM;
 eTexture SceneGame::_selectedBodySkin = SNAKE_B_PCM;
-int SceneGame::_speed = 10;
+int SceneGame::_speed = 8;
 
 SceneGame::SceneGame() {
 
@@ -101,32 +101,28 @@ void SceneGame::eventHandler(std::vector<eEvent> eventList) {
 			this->_gameInstanced = false;
 			Nibbler::setCurrentScene(MENU);
 		} else if (this->vectorPool.size() < 2) {
-			t_coordd newVector = {};
 			if (event == UP) {
-				if (!(this->_snake.vec.x == 0 && this->_snake.vec.y > 0)) {
-					newVector = {0, -1 * this->_snake.speed};
+				if (!(this->_snake.vec.x == 0 && this->_snake.vec.y > 0) || this->vectorPool.size()) {
+					this->vectorPool.insert(this->vectorPool.cbegin(), {0, -1 * this->_snake.speed});
 //					this->_snake.vec = {0, -1 * this->_snake.speed};
-					this->vectorPool.insert(this->vectorPool.cbegin(), newVector);
 //					this->_vectorAlreadyWaitingForAnUsage = true;
 				}
-			} else if (event == DOWN) {
-				if (!(this->_snake.vec.x == 0 && this->_snake.vec.y < 0)) {
-					newVector = {0, 1 * this->_snake.speed};
-					this->vectorPool.insert(this->vectorPool.cbegin(), newVector);
+			} if (event == DOWN) {
+				if (!(this->_snake.vec.x == 0 && this->_snake.vec.y < 0) || this->vectorPool.size()) {
+					this->vectorPool.insert(this->vectorPool.cbegin(), {0, 1 * this->_snake.speed});
 //					this->_snake.vec = {0, 1 * this->_snake.speed};
 //					this->_vectorAlreadyWaitingForAnUsage = true;
 				}
-			} else if (event == LEFT) {
-				if (!(this->_snake.vec.x > 0 && this->_snake.vec.y == 0)) {
-					newVector = {-1 * this->_snake.speed, 0};
-					this->vectorPool.insert(this->vectorPool.cbegin(), newVector);
+			} if (event == LEFT) {
+				if (!(this->_snake.vec.x > 0 && this->_snake.vec.y == 0) || this->vectorPool.size()) {
+
+					this->vectorPool.insert(this->vectorPool.cbegin(), {-1 * this->_snake.speed, 0});
 //					this->_snake.vec = {-1 * this->_snake.speed, 0};
 //					this->_vectorAlreadyWaitingForAnUsage = true;
 				}
-			} else if (event == RIGHT) {
-				if (!(this->_snake.vec.x < 0 && this->_snake.vec.y == 0)) {
-					newVector = {1 * this->_snake.speed, 0};
-					this->vectorPool.insert(this->vectorPool.cbegin(), newVector);
+			} if (event == RIGHT) {
+				if (!(this->_snake.vec.x < 0 && this->_snake.vec.y == 0) || this->vectorPool.size()) {
+					this->vectorPool.insert(this->vectorPool.cbegin(), {1 * this->_snake.speed, 0});
 //					this->_snake.vec = {1 * this->_snake.speed, 0};
 //				this->_vectorAlreadyWaitingForAnUsage = true;
 				}
@@ -187,8 +183,10 @@ void SceneGame::moveSnake() {
 	newPos.x += (this->_snake.vec.x * DeltaTime::deltaTime);
 	newPos.y += (this->_snake.vec.y * DeltaTime::deltaTime);
 
-	if ((newPos.x > (this->_sectorCount.x - 1)) || newPos.x < 0 || (newPos.y > (this->_sectorCount.y - 1)) ||
-		newPos.y < 0) {
+	if ((Nibbler::iRound(newPos.x) > (this->_sectorCount.x - 1)) ||
+			Nibbler::iRound(newPos.x) < 0 ||
+			(Nibbler::iRound(newPos.y) > (this->_sectorCount.y - 1)) ||
+			Nibbler::iRound(newPos.y) < 0) {
 		// Collision with wall
 		Nibbler::setCurrentScene(GAME_END);
 		this->_gameInstanced = false;
@@ -198,6 +196,7 @@ void SceneGame::moveSnake() {
 		this->initNewFood();
 		t_coordd toInsert = this->_snake.body.at(0);
 		this->_snake.body.insert(++this->_snake.body.cbegin(), {toInsert.x, toInsert.y});
+		this->_score += 42;
 	} else {
 		this->_headPos = newPos;
 	}
@@ -222,6 +221,7 @@ void SceneGame::drawScene() {
 		this->initNewFood();
 		this->drawFullSnake();
 		this->drawFood();
+		this->_score = 0;
 		this->_gameInstanced = true;
 	} else {
 		this->moveSnake();
