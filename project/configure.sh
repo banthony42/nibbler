@@ -17,6 +17,7 @@ git submodule init
 git submodule update
 
 #Install dependencies
+brew install cmake
 brew install pkg-config
 brew install glfw
 brew install glew
