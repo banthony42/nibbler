@@ -217,6 +217,7 @@ void SceneGame::drawFood() {
 void SceneGame::drawInfoOverlay() { // clem : je l'ai rajouté dans l'UML BRAVO ANTHO
 	std::string fpsInfo = "fps: " + std::to_string(DeltaTime::fps);
 	std::string scoreInfo = "Score: " + std::to_string(this->_score);
+    // Obliger pour pouvoir regler la precision, car to_string affiche 1.000000
     std::ostringstream speedInfo;
     speedInfo << "Speed x " << std::setprecision(2) << this->_difficulty;
 	(*this->_aGraphics)->putStrScreen(fpsInfo, PERCENTAGE(20, Nibbler::getWindowWidth()), 40, 1);
@@ -341,6 +342,7 @@ void SceneGame::drawScene() {
             this->_difficulty = 1;
             this->_deltaTimeCount = 1000;
             this->_timestamp = 0;
+            this->vectorPool.clear();
 			this->_gameInstanced = true;
 		} else {
 			this->moveSnake();
