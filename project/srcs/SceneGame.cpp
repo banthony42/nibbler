@@ -41,6 +41,7 @@ SceneGame::SceneGame(AGraphics **aGraphics) {
 			(this->_floorSceneStart.x) + this->_sectorSize.x + ((FLOOR_SIZE_X % SECTOR_DEFAULT_SIZE) / 2);
 	this->_sectorStart.y =
 			(this->_floorSceneStart.y) + this->_sectorSize.y + ((FLOOR_SIZE_Y % SECTOR_DEFAULT_SIZE) / 2);
+    this->_page = PAGE_GAME;
 }
 
 SceneGame::SceneGame(SceneGame const &copy) {
@@ -95,33 +96,39 @@ void SceneGame::initNewFood() {
 }
 
 void SceneGame::eventHandler(std::vector<eEvent> eventList) {
-	for (auto &event : eventList) {
-		if (event == ECHAP) {
-			this->_gameInstanced = false;
-			Nibbler::setCurrentScene(MENU);
-		} else if (this->vectorPool.size() < 2) {
-			if (event == UP) {
-				if (!(this->_snake.vec.x == 0 && this->_snake.vec.y > 0) || this->vectorPool.size()) {
-					this->vectorPool.insert(this->vectorPool.cbegin(), {0, -1 * this->_snake.speed});
-				}
-			}
-			if (event == DOWN) {
-				if (!(this->_snake.vec.x == 0 && this->_snake.vec.y < 0) || this->vectorPool.size()) {
-					this->vectorPool.insert(this->vectorPool.cbegin(), {0, 1 * this->_snake.speed});
-				}
-			}
-			if (event == LEFT) {
-				if (!(this->_snake.vec.x > 0 && this->_snake.vec.y == 0) || this->vectorPool.size()) {
-					this->vectorPool.insert(this->vectorPool.cbegin(), {-1 * this->_snake.speed, 0});
-				}
-			}
-			if (event == RIGHT) {
-				if (!(this->_snake.vec.x < 0 && this->_snake.vec.y == 0) || this->vectorPool.size()) {
-					this->vectorPool.insert(this->vectorPool.cbegin(), {1 * this->_snake.speed, 0});
-				}
-			}
-		}
-	}
+    if (this->_page == PAGE_GAME) {
+        for (auto &event : eventList) {
+            if (event == ECHAP) {
+                this->_gameInstanced = false;
+                Nibbler::setCurrentScene(MENU);
+            } else if (this->vectorPool.size() < 2) {
+                if (event == UP) {
+                    if (!(this->_snake.vec.x == 0 && this->_snake.vec.y > 0) || this->vectorPool.size()) {
+                        this->vectorPool.insert(this->vectorPool.cbegin(), {0, -1 * this->_snake.speed});
+                    }
+                } if (event == DOWN) {
+                    if (!(this->_snake.vec.x == 0 && this->_snake.vec.y < 0) || this->vectorPool.size()) {
+                        this->vectorPool.insert(this->vectorPool.cbegin(), {0, 1 * this->_snake.speed});
+                    }
+                } if (event == LEFT) {
+                    if (!(this->_snake.vec.x > 0 && this->_snake.vec.y == 0) || this->vectorPool.size()) {
+
+                        this->vectorPool.insert(this->vectorPool.cbegin(), {-1 * this->_snake.speed, 0});
+                    }
+                } if (event == RIGHT) {
+                    if (!(this->_snake.vec.x < 0 && this->_snake.vec.y == 0) || this->vectorPool.size()) {
+                        this->vectorPool.insert(this->vectorPool.cbegin(), {1 * this->_snake.speed, 0});
+                    }
+                }
+            }
+        }
+    }
+    else if (this->_page == PAGE_PAUSE) {
+
+    }
+    else if (this->_page == PAGE_GAMEOVER) {
+
+    }
 }
 
 void SceneGame::drawSector(eTexture t, int sectorX, int sectorY) {
@@ -205,20 +212,30 @@ void SceneGame::moveSnake() {
 
 void SceneGame::drawScene() {
 	(*this->_aGraphics)->clear();
-	this->resetSceneGame();
-	if (!this->_gameInstanced) {
-		this->initNewSnake();
-		this->initNewFood();
-		this->drawFullSnake();
-		this->drawFood();
-		this->_score = 0;
-		this->_gameInstanced = true;
-	} else {
-		this->moveSnake();
-		this->drawFullSnake();
-		this->drawFood();
-		this->drawOverlay();
-	}
+
+    if (this->_page == PAGE_GAME) {
+        this->resetSceneGame();
+        if (!this->_gameInstanced) {
+            this->initNewSnake();
+            this->initNewFood();
+            this->drawFullSnake();
+            this->drawFood();
+            this->_score = 0;
+            this->_gameInstanced = true;
+        } else {
+            this->moveSnake();
+            this->drawFullSnake();
+            this->drawFood();
+            this->drawOverlay();
+        }
+    }
+    else if (this->_page == PAGE_PAUSE) {
+
+    }
+    else if (this->_page == PAGE_GAMEOVER) {
+
+    }
+
 	(*this->_aGraphics)->display();
 }
 

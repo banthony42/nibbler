@@ -19,10 +19,10 @@
 #define SIZE_FONT_MENU 3.5
 #define FONT_NEWLINE SIZE_FONT_MENU * 20
 
-enum ePage {
+enum ePageMenu {
 	PAGE_MENU,
 	PAGE_OPTION,
-	NB_PAGE
+	NB_PAGE_MENU
 };
 
 enum eMenu {
@@ -50,7 +50,7 @@ private:
 	SceneMenu(SceneMenu const &copy); // Canonical
 	SceneMenu &operator=(SceneMenu const &copy); // Canonical
 
-	ePage _page;
+	ePageMenu _page;
 	size_t _cursor;
 	std::map<eMenu, t_coordi> _input;
 	std::map<eMenu, std::string> _inputName;

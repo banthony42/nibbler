@@ -31,6 +31,13 @@
 
 #define SECTOR_DEFAULT_SIZE 40
 
+enum ePageGame {
+    PAGE_GAME,
+    PAGE_PAUSE,
+    PAGE_GAMEOVER,
+    NB_PAGE_GAME
+};
+
 typedef struct {
 	std::vector<t_coordd> body;
 	t_coordd vec;
@@ -78,6 +85,7 @@ private:
 	t_coordi _sectorSize;
 	t_coordi _sectorCount;
 
+    ePageGame _page;
 	int _score;
 	std::vector<t_coordd> vectorPool;
 	t_snake _snake;
