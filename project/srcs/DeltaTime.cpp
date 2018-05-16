@@ -46,5 +46,8 @@ void DeltaTime::endDelta() {
 	DeltaTime::elapsedTime = (DeltaTime::t2.tv_sec - DeltaTime::t1.tv_sec) * 1000;
 	DeltaTime::elapsedTime += (DeltaTime::t2.tv_usec - DeltaTime::t1.tv_usec) / 1000;
 	DeltaTime::deltaTime = DeltaTime::elapsedTime / 1000;
-	DeltaTime::fps = 1 / DeltaTime::deltaTime;
+	double calculatedFps = 1 / DeltaTime::deltaTime;
+	if (calculatedFps < DeltaTime::fps + 500 && calculatedFps > DeltaTime::fps - 500) {
+		DeltaTime::fps = 1 / DeltaTime::deltaTime;
+	}
 }
