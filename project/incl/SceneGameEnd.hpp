@@ -16,6 +16,13 @@
 #include "AScene.hpp"
 #include "Nibbler.hpp"
 
+enum eEndGame {
+    BEST_SCORE,
+	REPLAY,
+	BACK_TO_MENU,
+	NB_INPUT_ENDGAME
+};
+
 class SceneGameEnd : public AScene {
 
 public:
@@ -29,6 +36,10 @@ private:
     SceneGameEnd(); // Canonical
     SceneGameEnd(SceneGameEnd const &copy); // Canonical
     SceneGameEnd &operator=(SceneGameEnd const &copy);// Canonical
+
+	size_t                          _cursor;
+	std::map<eEndGame, t_coordi>      _input;
+	std::map<eEndGame, std::string>   _inputName;
 };
 
 
