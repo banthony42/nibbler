@@ -98,6 +98,9 @@ void Nibbler::run() {
     while (Nibbler::_aGraphics->loopUpdate()) {
         DeltaTime::startDelta();
 
+        // SDL = it works
+        // SFML = it works with some 100 fps drop very very quick
+        // OPENGL = it doesn't change anything and the fps is still up to 60
         bridFps = DeltaTime::elapsedTime * nbFps;
         if (bridFps < 1000 && count == 0) {
             latence = static_cast<useconds_t>(((1000 - bridFps) * 1000) / nbFps);
@@ -111,12 +114,12 @@ void Nibbler::run() {
             }
         }
 
-        std::cout << "-----------------" << std::endl;
-        std::cout << "Elaps " << DeltaTime::elapsedTime << std::endl;
-        std::cout << "Delta " << DeltaTime::deltaTime << std::endl;
-        std::cout << "fps " << DeltaTime::fps << std::endl;
-        std::cout << "Bridfps " << bridFps << std::endl;
-        std::cout << "-----------------" << std::endl;
+//        std::cout << "-----------------" << std::endl;
+//        std::cout << "Elaps " << DeltaTime::elapsedTime << std::endl;
+//        std::cout << "Delta " << DeltaTime::deltaTime << std::endl;
+//        std::cout << "fps " << DeltaTime::fps << std::endl;
+//        std::cout << "Bridfps " << bridFps << std::endl;
+//        std::cout << "-----------------" << std::endl;
 
 
         auto vec = Nibbler::_aGraphics->getEvent();
