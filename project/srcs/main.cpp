@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <curses.h>
 #include "../incl/Nibbler.hpp"
 
 static bool is_digits(const std::string &str) {
@@ -37,8 +38,13 @@ void manageArguments(int ac, char **av) {
 			libraryLoaded = true;
 		} else if (strcmp(av[i], "-size") == 0 && i + 2 < ac) {
 			if (is_digits(av[i + 1]) && is_digits(av[i + 2])) {
-				Nibbler::setWindowWidth(std::stoi(av[++i]));
-				Nibbler::setWindowHeight(std::stoi(av[++i]));
+                t_coordi window = {};
+                if (((window.x = std::stoi(av[++i])) < WINDOW_MIN_X) || ((window.y = std::stoi(av[++i])) < WINDOW_MIN_Y)) {
+                    std::cout << "The window size can't be inferior than " << WINDOW_MIN_X << " x " << WINDOW_MIN_Y << std::endl;
+                    exit(0);
+                }
+				Nibbler::setWindowWidth(window.x);
+				Nibbler::setWindowHeight(window.y);
 			}
 		} else {
 			showHelp();

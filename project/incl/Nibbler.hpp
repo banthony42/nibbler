@@ -41,6 +41,9 @@ enum eScene {
 #define LIB_OPENGL_PATH "./libOpenGL/libgraph.so"
 #define LIB_SFML_PATH "./libSFML/libgraph.so"
 
+#define WINDOW_MIN_X 800
+#define WINDOW_MIN_Y 600
+
 class Nibbler {
 
 public:

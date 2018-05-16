@@ -16,7 +16,7 @@
 #include "AScene.hpp"
 #include "Nibbler.hpp"
 
-#define SIZE_FONT_MENU 3.5
+#define SIZE_FONT_MENU PERCENTAGE(0.166, (Nibbler::getWindowWidth() + Nibbler::getWindowHeight()))
 
 enum ePageMenu {
 	PAGE_MENU,

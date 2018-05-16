@@ -31,7 +31,7 @@
 
 #define SECTOR_DEFAULT_SIZE 40
 
-#define SIZE_FONT_GAME_END 2
+#define SIZE_FONT_GAME_END PERCENTAGE(0.095, (Nibbler::getWindowWidth() + Nibbler::getWindowHeight()))
 
 #define SPEED_DEFAULT 7
 #define SPEED_INCR (12 * 42)    // Multiple de 42 car on utilise le % 42 dans le code

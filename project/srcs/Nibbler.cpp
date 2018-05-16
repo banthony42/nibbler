@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <zconf.h>
 #include "../incl/Nibbler.hpp"
 
 int DEBUG_MODE = false;
@@ -82,19 +83,47 @@ void Nibbler::initRun() {
 	Nibbler::initAGraphics();
 }
 
+
+// TODO 1000 constant fps for the sfml is suspect
+// TODO lock fps
+
 void Nibbler::run() {
 	this->initRun();
+    double bridFps = 0;
+    double nbFps = 30;
+    int count = 0;
+    useconds_t latence = 0;
 
 	/****************** MAIN WHILE ******************/
-	while (Nibbler::_aGraphics->loopUpdate()) {
-		DeltaTime::startDelta();
-		auto vec = Nibbler::_aGraphics->getEvent();
-		// TODO 1000 constant fps for the sfml is suspect
-        // TODO lock fps
-		this->_callScene[this->_currentScene]->eventHandler(vec);
-		this->_callScene[this->_currentScene]->drawScene();
-		DeltaTime::endDelta();
-	}
+    while (Nibbler::_aGraphics->loopUpdate()) {
+        DeltaTime::startDelta();
+
+        bridFps = DeltaTime::elapsedTime * nbFps;
+        if (bridFps < 1000 && count == 0) {
+            latence = static_cast<useconds_t>(((1000 - bridFps) * 1000) / nbFps);
+            count = static_cast<int>(nbFps);
+        }
+        else if (count) {
+            usleep(latence);
+            if (count-- == 0) {
+                count = 0;
+                bridFps = 0;
+            }
+        }
+
+        std::cout << "-----------------" << std::endl;
+        std::cout << "Elaps " << DeltaTime::elapsedTime << std::endl;
+        std::cout << "Delta " << DeltaTime::deltaTime << std::endl;
+        std::cout << "fps " << DeltaTime::fps << std::endl;
+        std::cout << "Bridfps " << bridFps << std::endl;
+        std::cout << "-----------------" << std::endl;
+
+
+        auto vec = Nibbler::_aGraphics->getEvent();
+        this->_callScene[this->_currentScene]->eventHandler(vec);
+        this->_callScene[this->_currentScene]->drawScene();
+        DeltaTime::endDelta();
+    }
 	Nibbler::_aGraphics->cleanUp();
 }
 
