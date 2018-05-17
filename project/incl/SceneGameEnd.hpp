@@ -37,6 +37,16 @@ private:
     SceneGameEnd(SceneGameEnd const &copy); // Canonical
     SceneGameEnd &operator=(SceneGameEnd const &copy);// Canonical
 
+	void eventEchap();
+	void eventUp();
+	void eventDown();
+	void eventLeft();
+	void eventRight();
+	void eventEnter();
+	void eventF1();
+	void eventF2();
+	void eventF3();
+
 	size_t                          _cursor;
 	std::map<eEndGame, t_coordi>      _input;
 	std::map<eEndGame, std::string>   _inputName;

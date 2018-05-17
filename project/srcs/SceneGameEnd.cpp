@@ -96,3 +96,39 @@ void SceneGameEnd::drawScene() {
     (*this->_aGraphics)->display();
 }
 
+void SceneGameEnd::eventEchap() {
+
+}
+
+void SceneGameEnd::eventUp() {
+
+}
+
+void SceneGameEnd::eventDown() {
+
+}
+
+void SceneGameEnd::eventLeft() {
+
+}
+
+void SceneGameEnd::eventRight() {
+
+}
+
+void SceneGameEnd::eventEnter() {
+
+}
+
+void SceneGameEnd::eventF1() {
+
+}
+
+void SceneGameEnd::eventF2() {
+
+}
+
+void SceneGameEnd::eventF3() {
+
+}
+

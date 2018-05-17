@@ -14,6 +14,7 @@
 #define ASCENE_HPP
 
 #include "AGraphics.hpp"
+#include <map>
 
 enum eTexture {
 	TEXTURE_VOID,
@@ -42,9 +43,22 @@ public:
 	virtual void eventHandler(std::vector<eEvent> eventList) = 0;
 	virtual void drawScene() = 0;
 
-protected:
-	AGraphics **_aGraphics;
+    virtual void eventEchap() = 0;
+    virtual void eventUp() = 0;
+    virtual void eventDown() = 0;
+    virtual void eventLeft() = 0;
+    virtual void eventRight() = 0;
+    virtual void eventEnter() = 0;
+    virtual void eventF1() = 0;
+    virtual void eventF2() = 0;
+    virtual void eventF3() = 0;
 
+
+protected:
+    typedef void(AScene::*eventFuncPtr)();
+
+	AGraphics **_aGraphics;
+	std::map<eEvent, eventFuncPtr> _eventMap;
 };
 
 

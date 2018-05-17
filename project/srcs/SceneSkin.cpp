@@ -100,6 +100,42 @@ void SceneSkin::drawScene() {
 	(*this->_aGraphics)->display();
 }
 
+void SceneSkin::eventEchap() {
+
+}
+
+void SceneSkin::eventUp() {
+
+}
+
+void SceneSkin::eventDown() {
+
+}
+
+void SceneSkin::eventLeft() {
+
+}
+
+void SceneSkin::eventRight() {
+
+}
+
+void SceneSkin::eventEnter() {
+
+}
+
+void SceneSkin::eventF1() {
+
+}
+
+void SceneSkin::eventF2() {
+
+}
+
+void SceneSkin::eventF3() {
+
+}
+
 
 
 

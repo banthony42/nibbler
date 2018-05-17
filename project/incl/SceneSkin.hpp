@@ -47,6 +47,16 @@ private:
 	SceneSkin(SceneSkin const &copy); // Canonical
 	SceneSkin &operator=(SceneSkin const &copy);    // Canonical
 
+    void eventEchap();
+    void eventUp();
+    void eventDown();
+    void eventLeft();
+    void eventRight();
+    void eventEnter();
+    void eventF1();
+    void eventF2();
+    void eventF3();
+
 	size_t _cursor;
 	std::map<eTexture, t_coordi> _input;
 };

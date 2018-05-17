@@ -44,6 +44,16 @@ SceneMenu::SceneMenu(AGraphics **aGraphics) {
     this->_inputName[OPTION_SFML] = "SFML";
     this->_inputName[OPTION_GL] = "OPEN_GL";
 
+    this->_eventMap[ECHAP] = &AScene::eventEchap;
+    this->_eventMap[UP] = &AScene::eventUp;
+    this->_eventMap[DOWN] = &AScene::eventDown;
+    this->_eventMap[LEFT] = &AScene::eventLeft;
+    this->_eventMap[RIGHT] = &AScene::eventRight;
+    this->_eventMap[ENTER] = &AScene::eventEnter;
+    this->_eventMap[F1] = &AScene::eventF1;
+    this->_eventMap[F2] = &AScene::eventF2;
+    this->_eventMap[F3] = &AScene::eventF3;
+
     t_coordi pos = {};
     pos.x = (*this->_aGraphics)->centerTextX(_inputName[MENU_GAME], SIZE_FONT_MENU, Nibbler::getWindowWidth());
     pos.y = PERCENTAGE(38, Nibbler::getWindowHeight());
@@ -66,46 +76,9 @@ SceneMenu::SceneMenu(AGraphics **aGraphics) {
 
 void SceneMenu::eventHandler(std::vector<eEvent> eventList) {
     eEvent event = EVENT_VOID;
-    if (this->_page == PAGE_MENU) {
-        for (auto &event : eventList) {
-            if (event == ECHAP) {
-                Nibbler::_aGraphics->cleanUp();
-            } else if (event == UP && this->_cursor > MENU_GAME) {
-                this->_cursor--;
-            } else if (event == DOWN && this->_cursor < MENU_EXIT) {
-                this->_cursor++;
-            } else if (event == ENTER) {
-                if (this->_cursor == MENU_GAME) {
-                    Nibbler::setCurrentScene(SKIN);
-                } else if (this->_cursor == MENU_OPTION) {
-                    this->_cursor = OPTION_SDL;
-                    this->_page = PAGE_OPTION;
-                } else if (this->_cursor == MENU_EXIT) {
-                    Nibbler::_aGraphics->cleanUp();
-                }
-            }
-        }
-    } else if (this->_page == PAGE_OPTION) {
-        for (auto &event : eventList) {
-            if (event == ECHAP) {
-                this->_page = PAGE_MENU;
-                this->_cursor = MENU_GAME;
-            } else if (event == UP && this->_cursor > OPTION_SDL) {
-                this->_cursor--;
-            } else if (event == DOWN && this->_cursor < OPTION_GL) {
-                this->_cursor++;
-            } else if (event == ENTER) {
-                if (this->_cursor == OPTION_SDL) {
-                    Nibbler::loadLibrary(LIB_SDL_PATH);
-                } else if (this->_cursor == OPTION_SFML) {
-                    Nibbler::loadLibrary(LIB_SFML_PATH);
-                } else if (this->_cursor == OPTION_GL) {
-                    Nibbler::loadLibrary(LIB_OPENGL_PATH);
-                }
-                this->_page = PAGE_MENU;
-                this->_cursor = MENU_GAME;
-            }
-        }
+
+    for (auto &event : eventList){
+        (this->*(this->_eventMap[event]))();
     }
 }
 
@@ -158,6 +131,77 @@ void SceneMenu::drawScene() {
     (*this->_aGraphics)->display();
 }
 
+void SceneMenu::eventEchap() {
+    if (this->_page == PAGE_MENU) {
+        Nibbler::_aGraphics->cleanUp();
+    } else if (this->_page == PAGE_OPTION) {
+        this->_page = PAGE_MENU;
+        this->_cursor = MENU_GAME;
+    }
+}
+
+void SceneMenu::eventUp() {
+    if (this->_page == PAGE_MENU) {
+        if (this->_cursor > MENU_GAME) {
+            this->_cursor--;
+        }
+    } else if (this->_page == PAGE_OPTION) {
+        if (this->_cursor > OPTION_SDL) {
+            this->_cursor--;
+        }
+    }
+}
+
+void SceneMenu::eventDown() {
+    if (this->_page == PAGE_MENU) {
+        if (this->_cursor < MENU_EXIT) {
+            this->_cursor++;
+        }
+    } else if (this->_page == PAGE_OPTION) {
+        if (this->_cursor < OPTION_GL) {
+            this->_cursor++;
+        }
+    }
+}
+
+void SceneMenu::eventLeft() {}
+
+void SceneMenu::eventRight() {}
+
+void SceneMenu::eventEnter() {
+    if (this->_page == PAGE_MENU) {
+        if (this->_cursor == MENU_GAME) {
+            Nibbler::setCurrentScene(SKIN);
+        } else if (this->_cursor == MENU_OPTION) {
+            this->_cursor = OPTION_SDL;
+            this->_page = PAGE_OPTION;
+        } else if (this->_cursor == MENU_EXIT) {
+            Nibbler::_aGraphics->cleanUp();
+        }
+    } else if (this->_page == PAGE_OPTION) {
+        if (this->_cursor == OPTION_SDL) {
+            Nibbler::loadLibrary(LIB_SDL_PATH);
+        } else if (this->_cursor == OPTION_SFML) {
+            Nibbler::loadLibrary(LIB_SFML_PATH);
+        } else if (this->_cursor == OPTION_GL) {
+            Nibbler::loadLibrary(LIB_OPENGL_PATH);
+        }
+        this->_page = PAGE_MENU;
+        this->_cursor = MENU_GAME;
+    }
+}
+
+void SceneMenu::eventF1() {
+    Nibbler::loadLibrary(LIB_SDL_PATH);
+}
+
+void SceneMenu::eventF2() {
+    Nibbler::loadLibrary(LIB_SFML_PATH);
+}
+
+void SceneMenu::eventF3() {
+    Nibbler::loadLibrary(LIB_OPENGL_PATH);
+}
 
 
 

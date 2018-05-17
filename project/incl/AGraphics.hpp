@@ -47,6 +47,9 @@ enum eEvent {
 	LEFT,
 	RIGHT,
 	ENTER,
+    F1,
+    F2,
+    F3,
 	NB_EVENT
 };
 

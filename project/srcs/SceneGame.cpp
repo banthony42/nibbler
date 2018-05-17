@@ -363,3 +363,39 @@ void SceneGame::drawScene() {
     }
     (*this->_aGraphics)->display();
 }
+
+void SceneGame::eventEchap() {
+
+}
+
+void SceneGame::eventUp() {
+
+}
+
+void SceneGame::eventDown() {
+
+}
+
+void SceneGame::eventLeft() {
+
+}
+
+void SceneGame::eventRight() {
+
+}
+
+void SceneGame::eventEnter() {
+
+}
+
+void SceneGame::eventF1() {
+
+}
+
+void SceneGame::eventF2() {
+
+}
+
+void SceneGame::eventF3() {
+
+}

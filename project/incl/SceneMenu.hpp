@@ -49,6 +49,16 @@ private:
 	SceneMenu(SceneMenu const &copy); // Canonical
 	SceneMenu &operator=(SceneMenu const &copy); // Canonical
 
+    void eventEchap();
+    void eventUp();
+    void eventDown();
+    void eventLeft();
+    void eventRight();
+    void eventEnter();
+    void eventF1();
+    void eventF2();
+    void eventF3();
+
 	ePageMenu _page;
 	size_t _cursor;
 	std::map<eMenu, t_coordi> _input;

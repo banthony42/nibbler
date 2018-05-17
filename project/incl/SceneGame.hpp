@@ -83,6 +83,16 @@ private:
 	SceneGame(SceneGame const &copy); // Canonical
 	SceneGame &operator=(SceneGame const &copy); // Canonical
 
+	void eventEchap();
+	void eventUp();
+	void eventDown();
+	void eventLeft();
+	void eventRight();
+	void eventEnter();
+	void eventF1();
+	void eventF2();
+	void eventF3();
+
 	void drawInfoOverlay();
 	void drawGameOverOverlay();
 	void drawPauseOverlay();
