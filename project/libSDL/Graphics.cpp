@@ -38,18 +38,16 @@ Graphics &Graphics::operator=(Graphics const &copy) {
 	return *this;
 }
 
-int Graphics::init(int windowWidth, int windowHeight, std::string windowName) {
+void Graphics::init(int windowWidth, int windowHeight, std::string windowName) {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) ||
 		!(this->_win = SDL_CreateWindow(std::string(windowName + ": SDL").c_str(), SDL_WINDOWPOS_UNDEFINED,
 										SDL_WINDOWPOS_UNDEFINED, windowWidth, windowHeight, SDL_WINDOW_SHOWN))) {
-		std::cout << "ERROR : " << SDL_GetError() << std::endl;
-		return (-1);
+		std::cout << "ERROR : " << SDL_GetError() << std::endl; // TODO throw exception
 	}
 	this->windowWidth = windowWidth;
 	this->windowHeight = windowHeight;
 	this->_img = SDL_GetWindowSurface(this->_win);
 	this->_windowTerminated = false;
-	return (1);
 }
 
 void Graphics::cleanUp() {
@@ -158,7 +156,7 @@ void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
 		SDL_FillRect(this->_img, NULL, 0x000000);
 		return;
 	}
-	surface = this->_textureList[key]; // TODO check the key value
+	surface = this->_textureList[key];
 	SDL_Rect srcRect = {0, 0, surface->w, surface->h};
 	SDL_Rect dstRect = {posX, posY, sizeX, sizeY};
 	SDL_BlitScaled(surface, &srcRect, this->_img, &dstRect);

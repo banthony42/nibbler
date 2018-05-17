@@ -92,7 +92,7 @@ void Nibbler::initRun() {
 	// TODO SUJET : on doit pouvoir changer de lib en faisant F1 F2 ou F3
 	// TODO SUJET : une foret de if pour les events n'est PAS acceptable
 
-// TODO A FAIRE :
+// TODO A IMPORTANT :
 	// TODO SUJET : toute les erreurs doivent etre a base de Throw
 	// TODO SUJET : les deux binomes doivent etre incollable sur chacune des partie de l'autres (faut que tu m'explique en details l'affichage du texte a l'ecran)
 

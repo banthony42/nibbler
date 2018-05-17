@@ -54,7 +54,7 @@ class AGraphics {
 
 public:
 
-	virtual int init(int windowWidth, int windowHeight, std::string windowName) = 0;
+	virtual void init(int windowWidth, int windowHeight, std::string windowName) = 0;
 	virtual int loopUpdate() = 0;
 	virtual void display() = 0;
 	virtual void clear() = 0;

@@ -6,7 +6,7 @@
 #    By: banthony <banthony@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/08 11:31:12 by banthony          #+#    #+#              #
-#    Updated: 2018/05/07 13:55:46 by banthony         ###   ########.fr        #
+#    Updated: 2018/05/17 13:53:07 by cchameyr         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -27,14 +27,17 @@ ECHO		=	/bin/echo
 
 SDK_PATH = ~/.brew
 
-LDFLAGS= -std=c++11 -I $(SDK_PATH)/include -framework GLUT -framework OpenGL `pkg-config --static --libs glfw3`
+
+LDFLAGS = -I $(SDK_PATH)/include -framework GLUT -framework OpenGL `pkg-config --static --libs glfw3`
+
+CFLAGSCPP11 = -std=c++11
 
 CFLAGS		= -Wall -Wextra -Werror
 
 all		:		$(NAME)
 
 $(NAME)	:		$(OBJ)
-				$(CC) $(LDFLAGS) $(CFLAGS) -shared -o $(NAME) $(OBJS)
+				$(CC) $(LDFLAGS) $(CFLAGS) $(CFLAGSCPP11) -shared -o $(NAME) $(OBJS)
 				@$(ECHO) '> Compiled'
 
 clean	:
@@ -48,4 +51,4 @@ fclean	:		clean
 re		:		fclean all
 
 %.o		:		$(DIRSRC)/%.cpp
-				$(CC) $(LDFLAGS) -c $<
+				$(CC) $(LDFLAGS) $(CFLAGSCPP11) -c $<

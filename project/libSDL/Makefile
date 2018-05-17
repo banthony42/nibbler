@@ -6,7 +6,7 @@
 #    By: banthony <banthony@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/08 11:31:12 by banthony          #+#    #+#              #
-#    Updated: 2018/05/07 16:24:12 by cchameyr         ###   ########.fr        #
+#    Updated: 2018/05/17 13:53:45 by cchameyr         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -24,18 +24,20 @@ CC			=	/usr/bin/clang++
 RM			=	/bin/rm -f
 ECHO		=	/bin/echo
 
-SDK_PATH = ~/.brew
+SDK_PATH	= ~/.brew
 
-LDFLAGS	= -I $(SDK_PATH)/include -lSDL2 -lSDL2_image -L $(SDK_PATH)/lib
+LDFLAGS		= -I $(SDK_PATH)/include -lSDL2 -lSDL2_image -L $(SDK_PATH)/lib
 
-CFLAGS	= -std=c++11
+CFLAGSCPP11	= -std=c++11
+
+CFLAGS		=
 
 #CFLAGS		+= -Wall -Wextra -Werror
 
 all		:		$(NAME)
 
 $(NAME)	:		$(OBJ)
-				$(CC) $(LDFLAGS) $(CFLAGS) -shared -o $(NAME) $(OBJ)
+				$(CC) $(LDFLAGS) $(CFLAGS) $(CFLAGSCPP11) -shared -o $(NAME) $(OBJ)
 				@$(ECHO) '> Compiled'
 
 clean	:
@@ -49,4 +51,4 @@ fclean	:		clean
 re		:		fclean all
 
 %.o		:		$(DIRSRC)/%.cpp
-				$(CC) $(LDFLAGS) $(CFLAGS) -c $<
+				$(CC) $(LDFLAGS) $(CFLAGS) $(CFLAGSCPP11) -c $<

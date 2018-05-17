@@ -34,7 +34,7 @@ public:
 
 	Graphics &operator=(Graphics const &copy); // Canonical
 
-	int init(int windowWidth, int windowHeight, std::string windowName);
+	void init(int windowWidth, int windowHeight, std::string windowName);
 
 	int loopUpdate();
 	void display();

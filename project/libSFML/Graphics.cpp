@@ -39,13 +39,13 @@ Graphics &Graphics::operator=(Graphics const &copy) {
 	return *this;
 }
 
-int Graphics::init(int windowWidth, int windowHeight, std::string windowName) {
+// TODO add a throw exception
+void Graphics::init(int windowWidth, int windowHeight, std::string windowName) {
 	this->_window = new sf::RenderWindow(sf::VideoMode(windowWidth, windowHeight), windowName + ": SFML");
 	this->_window->setKeyRepeatEnabled(false);
 	this->windowWidth = windowWidth;
 	this->windowHeight = windowHeight;
 	this->_windowTerminated = false;
-	return 1;
 }
 
 void Graphics::cleanUp() {
@@ -72,8 +72,7 @@ void Graphics::loadFontTexture(std::string path) {
 	sf::Texture texture;
 
 	if (!texture.loadFromFile(path)) {
-		std::cout << "error loading" << std::endl; // TODO exception here
-		return;
+		throw std::runtime_error(std::string("error: Failed to load texture") + path);
 	}
 	texture.setSmooth(true);
 	this->_fontTexture = texture;
@@ -84,12 +83,12 @@ int Graphics::loopUpdate() {
 	return !this->_windowTerminated && this->_window->isOpen();
 }
 
-void Graphics::display() { // TODO remove the main.cpp and the makefile rule r: in this folder
+void Graphics::display() {
 	if (this->_windowTerminated) {
 		return;
 	}
-	for (int i = 0; i < this->_spriteList.size(); ++i) {
-		this->_window->draw(this->_spriteList.at(i));
+	for (const auto &item : this->_spriteList) {
+		this->_window->draw(item);
 	}
 	this->_spriteList.clear();
 	this->_window->display();
@@ -126,7 +125,7 @@ void Graphics::putCharScreen(char const c, t_coordd pos, t_coordd sizeFont) {
 	sprite.setTextureRect(
 			textArea);                                        // Definition de la zone de la texture a utiliser
 	sprite.setScale(static_cast<float>(sizeFont.x / CHAR_SIZE_X),
-					static_cast<double>(sizeFont.y / CHAR_SIZE_Y));    // Gestion de la taille de l'affichage
+					static_cast<float>(sizeFont.y / CHAR_SIZE_Y));    // Gestion de la taille de l'affichage
 	this->_spriteList.push_back(sprite);                                    // Ajout du sprite a la liste pour affichage
 }
 
@@ -202,7 +201,6 @@ std::vector<eEvent> &Graphics::getEvent() {
 			AGraphics::addEvent(RIGHT);
 		else if (event.key.code == sf::Keyboard::Return) {
 			AGraphics::addEvent(ENTER);
-			std::cout << "ENTER" << std::endl; // TODO remove
 		}
 	}
 	return AGraphics::_eventList;
@@ -215,7 +213,6 @@ unsigned char Graphics::getChar() {
 	return 0;
 }
 
-
 Graphics *createGraphics() {
 	return new Graphics();
 }
@@ -223,7 +220,3 @@ Graphics *createGraphics() {
 void deleteGraphics(Graphics *graphics) {
 	delete graphics;
 }
-
-//void Graphics::clearEvent() {
-//	AGraphics::clearEvent();
-//}

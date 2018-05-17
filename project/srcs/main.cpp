@@ -26,12 +26,12 @@ void manageArguments(int ac, char **av) {
 
 	while (++i < ac) {
 		if (strcmp(av[i], "-help") == 0) {
-			showHelp();
+			showHelp(); // TODO throw exception
 			exit(0);
 		}
 		if (strcmp(av[i], "-lib") == 0 && i + 1 < ac) {
 			if (!Nibbler::loadLibrary(std::string(av[++i]))) {
-				showHelp();
+				showHelp(); // TODO throw exception
 				exit(0);
 			}
 			libraryLoaded = true;
@@ -40,13 +40,13 @@ void manageArguments(int ac, char **av) {
                 t_coordi window = {};
                 if (((window.x = std::stoi(av[++i])) < WINDOW_MIN_X) || ((window.y = std::stoi(av[++i])) < WINDOW_MIN_Y)) {
                     std::cout << "The window size can't be inferior than " << WINDOW_MIN_X << " x " << WINDOW_MIN_Y << std::endl;
-                    exit(0);
+                    exit(0); // TODO throw exception
                 }
 				Nibbler::setWindowWidth(window.x);
 				Nibbler::setWindowHeight(window.y);
 			}
 		} else {
-			showHelp();
+			showHelp(); // TODO throw exception
 			exit(0);
 		}
 	}

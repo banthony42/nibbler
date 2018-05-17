@@ -69,19 +69,16 @@ unsigned char Graphics::getChar() {
 	return 0;
 }
 
-int Graphics::init(int windowWidth, int windowHeight, std::string windowName) {
+void Graphics::init(int windowWidth, int windowHeight, std::string windowName) {
 	if (!glfwInit()) {
-		std::cout << "error: init glfw!" << std::endl;
-		// TODO throw exception
-		return -1;
+		throw std::runtime_error(std::string("error: failed to init glfw"));
 	}
 	// On s'assure d'etre en context OPENGL pour pouvoir utiliser les fonction openGL (Useless si val par defaut)
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
 	if (!(_window = glfwCreateWindow(windowWidth, windowHeight, std::string(windowName + ": OpenGL").c_str(), nullptr, nullptr))) {
 		std::cout << "error: create window glfw!" << std::endl;
-		// TODO throw exception
 		glfwTerminate();
-		return -1;
+		throw std::runtime_error(std::string("error: create window glfw"));
 	}
 	//Before you can make OpenGL or OpenGL ES calls, you need to have a current context of the correct type
 	glfwMakeContextCurrent(_window);
@@ -95,7 +92,6 @@ int Graphics::init(int windowWidth, int windowHeight, std::string windowName) {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	this->windowWidth = windowWidth;
 	this->windowHeight = windowHeight;
-	return 0;
 }
 
 void Graphics::loadTexture(std::string path, int key) {

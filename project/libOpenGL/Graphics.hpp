@@ -14,6 +14,7 @@
 #define GRAPHICS_HPP
 
 // TODO Changer la maniere de compiler pour pouvoir inclure directement "AGraphics.hpp"
+// Pas compris le todo
 
 #include <iostream>
 #include <map>
@@ -39,7 +40,7 @@ public:
 	Graphics(Graphics const &copy); // Canonical
 	~Graphics(); // Canonical
 	Graphics &operator=(Graphics const &copy); // Canonical
-	int init(int windowWidth, int windowHeight, std::string windowName);
+	void init(int windowWidth, int windowHeight, std::string windowName);
 	int loopUpdate();
 	void putCharScreen(char const c, t_coordd pos, t_coordd sizeFont);
 	void putStrScreen(std::string str, int posX, int poxY, float size);
