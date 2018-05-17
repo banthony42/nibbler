@@ -89,15 +89,16 @@ void Nibbler::initRun() {
 
 // -----------------------------
 // TODO CRITIQUES :
-	// TODO SUJET : on doit pouvoir changer de lib en faisant F1 F2 ou F3
-	// TODO SUJET : une foret de if pour les events n'est PAS acceptable
+// TODO SUJET : on doit pouvoir changer de lib en faisant F1 F2 ou F3
+// TODO SUJET : une foret de if pour les events n'est PAS acceptable
 
 // TODO A IMPORTANT :
-	// TODO SUJET : toute les erreurs doivent etre a base de Throw
-	// TODO SUJET : les deux binomes doivent etre incollable sur chacune des partie de l'autres (faut que tu m'explique en details l'affichage du texte a l'ecran)
+// TODO SUJET : toute les erreurs doivent etre a base de Throw
+// TODO SUJET : les deux binomes doivent etre incollable sur chacune des partie de l'autres (faut que tu m'explique en details l'affichage du texte a l'ecran)
+// TODO SUJET : compiler avec les flags Wall Wextra Werror
 
 // TODO OPTIONNEL :
-	// TODO SUJET : les bonus qu'il faut qu'on face : Augmenter la vitesse plus rapidement / ajouter des objstacles
+// TODO SUJET : les bonus qu'il faut qu'on face : Augmenter la vitesse plus rapidement / ajouter des obstacles
 // ----------------------------
 
 
@@ -107,7 +108,7 @@ void Nibbler::run() {
 		this->initRun();
 	} catch (std::runtime_error &e) {
 		std::cout << e.what() << std::endl;
-		return ;
+		return;
 	}
 
 	/****************** MAIN WHILE ******************/

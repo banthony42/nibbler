@@ -62,6 +62,9 @@ int main(int argc, char **argv) {
 
 	std::srand(std::time(0));
 	nibbler = Nibbler::getInstance();
+//	try {
+//		manageArguments(argc, argv); // TODO finish this
+//	}
 	manageArguments(argc, argv);
 	if (Nibbler::_aGraphics != nullptr) {
 		nibbler->run();
