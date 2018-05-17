@@ -331,16 +331,21 @@ void SceneGame::drawGameOverOverlay() {
     this->_timestamp += (DeltaTime::elapsedTime);
 }
 
+void SceneGame::drawMap() {
+	this->resetSceneGame();
+	this->drawFullSnake();
+	this->drawFood();
+	this->drawInfoOverlay();
+}
+
 void SceneGame::drawScene() {
     (*this->_aGraphics)->clear();
     //  TODO optimiser le code pour pas ecrir 3 fois la meme sequence de draw si possible
     if (this->_page == PAGE_GAME) {
-        this->resetSceneGame();
         if (!this->_gameInstanced) {
             this->initNewSnake();
             this->initNewFood();
-            this->drawFullSnake();
-            this->drawFood();
+			this->drawMap();
             this->_score = 0;
             this->_difficulty = 1;
             this->_deltaTimeCount = 1000;
@@ -349,23 +354,14 @@ void SceneGame::drawScene() {
             this->_gameInstanced = true;
         } else {
             this->moveSnake();
-            this->drawFullSnake();
-            this->drawFood();
-            this->drawInfoOverlay();
+			this->drawMap();
         }
     } else if (this->_page == PAGE_PAUSE) {
-        this->resetSceneGame();
-        this->drawFullSnake();
-        this->drawFood();
-        this->drawInfoOverlay();
+		this->drawMap();
         this->drawPauseOverlay();
     } else if (this->_page == PAGE_GAMEOVER) {
-        this->resetSceneGame();
-        this->drawFullSnake();
-        this->drawFood();
-        this->drawInfoOverlay();
-        this->drawGameOverOverlay();
+		this->drawMap();
+		this->drawGameOverOverlay();
     }
     (*this->_aGraphics)->display();
 }
-

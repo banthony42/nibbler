@@ -76,6 +76,7 @@ public:
 	void eventHandler(std::vector<eEvent> eventList);
 
 	void drawScene();
+	void drawMap();
 
 private:
 	SceneGame(); // Canonical

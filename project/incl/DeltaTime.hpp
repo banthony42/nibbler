@@ -23,10 +23,10 @@ public:
 	static double elapsedTime;
 	static int fps;
 	static double maxFps;
-	static void setMaxFps(int maxFps);
 
-	static void startDelta();
 	static void limitFps();
+	static void setMaxFps(int maxFps);
+	static void startDelta();
 	static void endDelta();
 
 private:
