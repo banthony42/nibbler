@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <curses.h>
 #include "../incl/Nibbler.hpp"
 
 static bool is_digits(const std::string &str) {

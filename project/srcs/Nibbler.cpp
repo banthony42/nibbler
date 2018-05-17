@@ -49,38 +49,37 @@ Nibbler *Nibbler::getInstance() {
 	return Nibbler::_singleton;
 }
 
-int Nibbler::iRound(double a) { // TODO NAN MAIS LOL !
+int Nibbler::iRound(double a) {
 	return round(a);
 }
 
-void Nibbler::initAGraphics() {
-	Nibbler::_aGraphics->init(Nibbler::WINDOW_WIDTH, Nibbler::WINDOW_HEIGHT, "Nibbler");
-	Nibbler::_aGraphics->loadTexture("./textures/menu_bckg.png", MENU_BCKG);
-	Nibbler::_aGraphics->loadTexture("./textures/game_grass.png", GAME_GRASS);
-	Nibbler::_aGraphics->loadTexture("./textures/game_border.png", GAME_BORDER);
-    Nibbler::_aGraphics->loadTexture("./textures/fog-overlay.png", FOG_OVERLAY);
-	Nibbler::_aGraphics->loadTexture("./textures/game_border_grass.png", GAME_BORDER_GRASS);
-    Nibbler::_aGraphics->loadTexture("./textures/snake_gameOver.png", GAMEOVER_BORDER);
-	Nibbler::_aGraphics->loadTexture("./textures/game_brick.png", GAME_BRICK);
-	Nibbler::_aGraphics->loadTexture("./textures/score_bckg.png", SCORE_BCKG);
-	Nibbler::_aGraphics->loadTexture("./textures/skin_border.png", SKIN_FRAME);
-	Nibbler::_aGraphics->loadTexture("./textures/snake_head_smb.png", SNAKE_H_SMB);
-	Nibbler::_aGraphics->loadTexture("./textures/snake_body_smb.png", SNAKE_B_SMB);
-	Nibbler::_aGraphics->loadTexture("./textures/snake_head_pcm.png", SNAKE_H_PCM);
-	Nibbler::_aGraphics->loadTexture("./textures/snake_body_pcm.png", SNAKE_B_PCM);
-	Nibbler::_aGraphics->loadTexture("./textures/snake_head_hk.png", SNAKE_H_HK);
-	Nibbler::_aGraphics->loadTexture("./textures/snake_body_hk.png", SNAKE_B_HK);
-	Nibbler::_aGraphics->loadTexture("./textures/melon.png", FOOD);
-	Nibbler::_aGraphics->loadFontTexture("./textures/snake_font.tga");
+void Nibbler::initAGraphics(AGraphics *aGraphics) {
+	aGraphics->init(Nibbler::WINDOW_WIDTH, Nibbler::WINDOW_HEIGHT, "Nibbler");
+	aGraphics->loadTexture("./textures/menu_bckg.png", MENU_BCKG);
+	aGraphics->loadTexture("./textures/game_grass.png", GAME_GRASS);
+	aGraphics->loadTexture("./textures/game_border.png", GAME_BORDER);
+	aGraphics->loadTexture("./textures/fog-overlay.png", FOG_OVERLAY);
+	aGraphics->loadTexture("./textures/game_border_grass.png", GAME_BORDER_GRASS);
+	aGraphics->loadTexture("./textures/snake_gameOver.png", GAMEOVER_BORDER);
+	aGraphics->loadTexture("./textures/game_brick.png", GAME_BRICK);
+	aGraphics->loadTexture("./textures/score_bckg.png", SCORE_BCKG);
+	aGraphics->loadTexture("./textures/skin_border.png", SKIN_FRAME);
+	aGraphics->loadTexture("./textures/snake_head_smb.png", SNAKE_H_SMB);
+	aGraphics->loadTexture("./textures/snake_body_smb.png", SNAKE_B_SMB);
+	aGraphics->loadTexture("./textures/snake_head_pcm.png", SNAKE_H_PCM);
+	aGraphics->loadTexture("./textures/snake_body_pcm.png", SNAKE_B_PCM);
+	aGraphics->loadTexture("./textures/snake_head_hk.png", SNAKE_H_HK);
+	aGraphics->loadTexture("./textures/snake_body_hk.png", SNAKE_B_HK);
+	aGraphics->loadTexture("./textures/melon.png", FOOD);
+	aGraphics->loadFontTexture("./textures/snake_font.tga");
 }
 
-// TODO handle the return ERROR of init !!!!!
 void Nibbler::initRun() {
 	this->_callScene[MENU] = new SceneMenu(&this->_aGraphics);
 	this->_callScene[SKIN] = new SceneSkin(&this->_aGraphics);
 	this->_callScene[GAME] = new SceneGame(&this->_aGraphics);
 	this->_callScene[GAME_END] = new SceneGameEnd(&this->_aGraphics);
-	Nibbler::initAGraphics();
+	Nibbler::initAGraphics(this->_aGraphics);
 }
 
 
@@ -88,31 +87,37 @@ void Nibbler::initRun() {
 // TODO lock fps
 
 void Nibbler::run() {
-	this->initRun();
+	try {
+		this->initRun();
+	} catch (std::runtime_error &e) {
+		std::cout << e.what() << std::endl;
+		return ;
+	}
     double bridFps = 0;
     double nbFps = 30;
     int count = 0;
     useconds_t latence = 0;
 
 	/****************** MAIN WHILE ******************/
-    while (Nibbler::_aGraphics->loopUpdate()) {
-        DeltaTime::startDelta();
+	while (Nibbler::_aGraphics->loopUpdate()) {
+		DeltaTime::startDelta();
 
-        // SDL = it works
-        // SFML = it works with some 100 fps drop very very quick
-        // OPENGL = it doesn't change anything and the fps is still up to 60
-        bridFps = DeltaTime::elapsedTime * nbFps;
-        if (bridFps < 1000 && count == 0) {
-            latence = static_cast<useconds_t>(((1000 - bridFps) * 1000) / nbFps);
-            count = static_cast<int>(nbFps);
-        }
-        else if (count) {
-            usleep(latence);
-            if (count-- == 0) {
-                count = 0;
-                bridFps = 0;
-            }
-        }
+
+		// TODO foutre ca dans DeltaTime
+		// SDL = it works
+		// SFML = it works with some 100 fps drop very very quick
+		// OPENGL = it doesn't change anything and the fps is still up to 60
+		bridFps = DeltaTime::elapsedTime * nbFps;
+		if (bridFps < 1000 && count == 0) {
+			latence = static_cast<useconds_t>(((1000 - bridFps) * 1000) / nbFps);
+			count = static_cast<int>(nbFps);
+		} else if (count) {
+			usleep(latence);
+			if (count-- == 0) {
+				count = 0;
+				bridFps = 0;
+			}
+		}
 
 //        std::cout << "-----------------" << std::endl;
 //        std::cout << "Elaps " << DeltaTime::elapsedTime << std::endl;
@@ -122,11 +127,11 @@ void Nibbler::run() {
 //        std::cout << "-----------------" << std::endl;
 
 
-        auto vec = Nibbler::_aGraphics->getEvent();
-        this->_callScene[this->_currentScene]->eventHandler(vec);
-        this->_callScene[this->_currentScene]->drawScene();
-        DeltaTime::endDelta();
-    }
+		auto vec = Nibbler::_aGraphics->getEvent();
+		this->_callScene[this->_currentScene]->eventHandler(vec);
+		this->_callScene[this->_currentScene]->drawScene();
+		DeltaTime::endDelta();
+	}
 	Nibbler::_aGraphics->cleanUp();
 }
 
@@ -213,12 +218,20 @@ bool Nibbler::loadLibrary(std::string const string) {
 		return false;
 	}
 
-	Nibbler::_deleteAGraphics = deleteGraphics;
-	Nibbler::_aGraphics = createGraphics();
-	Nibbler::_dlHandle = dlHandle;
+
+	AGraphics *aGraphics = createGraphics();
 	if (toReload) {
-		Nibbler::initAGraphics();
+		try {
+			// if it doesnt work, we don't override the current aGraphics
+			Nibbler::initAGraphics(aGraphics);
+		} catch (std::runtime_error &e) {
+			std::cout << e.what() << std::endl;
+			return false;
+		}
 	}
+	Nibbler::_aGraphics = aGraphics;
+	Nibbler::_deleteAGraphics = deleteGraphics;
+	Nibbler::_dlHandle = dlHandle;
 	return true;
 }
 

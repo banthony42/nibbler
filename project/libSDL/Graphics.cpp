@@ -70,8 +70,7 @@ void Graphics::cleanUp() {
 void Graphics::loadTexture(std::string path, int key) {
 	SDL_Surface *image = IMG_Load(path.c_str());
 	if (image == nullptr) {
-		std::cout << "IMG_Load: " << IMG_GetError() << "\n";
-		return;
+		throw std::runtime_error(std::string("error: Failed to load texture : ") + path);
 	}
 	this->_textureList[key] = image;
 }

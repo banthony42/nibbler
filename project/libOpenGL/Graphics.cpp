@@ -112,16 +112,14 @@ void Graphics::loadTexture(std::string path, int key) {
 	stbi_set_flip_vertically_on_load(
 			true);                                // Flipping the image, because openGL need it for .png
 	if (!(data = stbi_load(path.c_str(), &width, &height, &bpp, 0))) {
-		std::cout << "error: Failed to load texture" << std::endl;    //TODO throw exception
-		return;
+		throw std::runtime_error(std::string("error: Failed to load texture : ") + path);
 	}
 	if (bpp == 3)                                                        // Setting the nb of channel
 		internFormat = GL_RGB;
 	else if (bpp == 4)
 		internFormat = GL_RGBA;
 	else {
-		std::cout << "error: internal format image is unknown" << std::endl;    //TODO throw exception
-		return;
+		throw std::runtime_error(std::string("error: Internal format image is unknown : ") + path);
 	}
 	format = internFormat;                                                // The format order is always RGB or RGBA - stbi always convert BGR to RGB
 	glTexImage2D(GL_TEXTURE_2D, 0, internFormat, width, height, 0, format, GL_UNSIGNED_BYTE, data);

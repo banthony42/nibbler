@@ -124,23 +124,23 @@ void SceneGame::eventHandler(std::vector<eEvent> eventList) {
         for (auto &event : eventList) {
             if (event == ECHAP) {
                 this->_page = PAGE_PAUSE;
-            } else if (this->vectorPool.size() < 2) {
+            } else if (this->_vectorPool.size() < 2) {
                 if (event == UP) {
-                    if (!(this->_snake.vec.x == 0 && this->_snake.vec.y > 0) || this->vectorPool.size()) {
-                        this->vectorPool.insert(this->vectorPool.cbegin(), {0, -1 * this->_snake.speed});
+                    if (!(this->_snake.vec.x == 0 && this->_snake.vec.y > 0) || this->_vectorPool.size()) {
+                        this->_vectorPool.insert(this->_vectorPool.cbegin(), {0, -1 * this->_snake.speed});
                     }
                 } else if (event == DOWN) {
-                    if (!(this->_snake.vec.x == 0 && this->_snake.vec.y < 0) || this->vectorPool.size()) {
-                        this->vectorPool.insert(this->vectorPool.cbegin(), {0, 1 * this->_snake.speed});
+                    if (!(this->_snake.vec.x == 0 && this->_snake.vec.y < 0) || this->_vectorPool.size()) {
+                        this->_vectorPool.insert(this->_vectorPool.cbegin(), {0, 1 * this->_snake.speed});
                     }
                 } else if (event == LEFT) {
-                    if (!(this->_snake.vec.x > 0 && this->_snake.vec.y == 0) || this->vectorPool.size()) {
+                    if (!(this->_snake.vec.x > 0 && this->_snake.vec.y == 0) || this->_vectorPool.size()) {
 
-                        this->vectorPool.insert(this->vectorPool.cbegin(), {-1 * this->_snake.speed, 0});
+                        this->_vectorPool.insert(this->_vectorPool.cbegin(), {-1 * this->_snake.speed, 0});
                     }
                 } else if (event == RIGHT) {
-                    if (!(this->_snake.vec.x < 0 && this->_snake.vec.y == 0) || this->vectorPool.size()) {
-                        this->vectorPool.insert(this->vectorPool.cbegin(), {1 * this->_snake.speed, 0});
+                    if (!(this->_snake.vec.x < 0 && this->_snake.vec.y == 0) || this->_vectorPool.size()) {
+                        this->_vectorPool.insert(this->_vectorPool.cbegin(), {1 * this->_snake.speed, 0});
                     }
                 }
             }
@@ -213,7 +213,7 @@ void SceneGame::drawFood() {
     drawSector(FOOD, this->_food.pos.x, this->_food.pos.y);
 }
 
-void SceneGame::drawInfoOverlay() { // clem : je l'ai rajouté dans l'UML BRAVO ANTHO
+void SceneGame::drawInfoOverlay() {
     std::string fpsInfo = "fps: " + std::to_string(DeltaTime::fps);
     std::string scoreInfo = "Score: " + std::to_string(this->_score);
     // Obliger pour pouvoir regler la precision, car to_string affiche 1.000000
@@ -275,9 +275,9 @@ void SceneGame::moveSnake() {
     if (Nibbler::iRound(this->_headPos.x) != Nibbler::iRound((this->_lastHeadPos.x)) ||
         Nibbler::iRound(this->_headPos.y) != Nibbler::iRound((this->_lastHeadPos.y))) {
         // Move the snake
-        if (this->vectorPool.size()) {
-            this->_snake.vec = this->vectorPool.back();
-            this->vectorPool.pop_back();
+        if (this->_vectorPool.size()) {
+            this->_snake.vec = this->_vectorPool.back();
+            this->_vectorPool.pop_back();
         }
         this->_snake.body.insert(this->_snake.body.cbegin(), {round(this->_headPos.x), round(this->_headPos.y)});
         this->_snake.body.pop_back();
@@ -345,7 +345,7 @@ void SceneGame::drawScene() {
             this->_difficulty = 1;
             this->_deltaTimeCount = 1000;
             this->_timestamp = 0;
-            this->vectorPool.clear();
+            this->_vectorPool.clear();
             this->_gameInstanced = true;
         } else {
             this->moveSnake();

@@ -62,8 +62,7 @@ void Graphics::loadTexture(std::string path, int key) {
 	sf::Texture texture;
 
 	if (!texture.loadFromFile(path)) {
-		std::cout << "error loading" << std::endl; // TODO exception here
-		return;
+		throw std::runtime_error(std::string("error: Failed to load texture") + path);
 	}
 	texture.setSmooth(true);
 	this->_textureList[key] = texture;

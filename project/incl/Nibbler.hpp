@@ -74,7 +74,7 @@ private:
 	static int WINDOW_HEIGHT;
 	MapScene _callScene;
 
-	static void initAGraphics();
+	static void initAGraphics(AGraphics *aGraphics);
 	void initRun();
 
 	Nibbler(); // Canonical

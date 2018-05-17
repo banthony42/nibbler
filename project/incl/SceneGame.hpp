@@ -45,7 +45,7 @@ enum ePageGame {
 };
 
 enum ePause {
-    PAUSE_TITLE,
+	PAUSE_TITLE,
 	RESUME,
 	QUIT,
 	NB_INPUT_PAUSE
@@ -83,8 +83,8 @@ private:
 	SceneGame &operator=(SceneGame const &copy); // Canonical
 
 	void drawInfoOverlay();
-    void drawGameOverOverlay();
-    void drawPauseOverlay();
+	void drawGameOverOverlay();
+	void drawPauseOverlay();
 	void moveSnake();
 	void resetSceneGame();
 	void drawSector(eTexture t, int sectorX, int sectorY);
@@ -101,16 +101,16 @@ private:
 	t_coordi _sectorSize;
 	t_coordi _sectorCount;
 
-    double                          _difficulty;
-    double                          _timestamp;
-    double                          _deltaTimeCount;
-	ePageGame                       _page;
-	size_t                          _cursor;
-    std::map<ePause, t_coordi>      _input;
-    std::map<ePause, std::string>   _inputName;
+	double _difficulty;
+	double _timestamp;
+	double _deltaTimeCount;
+	ePageGame _page;
+	size_t _cursor;
+	std::map<ePause, t_coordi> _input;
+	std::map<ePause, std::string> _inputName;
 
 	int _score;
-	std::vector<t_coordd> vectorPool;   // TODO il manque l'underscore ! Tu m'emmerdes avec tes accolades pour des if de une ligne, et tu met pas l'underscore ici ?? OH ! mais tes un fou
+	std::vector<t_coordd> _vectorPool;
 	t_snake _snake;
 	t_coordd _headPos;
 	t_coordd _lastHeadPos;
