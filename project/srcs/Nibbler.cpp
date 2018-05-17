@@ -80,8 +80,8 @@ void Nibbler::initRun() {
 	this->_callScene[GAME] = new SceneGame(&this->_aGraphics);
 	this->_callScene[GAME_END] = new SceneGameEnd(&this->_aGraphics);
 	Nibbler::initAGraphics(this->_aGraphics);
+	DeltaTime::setMaxFps(30);
 }
-
 
 // TODO 1000 constant fps for the sfml is suspect
 // TODO lock fps
@@ -93,39 +93,12 @@ void Nibbler::run() {
 		std::cout << e.what() << std::endl;
 		return ;
 	}
-    double bridFps = 0;
-    double nbFps = 30;
-    int count = 0;
-    useconds_t latence = 0;
+
 
 	/****************** MAIN WHILE ******************/
 	while (Nibbler::_aGraphics->loopUpdate()) {
 		DeltaTime::startDelta();
-
-
-		// TODO foutre ca dans DeltaTime
-		// SDL = it works
-		// SFML = it works with some 100 fps drop very very quick
-		// OPENGL = it doesn't change anything and the fps is still up to 60
-		bridFps = DeltaTime::elapsedTime * nbFps;
-		if (bridFps < 1000 && count == 0) {
-			latence = static_cast<useconds_t>(((1000 - bridFps) * 1000) / nbFps);
-			count = static_cast<int>(nbFps);
-		} else if (count) {
-			usleep(latence);
-			if (count-- == 0) {
-				count = 0;
-				bridFps = 0;
-			}
-		}
-
-//        std::cout << "-----------------" << std::endl;
-//        std::cout << "Elaps " << DeltaTime::elapsedTime << std::endl;
-//        std::cout << "Delta " << DeltaTime::deltaTime << std::endl;
-//        std::cout << "fps " << DeltaTime::fps << std::endl;
-//        std::cout << "Bridfps " << bridFps << std::endl;
-//        std::cout << "-----------------" << std::endl;
-
+		DeltaTime::limitFps();
 
 		auto vec = Nibbler::_aGraphics->getEvent();
 		this->_callScene[this->_currentScene]->eventHandler(vec);

@@ -14,6 +14,7 @@
 #define PROJECT_DELTATIME_HPP
 
 #include <sys/time.h>
+#include <unistd.h>
 
 class DeltaTime {
 
@@ -21,8 +22,11 @@ public:
 	static double deltaTime;
 	static double elapsedTime;
 	static int fps;
+	static double maxFps;
+	static void setMaxFps(int maxFps);
 
 	static void startDelta();
+	static void limitFps();
 	static void endDelta();
 
 private:
