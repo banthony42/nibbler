@@ -13,9 +13,6 @@
 #ifndef GRAPHICS_HPP
 #define GRAPHICS_HPP
 
-// TODO Changer la maniere de compiler pour pouvoir inclure directement "AGraphics.hpp"
-// Pas compris le todo
-
 #include <iostream>
 #include <map>
 #include <glm/glm.hpp>

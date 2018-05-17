@@ -42,7 +42,7 @@ void Graphics::init(int windowWidth, int windowHeight, std::string windowName) {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) ||
 		!(this->_win = SDL_CreateWindow(std::string(windowName + ": SDL").c_str(), SDL_WINDOWPOS_UNDEFINED,
 										SDL_WINDOWPOS_UNDEFINED, windowWidth, windowHeight, SDL_WINDOW_SHOWN))) {
-		std::cout << "ERROR : " << SDL_GetError() << std::endl; // TODO throw exception
+		throw std::runtime_error("error: " + std::string(SDL_GetError()));
 	}
 	this->windowWidth = windowWidth;
 	this->windowHeight = windowHeight;
@@ -68,7 +68,7 @@ void Graphics::cleanUp() {
 void Graphics::loadTexture(std::string path, int key) {
 	SDL_Surface *image = IMG_Load(path.c_str());
 	if (image == nullptr) {
-		throw std::runtime_error(std::string("error: Failed to load texture : ") + path);
+		throw std::runtime_error(std::string("error: failed to load texture : ") + path);
 	}
 	this->_textureList[key] = image;
 }
@@ -76,8 +76,7 @@ void Graphics::loadTexture(std::string path, int key) {
 void Graphics::loadFontTexture(std::string path) {
 	SDL_Surface *image = IMG_Load(path.c_str());
 	if (image == nullptr) {
-		std::cout << "IMG_Load: " << IMG_GetError() << "\n";
-		return;
+		throw std::runtime_error("error: IMG_Load: " + std::string(IMG_GetError()));
 	}
 	this->_fontTexture = image;
 }
@@ -168,6 +167,7 @@ std::vector<eEvent> &Graphics::getEvent() {
 	}
 	SDL_Event e{};
 	AGraphics::clearEvent();
+	// TODO faire des putins de map
 	while (SDL_PollEvent(&e) != 0) {
 		int keysym = e.key.keysym.sym;
 		bool keyPressed = (e.key.type == SDL_KEYDOWN) && !e.key.repeat;
@@ -181,7 +181,7 @@ std::vector<eEvent> &Graphics::getEvent() {
 			AGraphics::addEvent(LEFT);
 		} else if (keysym == SDLK_RIGHT && keyPressed) {
 			AGraphics::addEvent(RIGHT);
-		} else if ((keysym == SDLK_RETURN &&keyPressed) || (keysym == SDLK_KP_ENTER  && keyPressed)) {
+		} else if ((keysym == SDLK_RETURN && keyPressed) || (keysym == SDLK_KP_ENTER  && keyPressed)) {
 			AGraphics::addEvent(ENTER);
 		}
 	}

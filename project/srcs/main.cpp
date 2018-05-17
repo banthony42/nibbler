@@ -26,34 +26,30 @@ void manageArguments(int ac, char **av) {
 
 	while (++i < ac) {
 		if (strcmp(av[i], "-help") == 0) {
-			showHelp(); // TODO throw exception
+			showHelp();
 			exit(0);
 		}
 		if (strcmp(av[i], "-lib") == 0 && i + 1 < ac) {
-			if (!Nibbler::loadLibrary(std::string(av[++i]))) {
-				showHelp(); // TODO throw exception
-				exit(0);
-			}
+				Nibbler::loadLibrary(std::string(av[++i]));
 			libraryLoaded = true;
 		} else if (strcmp(av[i], "-size") == 0 && i + 2 < ac) {
 			if (is_digits(av[i + 1]) && is_digits(av[i + 2])) {
-                t_coordi window = {};
-                if (((window.x = std::stoi(av[++i])) < WINDOW_MIN_X) || ((window.y = std::stoi(av[++i])) < WINDOW_MIN_Y)) {
-                    std::cout << "The window size can't be inferior than " << WINDOW_MIN_X << " x " << WINDOW_MIN_Y << std::endl;
-                    exit(0); // TODO throw exception
-                }
+				t_coordi window = {};
+
+				if (((window.x = std::stoi(av[++i])) < WINDOW_MIN_X) ||
+					((window.y = std::stoi(av[++i])) < WINDOW_MIN_Y)) {
+					throw std::runtime_error(std::string("The window size can't be inferior than ")
+											 + std::to_string(WINDOW_MIN_X) + " x " + std::to_string(WINDOW_MIN_Y));
+				}
 				Nibbler::setWindowWidth(window.x);
 				Nibbler::setWindowHeight(window.y);
 			}
 		} else {
-			showHelp(); // TODO throw exception
-			exit(0);
+			throw std::runtime_error("Arguments error");
 		}
 	}
 	if (!libraryLoaded) {
-		if (!Nibbler::loadLibrary(std::string(LIB_OPENGL_PATH))) {
-			exit(0);
-		}
+			Nibbler::loadLibrary(std::string(LIB_OPENGL_PATH));
 	}
 }
 
@@ -62,18 +58,20 @@ int main(int argc, char **argv) {
 
 	std::srand(std::time(0));
 	nibbler = Nibbler::getInstance();
-//	try {
-//		manageArguments(argc, argv); // TODO finish this
-//	}
-	manageArguments(argc, argv);
+	try {
+		manageArguments(argc, argv);
+	} catch (std::exception &e) {
+		std::cout << e.what() << std::endl;
+		showHelp();
+		exit(-1);
+	}
 	if (Nibbler::_aGraphics != nullptr) {
-		nibbler->run();
+		try {
+			nibbler->run();
+		} catch (std::exception &e) {
+			std::cout << e.what() << std::endl;
+		}
 		nibbler->closeDlHandle();
 	}
 	return (0);
 }
-
-
-
-
-

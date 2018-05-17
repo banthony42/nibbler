@@ -34,8 +34,8 @@
 #define SIZE_FONT_GAME_END PERCENTAGE(0.095, (Nibbler::getWindowWidth() + Nibbler::getWindowHeight()))
 
 #define SPEED_DEFAULT 7
-#define SPEED_INCR (12 * 42)    // Multiple de 42 car on utilise le % 42 dans le code
-#define DIFFICULTY_INCR 0.2
+#define SPEED_INCR (8 * 42)    // Multiple de 42 car on utilise le % 42 dans le code
+#define DIFFICULTY_INCR 0.05
 
 enum ePageGame {
 	PAGE_GAME,

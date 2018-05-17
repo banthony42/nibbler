@@ -89,16 +89,16 @@ void Nibbler::initRun() {
 
 // -----------------------------
 // TODO CRITIQUES :
-// TODO SUJET : on doit pouvoir changer de lib en faisant F1 F2 ou F3
-// TODO SUJET : une foret de if pour les events n'est PAS acceptable
+	// TODO SUJET : on doit pouvoir changer de lib en faisant F1 F2 ou F3
+	// TODO SUJET : une foret de if pour les events n'est PAS acceptable
 
 // TODO A IMPORTANT :
-// TODO SUJET : toute les erreurs doivent etre a base de Throw
-// TODO SUJET : les deux binomes doivent etre incollable sur chacune des partie de l'autres (faut que tu m'explique en details l'affichage du texte a l'ecran)
-// TODO SUJET : compiler avec les flags Wall Wextra Werror
+	// TODO SUJET : les deux binomes doivent etre incollable sur chacune des partie de l'autres (faut que tu m'explique en details l'affichage du texte a l'ecran)
+	// TODO SUJET : compiler avec les flags Wall Wextra Werror
+	// TODO SUJET : compiler les LIB avec les flags wall wextra werror
 
 // TODO OPTIONNEL :
-// TODO SUJET : les bonus qu'il faut qu'on face : Augmenter la vitesse plus rapidement / ajouter des obstacles
+	// TODO SUJET : les bonus qu'il faut qu'on face : Augmenter la vitesse plus rapidement / ajouter des obstacles
 // ----------------------------
 
 
@@ -159,7 +159,7 @@ void Nibbler::setWindowHeight(int h) {
 	Nibbler::WINDOW_HEIGHT = h;
 }
 
-bool Nibbler::loadLibrary(std::string const string) {
+void Nibbler::loadLibrary(std::string const string) {
 	bool toReload = false;
 	void *dlHandle = nullptr;
 	AGraphics *(*createGraphics)();
@@ -169,11 +169,10 @@ bool Nibbler::loadLibrary(std::string const string) {
 
 	if (!dlHandle) {
 		if (DEBUG_MODE) {
-			std::cerr << "Failed to load library [" << dlerror() << "]" << std::endl;
+			throw std::runtime_error(std::string("failed to load library [" + std::string(dlerror()) + "]"));
 		} else {
-			std::cerr << "Failed to load library [" << string << "]" << std::endl;
+			throw std::runtime_error(std::string("failed to load library [" + string + "]"));
 		}
-		return false;
 	}
 
 	// free the current aGraphic
@@ -183,45 +182,37 @@ bool Nibbler::loadLibrary(std::string const string) {
 		Nibbler::_deleteAGraphics(Nibbler::_aGraphics);
 		dlclose(Nibbler::_dlHandle);
 	} else if (Nibbler::_dlHandle == dlHandle) {
-		return true;
+		return;
 	}
 
 	// get createGraphics function
 	createGraphics = (AGraphics *(*)()) dlsym(dlHandle, "createGraphics");
 	if (!createGraphics) {
 		if (DEBUG_MODE) {
-			std::cerr << "Failed to load function [" << dlerror() << "]" << std::endl;
+			throw std::runtime_error(std::string("failed to load function [" + std::string(dlerror()) + "]"));
 		} else {
-			std::cerr << "Failed to load [createGraphics]" << std::endl;
+			throw std::runtime_error(std::string("failed to load [createGraphics]"));
 		}
-		return false;
 	}
+
 	// get deleteGraphics function
 	deleteGraphics = (AGraphics *(*)(AGraphics *)) dlsym(dlHandle, "deleteGraphics");
 	if (!deleteGraphics) {
 		if (DEBUG_MODE) {
-			std::cerr << "Failed to load function [" << dlerror() << "]" << std::endl;
+			throw std::runtime_error(std::string("failed to load function [" + std::string(dlerror()) + "]"));
 		} else {
-			std::cerr << "Failed to load [deleteGraphics]" << std::endl;
+			throw std::runtime_error(std::string("failed to load [deleteGraphics]"));
 		}
-		return false;
 	}
-
 
 	AGraphics *aGraphics = createGraphics();
 	if (toReload) {
-		try {
-			// if it doesnt work, we don't override the current aGraphics
-			Nibbler::initAGraphics(aGraphics);
-		} catch (std::runtime_error &e) {
-			std::cout << e.what() << std::endl;
-			return false;
-		}
+		// if it doesnt work, we don't override the current aGraphics
+		Nibbler::initAGraphics(aGraphics);
 	}
 	Nibbler::_aGraphics = aGraphics;
 	Nibbler::_deleteAGraphics = deleteGraphics;
 	Nibbler::_dlHandle = dlHandle;
-	return true;
 }
 
 void Nibbler::closeDlHandle() {

@@ -61,7 +61,7 @@ public:
 	static void setCurrentScene(eScene _currentScene);
 
 	static Nibbler *getInstance();
-	static bool loadLibrary(std::string const string);
+	static void loadLibrary(std::string const string);
 	static void closeDlHandle();
 
 	void run();

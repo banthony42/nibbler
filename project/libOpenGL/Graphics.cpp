@@ -39,6 +39,7 @@ Graphics &Graphics::operator=(Graphics const &copy) {
 }
 
 static void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods) {
+	// TODO faire des putins de map
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		AGraphics::addEvent(ECHAP);
 	else if (key == GLFW_KEY_UP && action == GLFW_PRESS)
@@ -75,8 +76,8 @@ void Graphics::init(int windowWidth, int windowHeight, std::string windowName) {
 	}
 	// On s'assure d'etre en context OPENGL pour pouvoir utiliser les fonction openGL (Useless si val par defaut)
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
-	if (!(_window = glfwCreateWindow(windowWidth, windowHeight, std::string(windowName + ": OpenGL").c_str(), nullptr, nullptr))) {
-		std::cout << "error: create window glfw!" << std::endl;
+	if (!(_window = glfwCreateWindow(windowWidth, windowHeight, std::string(windowName + ": OpenGL").c_str(), nullptr,
+									 nullptr))) {
 		glfwTerminate();
 		throw std::runtime_error(std::string("error: create window glfw"));
 	}
@@ -102,7 +103,8 @@ void Graphics::loadTexture(std::string path, int key) {
 	int width, height, bpp;
 
 	glGenTextures(1, &texture);                                        // Generation de l'iD
-	glBindTexture(GL_TEXTURE_2D, texture);                                // Verouillage, obligatoire pour modification du GLuint
+	glBindTexture(GL_TEXTURE_2D,
+				  texture);                                // Verouillage, obligatoire pour modification du GLuint
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);    // Les textures proche sont lissées
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);    // Les textures éloignées sont lissées
 	stbi_set_flip_vertically_on_load(
@@ -139,16 +141,14 @@ void Graphics::loadFontTexture(std::string path) {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);    // Les textures éloignées sont lissées
 	stbi_set_flip_vertically_on_load(false);                                // No need to flip for .tga
 	if (!(data = stbi_load(path.c_str(), &width, &height, &bpp, 0))) {
-		std::cout << "error: Failed to load texture" << std::endl;    //TODO throw exception
-		return;
+		throw std::runtime_error("error: failed to load texture");
 	}
 	if (bpp == 3)                                                        // Setting the nb of channel
 		internFormat = GL_RGB;
 	else if (bpp == 4)
 		internFormat = GL_RGBA;
 	else {
-		std::cout << "error: internal format image is unknown" << std::endl;    //TODO throw exception
-		return;
+		throw std::runtime_error("error: internal format image is unknown");
 	}
 	format = internFormat;                                                // The format order is always RGB or RGBA - stbi always convert BGR to RGB
 	glTexImage2D(GL_TEXTURE_2D, 0, internFormat, width, height, 0, format, GL_UNSIGNED_BYTE, data);
@@ -164,15 +164,15 @@ int Graphics::loopUpdate() {
 
 void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
 	if (this->_windowTerminated) {
-		return ;
+		return;
 	}
 	glBindTexture(GL_TEXTURE_2D, this->_textureList[key]);    // Verrouillage
 
 	if (!key)
 		return;
 	t_coordd start = {};
-	start.x = ((posX *  2.0) / this->windowWidth) - 1.0;
-	start.y = ((posY *  2.0) / this->windowHeight) - 1.0;
+	start.x = ((posX * 2.0) / this->windowWidth) - 1.0;
+	start.y = ((posY * 2.0) / this->windowHeight) - 1.0;
 
 	t_coordd end = {};
 	end.x = (((posX + sizeX) * 2.0) / this->windowWidth) - 1.0;
@@ -193,7 +193,7 @@ void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
 
 void Graphics::putCharScreen(char const c, t_coordd pos, t_coordd sizeFont) {
 	if (this->_windowTerminated) {
-		return ;
+		return;
 	}
 	GLint textSize[2] = {0};
 	t_coordd sizeText = {};
@@ -244,7 +244,7 @@ void Graphics::putCharScreen(char const c, t_coordd pos, t_coordd sizeFont) {
 
 void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
 	if (this->_windowTerminated) {
-		return ;
+		return;
 	}
 	char const *tmp = str.c_str();
 	t_coordd pos{};
@@ -276,7 +276,7 @@ void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
 
 void Graphics::display() {
 	if (this->_windowTerminated) {
-		return ;
+		return;
 	}
 	glFlush();
 	glfwSwapBuffers(this->_window);
@@ -284,7 +284,7 @@ void Graphics::display() {
 
 void Graphics::clear() {
 	if (this->_windowTerminated) {
-		return ;
+		return;
 	}
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
@@ -292,12 +292,10 @@ void Graphics::clear() {
 void Graphics::cleanUp() {
 	if (!this->_windowTerminated) {
 		glfwDestroyWindow(this->_window);
-		std::cout << "terminate" << std::endl;
 		glfwTerminate();
 		this->_windowTerminated = true;
 	}
 }
-
 
 Graphics *createGraphics() {
 	return new Graphics();

@@ -224,10 +224,6 @@ void SceneGame::drawInfoOverlay() {
     (*this->_aGraphics)->putStrScreen(speedInfo.str(), PERCENTAGE(62, Nibbler::getWindowWidth()), info_y, 1);
 }
 
-// TODO faire un ecran pause. Pour le début, pour l'echap, et pour la mort
-// TODO quand on bourrine toute les touches en meme temps une collision pop au debut alors que le snake fait une taille de 4
-// => parfois le GameOver pop en faisant replay, reset sur des valeurs de vecteur a faire ?
-
 bool SceneGame::checkCollision(t_coordi pos) {
     // Collision with wall
     if ((pos.x > this->_sectorCount.x - 1) || pos.x < 0 ||

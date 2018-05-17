@@ -39,9 +39,10 @@ Graphics &Graphics::operator=(Graphics const &copy) {
 	return *this;
 }
 
-// TODO add a throw exception
 void Graphics::init(int windowWidth, int windowHeight, std::string windowName) {
-	this->_window = new sf::RenderWindow(sf::VideoMode(windowWidth, windowHeight), windowName + ": SFML");
+	if (!(this->_window = new sf::RenderWindow(sf::VideoMode(windowWidth, windowHeight), windowName + ": SFML"))) {
+		throw std::runtime_error("error: Cannot create window");
+	}
 	this->_window->setKeyRepeatEnabled(false);
 	this->windowWidth = windowWidth;
 	this->windowHeight = windowHeight;
@@ -175,8 +176,8 @@ void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
 	vec = this->_textureList[key].getSize();
 	sprite.setTexture(this->_textureList[key]);
 	sprite.setPosition(sf::Vector2f(posX, posY));
-	sprite.setScale(static_cast<double>(sizeX) / static_cast<double>(vec.x),
-					static_cast<double>(sizeY) / static_cast<double>(vec.y));
+	sprite.setScale(static_cast<float>(sizeX) / static_cast<float>(vec.x),
+					static_cast<float>(sizeY) / static_cast<float>(vec.y));
 	this->_spriteList.push_back(sprite);
 }
 
@@ -187,19 +188,21 @@ std::vector<eEvent> &Graphics::getEvent() {
 	AGraphics::clearEvent();
 	sf::Event event = {};
 	while (this->_window->pollEvent(event)) {
-		if (event.type != sf::Event::KeyPressed)
+		if (event.type != sf::Event::KeyPressed) {
 			continue;
-		if (event.key.code == sf::Keyboard::Escape)
+		}
+		// TODO faire des putins de map
+		if (event.key.code == sf::Keyboard::Escape) {
 			AGraphics::addEvent(ECHAP);
-		else if (event.key.code == sf::Keyboard::Up)
+		} else if (event.key.code == sf::Keyboard::Up) {
 			AGraphics::addEvent(UP);
-		else if (event.key.code == sf::Keyboard::Down)
+		} else if (event.key.code == sf::Keyboard::Down) {
 			AGraphics::addEvent(DOWN);
-		else if (event.key.code == sf::Keyboard::Left)
+		} else if (event.key.code == sf::Keyboard::Left) {
 			AGraphics::addEvent(LEFT);
-		else if (event.key.code == sf::Keyboard::Right)
+		} else if (event.key.code == sf::Keyboard::Right) {
 			AGraphics::addEvent(RIGHT);
-		else if (event.key.code == sf::Keyboard::Return) {
+		} else if (event.key.code == sf::Keyboard::Return) {
 			AGraphics::addEvent(ENTER);
 		}
 	}
