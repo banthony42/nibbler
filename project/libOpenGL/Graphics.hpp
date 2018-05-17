@@ -33,6 +33,8 @@
 class Graphics : public AGraphics {
 
 public:
+	static std::map<int, eEvent> _eventLibMap;
+
 	Graphics(); // Canonical
 	Graphics(Graphics const &copy); // Canonical
 	~Graphics(); // Canonical

@@ -22,6 +22,15 @@ std::vector<eEvent> AGraphics::_eventList;
 Graphics::Graphics() {
 	this->_window = nullptr;
 	this->_windowTerminated = true;
+	this->_eventLibMap[sf::Keyboard::Escape] = ECHAP;
+	this->_eventLibMap[sf::Keyboard::Up] = UP;
+	this->_eventLibMap[sf::Keyboard::Down] = DOWN;
+	this->_eventLibMap[sf::Keyboard::Left] = LEFT;
+	this->_eventLibMap[sf::Keyboard::Right] = RIGHT;
+	this->_eventLibMap[sf::Keyboard::Return] = ENTER;
+	this->_eventLibMap[sf::Keyboard::F1] = F1;
+	this->_eventLibMap[sf::Keyboard::F2] = F2;
+	this->_eventLibMap[sf::Keyboard::F3] = F3;
 }
 
 Graphics::Graphics(Graphics const &copy) {
@@ -188,24 +197,11 @@ std::vector<eEvent> &Graphics::getEvent() {
 	AGraphics::clearEvent();
 	sf::Event event = {};
 	while (this->_window->pollEvent(event)) {
-		if (event.type != sf::Event::KeyPressed) {
-			continue;
-		}
-		// TODO faire des putins de map
-		if (event.key.code == sf::Keyboard::Escape) {
-			AGraphics::addEvent(ECHAP);
-		} else if (event.key.code == sf::Keyboard::Up) {
-			AGraphics::addEvent(UP);
-		} else if (event.key.code == sf::Keyboard::Down) {
-			AGraphics::addEvent(DOWN);
-		} else if (event.key.code == sf::Keyboard::Left) {
-			AGraphics::addEvent(LEFT);
-		} else if (event.key.code == sf::Keyboard::Right) {
-			AGraphics::addEvent(RIGHT);
-		} else if (event.key.code == sf::Keyboard::Return) {
-			AGraphics::addEvent(ENTER);
+		if (event.type == sf::Event::KeyPressed) {
+			AGraphics::addEvent(((this->_eventLibMap[event.key.code])));
 		}
 	}
+
 	return AGraphics::_eventList;
 }
 

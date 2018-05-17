@@ -61,5 +61,4 @@ protected:
 	std::map<eEvent, eventFuncPtr> _eventMap;
 };
 
-
 #endif //PROJECT_ASCENE_HPP

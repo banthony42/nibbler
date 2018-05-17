@@ -96,7 +96,6 @@ protected:
 	static std::vector<eEvent> _eventList;
 	int windowWidth;
 	int windowHeight;
-
 };
 
 #endif //NIBBLER_IGRAPHICS_HPP

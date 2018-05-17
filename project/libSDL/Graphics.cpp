@@ -21,6 +21,16 @@ std::vector<eEvent> AGraphics::_eventList;
 
 Graphics::Graphics() {
 	this->_windowTerminated = true;
+	Graphics::_eventLibMap[SDLK_ESCAPE] = ECHAP;
+	Graphics::_eventLibMap[SDLK_UP] = UP;
+	Graphics::_eventLibMap[SDLK_DOWN] = DOWN;
+	Graphics::_eventLibMap[SDLK_LEFT] = LEFT;
+	Graphics::_eventLibMap[SDLK_RIGHT] = RIGHT;
+	Graphics::_eventLibMap[SDLK_RETURN] = ENTER;
+	Graphics::_eventLibMap[SDLK_KP_ENTER] = ENTER;
+	Graphics::_eventLibMap[SDLK_F1] = F1;
+	Graphics::_eventLibMap[SDLK_F2] = F2;
+	Graphics::_eventLibMap[SDLK_F3] = F3;
 }
 
 Graphics::Graphics(Graphics const &copy) {
@@ -87,21 +97,21 @@ int Graphics::loopUpdate() {
 
 void Graphics::display() {
 	if (this->_windowTerminated) {
-		return ;
+		return;
 	}
 	SDL_UpdateWindowSurface(this->_win);
 }
 
 void Graphics::clear() {
 	if (this->_windowTerminated) {
-		return ;
+		return;
 	}
 	SDL_FillRect(this->_img, nullptr, 0x000000);
 }
 
 void Graphics::putCharScreen(char const c, t_coordd pos, t_coordd sizeFont) {
 	if (this->_windowTerminated) {
-		return ;
+		return;
 	}
 	if (c < '!' || c > '~')
 		return;
@@ -114,7 +124,7 @@ void Graphics::putCharScreen(char const c, t_coordd pos, t_coordd sizeFont) {
 
 void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
 	if (this->_windowTerminated) {
-		return ;
+		return;
 	}
 	char const *c_str = str.c_str();
 	t_coordd pos = {};
@@ -147,7 +157,7 @@ void Graphics::putStrScreen(std::string str, int posX, int posY, float size) {
 
 void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
 	if (this->_windowTerminated) {
-		return ;
+		return;
 	}
 	SDL_Surface *surface;
 
@@ -166,23 +176,15 @@ std::vector<eEvent> &Graphics::getEvent() {
 		return AGraphics::_eventList;
 	}
 	SDL_Event e{};
+	bool keyPressed = false;
 	AGraphics::clearEvent();
-	// TODO faire des putins de map
 	while (SDL_PollEvent(&e) != 0) {
-		int keysym = e.key.keysym.sym;
-		bool keyPressed = (e.key.type == SDL_KEYDOWN) && !e.key.repeat;
-		if (e.type == SDL_QUIT || (keysym == SDLK_ESCAPE && keyPressed)) {
+		keyPressed = ((e.key.type == SDL_KEYDOWN) && !e.key.repeat);
+		if (e.type == SDL_QUIT) {
 			AGraphics::addEvent(ECHAP);
-		} else if (keysym == SDLK_UP && keyPressed) {
-			AGraphics::addEvent(UP);
-		} else if (keysym == SDLK_DOWN && keyPressed) {
-			AGraphics::addEvent(DOWN);
-		} else if (keysym == SDLK_LEFT && keyPressed) {
-			AGraphics::addEvent(LEFT);
-		} else if (keysym == SDLK_RIGHT && keyPressed) {
-			AGraphics::addEvent(RIGHT);
-		} else if ((keysym == SDLK_RETURN && keyPressed) || (keysym == SDLK_KP_ENTER  && keyPressed)) {
-			AGraphics::addEvent(ENTER);
+		}
+		if (keyPressed) {
+			AGraphics::addEvent(((this->_eventLibMap[e.key.keysym.sym])));
 		}
 	}
 	return AGraphics::_eventList;

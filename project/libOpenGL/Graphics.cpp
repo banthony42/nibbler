@@ -18,9 +18,19 @@
  * de callback et donc en dehors de l'instance de la Lib
  */
 std::vector<eEvent> AGraphics::_eventList;
+std::map<int, eEvent> Graphics::_eventLibMap;
 
 Graphics::Graphics() {
 	this->_windowTerminated = true;
+	Graphics::_eventLibMap[GLFW_KEY_ESCAPE] = ECHAP;
+	Graphics::_eventLibMap[GLFW_KEY_UP] = UP;
+	Graphics::_eventLibMap[GLFW_KEY_DOWN] = DOWN;
+	Graphics::_eventLibMap[GLFW_KEY_LEFT] = LEFT;
+	Graphics::_eventLibMap[GLFW_KEY_RIGHT] = RIGHT;
+	Graphics::_eventLibMap[GLFW_KEY_ENTER] = ENTER;
+	Graphics::_eventLibMap[GLFW_KEY_F1] = F1;
+	Graphics::_eventLibMap[GLFW_KEY_F2] = F2;
+	Graphics::_eventLibMap[GLFW_KEY_F3] = F3;
 }
 
 Graphics::Graphics(Graphics const &copy) {
@@ -39,19 +49,9 @@ Graphics &Graphics::operator=(Graphics const &copy) {
 }
 
 static void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods) {
-	// TODO faire des putins de map
-	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-		AGraphics::addEvent(ECHAP);
-	else if (key == GLFW_KEY_UP && action == GLFW_PRESS)
-		AGraphics::addEvent(UP);
-	else if (key == GLFW_KEY_DOWN && action == GLFW_PRESS)
-		AGraphics::addEvent(DOWN);
-	else if (key == GLFW_KEY_LEFT && action == GLFW_PRESS)
-		AGraphics::addEvent(LEFT);
-	else if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS)
-		AGraphics::addEvent(RIGHT);
-	else if (key == GLFW_KEY_ENTER && action == GLFW_PRESS)
-		AGraphics::addEvent(ENTER);
+	if (action == GLFW_PRESS) {
+		AGraphics::addEvent(((Graphics::_eventLibMap[key])));
+	}
 }
 
 std::vector<eEvent> &Graphics::getEvent() {

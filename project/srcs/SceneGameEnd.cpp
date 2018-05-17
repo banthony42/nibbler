@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../incl/SceneGameEnd.hpp"
+#include "../incl/SceneGame.hpp"
 
 SceneGameEnd::SceneGameEnd() {
 
@@ -27,9 +28,20 @@ SceneGameEnd::~SceneGameEnd() {
 SceneGameEnd::SceneGameEnd(AGraphics **aGraphics) {
     this->_aGraphics = aGraphics;
     this->_cursor = REPLAY;
-    this->_inputName[BEST_SCORE] = "Best Score:" + std::to_string(1542); //TODO put here the variable of the best score for the session
+    this->_inputName[BEST_SCORE] = "Best Score:" + std::to_string(SceneGame::_bestScore);
     this->_inputName[REPLAY] = "Replay";
     this->_inputName[BACK_TO_MENU] = "Menu";
+
+	this->_eventMap[ECHAP] = &AScene::eventEchap;
+	this->_eventMap[UP] = &AScene::eventUp;
+	this->_eventMap[DOWN] = &AScene::eventDown;
+	this->_eventMap[LEFT] = &AScene::eventLeft;
+	this->_eventMap[RIGHT] = &AScene::eventRight;
+	this->_eventMap[ENTER] = &AScene::eventEnter;
+	this->_eventMap[F1] = &AScene::eventF1;
+	this->_eventMap[F2] = &AScene::eventF2;
+	this->_eventMap[F3] = &AScene::eventF3;
+
     t_coordi pos = {};
     pos.x = PERCENTAGE(62, Nibbler::getWindowWidth());
     pos.y = PERCENTAGE(59, Nibbler::getWindowHeight());
@@ -50,28 +62,17 @@ SceneGameEnd &SceneGameEnd::operator=(SceneGameEnd const &copy) {
     return *this;
 }
 
+// TODO comprendre le message de Clion sur event
 void SceneGameEnd::eventHandler(std::vector<eEvent> eventList) {
-    for (auto &event : eventList) {
-        if (event == ECHAP) {
-            Nibbler::setCurrentScene(MENU);
-        } else if (event == UP && this->_cursor > REPLAY) {
-            this->_cursor--;
-        } else if (event == DOWN && this->_cursor < BACK_TO_MENU) {
-            this->_cursor++;
-        } else if (event == ENTER) {
-            if (this->_cursor == REPLAY) {
-                Nibbler::setCurrentScene(GAME);
-            } else if (this->_cursor == BACK_TO_MENU) {
-                Nibbler::setCurrentScene(MENU);
-            }
-            this->_cursor = REPLAY;
-        }
-    }
+	eEvent event = EVENT_VOID;
+	for (auto &event : eventList){
+		(this->*(this->_eventMap[event]))();
+	}
 }
 
 void SceneGameEnd::drawScene() {
-//	// GAME END preview
     (*this->_aGraphics)->clear();
+    this->_inputName[BEST_SCORE] = "Best Score:" + std::to_string(SceneGame::_bestScore);
 
     (*this->_aGraphics)->putTexture(SCORE_BCKG, 0, 0, Nibbler::getWindowWidth(), Nibbler::getWindowHeight());
     (*this->_aGraphics)->putStrScreen(this->_inputName[BEST_SCORE], this->_input[BEST_SCORE].x,
@@ -97,38 +98,42 @@ void SceneGameEnd::drawScene() {
 }
 
 void SceneGameEnd::eventEchap() {
-
+	Nibbler::setCurrentScene(MENU);
 }
 
 void SceneGameEnd::eventUp() {
-
+	if (this->_cursor > REPLAY) {
+		this->_cursor--;
+	}
 }
 
 void SceneGameEnd::eventDown() {
-
+	if (this->_cursor < BACK_TO_MENU) {
+		this->_cursor++;
+	}
 }
 
-void SceneGameEnd::eventLeft() {
+void SceneGameEnd::eventLeft() {}
 
-}
-
-void SceneGameEnd::eventRight() {
-
-}
+void SceneGameEnd::eventRight() {}
 
 void SceneGameEnd::eventEnter() {
-
+	if (this->_cursor == REPLAY) {
+		Nibbler::setCurrentScene(GAME);
+	} else if (this->_cursor == BACK_TO_MENU) {
+		Nibbler::setCurrentScene(MENU);
+	}
+	this->_cursor = REPLAY;
 }
 
 void SceneGameEnd::eventF1() {
-
+    Nibbler::loadLibrary(LIB_SDL_PATH);
 }
 
 void SceneGameEnd::eventF2() {
-
+    Nibbler::loadLibrary(LIB_SFML_PATH);
 }
 
 void SceneGameEnd::eventF3() {
-
+    Nibbler::loadLibrary(LIB_OPENGL_PATH);
 }
-

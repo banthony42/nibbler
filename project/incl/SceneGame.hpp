@@ -67,9 +67,11 @@ typedef struct {
 class SceneGame : public AScene {
 
 public:
-	static eTexture _selectedHeadSkin;
-	static eTexture _selectedBodySkin;
-	static int _speed;
+	static eTexture	_selectedHeadSkin;
+	static eTexture	_selectedBodySkin;
+	static int		_speed;
+	static int		_bestScore;
+
 	SceneGame(AGraphics **aGraphics);
 	~SceneGame(); // Canonical
 

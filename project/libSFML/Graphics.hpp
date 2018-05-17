@@ -58,6 +58,7 @@ private:
 	std::vector<sf::Sprite> _spriteList;
 	sf::Texture _fontTexture;
 	bool _windowTerminated;
+	std::map<sf::Keyboard::Key, eEvent> _eventLibMap;
 };
 
 extern "C" {

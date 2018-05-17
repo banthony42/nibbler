@@ -51,6 +51,7 @@ private:
 	SDL_Surface *_img;
 	std::map<int, SDL_Surface *> _textureList;
 	SDL_Surface *_fontTexture;
+	std::map<int, eEvent> _eventLibMap;
 };
 
 extern "C" {
