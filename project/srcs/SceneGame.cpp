@@ -135,7 +135,6 @@ void SceneGame::eventHandler(std::vector<eEvent> eventList) {
                     }
                 } else if (event == LEFT) {
                     if (!(this->_snake.vec.x > 0 && this->_snake.vec.y == 0) || this->_vectorPool.size()) {
-
                         this->_vectorPool.insert(this->_vectorPool.cbegin(), {-1 * this->_snake.speed, 0});
                     }
                 } else if (event == RIGHT) {
@@ -340,7 +339,6 @@ void SceneGame::drawMap() {
 
 void SceneGame::drawScene() {
     (*this->_aGraphics)->clear();
-    //  TODO optimiser le code pour pas ecrir 3 fois la meme sequence de draw si possible
     if (this->_page == PAGE_GAME) {
         if (!this->_gameInstanced) {
             this->initNewSnake();
