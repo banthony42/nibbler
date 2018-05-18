@@ -39,6 +39,28 @@ SceneGame::SceneGame(AGraphics **aGraphics) {
 	this->_snake.vec = {1, 0};
 	this->_food = {{10, 10}, FOOD};
 
+	// Init Animation bomb
+	this->_bomb._sprite.push_back(BOMB1);
+	this->_bomb._sprite.push_back(BOMB2);
+	this->_bomb._sprite.push_back(BOMB3);
+	this->_bomb._sprite.push_back(EXPLOSION1);
+	this->_bomb._sprite.push_back(EXPLOSION2);
+	this->_bomb._sprite.push_back(EXPLOSION3);
+	this->_bomb._sprite.push_back(EXPLOSION4);
+
+	this->_bomb._spriteDuration.push_back(60);	// Duration in fps bomb1
+	this->_bomb._spriteDuration.push_back(30);	// Duration in fps bomb2
+	this->_bomb._spriteDuration.push_back(30);	// Duration in fps bomb3
+	this->_bomb._spriteDuration.push_back(15);	// Duration in fps explosion1
+	this->_bomb._spriteDuration.push_back(10);	// Duration in fps explosion2
+	this->_bomb._spriteDuration.push_back(10);	// Duration in fps explosion3
+	this->_bomb._spriteDuration.push_back(10);	// Duration in fps explosion4
+
+	this->_bomb.pos = {0, 0};
+	this->_bomb._spritePtr = 0;
+	this->_bomb._spriteCount = 0;
+	this->_bomb._state = true;
+
 	this->_eventMap[ECHAP] = &AScene::eventEchap;
 	this->_eventMap[UP] = &AScene::eventUp;
 	this->_eventMap[DOWN] = &AScene::eventDown;
@@ -132,6 +154,27 @@ void SceneGame::initNewFood() {
 	this->_food.pos = {foodPos.x, foodPos.y};
 }
 
+void SceneGame::initNewBomb() {
+	t_coordi bombPos = {};
+	bool posFound = false;
+
+	while (!posFound) {
+		bombPos = {std::rand() % (this->_sectorCount.x), std::rand() % (this->_sectorCount.y)};
+		posFound = true;
+		for (auto &item : this->_snake.body) {
+			if ((bombPos.x == item.x && bombPos.y == item.y)
+				|| (bombPos.x == this->_food.pos.x && bombPos.y == this->_food.pos.y)) {
+				posFound = false;
+				continue;
+			}
+		}
+	}
+	this->_bomb.pos = {bombPos.x, bombPos.y};
+	this->_bomb._spritePtr = 0;
+	this->_bomb._spriteCount = 0;
+	this->_bomb._state = true;
+}
+
 void SceneGame::eventHandler(std::vector<eEvent> eventList) {
 	for (auto &item : eventList) {
 		mapEventFuncPtr::iterator it = AScene::_eventMap.find(item);
@@ -176,7 +219,13 @@ void SceneGame::drawFullSnake() {
 }
 
 void SceneGame::drawFood() {
-	drawSector(FOOD, this->_food.pos.x, this->_food.pos.y);
+	drawSector(this->_food.skin, this->_food.pos.x, this->_food.pos.y);
+}
+
+void SceneGame::drawBomb() {
+	if (this->_bomb._state == true) {
+		drawSector(this->_bomb._sprite[this->_bomb._spritePtr], this->_bomb.pos.x, this->_bomb.pos.y);
+	}
 }
 
 void SceneGame::drawInfoOverlay() {
@@ -213,10 +262,17 @@ bool SceneGame::checkCollision(t_coordi pos) {
 		this->initNewFood();
 		t_coordd toInsert = this->_snake.body.at(0);
 		this->_snake.body.insert(++this->_snake.body.cbegin(), {toInsert.x, toInsert.y});
-		this->_score += 42;
+		this->_score += SCORE_INCR;
 		if (!(this->_score % SPEED_INCR)) {
 			this->_difficulty += DIFFICULTY_INCR;
 			this->_snake.speed = SceneGame::_speed * this->_difficulty;
+		}
+	}
+
+	// Collision with Bomb
+	if (this->_bomb._state == true) {
+		if (pos.x == this->_bomb.pos.x && pos.y == this->_bomb.pos.y) {
+			return true;
 		}
 	}
 	return false;
@@ -297,7 +353,18 @@ void SceneGame::drawMap() {
 	this->resetSceneGame();
 	this->drawFullSnake();
 	this->drawFood();
+	this->drawBomb();
 	this->drawInfoOverlay();
+	if (this->_bomb._spriteCount < this->_bomb._spriteDuration[this->_bomb._spritePtr] - 1) {
+		this->_bomb._spriteCount++;
+		if (this->_bomb._spriteCount == this->_bomb._spriteDuration[this->_bomb._spritePtr] - 1) {
+			this->_bomb._spriteCount = 0;
+			this->_bomb._spritePtr++;
+			if (this->_bomb._spritePtr == this->_bomb._sprite.size() - 1) {
+				this->_bomb._state = false;
+			}
+		}
+	}
 }
 
 void SceneGame::drawScene() {
@@ -306,6 +373,7 @@ void SceneGame::drawScene() {
 		if (!this->_gameInstanced) {
 			this->initNewSnake();
 			this->initNewFood();
+			this->initNewBomb();
 			this->drawMap();
 			this->_score = 0;
 			this->_difficulty = 1;
@@ -314,6 +382,9 @@ void SceneGame::drawScene() {
 			this->_vectorPool.clear();
 			this->_gameInstanced = true;
 		} else {
+			if (this->_score % BOMB_TIMER && this->_bomb._state == false) {
+				this->initNewBomb();
+			}
 			this->moveSnake();
 			this->drawMap();
 		}
@@ -398,16 +469,22 @@ void SceneGame::eventEnter() {
 }
 
 void SceneGame::eventF1() {
-	this->_page = PAGE_PAUSE;
+	if (this->_page == PAGE_GAME) {
+		this->_page = PAGE_PAUSE;
+	}
 	Nibbler::loadLibrary(LIB_SDL_PATH);
 }
 
 void SceneGame::eventF2() {
-	this->_page = PAGE_PAUSE;
+	if (this->_page == PAGE_GAME) {
+		this->_page = PAGE_PAUSE;
+	}
 	Nibbler::loadLibrary(LIB_SFML_PATH);
 }
 
 void SceneGame::eventF3() {
-	this->_page = PAGE_PAUSE;
+	if (this->_page == PAGE_GAME) {
+		this->_page = PAGE_PAUSE;
+	}
 	Nibbler::loadLibrary(LIB_OPENGL_PATH);
 }

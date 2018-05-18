@@ -34,8 +34,11 @@
 #define SIZE_FONT_GAME_END PERCENTAGE(0.095, (Nibbler::getWindowWidth() + Nibbler::getWindowHeight()))
 
 #define SPEED_DEFAULT 7
-#define SPEED_INCR (8 * 42)    // Multiple de 42 car on utilise le % 42 dans le code
+#define SCORE_INCR 42
+#define SPEED_INCR (8 * SCORE_INCR)    // Multiple de 42 car on utilise le % 42 dans le code
 #define DIFFICULTY_INCR 0.05
+
+#define BOMB_TIMER (2 * SCORE_INCR)
 
 enum ePageGame {
 	PAGE_GAME,
@@ -63,6 +66,15 @@ typedef struct {
 	t_coordi pos;
 	eTexture skin;
 } t_food;
+
+typedef struct {
+	t_coordi pos;
+	std::vector<eTexture>	_sprite;			// List of sprite to put on screen
+	std::vector<size_t>		_spriteDuration;	// Time in fps, for each sprite
+	size_t 					_spritePtr;			// sprite pointer, increase at every new frame
+	size_t 					_spriteCount;		// counter for each sprite
+	bool 					_state;				// Explode or still alive true false
+} t_bomb;
 
 class SceneGame : public AScene {
 
@@ -103,8 +115,10 @@ private:
 	void drawSector(eTexture t, int sectorX, int sectorY);
 	void drawFullSnake();
 	void drawFood();
+	void drawBomb();
 	void initNewSnake();
 	void initNewFood();
+	void initNewBomb();
 	bool checkCollision(t_coordi pos);
 
 	bool _gameInstanced;
@@ -128,6 +142,7 @@ private:
 	t_coordd _headPos;
 	t_coordd _lastHeadPos;
 	t_food _food;
+	t_bomb	_bomb;
 };
 
 

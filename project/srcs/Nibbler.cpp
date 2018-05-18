@@ -106,6 +106,13 @@ void Nibbler::initAGraphics(AGraphics *aGraphics) {
 	aGraphics->loadTexture("./textures/snake_head_hk.png", SNAKE_H_HK);
 	aGraphics->loadTexture("./textures/snake_body_hk.png", SNAKE_B_HK);
 	aGraphics->loadTexture("./textures/melon.png", FOOD);
+	aGraphics->loadTexture("./textures/bomb1.png", BOMB1);
+	aGraphics->loadTexture("./textures/bomb3.png", BOMB2);
+	aGraphics->loadTexture("./textures/bomb3.png", BOMB3);
+	aGraphics->loadTexture("./textures/explosion1.png", EXPLOSION1);
+	aGraphics->loadTexture("./textures/explosion2.png", EXPLOSION2);
+	aGraphics->loadTexture("./textures/explosion3.png", EXPLOSION3);
+	aGraphics->loadTexture("./textures/explosion4.png", EXPLOSION4);
 	aGraphics->loadFontTexture("./textures/snake_font.tga");
 }
 
