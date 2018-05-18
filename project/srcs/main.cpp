@@ -30,7 +30,7 @@ void manageArguments(int ac, char **av) {
 			exit(0);
 		}
 		if (strcmp(av[i], "-lib") == 0 && i + 1 < ac) {
-				Nibbler::loadLibrary(std::string(av[++i]));
+			Nibbler::loadLibrary(std::string(av[++i]));
 			libraryLoaded = true;
 		} else if (strcmp(av[i], "-size") == 0 && i + 2 < ac) {
 			if (is_digits(av[i + 1]) && is_digits(av[i + 2])) {
@@ -49,7 +49,7 @@ void manageArguments(int ac, char **av) {
 		}
 	}
 	if (!libraryLoaded) {
-			Nibbler::loadLibrary(std::string(LIB_OPENGL_PATH));
+		Nibbler::loadLibrary(std::string(LIB_OPENGL_PATH));
 	}
 }
 

@@ -24,10 +24,10 @@ enum eTexture {
 	GAME_BRICK,
 	GAME_BORDER_GRASS,
 	GAMEOVER_BORDER,
-    FOG_OVERLAY,
+	FOG_OVERLAY,
 	SKIN_FRAME,
 	SCORE_BCKG,
-	SNAKE_H_PCM,	// Order of the skin texture is important
+	SNAKE_H_PCM,    // Order of the skin texture is important
 	SNAKE_H_SMB,
 	SNAKE_H_HK,
 	SNAKE_B_PCM,
@@ -43,19 +43,19 @@ public:
 	virtual void eventHandler(std::vector<eEvent> eventList) = 0;
 	virtual void drawScene() = 0;
 
-    virtual void eventEchap() = 0;
-    virtual void eventUp() = 0;
-    virtual void eventDown() = 0;
-    virtual void eventLeft() = 0;
-    virtual void eventRight() = 0;
-    virtual void eventEnter() = 0;
-    virtual void eventF1() = 0;
-    virtual void eventF2() = 0;
-    virtual void eventF3() = 0;
+	virtual void eventEchap() = 0;
+	virtual void eventUp() = 0;
+	virtual void eventDown() = 0;
+	virtual void eventLeft() = 0;
+	virtual void eventRight() = 0;
+	virtual void eventEnter() = 0;
+	virtual void eventF1() = 0;
+	virtual void eventF2() = 0;
+	virtual void eventF3() = 0;
 
 
 protected:
-    typedef void(AScene::*eventFuncPtr)();
+	typedef void(AScene::*eventFuncPtr)();
 
 	AGraphics **_aGraphics;
 	std::map<eEvent, eventFuncPtr> _eventMap;

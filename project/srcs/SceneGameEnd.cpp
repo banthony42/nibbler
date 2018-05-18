@@ -11,14 +11,13 @@
 /* ************************************************************************** */
 
 #include "../incl/SceneGameEnd.hpp"
-#include "../incl/SceneGame.hpp"
 
 SceneGameEnd::SceneGameEnd() {
 
 }
 
 SceneGameEnd::SceneGameEnd(SceneGameEnd const &copy) {
-    *this = copy;
+	*this = copy;
 }
 
 SceneGameEnd::~SceneGameEnd() {
@@ -26,11 +25,11 @@ SceneGameEnd::~SceneGameEnd() {
 }
 
 SceneGameEnd::SceneGameEnd(AGraphics **aGraphics) {
-    this->_aGraphics = aGraphics;
-    this->_cursor = REPLAY;
-    this->_inputName[BEST_SCORE] = "Best Score:" + std::to_string(SceneGame::_bestScore);
-    this->_inputName[REPLAY] = "Replay";
-    this->_inputName[BACK_TO_MENU] = "Menu";
+	this->_aGraphics = aGraphics;
+	this->_cursor = REPLAY;
+	this->_inputName[BEST_SCORE] = "Best Score:" + std::to_string(SceneGame::_bestScore);
+	this->_inputName[REPLAY] = "Replay";
+	this->_inputName[BACK_TO_MENU] = "Menu";
 
 	this->_eventMap[ECHAP] = &AScene::eventEchap;
 	this->_eventMap[UP] = &AScene::eventUp;
@@ -42,59 +41,59 @@ SceneGameEnd::SceneGameEnd(AGraphics **aGraphics) {
 	this->_eventMap[F2] = &AScene::eventF2;
 	this->_eventMap[F3] = &AScene::eventF3;
 
-    t_coordi pos = {};
-    pos.x = PERCENTAGE(62, Nibbler::getWindowWidth());
-    pos.y = PERCENTAGE(59, Nibbler::getWindowHeight());
-    this->_input[BEST_SCORE] = pos;
-    pos.x += PERCENTAGE(3, Nibbler::getWindowWidth());
-    pos.y += FONT_NEWLINE(SIZE_FONT_GAME_END) * 2;
-    this->_input[REPLAY] = pos;
-    pos.x += ((this->_inputName[REPLAY].length() - this->_inputName[BACK_TO_MENU].length()) / 2) *
-             GET_SIZEFONT_X(SIZE_FONT_GAME_END);
-    pos.y += FONT_NEWLINE(SIZE_FONT_GAME_END);
-    this->_input[BACK_TO_MENU] = pos;
+	t_coordi pos = {};
+	pos.x = PERCENTAGE(62, Nibbler::getWindowWidth());
+	pos.y = PERCENTAGE(59, Nibbler::getWindowHeight());
+	this->_input[BEST_SCORE] = pos;
+	pos.x += PERCENTAGE(3, Nibbler::getWindowWidth());
+	pos.y += FONT_NEWLINE(SIZE_FONT_GAME_END) * 2;
+	this->_input[REPLAY] = pos;
+	pos.x += ((this->_inputName[REPLAY].length() - this->_inputName[BACK_TO_MENU].length()) / 2) *
+			 GET_SIZEFONT_X(SIZE_FONT_GAME_END);
+	pos.y += FONT_NEWLINE(SIZE_FONT_GAME_END);
+	this->_input[BACK_TO_MENU] = pos;
 }
 
 SceneGameEnd &SceneGameEnd::operator=(SceneGameEnd const &copy) {
-    if (this != &copy) {
-        // copy 
-    }
-    return *this;
+	if (this != &copy) {
+		// copy
+	}
+	return *this;
 }
 
 // TODO comprendre le message de Clion sur event
 void SceneGameEnd::eventHandler(std::vector<eEvent> eventList) {
 	eEvent event = EVENT_VOID;
-	for (auto &event : eventList){
+	for (auto &event : eventList) {
 		(this->*(this->_eventMap[event]))();
 	}
 }
 
 void SceneGameEnd::drawScene() {
-    (*this->_aGraphics)->clear();
-    this->_inputName[BEST_SCORE] = "Best Score:" + std::to_string(SceneGame::_bestScore);
+	(*this->_aGraphics)->clear();
+	this->_inputName[BEST_SCORE] = "Best Score:" + std::to_string(SceneGame::_bestScore);
 
-    (*this->_aGraphics)->putTexture(SCORE_BCKG, 0, 0, Nibbler::getWindowWidth(), Nibbler::getWindowHeight());
-    (*this->_aGraphics)->putStrScreen(this->_inputName[BEST_SCORE], this->_input[BEST_SCORE].x,
-                                      this->_input[BEST_SCORE].y + 20, SIZE_FONT_GAME_END);
-    (*this->_aGraphics)->putStrScreen(this->_inputName[REPLAY], this->_input[REPLAY].x, this->_input[REPLAY].y,
-                                      SIZE_FONT_GAME_END);
-    (*this->_aGraphics)->putStrScreen(this->_inputName[BACK_TO_MENU], this->_input[BACK_TO_MENU].x,
-                                      this->_input[BACK_TO_MENU].y, SIZE_FONT_GAME_END);
+	(*this->_aGraphics)->putTexture(SCORE_BCKG, 0, 0, Nibbler::getWindowWidth(), Nibbler::getWindowHeight());
+	(*this->_aGraphics)->putStrScreen(this->_inputName[BEST_SCORE], this->_input[BEST_SCORE].x,
+									  this->_input[BEST_SCORE].y + 20, SIZE_FONT_GAME_END);
+	(*this->_aGraphics)->putStrScreen(this->_inputName[REPLAY], this->_input[REPLAY].x, this->_input[REPLAY].y,
+									  SIZE_FONT_GAME_END);
+	(*this->_aGraphics)->putStrScreen(this->_inputName[BACK_TO_MENU], this->_input[BACK_TO_MENU].x,
+									  this->_input[BACK_TO_MENU].y, SIZE_FONT_GAME_END);
 
-    // Draw Cursor
-    eEndGame curs = static_cast<eEndGame >(this->_cursor);
-    t_coordi posCurs = {};
+	// Draw Cursor
+	eEndGame curs = static_cast<eEndGame >(this->_cursor);
+	t_coordi posCurs = {};
 
-    posCurs.x = static_cast<int>(this->_input[curs].x - GET_SIZEFONT_X(SIZE_FONT_GAME_END));
-    posCurs.y = this->_input[curs].y;
-    (*this->_aGraphics)->putStrScreen("<", posCurs.x, posCurs.y, SIZE_FONT_GAME_END);
-    posCurs.x = static_cast<int>(this->_input[curs].x +
-                                 ((this->_inputName[curs].length()) * GET_SIZEFONT_X(SIZE_FONT_GAME_END)));
-    posCurs.y = this->_input[curs].y;
-    (*this->_aGraphics)->putStrScreen(">", posCurs.x, posCurs.y, SIZE_FONT_GAME_END);
+	posCurs.x = static_cast<int>(this->_input[curs].x - GET_SIZEFONT_X(SIZE_FONT_GAME_END));
+	posCurs.y = this->_input[curs].y;
+	(*this->_aGraphics)->putStrScreen("<", posCurs.x, posCurs.y, SIZE_FONT_GAME_END);
+	posCurs.x = static_cast<int>(this->_input[curs].x +
+								 ((this->_inputName[curs].length()) * GET_SIZEFONT_X(SIZE_FONT_GAME_END)));
+	posCurs.y = this->_input[curs].y;
+	(*this->_aGraphics)->putStrScreen(">", posCurs.x, posCurs.y, SIZE_FONT_GAME_END);
 
-    (*this->_aGraphics)->display();
+	(*this->_aGraphics)->display();
 }
 
 void SceneGameEnd::eventEchap() {
@@ -127,13 +126,13 @@ void SceneGameEnd::eventEnter() {
 }
 
 void SceneGameEnd::eventF1() {
-    Nibbler::loadLibrary(LIB_SDL_PATH);
+	Nibbler::loadLibrary(LIB_SDL_PATH);
 }
 
 void SceneGameEnd::eventF2() {
-    Nibbler::loadLibrary(LIB_SFML_PATH);
+	Nibbler::loadLibrary(LIB_SFML_PATH);
 }
 
 void SceneGameEnd::eventF3() {
-    Nibbler::loadLibrary(LIB_OPENGL_PATH);
+	Nibbler::loadLibrary(LIB_OPENGL_PATH);
 }

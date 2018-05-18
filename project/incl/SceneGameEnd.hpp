@@ -17,7 +17,7 @@
 #include "Nibbler.hpp"
 
 enum eEndGame {
-    BEST_SCORE,
+	BEST_SCORE,
 	REPLAY,
 	BACK_TO_MENU,
 	NB_INPUT_ENDGAME
@@ -26,16 +26,16 @@ enum eEndGame {
 class SceneGameEnd : public AScene {
 
 public:
-    SceneGameEnd(AGraphics **aGraphics);
-    ~SceneGameEnd(); // Canonical
+	SceneGameEnd(AGraphics **aGraphics);
+	~SceneGameEnd(); // Canonical
 
 	void eventHandler(std::vector<eEvent> eventList);
 	void drawScene();
 
 private:
-    SceneGameEnd(); // Canonical
-    SceneGameEnd(SceneGameEnd const &copy); // Canonical
-    SceneGameEnd &operator=(SceneGameEnd const &copy);// Canonical
+	SceneGameEnd(); // Canonical
+	SceneGameEnd(SceneGameEnd const &copy); // Canonical
+	SceneGameEnd &operator=(SceneGameEnd const &copy);// Canonical
 
 	void eventEchap();
 	void eventUp();
@@ -47,9 +47,9 @@ private:
 	void eventF2();
 	void eventF3();
 
-	size_t                          _cursor;
-	std::map<eEndGame, t_coordi>      _input;
-	std::map<eEndGame, std::string>   _inputName;
+	size_t _cursor;
+	std::map<eEndGame, t_coordi> _input;
+	std::map<eEndGame, std::string> _inputName;
 };
 
 

@@ -12,7 +12,6 @@
 
 #include "../incl/SceneSkin.hpp"
 #include "../incl/Nibbler.hpp"
-#include "../incl/AGraphics.hpp"
 
 SceneSkin::SceneSkin() {
 
@@ -60,7 +59,7 @@ SceneSkin::SceneSkin(AGraphics **aGraphics) {
 // TODO comprendre le message de Clion sur event
 void SceneSkin::eventHandler(std::vector<eEvent> eventList) {
 	eEvent event = EVENT_VOID;
-	for (auto &event : eventList){
+	for (auto &event : eventList) {
 		(this->*(this->_eventMap[event]))();
 	}
 }

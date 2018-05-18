@@ -18,7 +18,7 @@ CC =				g++ -std=c++11
 
 NAME =				nibbler
 
-#DEBUGSEGFAULT =		-g3 -fsanitize=address
+DEBUGSEGFAULT =		-g3 -fsanitize=address
 
 FLAGS = $(DEBUGSEGFAULT)
 
