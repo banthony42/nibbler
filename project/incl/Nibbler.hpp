@@ -15,6 +15,7 @@
 
 #include <iostream>
 #include <string>
+#include <fstream>
 #include <map>
 #include <dlfcn.h>
 #include "AGraphics.hpp"
@@ -41,6 +42,8 @@ enum eScene {
 #define LIB_OPENGL_PATH "./libOpenGL/libgraph.so"
 #define LIB_SFML_PATH "./libSFML/libgraph.so"
 
+#define SCORE_PATH "./score"
+
 #define WINDOW_MIN_X 800
 #define WINDOW_MIN_Y 600
 
@@ -53,6 +56,8 @@ public:
 	static AGraphics *_aGraphics;
 
 	static int iRound(double a);
+	static int loadBestScore();
+	static void saveBestScore(int i);
 	static int getWindowWidth();
 	static void setWindowWidth(int w);
 	static int getWindowHeight();

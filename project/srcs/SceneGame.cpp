@@ -18,7 +18,13 @@
 eTexture SceneGame::_selectedHeadSkin = SNAKE_H_PCM;
 eTexture SceneGame::_selectedBodySkin = SNAKE_B_PCM;
 int SceneGame::_speed = SPEED_DEFAULT;
-int SceneGame::_bestScore = 0;
+int SceneGame::_bestScore = Nibbler::loadBestScore();
+
+// DEBUG : PRINT THE SNAKE
+//	std::cout << "snake :" << std::endl;
+//	for (auto &item : this->_snake.body) {
+//		std::cout << "x: " << item.x << " y: " << item.y << std::endl;
+//	}
 
 SceneGame::SceneGame() {
 
@@ -107,10 +113,6 @@ void SceneGame::initNewSnake() {
 	this->_lastHeadPos = this->_snake.body.front();
 	this->_headPos = this->_snake.body.front();
 	this->_score = 0;
-//	std::cout << "snake :" << std::endl;
-//	for (auto &item : this->_snake.body) {
-//		std::cout << "x: " << item.x << " y: " << item.y << std::endl;
-//	}
 }
 
 void SceneGame::initNewFood() {
@@ -320,6 +322,7 @@ void SceneGame::drawScene() {
 		this->drawPauseOverlay();
 	} else if (this->_page == PAGE_GAMEOVER) {
 		if (this->_score > this->_bestScore) {
+			Nibbler::saveBestScore(this->_score);
 			this->_bestScore = this->_score;
 		}
 		this->drawMap();

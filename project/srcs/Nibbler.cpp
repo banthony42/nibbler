@@ -49,6 +49,41 @@ Nibbler *Nibbler::getInstance() {
 	return Nibbler::_singleton;
 }
 
+
+void Nibbler::saveBestScore(int i) {
+	std::ofstream file;
+
+	remove(SCORE_PATH);
+	file.open(SCORE_PATH);
+	if (file.is_open()) {
+		file << std::to_string(i);
+		file.close();
+	} else {
+		std::cout << "failed to save the score" << std::endl;
+	}
+}
+
+int Nibbler::loadBestScore() {
+	std::ifstream file;
+	std::string output;
+
+	file.open(SCORE_PATH);
+	if (file.is_open()) {
+		file >> output;
+		try {
+			return std::stoi(output);
+		} catch (std::exception &e) {
+			remove(SCORE_PATH);
+//			std::cout << e.what() << std::endl;
+			Nibbler::saveBestScore(0);
+		}
+		file.close();
+	} else {
+		Nibbler::saveBestScore(0);
+	}
+	return 0;
+}
+
 int Nibbler::iRound(double a) {
 	return round(a);
 }
@@ -85,16 +120,11 @@ void Nibbler::initRun() {
 
 
 // -----------------------------
-// TODO CRITIQUES :
-	// TODO SUJET : une foret de if pour les events n'est PAS acceptable
-
 // TODO A IMPORTANT :
-	// TODO SUJET : les deux binomes doivent etre incollable sur chacune des partie de l'autres (faut que tu m'explique en details l'affichage du texte a l'ecran)
-	// TODO SUJET : compiler avec les flags Wall Wextra Werror
-	// TODO SUJET : compiler les LIB avec les flags wall wextra werror
+// TODO SUJET : les deux binomes doivent etre incollable sur chacune des partie de l'autres (faut que tu m'explique en details l'affichage du texte a l'ecran)
 
 // TODO OPTIONNEL :
-	// TODO SUJET : les bonus qu'il faut qu'on face : si on a le temps et uniquement si, pourquoi pas stocker le best score dans un ficher a coter de l'executable ?
+// TODO SUJET : les bonus qu'il faut qu'on face : si on a le temps et uniquement si, pourquoi pas stocker le best score dans un ficher a coter de l'executable ?
 // ----------------------------
 
 
