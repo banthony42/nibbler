@@ -123,16 +123,10 @@ void Nibbler::initRun() {
 	DeltaTime::setMaxFps(30);
 }
 
-
 // -----------------------------
 // TODO A IMPORTANT :
 // TODO SUJET : les deux binomes doivent etre incollable sur chacune des partie de l'autres (faut que tu m'explique en details l'affichage du texte a l'ecran)
-
-// TODO OPTIONNEL :
-// TODO SUJET : les bonus qu'il faut qu'on face : si on a le temps et uniquement si, pourquoi pas stocker le best score dans un ficher a coter de l'executable ?
 // ----------------------------
-
-
 
 void Nibbler::run() {
 	try {

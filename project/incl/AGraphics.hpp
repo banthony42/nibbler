@@ -74,28 +74,15 @@ public:
 	 * Permet la modification de _eventList dans la fonction
 	 * de callback en dehors d'une classe Graphics
 	 */
-	static void addEvent(eEvent event) {
-		AGraphics::_eventList.push_back(event);
-	}
-
-	static void clearEvent() {
-		AGraphics::_eventList.clear();
-	}
-
-	static int centerTextX(std::string str, float size, int w) {
-		int rest = 0;
-		if (size <= 0) {
-			size = 1;
-		}
-		if (str.length() % 2)
-			rest = static_cast<int>(GET_SIZEFONT_X(size) / 2);
-		return ((w / 2) - static_cast<int>(((str.length() / 2) * GET_SIZEFONT_X(size)) + rest));
-	}
+	static int centerTextX(std::string str, float size, int w);
+	static void clearEvent();
+	static void addEvent(eEvent event);
 
 protected:
 	static std::vector<eEvent> _eventList;
 	int windowWidth;
 	int windowHeight;
+
 };
 
 #endif //NIBBLER_IGRAPHICS_HPP

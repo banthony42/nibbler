@@ -99,7 +99,6 @@ void SceneMenu::drawScene() {
 										  this->_input[MENU_EXIT].y, SIZE_FONT_MENU);
 	}
 
-
 	// Page d'options
 	if (this->_page == PAGE_OPTION) {
 
@@ -204,22 +203,3 @@ void SceneMenu::eventF2() {
 void SceneMenu::eventF3() {
 	Nibbler::loadLibrary(LIB_OPENGL_PATH);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

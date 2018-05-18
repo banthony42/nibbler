@@ -6,7 +6,7 @@
 #    By: banthony <banthony@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/08 11:31:12 by banthony          #+#    #+#              #
-#    Updated: 2018/05/18 13:19:17 by banthony         ###   ########.fr        #
+#    Updated: 2018/05/18 16:45:15 by cchameyr         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -16,7 +16,8 @@ DIRSRC		= .
 
 DIROBJ		= ./
 
-SRC			+=	Graphics.cpp
+SRC			+=	Graphics.cpp \
+				AGraphics.cpp
 
 OBJ			=	$(SRC:.cpp=.o)
 OBJS		=	$(OBJ:%=$(DIROBJ)%)

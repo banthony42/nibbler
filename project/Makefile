@@ -3,6 +3,7 @@ OBJECTS_NAME_FOLDER = objs
 SOURCES_NAME_FOLDER = srcs
 
 FILES =				main.cpp \
+					AGraphics.cpp \
 					Nibbler.cpp \
 					SceneMenu.cpp \
 					SceneGameEnd.cpp \
