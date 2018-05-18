@@ -12,13 +12,6 @@
 
 #include "Graphics.hpp"
 
-/*
- * Declaration de la variable static
- * Permet la modification de l'_eventList dans la fonction
- * de callback et donc en dehors de l'instance de la Lib
- */
-//std::vector<eEvent> AGraphics::_eventList;
-
 Graphics::Graphics() {
 	this->_window = nullptr;
 	this->_windowTerminated = true;

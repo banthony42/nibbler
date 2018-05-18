@@ -125,11 +125,6 @@ void Nibbler::initRun() {
 	DeltaTime::setMaxFps(30);
 }
 
-// -----------------------------
-// TODO A IMPORTANT :
-// TODO SUJET : les deux binomes doivent etre incollable sur chacune des partie de l'autres (faut que tu m'explique en details l'affichage du texte a l'ecran)
-// ----------------------------
-
 void Nibbler::run() {
 	try {
 		this->initRun();
