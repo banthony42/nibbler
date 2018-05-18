@@ -34,6 +34,8 @@ enum eTexture {
 	SNAKE_B_SMB,
 	SNAKE_B_HK,
 	FOOD,
+	SHADOW_BOMB1,
+	SHADOW_BOMB2,
 	BOMB1,
 	BOMB2,
 	BOMB3,

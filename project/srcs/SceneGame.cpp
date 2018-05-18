@@ -47,6 +47,7 @@ SceneGame::SceneGame(AGraphics **aGraphics) {
 	this->_bomb._sprite.push_back(EXPLOSION2);
 	this->_bomb._sprite.push_back(EXPLOSION3);
 	this->_bomb._sprite.push_back(EXPLOSION4);
+	this->_bomb._sprite.push_back(GAME_GRASS);
 
 	this->_bomb._spriteDuration.push_back(60);	// Duration in fps bomb1
 	this->_bomb._spriteDuration.push_back(30);	// Duration in fps bomb2
@@ -55,6 +56,7 @@ SceneGame::SceneGame(AGraphics **aGraphics) {
 	this->_bomb._spriteDuration.push_back(10);	// Duration in fps explosion2
 	this->_bomb._spriteDuration.push_back(10);	// Duration in fps explosion3
 	this->_bomb._spriteDuration.push_back(10);	// Duration in fps explosion4
+	this->_bomb._spriteDuration.push_back(60);	// Duration in fps before the end
 
 	this->_bomb.pos = {0, 0};
 	this->_bomb._spritePtr = 0;
@@ -353,7 +355,6 @@ void SceneGame::drawMap() {
 	this->resetSceneGame();
 	this->drawFullSnake();
 	this->drawFood();
-	this->drawBomb();
 	this->drawInfoOverlay();
 	if (this->_bomb._spriteCount < this->_bomb._spriteDuration[this->_bomb._spritePtr] - 1) {
 		this->_bomb._spriteCount++;
@@ -365,6 +366,7 @@ void SceneGame::drawMap() {
 			}
 		}
 	}
+	this->drawBomb();
 }
 
 void SceneGame::drawScene() {
@@ -382,7 +384,7 @@ void SceneGame::drawScene() {
 			this->_vectorPool.clear();
 			this->_gameInstanced = true;
 		} else {
-			if (this->_score % BOMB_TIMER && this->_bomb._state == false) {
+			if (this->_bomb._state == false) {
 				this->initNewBomb();
 			}
 			this->moveSnake();

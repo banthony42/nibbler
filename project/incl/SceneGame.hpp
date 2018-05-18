@@ -38,8 +38,6 @@
 #define SPEED_INCR (8 * SCORE_INCR)    // Multiple de 42 car on utilise le % 42 dans le code
 #define DIFFICULTY_INCR 0.05
 
-#define BOMB_TIMER (2 * SCORE_INCR)
-
 enum ePageGame {
 	PAGE_GAME,
 	PAGE_PAUSE,
@@ -68,7 +66,7 @@ typedef struct {
 } t_food;
 
 typedef struct {
-	t_coordi pos;
+	t_coordi				pos;
 	std::vector<eTexture>	_sprite;			// List of sprite to put on screen
 	std::vector<size_t>		_spriteDuration;	// Time in fps, for each sprite
 	size_t 					_spritePtr;			// sprite pointer, increase at every new frame
