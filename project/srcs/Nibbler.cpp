@@ -49,7 +49,6 @@ Nibbler *Nibbler::getInstance() {
 	return Nibbler::_singleton;
 }
 
-
 void Nibbler::saveBestScore(int i) {
 	std::ofstream file;
 
@@ -74,7 +73,6 @@ int Nibbler::loadBestScore() {
 			return std::stoi(output);
 		} catch (std::exception &e) {
 			remove(SCORE_PATH);
-//			std::cout << e.what() << std::endl;
 			Nibbler::saveBestScore(0);
 		}
 		file.close();
