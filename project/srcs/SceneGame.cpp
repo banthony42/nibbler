@@ -472,15 +472,15 @@ void SceneGame::eventEnter() {
 
 void SceneGame::eventF1() {
 	this->_page = PAGE_PAUSE;
-	Nibbler::loadLibrary(LIB_SDL_PATH);
+	Nibbler::libToLoad = LIB_SDL_PATH;
 }
 
 void SceneGame::eventF2() {
 	this->_page = PAGE_PAUSE;
-	Nibbler::loadLibrary(LIB_SFML_PATH);
+	Nibbler::libToLoad = LIB_SFML_PATH;
 }
 
 void SceneGame::eventF3() {
 	this->_page = PAGE_PAUSE;
-	Nibbler::loadLibrary(LIB_OPENGL_PATH);
+	Nibbler::libToLoad = LIB_OPENGL_PATH;
 }

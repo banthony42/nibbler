@@ -181,11 +181,11 @@ void SceneMenu::eventEnter() {
 		}
 	} else if (this->_page == PAGE_OPTION) {
 		if (this->_cursor == OPTION_SDL) {
-			Nibbler::loadLibrary(LIB_SDL_PATH);
+			Nibbler::libToLoad = LIB_SDL_PATH;
 		} else if (this->_cursor == OPTION_SFML) {
-			Nibbler::loadLibrary(LIB_SFML_PATH);
+			Nibbler::libToLoad = LIB_SFML_PATH;
 		} else if (this->_cursor == OPTION_GL) {
-			Nibbler::loadLibrary(LIB_OPENGL_PATH);
+			Nibbler::libToLoad = LIB_OPENGL_PATH;
 		}
 		this->_page = PAGE_MENU;
 		this->_cursor = MENU_GAME;
@@ -193,13 +193,13 @@ void SceneMenu::eventEnter() {
 }
 
 void SceneMenu::eventF1() {
-	Nibbler::loadLibrary(LIB_SDL_PATH);
+	Nibbler::libToLoad = LIB_SDL_PATH;
 }
 
 void SceneMenu::eventF2() {
-	Nibbler::loadLibrary(LIB_SFML_PATH);
+	Nibbler::libToLoad = LIB_SFML_PATH;
 }
 
 void SceneMenu::eventF3() {
-	Nibbler::loadLibrary(LIB_OPENGL_PATH);
+	Nibbler::libToLoad = LIB_OPENGL_PATH;
 }

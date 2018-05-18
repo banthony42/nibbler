@@ -54,6 +54,7 @@ public:
 
 	static void *_dlHandle;
 	static AGraphics *_aGraphics;
+	static std::string libToLoad;
 
 	static int iRound(double a);
 	static int loadBestScore();

@@ -128,13 +128,13 @@ void SceneGameEnd::eventEnter() {
 }
 
 void SceneGameEnd::eventF1() {
-	Nibbler::loadLibrary(LIB_SDL_PATH);
+	Nibbler::libToLoad = LIB_SDL_PATH;
 }
 
 void SceneGameEnd::eventF2() {
-	Nibbler::loadLibrary(LIB_SFML_PATH);
+	Nibbler::libToLoad = LIB_SFML_PATH;
 }
 
 void SceneGameEnd::eventF3() {
-	Nibbler::loadLibrary(LIB_OPENGL_PATH);
+	Nibbler::libToLoad = LIB_OPENGL_PATH;
 }

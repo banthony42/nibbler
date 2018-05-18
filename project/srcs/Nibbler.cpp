@@ -20,6 +20,7 @@ AGraphics *Nibbler::_aGraphics = nullptr;
 AGraphics *(*Nibbler::_deleteAGraphics)(AGraphics *) = nullptr;
 
 void *Nibbler::_dlHandle = nullptr;
+std::string Nibbler::libToLoad = "";
 eScene Nibbler::_currentScene = MENU;
 int Nibbler::WINDOW_WIDTH = 1200;
 int Nibbler::WINDOW_HEIGHT = 900;
@@ -119,6 +120,7 @@ void Nibbler::initRun() {
 	this->_callScene[SKIN] = new SceneSkin(&this->_aGraphics);
 	this->_callScene[GAME] = new SceneGame(&this->_aGraphics);
 	this->_callScene[GAME_END] = new SceneGameEnd(&this->_aGraphics);
+	Nibbler::libToLoad = "";
 	Nibbler::initAGraphics(this->_aGraphics);
 	DeltaTime::setMaxFps(30);
 }
@@ -138,12 +140,17 @@ void Nibbler::run() {
 
 	/****************** MAIN WHILE ******************/
 	while (Nibbler::_aGraphics->loopUpdate()) {
+		if (Nibbler::libToLoad != "") {
+			loadLibrary(Nibbler::libToLoad);
+			Nibbler::libToLoad = "";
+		}
 		DeltaTime::startDelta();
 		DeltaTime::limitFps();
 
 		auto vec = Nibbler::_aGraphics->getEvent();
 		this->_callScene[this->_currentScene]->eventHandler(vec);
 		this->_callScene[this->_currentScene]->drawScene();
+
 		DeltaTime::endDelta();
 	}
 	Nibbler::_aGraphics->cleanUp();
