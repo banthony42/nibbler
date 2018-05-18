@@ -469,22 +469,16 @@ void SceneGame::eventEnter() {
 }
 
 void SceneGame::eventF1() {
-	if (this->_page == PAGE_GAME) {
-		this->_page = PAGE_PAUSE;
-	}
+	this->_page = PAGE_PAUSE;
 	Nibbler::loadLibrary(LIB_SDL_PATH);
 }
 
 void SceneGame::eventF2() {
-	if (this->_page == PAGE_GAME) {
-		this->_page = PAGE_PAUSE;
-	}
+	this->_page = PAGE_PAUSE;
 	Nibbler::loadLibrary(LIB_SFML_PATH);
 }
 
 void SceneGame::eventF3() {
-	if (this->_page == PAGE_GAME) {
-		this->_page = PAGE_PAUSE;
-	}
+	this->_page = PAGE_PAUSE;
 	Nibbler::loadLibrary(LIB_OPENGL_PATH);
 }
