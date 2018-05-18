@@ -16,8 +16,8 @@ double DeltaTime::deltaTime = 1;
 double DeltaTime::elapsedTime = 0;
 int DeltaTime::fps = 0;
 double DeltaTime::maxFps = -1;
-struct timeval DeltaTime::t1 = {0};
-struct timeval DeltaTime::t2 = {0};
+struct timeval DeltaTime::t1 = {};
+struct timeval DeltaTime::t2 = {};
 
 DeltaTime::DeltaTime() {
 

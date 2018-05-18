@@ -82,14 +82,10 @@ void Nibbler::initRun() {
 	Nibbler::initAGraphics(this->_aGraphics);
 	DeltaTime::setMaxFps(30);
 }
-// TODO 1000 constant fps for the sfml is suspect
-// TODO lock fps
-
 
 
 // -----------------------------
 // TODO CRITIQUES :
-	// TODO SUJET : on doit pouvoir changer de lib en faisant F1 F2 ou F3
 	// TODO SUJET : une foret de if pour les events n'est PAS acceptable
 
 // TODO A IMPORTANT :
@@ -98,7 +94,7 @@ void Nibbler::initRun() {
 	// TODO SUJET : compiler les LIB avec les flags wall wextra werror
 
 // TODO OPTIONNEL :
-	// TODO SUJET : les bonus qu'il faut qu'on face : Augmenter la vitesse plus rapidement / ajouter des obstacles
+	// TODO SUJET : les bonus qu'il faut qu'on face : si on a le temps et uniquement si, pourquoi pas stocker le best score dans un ficher a coter de l'executable ?
 // ----------------------------
 
 

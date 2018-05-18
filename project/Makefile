@@ -22,7 +22,7 @@ DEBUGSEGFAULT =		-g3 -fsanitize=address
 
 #FLAGS = $(DEBUGSEGFAULT)
 
-#FLAGS =				-Wall -Wextra -Werror
+FLAGS =				-Wall -Wextra -Werror
 
 
 RM =				rm -rf
