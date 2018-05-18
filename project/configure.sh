@@ -6,7 +6,7 @@
 #    By: banthony <banthony@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/20 18:10:22 by banthony          #+#    #+#              #
-#    Updated: 2018/05/09 20:01:37 by banthony         ###   ########.fr        #
+#    Updated: 2018/05/18 14:42:56 by cchameyr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ then
 	echo "$image_loader found."
 else
 	echo "$image_loader, downloading ..."
-	curl https://raw.githubusercontent.com/nothings/stb/master/stb_image.h > $image_loader
+	curl https://raw.githubusercontent.com/nothings/stb/dev/stb_image.h > $image_loader
 	error=${?}
 	if [ !error ]
 	then
