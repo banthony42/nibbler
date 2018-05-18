@@ -20,7 +20,7 @@ NAME =				nibbler
 
 DEBUGSEGFAULT =		-g3 -fsanitize=address
 
-FLAGS = $(DEBUGSEGFAULT)
+#FLAGS = $(DEBUGSEGFAULT)
 
 #FLAGS =				-Wall -Wextra -Werror
 

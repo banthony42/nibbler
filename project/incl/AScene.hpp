@@ -56,9 +56,10 @@ public:
 
 protected:
 	typedef void(AScene::*eventFuncPtr)();
+	typedef std::map<eEvent, eventFuncPtr> mapEventFuncPtr;
 
 	AGraphics **_aGraphics;
-	std::map<eEvent, eventFuncPtr> _eventMap;
+	mapEventFuncPtr _eventMap;
 };
 
 #endif //PROJECT_ASCENE_HPP

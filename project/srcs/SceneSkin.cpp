@@ -56,11 +56,13 @@ SceneSkin::SceneSkin(AGraphics **aGraphics) {
 	this->_input[SNAKE_H_HK] = pos;
 }
 
-// TODO comprendre le message de Clion sur event
 void SceneSkin::eventHandler(std::vector<eEvent> eventList) {
-	eEvent event = EVENT_VOID;
-	for (auto &event : eventList) {
-		(this->*(this->_eventMap[event]))();
+	for (auto &item : eventList) {
+		mapEventFuncPtr::iterator it = AScene::_eventMap.find(item);
+		if (it == AScene::_eventMap.end()) {
+			continue;
+		}
+		(this->*(this->_eventMap[item]))();
 	}
 }
 
