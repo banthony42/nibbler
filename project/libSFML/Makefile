@@ -6,7 +6,7 @@
 #    By: banthony <banthony@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/08 11:31:12 by banthony          #+#    #+#              #
-#    Updated: 2018/05/17 13:51:57 by cchameyr         ###   ########.fr        #
+#    Updated: 2018/05/18 13:19:10 by banthony         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -27,13 +27,13 @@ ECHO		=	/bin/echo
 
 SDK_PATH = ./SFML
 
-LDFLAGS= -I $(SDK_PATH)/include -L $(SDK_PATH)/lib -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system
+LDFLAGS=  -L $(SDK_PATH)/lib -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system
 
 CFLAGSCPP11 = -std=c++11
 
-CLFAGS =  -fPIC
+CFLAGS	= -I $(SDK_PATH)/include
 
-CFLAGS		+= -Wall -Wextra -Werror
+CFLAGS	+= -Wall -Wextra -Werror
 
 all		:		$(NAME)
 
@@ -56,4 +56,4 @@ fclean	:		clean
 re		:		fclean all
 
 %.o		:		$(DIRSRC)/%.cpp
-				$(CC) $(LDFLAGS) $(CFLAGSCPP11) -c $<
+				$(CC) $(CFLAGS) $(CFLAGSCPP11) -c $<

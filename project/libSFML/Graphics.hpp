@@ -30,7 +30,7 @@ class Graphics : public AGraphics {
 public:
 	Graphics(); // Canonical
 	Graphics(Graphics const &copy); // Canonical
-	~Graphics(); // Canonical
+	virtual ~Graphics(); // Canonical
 
 	Graphics &operator=(Graphics const &copy); // Canonical
 

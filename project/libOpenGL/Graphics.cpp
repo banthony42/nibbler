@@ -52,6 +52,10 @@ static void key_callback(GLFWwindow *window, int key, int scancode, int action, 
 	if (action == GLFW_PRESS) {
 		AGraphics::addEvent(((Graphics::_eventLibMap[key])));
 	}
+	static_cast<void>(window);
+	static_cast<void>(scancode);
+	static_cast<void>(mods);
+
 }
 
 std::vector<eEvent> &Graphics::getEvent() {

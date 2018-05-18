@@ -28,7 +28,7 @@ class Graphics : public AGraphics {
 
 public:
 	Graphics(); // Canonical
-	~Graphics(); // Canonical
+	virtual ~Graphics(); // Canonical
 
 	Graphics &operator=(Graphics const &copy);
 	void init(int windowWidth, int windowHeight, std::string windowName);
