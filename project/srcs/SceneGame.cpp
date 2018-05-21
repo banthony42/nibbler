@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/30 16:48:47 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/30 16:48:47 by banthony         ###   ########.fr       */
+/*   Updated: 2018/05/21 19:16:05 by cchameyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,8 +235,7 @@ void SceneGame::drawInfoOverlay() {
 	std::string scoreInfo = "Score:" + std::to_string(this->_score);
 	// Obliger pour pouvoir regler la precision, car to_string affiche 1.000000
 	std::ostringstream speedInfo;
-	speedInfo << "Spd"
-			":x " << std::setprecision(2) << this->_difficulty;
+	speedInfo << "Spd :x " << std::setprecision(2) << this->_difficulty;
 	int info_y = static_cast<int>(PERCENTAGE(4.6, Nibbler::getWindowHeight()));
 	(*this->_aGraphics)->putStrScreen(fpsInfo, PERCENTAGE(20, Nibbler::getWindowWidth()), info_y, 1);
 	(*this->_aGraphics)->putStrScreen(scoreInfo, PERCENTAGE(77, Nibbler::getWindowWidth()), info_y, 1);
