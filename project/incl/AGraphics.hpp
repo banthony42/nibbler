@@ -77,11 +77,14 @@ public:
 	static int centerTextX(std::string str, float size, int w);
 	static void clearEvent();
 	static void addEvent(eEvent event);
+	static std::vector<eEvent> &getEventList();
 
 protected:
-	static std::vector<eEvent> _eventList;
 	int windowWidth;
 	int windowHeight;
+
+private:
+	static std::vector<eEvent> _eventList;
 
 };
 

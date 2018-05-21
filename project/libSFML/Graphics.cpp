@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "Graphics.hpp"
-#include "SFML/include/SFML/Window/Event.hpp"
 
 Graphics::Graphics() {
 	this->_window = nullptr;
@@ -187,20 +186,19 @@ void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
 std::vector<eEvent> &Graphics::getEvent() {
 	std::cout << "CALL EVENT IN LIB" << std::endl;
 	if (this->_windowTerminated) {
-		return AGraphics::_eventList;
+		return AGraphics::getEventList();
 	}
 	AGraphics::clearEvent();
 	sf::Event event;
 	while (this->_window->pollEvent(event)) {
 		if (event.type == sf::Event::KeyPressed) {
-			std::cout << this->_eventLibMap[event.key.code] << std::endl;
 			std::cout << "e" << std::endl;
 			AGraphics::addEvent(((this->_eventLibMap[event.key.code])));
 			std::cout << "f" << std::endl;
 		}
 	}
 
-	return AGraphics::_eventList;
+	return AGraphics::getEventList();
 }
 
 unsigned char Graphics::getChar() {

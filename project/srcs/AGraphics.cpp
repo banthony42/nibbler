@@ -15,15 +15,25 @@
 std::vector<eEvent> AGraphics::_eventList;
 
 void AGraphics::addEvent(eEvent event) {
-	std::cout << "add event" << std::endl;
-	std::cout << event << std::endl;
-	std::cout << "size : "<<  AGraphics::_eventList.size() << std::endl;
-	std::cout << "push" << std::endl;
+	std::cout << "add event :" << event << std::endl;
+	std::cout << "size event :"<<  AGraphics::_eventList.size() << std::endl;
+	std::cout << "push event" << std::endl;
+
+	if (std::find(AGraphics::_eventList.begin(), AGraphics::_eventList.end(), F1) !=
+			AGraphics::_eventList.end() ||
+			std::find(AGraphics::_eventList.begin(), AGraphics::_eventList.end(), F2) !=
+			AGraphics::_eventList.end() ||
+			std::find(AGraphics::_eventList.begin(), AGraphics::_eventList.end(), F3) !=
+			AGraphics::_eventList.end()) {
+		std::cout << "return" << std::endl;
+		return ;
+	}
 	AGraphics::_eventList.push_back(event);
-	std::cout << "add event fin" << std::endl;
+	std::cout << "push end" << std::endl;
 }
 
 void AGraphics::clearEvent() {
+	std::cout << "clear event" << std::endl;
 	AGraphics::_eventList.clear();
 }
 
@@ -35,4 +45,8 @@ int AGraphics::centerTextX(std::string str, float size, int w) {
 	if (str.length() % 2)
 		rest = static_cast<int>(GET_SIZEFONT_X(size) / 2);
 	return ((w / 2) - static_cast<int>(((str.length() / 2) * GET_SIZEFONT_X(size)) + rest));
+}
+
+std::vector<eEvent> &AGraphics::getEventList() {
+	return AGraphics::_eventList;
 }

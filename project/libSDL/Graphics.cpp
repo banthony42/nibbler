@@ -174,13 +174,12 @@ void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
 std::vector<eEvent> &Graphics::getEvent() {
 	std::cout << "CALL EVENT IN LIB" << std::endl;
 	if (this->_windowTerminated) {
-		return AGraphics::_eventList;
+		return AGraphics::getEventList();
 	}
 	SDL_Event e = {0};
 //	std::cout << "a" << std::endl;
 	bool keyPressed = false;
 	AGraphics::clearEvent();
-	std::cout << "b" << std::endl;
 	while (SDL_PollEvent(&e) != 0) {
 		std::cout << "c" << std::endl;
 		keyPressed = ((e.key.type == SDL_KEYDOWN) && !e.key.repeat);
@@ -196,7 +195,7 @@ std::vector<eEvent> &Graphics::getEvent() {
 			std::cout << "h" << std::endl;
 		}
 	}
-	return AGraphics::_eventList;
+	return AGraphics::getEventList();
 }
 
 unsigned char Graphics::getChar() {
