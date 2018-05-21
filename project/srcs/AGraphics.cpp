@@ -15,7 +15,12 @@
 std::vector<eEvent> AGraphics::_eventList;
 
 void AGraphics::addEvent(eEvent event) {
+	std::cout << "add event" << std::endl;
+	std::cout << event << std::endl;
+	std::cout << "size : "<<  AGraphics::_eventList.size() << std::endl;
+	std::cout << "push" << std::endl;
 	AGraphics::_eventList.push_back(event);
+	std::cout << "add event fin" << std::endl;
 }
 
 void AGraphics::clearEvent() {

@@ -53,11 +53,15 @@ static void key_callback(GLFWwindow *window, int key, int scancode, int action, 
 }
 
 std::vector<eEvent> &Graphics::getEvent() {
+	std::cout << "CALL EVENT IN LIB" << std::endl;
 	if (this->_windowTerminated) {
 		return AGraphics::_eventList;
 	}
+	std::cout << "a" << std::endl;
 	AGraphics::clearEvent();
+	std::cout << "b" << std::endl;
 	glfwPollEvents();
+	std::cout << "c" << std::endl;
 	return AGraphics::_eventList;
 }
 
