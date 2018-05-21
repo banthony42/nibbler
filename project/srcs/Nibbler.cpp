@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 17:51:20 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/26 17:51:20 by banthony         ###   ########.fr       */
+//   Updated: 2018/05/21 18:44:52 by banthony         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,9 @@ void Nibbler::initAGraphics(AGraphics *aGraphics) {
 	aGraphics->loadTexture("./textures/menu_bckg.png", MENU_BCKG);
 	aGraphics->loadTexture("./textures/game_grass.png", GAME_GRASS);
 	aGraphics->loadTexture("./textures/game_border.png", GAME_BORDER);
-	aGraphics->loadTexture("./textures/fog-overlay.png", FOG_OVERLAY);
+	aGraphics->loadTexture("./textures/game_fog.png", FOG_OVERLAY);
 	aGraphics->loadTexture("./textures/game_border_grass.png", GAME_BORDER_GRASS);
-	aGraphics->loadTexture("./textures/snake_gameOver.png", GAMEOVER_BORDER);
-	aGraphics->loadTexture("./textures/game_brick.png", GAME_BRICK);
+	aGraphics->loadTexture("./textures/game_over_border.png", GAMEOVER_BORDER);
 	aGraphics->loadTexture("./textures/score_bckg.png", SCORE_BCKG);
 	aGraphics->loadTexture("./textures/skin_border.png", SKIN_FRAME);
 	aGraphics->loadTexture("./textures/snake_head_smb.png", SNAKE_H_SMB);

@@ -67,7 +67,7 @@ lib: sdl sfml opengl
 libre: sdlre sfmlre openglre
 
 reset: fclean
-	cd ./libSFML/SFML/ && git clean -d -f
+	git submodule deinit --all -f
 	$(RM) ./incl/GLFW
 	$(RM) ./incl/stb_image.h
 

@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/30 16:46:23 by banthony          #+#    #+#             */
-/*   Updated: 2018/04/30 16:46:23 by banthony         ###   ########.fr       */
+//   Updated: 2018/05/21 18:45:34 by banthony         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ enum eTexture {
 	MENU_BCKG,
 	GAME_GRASS,
 	GAME_BORDER,
-	GAME_BRICK,
 	GAME_BORDER_GRASS,
 	GAMEOVER_BORDER,
 	FOG_OVERLAY,
@@ -34,8 +33,6 @@ enum eTexture {
 	SNAKE_B_SMB,
 	SNAKE_B_HK,
 	FOOD,
-	SHADOW_BOMB1,
-	SHADOW_BOMB2,
 	BOMB1,
 	BOMB2,
 	BOMB3,
