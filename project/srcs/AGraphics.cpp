@@ -15,25 +15,19 @@
 std::vector<eEvent> AGraphics::_eventList;
 
 void AGraphics::addEvent(eEvent event) {
-	std::cout << "add event :" << event << std::endl;
-	std::cout << "size event :"<<  AGraphics::_eventList.size() << std::endl;
-	std::cout << "push event" << std::endl;
-
+	// MULTIPLE Fx EVENT DO NOT MUST BE ADD IN THE VEXTOR !
 	if (std::find(AGraphics::_eventList.begin(), AGraphics::_eventList.end(), F1) !=
 			AGraphics::_eventList.end() ||
 			std::find(AGraphics::_eventList.begin(), AGraphics::_eventList.end(), F2) !=
 			AGraphics::_eventList.end() ||
 			std::find(AGraphics::_eventList.begin(), AGraphics::_eventList.end(), F3) !=
 			AGraphics::_eventList.end()) {
-		std::cout << "return" << std::endl;
 		return ;
 	}
 	AGraphics::_eventList.push_back(event);
-	std::cout << "push end" << std::endl;
 }
 
 void AGraphics::clearEvent() {
-	std::cout << "clear event" << std::endl;
 	AGraphics::_eventList.clear();
 }
 

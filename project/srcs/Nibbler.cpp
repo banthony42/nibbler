@@ -137,19 +137,14 @@ void Nibbler::run() {
 	/****************** MAIN WHILE ******************/
 	while (Nibbler::_aGraphics->loopUpdate()) {
 		if (Nibbler::libToLoad != "") {
-			std::cout << "init" << std::endl;
 			loadLibrary(Nibbler::libToLoad);
-			std::cout << "end init" << std::endl;
 			Nibbler::libToLoad = "";
 		}
 		DeltaTime::startDelta();
 		DeltaTime::limitFps();
 
-		std::cout << "debug 0" << std::endl;
 		auto vec = Nibbler::_aGraphics->getEvent();
-		std::cout << "debug 1" << std::endl;
 		this->_callScene[this->_currentScene]->eventHandler(vec);
-		std::cout << "debug 2" << std::endl;
 		this->_callScene[this->_currentScene]->drawScene();
 
 		DeltaTime::endDelta();
@@ -199,7 +194,6 @@ void Nibbler::loadLibrary(std::string const string) {
 	AGraphics *(*deleteGraphics)(AGraphics *);
 
 	dlHandle = dlopen(string.c_str(), RTLD_LAZY | RTLD_LOCAL);
-//	std::cout << "AFTER OPEN" << std::endl;
 	if (!dlHandle) {
 		if (DEBUG_MODE) {
 			throw std::runtime_error(std::string("failed to load library [" + std::string(dlerror()) + "]"));
@@ -210,19 +204,14 @@ void Nibbler::loadLibrary(std::string const string) {
 
 	// free the current aGraphic
 	if (Nibbler::_dlHandle != nullptr && Nibbler::_dlHandle != dlHandle) {
-//		std::cout << "FREE CURRENT" << std::endl;
 		toReload = true;
-//		std::cout << "CLEAN UP" << std::endl; // TODO SEGFAULT AFTER THIS
 		Nibbler::_aGraphics->cleanUp();
-//		std::cout << "DELETE" << std::endl;
 		Nibbler::_deleteAGraphics(Nibbler::_aGraphics);
-//		std::cout << "DL_CLOSE" << std::endl;
 		dlclose(Nibbler::_dlHandle);
 	} else if (Nibbler::_dlHandle == dlHandle) {
 		return;
 	}
 
-//	std::cout << "MIDDLE" << std::endl;
 	// get createGraphics function
 	createGraphics = (AGraphics *(*)()) dlsym(dlHandle, "createGraphics");
 	if (!createGraphics) {
@@ -235,7 +224,6 @@ void Nibbler::loadLibrary(std::string const string) {
 
 	// get deleteGraphics function
 	deleteGraphics = (AGraphics *(*)(AGraphics *)) dlsym(dlHandle, "deleteGraphics");
-//	std::cout << "AFTER GET DELETE" << std::endl; // TODO SEGFAULT AFTER THIS
 	if (!deleteGraphics) {
 		if (DEBUG_MODE) {
 			throw std::runtime_error(std::string("failed to load function [" + std::string(dlerror()) + "]"));

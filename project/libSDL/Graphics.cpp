@@ -172,27 +172,18 @@ void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
 }
 
 std::vector<eEvent> &Graphics::getEvent() {
-	std::cout << "CALL EVENT IN LIB" << std::endl;
 	if (this->_windowTerminated) {
 		return AGraphics::getEventList();
 	}
 	SDL_Event e = {0};
-//	std::cout << "a" << std::endl;
-	bool keyPressed = false;
 	AGraphics::clearEvent();
 	while (SDL_PollEvent(&e) != 0) {
-		std::cout << "c" << std::endl;
-		keyPressed = ((e.key.type == SDL_KEYDOWN) && !e.key.repeat);
-//		std::cout << "d" << std::endl;
+		bool keyPressed = ((e.key.type == SDL_KEYDOWN) && !e.key.repeat);
 		if (e.type == SDL_QUIT) {
-			std::cout << "e" << std::endl;
 			AGraphics::addEvent(ECHAP);
-			std::cout << "f" << std::endl;
 		}
 		if (keyPressed) {
-			std::cout << "g" << std::endl;
 			AGraphics::addEvent(((this->_eventLibMap[e.key.keysym.sym])));
-			std::cout << "h" << std::endl;
 		}
 	}
 	return AGraphics::getEventList();

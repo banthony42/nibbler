@@ -184,7 +184,6 @@ void Graphics::putTexture(int key, int posX, int posY, int sizeX, int sizeY) {
 }
 
 std::vector<eEvent> &Graphics::getEvent() {
-	std::cout << "CALL EVENT IN LIB" << std::endl;
 	if (this->_windowTerminated) {
 		return AGraphics::getEventList();
 	}
@@ -192,9 +191,7 @@ std::vector<eEvent> &Graphics::getEvent() {
 	sf::Event event;
 	while (this->_window->pollEvent(event)) {
 		if (event.type == sf::Event::KeyPressed) {
-			std::cout << "e" << std::endl;
 			AGraphics::addEvent(((this->_eventLibMap[event.key.code])));
-			std::cout << "f" << std::endl;
 		}
 	}
 

@@ -76,14 +76,11 @@ SceneMenu::SceneMenu(AGraphics **aGraphics) {
 
 void SceneMenu::eventHandler(std::vector<eEvent> eventList) {
 	for (auto &item : eventList) {
-		std::cout << "while" << std::endl;
 		mapEventFuncPtr::iterator it = AScene::_eventMap.find(item);
 		if (it == AScene::_eventMap.end()) {
 			continue;
 		}
-		std::cout << "before" << std::endl;
 		(this->*(this->_eventMap[item]))();
-		std::cout << "after" << std::endl;
 	}
 }
 
@@ -196,16 +193,13 @@ void SceneMenu::eventEnter() {
 }
 
 void SceneMenu::eventF1() {
-	std::cout << "***********SDL***********" << std::endl;
 	Nibbler::libToLoad = LIB_SDL_PATH;
 }
 
 void SceneMenu::eventF2() {
-	std::cout << "************SFML************" << std::endl;
 	Nibbler::libToLoad = LIB_SFML_PATH;
 }
 
 void SceneMenu::eventF3() {
-	std::cout << "**********OPENGL**********" << std::endl;
 	Nibbler::libToLoad = LIB_OPENGL_PATH;
 }
