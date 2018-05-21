@@ -88,7 +88,6 @@ public:
 	void eventHandler(std::vector<eEvent> eventList);
 
 	void drawScene();
-	void drawMap();
 
 private:
 	SceneGame(); // Canonical
@@ -105,6 +104,8 @@ private:
 	void eventF2();
 	void eventF3();
 
+	void drawMap();
+	void updateAnimation();
 	void drawInfoOverlay();
 	void drawGameOverOverlay();
 	void drawPauseOverlay();

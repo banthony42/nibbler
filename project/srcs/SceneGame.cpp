@@ -356,7 +356,12 @@ void SceneGame::drawMap() {
 	this->drawFullSnake();
 	this->drawFood();
 	this->drawInfoOverlay();
-	if (this->_bomb._spriteCount < this->_bomb._spriteDuration[this->_bomb._spritePtr] - 1) {
+//
+	this->drawBomb();
+}
+
+void SceneGame::updateAnimation() {
+	if (this->_bomb._state && (this->_bomb._spriteCount < this->_bomb._spriteDuration[this->_bomb._spritePtr] - 1)) {
 		this->_bomb._spriteCount++;
 		if (this->_bomb._spriteCount == this->_bomb._spriteDuration[this->_bomb._spritePtr] - 1) {
 			this->_bomb._spriteCount = 0;
@@ -366,7 +371,6 @@ void SceneGame::drawMap() {
 			}
 		}
 	}
-	this->drawBomb();
 }
 
 void SceneGame::drawScene() {
@@ -384,7 +388,8 @@ void SceneGame::drawScene() {
 			this->_vectorPool.clear();
 			this->_gameInstanced = true;
 		} else {
-			if (this->_bomb._state == false) {
+			this->updateAnimation();
+			if (!this->_bomb._state) {
 				this->initNewBomb();
 			}
 			this->moveSnake();
@@ -399,6 +404,7 @@ void SceneGame::drawScene() {
 			this->_bestScore = this->_score;
 		}
 		this->drawMap();
+		this->updateAnimation();
 		this->drawGameOverOverlay();
 	}
 	(*this->_aGraphics)->display();
