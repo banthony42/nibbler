@@ -41,9 +41,9 @@ void manageArguments(int ac, char **av) {
 					throw std::runtime_error(std::string("The window size can't be inferior than ")
 											 + std::to_string(WINDOW_MIN_X) + " x " + std::to_string(WINDOW_MIN_Y));
 				}
-/*				if ((static_cast<double>(window.x) / static_cast<double>(window.y)) > 2.0) {
+				if ((static_cast<double>(window.x) / static_cast<double>(window.y)) > 2.0) {
 					throw std::runtime_error(std::string("The window ratio can't be superior than 2."));
-				}*/
+				}
 				Nibbler::setWindowWidth(window.x);
 				Nibbler::setWindowHeight(window.y);
 			}

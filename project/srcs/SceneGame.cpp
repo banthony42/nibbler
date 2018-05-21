@@ -232,10 +232,11 @@ void SceneGame::drawBomb() {
 
 void SceneGame::drawInfoOverlay() {
 	std::string fpsInfo = "fps: " + std::to_string(DeltaTime::fps);
-	std::string scoreInfo = "Score: " + std::to_string(this->_score);
+	std::string scoreInfo = "Score:" + std::to_string(this->_score);
 	// Obliger pour pouvoir regler la precision, car to_string affiche 1.000000
 	std::ostringstream speedInfo;
-	speedInfo << "Speed x " << std::setprecision(2) << this->_difficulty;
+	speedInfo << "Spd"
+			":x " << std::setprecision(2) << this->_difficulty;
 	int info_y = static_cast<int>(PERCENTAGE(4.6, Nibbler::getWindowHeight()));
 	(*this->_aGraphics)->putStrScreen(fpsInfo, PERCENTAGE(20, Nibbler::getWindowWidth()), info_y, 1);
 	(*this->_aGraphics)->putStrScreen(scoreInfo, PERCENTAGE(77, Nibbler::getWindowWidth()), info_y, 1);

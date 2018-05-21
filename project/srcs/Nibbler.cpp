@@ -96,7 +96,6 @@ void Nibbler::initAGraphics(AGraphics *aGraphics) {
 	aGraphics->loadTexture("./textures/fog-overlay.png", FOG_OVERLAY);
 	aGraphics->loadTexture("./textures/game_border_grass.png", GAME_BORDER_GRASS);
 	aGraphics->loadTexture("./textures/snake_gameOver.png", GAMEOVER_BORDER);
-	aGraphics->loadTexture("./textures/game_brick.png", GAME_BRICK);
 	aGraphics->loadTexture("./textures/score_bckg.png", SCORE_BCKG);
 	aGraphics->loadTexture("./textures/skin_border.png", SKIN_FRAME);
 	aGraphics->loadTexture("./textures/snake_head_smb.png", SNAKE_H_SMB);
