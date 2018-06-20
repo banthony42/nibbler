@@ -11,7 +11,10 @@ Note finale : 105/100
 * SDL
 
 ## UML
-[![uml](uml/uml_screen.png)](https://github.com/VelocityPulse/nibbler/raw/master/uml/UML.pdf)
+### Aperçu
+[![uml](https://github.com/VelocityPulse/nibbler/raw/master/uml/uml_screen.png)](https://github.com/VelocityPulse/nibbler/raw/master/uml/UML.pdf)
+
+[link](https://github.com/VelocityPulse/nibbler/uml/UML.pdf?raw=true)
 
 ## Installation & Execution 
 Disponible uniquement sur macOS
