@@ -31,8 +31,8 @@ Dépendances :
 
 Usage : `./nibbler [-size Width Height] [-lib pathLib]`
 
-Il est possible de changer de librairies pendant l'éxecution du programme. Toute fois vous pouvez selectionner une librairie a charger au run-time en précisant son path. 
-Path disponibles : 
+Il est possible de changer de librairies pendant l'éxecution du programme. Toute fois vous pouvez selectionner une librairie au run-time en précisant son path. 
+Path disponibles :
 * libOpenGL/libgraph.so
 * libSFML/libgraph.so
 * libSDL/libgraph.so
